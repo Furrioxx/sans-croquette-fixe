@@ -1,0 +1,45 @@
+{
+  "name": "sans-croquette-fixe",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build",
+    "format": "prettier --write --experimental-cli src/"
+  },
+  "dependencies": {
+    "@primevue/themes": "^4.3.3",
+    "axios": "^1.7.9",
+    "pinia": "^3.0.4",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.2.5",
+    "tailwindcss-primeui": "^0.4.0",
+    "unplugin-vue-components": "^28.0.0",
+    "vue": "^3.5.26",
+    "vue-i18n": "^10.0.5",
+    "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "@primevue/auto-import-resolver": "^4.2.5",
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^24.10.9",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "@vue/tsconfig": "^0.8.1",
+    "autoprefixer": "^10.4.20",
+    "npm-run-all2": "^8.0.4",
+    "postcss": "^8.5.1",
+    "prettier": "3.8.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-vue-devtools": "^8.0.5",
+    "vue-tsc": "^3.2.2"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
