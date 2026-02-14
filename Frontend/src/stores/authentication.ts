@@ -83,8 +83,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     // we need to set the user data to get the role for routing
     try {
-      const res = await me()
-      setUser(res)
+      const userWithRole = await me()
+      setUser(userWithRole)
 
       switch (getUserRole.value) {
         case Roles.ADMIN:

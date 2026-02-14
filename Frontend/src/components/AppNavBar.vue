@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useDarkModeStore } from '@/stores/darkmode'
 import { onMounted } from 'vue'
 import { useAuthStore } from '@/stores/authentication'
+import Logo from '@/assets/Logo.png'
 
 const router = useRouter()
 const darkModeStore = useDarkModeStore()
@@ -18,8 +19,8 @@ onMounted(() => {
   <div class="flex w-full justify-between items-center p-4">
     <!-- Logo -->
     <img
-      src=""
-      width="70"
+      :src="Logo"
+      width="50"
       alt=""
       class="hover:cursor-pointer"
       @click="router.push({ name: RouteNames.HOME })"
