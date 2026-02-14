@@ -5,6 +5,7 @@ import { axiosInstance } from '@/services/axiosInsance'
 import { localStorageHelper } from '@/utils/localStorageHelper'
 import { useRouter } from 'vue-router'
 import { RouteNames } from '@/router/routeNames'
+import { Roles } from '@/router/Roles'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
@@ -14,20 +15,36 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(localStorageHelper.getData('token'))
 
   // Computed
-  const isConnected = computed(() => token.value !== null)
-  const getUsername = computed(() => user.value?.username ?? '')
+  const isConnected = computed<boolean>(() => {
+    return token.value !== null && token.value !== undefined && token.value !== ''
+  })
+  const getUsername = computed<string>(() => user.value?.username ?? '')
+  const getUserRole = computed<Roles | null>(() => {
+    const roleName = user.value?.role?.name ?? ''
+    switch (roleName) {
+      case 'Admin':
+        return Roles.ADMIN
+      case 'Volunteer':
+        return Roles.VOLUNTEER
+      case 'User':
+        return Roles.USER
+      default:
+        return null
+    }
+  })
 
   // Actions
-
   const register = async (userPost: UserPost) => {
     try {
-      await axiosInstance.post('/auth/register', {
+      const response = await axiosInstance.post('/auth/local/register', {
         username: userPost.username,
         email: userPost.email,
         password: userPost.password,
       })
 
-      router.push({ name: RouteNames.LOGIN })
+      // handle success, here we directly log the user in after registration
+      const resData: UserWithToken = response.data
+      handleAuthSuccess(resData)
     } catch (error) {
       throw error
     }
@@ -35,16 +52,52 @@ export const useAuthStore = defineStore('auth', () => {
 
   const login = async (user: UserLogin) => {
     try {
-      const res = await axiosInstance.post('/auth/login', {
-        email: user.email,
+      const res = await axiosInstance.post('/auth/local', {
+        identifier: user.identifier,
         password: user.password,
       })
       const resData: UserWithToken = res.data
-      setUser(resData.user)
-      token.value = resData.token
-      localStorageHelper.storeData('token', resData.token)
-      router.push({ name: RouteNames.HOME })
+      handleAuthSuccess(resData)
     } catch (error: Error | any) {
+      throw error
+    }
+  }
+
+  const me = async () => {
+    try {
+      const res = await axiosInstance.get('/users/me', {
+        params: {
+          populate: 'role',
+        },
+      })
+      const userData: User = res.data
+      return userData
+    } catch (error: Error | any) {
+      throw error
+    }
+  }
+
+  const handleAuthSuccess = async (resData: UserWithToken) => {
+    token.value = resData.jwt
+    localStorageHelper.storeData('token', resData.jwt)
+
+    // we need to set the user data to get the role for routing
+    try {
+      const res = await me()
+      setUser(res)
+
+      switch (getUserRole.value) {
+        case Roles.ADMIN:
+        case Roles.VOLUNTEER:
+          router.push({ name: RouteNames.DASHBOARD })
+          break
+        case Roles.USER:
+          router.push({ name: RouteNames.HOME })
+          break
+        default:
+          break
+      }
+    } catch (error) {
       throw error
     }
   }
@@ -65,9 +118,11 @@ export const useAuthStore = defineStore('auth', () => {
     // Computed
     isConnected,
     getUsername,
+    getUserRole,
     // Actions
     register,
     login,
     logout,
+    me,
   }
 })

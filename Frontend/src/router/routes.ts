@@ -1,10 +1,9 @@
+import { Roles } from './Roles'
 import { RouteNames } from './routeNames'
 
 const routes = [
   {
     path: '/',
-    name: 'appLayout',
-    component: () => import('../layout/AppLayout.vue'),
     redirect: '/home',
     children: [
       {
@@ -23,6 +22,16 @@ const routes = [
         component: () => import('../views/Auth/Register.vue'),
       },
     ],
+  },
+  {
+    path: '/dashboard',
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [Roles.ADMIN, Roles.VOLUNTEER],
+    },
+    name: RouteNames.DASHBOARD,
+    component: () => import('../layout/AppLayout.vue'),
+    children: [],
   },
 ]
 
