@@ -30,13 +30,13 @@ const routes = [
       requiresAuth: true,
       requiredRoles: [Roles.ADMIN, Roles.VOLUNTEER],
     },
-    name: RouteNames.DASHBOARD,
     component: () => import('../layout/AdminLayout.vue'),
     redirect: '/dashboard/home',
     children: [
       {
         path: 'home',
         component: () => import('../views/Admin/Home.vue'),
+        name: RouteNames.DASHBOARD,
       },
     ],
   },
