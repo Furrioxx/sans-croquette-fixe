@@ -18,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
   const isConnected = computed<boolean>(() => {
     return token.value !== null && token.value !== undefined && token.value !== ''
   })
-  const getUsername = computed<string>(() => user.value?.username ?? '')
+  const getUsername = computed<string | null>(() => user.value?.username ?? null)
   const getUserRole = computed<Roles | null>(() => {
     const roleName = user.value?.role?.name ?? ''
     switch (roleName) {
@@ -71,7 +71,7 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       const userData: User = res.data
-      return userData
+      setUser(userData)
     } catch (error: Error | any) {
       throw error
     }
@@ -83,8 +83,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     // we need to set the user data to get the role for routing
     try {
-      const userWithRole = await me()
-      setUser(userWithRole)
+      await me()
 
       switch (getUserRole.value) {
         case Roles.ADMIN:
@@ -109,6 +108,7 @@ export const useAuthStore = defineStore('auth', () => {
   const logout = () => {
     user.value = null
     token.value = null
+    localStorageHelper.removeData('token')
   }
 
   return {

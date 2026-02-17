@@ -9,7 +9,7 @@ const router = createRouter({
   routes: routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // Check authentication and authorization
   // check metas requiresAuth and requiredRoles of each route
   const authStore = useAuthStore()
@@ -17,12 +17,35 @@ router.beforeEach((to, from, next) => {
     return next('/unauthorized')
   } else if (to.meta?.requiredRoles) {
     const requiredRoles: string[] = to.meta.requiredRoles
+    if (authStore.user == null) {
+      // here we do have a token but we don't have the user data, so we need to fetch it to get the role for routing
+      await retrieveUserData(() => {
+        return next('/unauthorized')
+      })
+    }
+
     if (!authStore.getUserRole || !requiredRoles.includes(authStore.getUserRole)) {
       return next('/unauthorized')
     }
   }
+
+  if (authStore.isConnected && !authStore.user) {
+    // here we do have a token but we don't have the user data, so we need to fetch it to get the role for routing
+    // there is no need to put an error callback here because this route isn't protected by a role or authentication
+    retrieveUserData(() => {
+      return
+    })
+  }
   return next()
 })
+
+const retrieveUserData = async (errorCallback: Function) => {
+  const authStore = useAuthStore()
+  await authStore.me().catch(() => {
+    authStore.logout()
+    errorCallback()
+  })
+}
 
 // dynamic meta title name
 router.afterEach((to) => {

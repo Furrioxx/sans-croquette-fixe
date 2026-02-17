@@ -46,6 +46,16 @@ onMounted(() => {
         />
         <Button as="router-link" :to="RouteNames.REGISTER" size="small" :label="$t('register')" />
       </div>
+      <div v-else class="flex items-center gap-2">
+        <span>{{ authStore.getUsername }}</span>
+        <Button
+          :label="$t('logout')"
+          size="small"
+          outlined
+          severity="danger"
+          @click="authStore.logout()"
+        />
+      </div>
     </div>
   </div>
 </template>

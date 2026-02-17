@@ -31,7 +31,12 @@ const routes = [
     },
     name: RouteNames.DASHBOARD,
     component: () => import('../layout/AppLayout.vue'),
-    children: [],
+    children: [
+      {
+        path: '/',
+        component: () => import('../views/Admin/Dashboard.vue'),
+      },
+    ],
   },
 ]
 
