@@ -19,7 +19,7 @@ export const ExampleService = {
         limit: limit,
       },
     })
-  },²
+  },
 
   PostExample: async (data: string) => {
     return await axiosInstance.post(`${API_URL}`, data)

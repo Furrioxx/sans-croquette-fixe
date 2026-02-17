@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { localStorageHelper } from '@/utils/localStorageHelper'
 
 export const useDarkModeStore = defineStore('darkMode', () => {
-  const darkMode = ref<boolean>(true)
+  const darkMode = ref<boolean>(false)
 
   const setDarkMode = (value: boolean) => {
     darkMode.value = value
@@ -16,11 +16,11 @@ export const useDarkModeStore = defineStore('darkMode', () => {
   const initDarkMode = () => {
     const storedDarkMode = localStorageHelper.getData('darkmode')
     if (storedDarkMode !== null) {
-        if (storedDarkMode) {
-            addDarkModeClass()
-        } else {
-            removeDarkModeClass()
-        }
+      if (storedDarkMode) {
+        addDarkModeClass()
+      } else {
+        removeDarkModeClass()
+      }
     }
   }
 
@@ -43,7 +43,6 @@ export const useDarkModeStore = defineStore('darkMode', () => {
     document.documentElement.classList.remove('dark-mode')
     setDarkMode(false)
   }
-  
 
   return {
     darkMode,

@@ -10,8 +10,8 @@ const router = useRouter()
 const { t } = useI18n()
 const authStore = useAuthStore()
 const userLogin = reactive<UserLogin>({
-  email: '',
-  password: ''
+  identifier: '',
+  password: '',
 })
 const loading = ref<boolean>(false)
 const errorMessage = ref<string>()
@@ -32,7 +32,12 @@ const onSubmit = async () => {
 
 <template>
   <form @submit.prevent="onSubmit" class="flex flex-col gap-4">
-    <InputText v-model="userLogin.email" type="email" :placeholder="$t('auth.email')" required />
+    <InputText
+      v-model="userLogin.identifier"
+      type="email"
+      :placeholder="$t('auth.email')"
+      required
+    />
     <InputText
       v-model="userLogin.password"
       type="password"

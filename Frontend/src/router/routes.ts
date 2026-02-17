@@ -1,11 +1,11 @@
+import { Roles } from './Roles'
 import { RouteNames } from './routeNames'
 
 const routes = [
   {
     path: '/',
-    name: 'appLayout',
-    component: () => import('../layout/AppLayout.vue'),
     redirect: '/home',
+    component: () => import('../layout/AppLayout.vue'),
     children: [
       {
         path: 'home',
@@ -21,6 +21,22 @@ const routes = [
         path: 'register',
         name: RouteNames.REGISTER,
         component: () => import('../views/Auth/Register.vue'),
+      },
+    ],
+  },
+  {
+    path: '/dashboard',
+    meta: {
+      requiresAuth: true,
+      requiredRoles: [Roles.ADMIN, Roles.VOLUNTEER],
+    },
+    component: () => import('../layout/AdminLayout.vue'),
+    redirect: '/dashboard/home',
+    children: [
+      {
+        path: 'home',
+        component: () => import('../views/Admin/Home.vue'),
+        name: RouteNames.DASHBOARD,
       },
     ],
   },
