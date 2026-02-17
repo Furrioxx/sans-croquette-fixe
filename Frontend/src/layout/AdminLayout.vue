@@ -21,6 +21,7 @@ function handleResize() {
     <ConfirmDialog></ConfirmDialog>
     <div class="flex-1">
       <AdminAppNavBar />
+      <!-- RouterView is in AdminAppNavBar.vue -->
     </div>
   </div>
 </template>
