@@ -38,7 +38,8 @@
   "title": {
     "home": "Accueil",
     "login": "Connexion",
-    "register": "Inscription"
+    "register": "Inscription",
+    "dashboard": "Tableau de bord"
   },
   "auth": {
     "email": "Adresse e-mail",

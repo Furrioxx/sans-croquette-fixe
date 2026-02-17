@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
     Button: typeof import('primevue/button')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']

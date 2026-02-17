@@ -5,6 +5,7 @@ const routes = [
   {
     path: '/',
     redirect: '/home',
+    component: () => import('../layout/AppLayout.vue'),
     children: [
       {
         path: 'home',
@@ -30,10 +31,11 @@ const routes = [
       requiredRoles: [Roles.ADMIN, Roles.VOLUNTEER],
     },
     name: RouteNames.DASHBOARD,
-    component: () => import('../layout/AppLayout.vue'),
+    component: () => import('../layout/AdminLayout.vue'),
+    redirect: '/dashboard/home',
     children: [
       {
-        path: '/',
+        path: 'home',
         component: () => import('../views/Admin/Dashboard.vue'),
       },
     ],

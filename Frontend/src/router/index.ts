@@ -3,6 +3,7 @@ import routes from './routes'
 import { useManager } from './manager'
 import { i18n } from '@/i18n'
 import { useAuthStore } from '@/stores/authentication'
+import { RouteNames } from './routeNames'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -14,7 +15,7 @@ router.beforeEach(async (to, from, next) => {
   // check metas requiresAuth and requiredRoles of each route
   const authStore = useAuthStore()
   if (to.meta?.requiresAuth && !authStore.isConnected) {
-    return next('/unauthorized')
+    return next({ name: RouteNames.LOGIN, query: { redirect: to.fullPath } })
   } else if (to.meta?.requiredRoles) {
     const requiredRoles: string[] = to.meta.requiredRoles
     if (authStore.user == null) {
