@@ -10,7 +10,7 @@ const router = createRouter({
   routes: routes,
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, _from, next) => {
   // Check authentication and authorization
   // check metas requiresAuth and requiredRoles of each route
   const authStore = useAuthStore()
