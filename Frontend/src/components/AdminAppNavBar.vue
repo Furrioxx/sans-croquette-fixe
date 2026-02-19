@@ -36,7 +36,7 @@ const items = [
           v-for="item in items"
           :key="item.label"
           :to="{ name: item.routeName }"
-          class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200"
+          class="btn-bis"
           :class="
             isActive(item.routeName)
               ? 'bg-primary-50 text-primary-600 font-medium'

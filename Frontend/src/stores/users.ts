@@ -36,6 +36,18 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const toggleBlockUser = async (id: number, isBlocked: boolean) => {
+    try {
+      if (isBlocked) {
+        await UserService.UnblockUser(id)
+      } else {
+        await UserService.BlockUser(id)
+      }
+    } catch (error) {
+      throw error
+    }
+  }
+
   const getRoleSeverity = (roleName: string) => {
     switch (roleName) {
       case Roles.ADMIN:
@@ -56,6 +68,7 @@ export const useUserStore = defineStore('user', () => {
     fetchRoles,
     fetchUsers,
     fetchUserById,
+    toggleBlockUser,
     getRoleSeverity,
   }
 })

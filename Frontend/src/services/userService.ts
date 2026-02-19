@@ -23,4 +23,14 @@ export const UserService = {
       },
     })
   },
+  BlockUser: async (id: number) => {
+    return await axiosInstance.put(`${API_URL}/${id}`, {
+      blocked: true,
+    })
+  },
+  UnblockUser: async (id: number) => {
+    return await axiosInstance.put(`${API_URL}/${id}`, {
+      blocked: false,
+    })
+  },
 }

@@ -37,6 +37,7 @@
   "install": "Installer l'application",
   "share": "Partager",
   "refresh": "Rafraîchir",
+  "settings": "Paramètres",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
@@ -69,6 +70,7 @@
     "user-create": "Créer un utilisateur",
     "users": "Utilisateurs",
     "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
-    "user-edit-helper": "Modifier les informations de l'utilisateur"
+    "user-edit-helper": "Modifier les informations de l'utilisateur",
+    "block-user": "Bloquer l'utilisateur"
   }
 }

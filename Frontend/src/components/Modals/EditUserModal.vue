@@ -45,7 +45,7 @@ const loadRoles = async () => {
       <label for="username" class="font-semibold w-32">{{ $t('auth.username') }}</label>
       <InputText id="username" class="flex-auto" :value="props.user.username" autocomplete="off" />
     </div>
-    <div class="flex items-center gap-4 mb-2">
+    <div class="flex items-center gap-4 mb-4">
       <label for="email" class="font-semibold w-32">{{ $t('auth.email') }}</label>
       <InputText
         id="email"
@@ -64,7 +64,7 @@ const loadRoles = async () => {
         optionValue="id"
         optionLabel="name"
         placeholder="Select a Role"
-        class="w-full md:w-56"
+        class="flex-auto"
       />
     </div>
     <template #footer>

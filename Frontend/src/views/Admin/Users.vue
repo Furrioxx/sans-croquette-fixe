@@ -6,7 +6,9 @@ import EditUserModal from '@/components/Modals/EditUserModal.vue'
 const userStore = useUserStore()
 
 const loading = ref<boolean>(false)
+const op = ref()
 const editModalVisible = ref<boolean>(false)
+const selectedUserId = ref<number | null>(null)
 
 const users = computed(() => userStore.users)
 const selectedUser = computed(() => userStore.selectedUser)
@@ -26,9 +28,14 @@ const loadData = async () => {
   }
 }
 
-const editUser = async (userId: number) => {
+const togglePopover = (event: any, userId: number) => {
+  op.value.toggle(event)
+  selectedUserId.value = userId
+}
+
+const editUser = async () => {
   try {
-    userStore.fetchUserById(userId)
+    userStore.fetchUserById(selectedUserId.value!)
     editModalVisible.value = true
   } catch (error) {
     console.error('Error fetching user:', error)
@@ -65,6 +72,12 @@ const closeModal = (visible: boolean) => {
     </template>
     <Column field="username" header="Name"></Column>
     <Column field="email" header="Email"></Column>
+    <Column header="Blocked">
+      <template #body="slotProps">
+        <i class="pi pi-check-circle text-green-500" v-if="slotProps.data.blocked"></i>
+        <i class="pi pi-times-circle text-red-500" v-else></i>
+      </template>
+    </Column>
     <Column header="Role">
       <template #body="slotProps">
         <Tag
@@ -76,13 +89,27 @@ const closeModal = (visible: boolean) => {
     <Column header="Actions">
       <template #body="slotProps">
         <Button
-          icon="pi pi-pencil"
+          icon="pi pi-ellipsis-v"
           rounded
           text
-          v-tooltip.top="$t('update')"
-          @click="editUser(slotProps.data.id)"
+          v-tooltip.top="$t('settings')"
+          @click="togglePopover($event, slotProps.data.id)"
         />
       </template>
     </Column>
   </DataTable>
+
+  <Popover ref="op">
+    <div class="flex flex-col gap-4">
+      <li class="btn-bis text-gray-600 hover:text-gray-900" @click="editUser">
+        <i class="pi pi-pencil"></i>
+        <span>{{ $t('update') }}</span>
+      </li>
+
+      <li class="btn-bis text-red-600 hover:text-red-800" @click="">
+        <i class="pi pi-lock"></i>
+        <span>{{ $t('admin.block-user') }}</span>
+      </li>
+    </div>
+  </Popover>
 </template>

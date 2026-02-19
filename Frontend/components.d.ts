@@ -20,6 +20,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     LoginFormComponent: typeof import('./src/components/Forms/Auth/LoginFormComponent.vue')['default']
     Message: typeof import('primevue/message')['default']
+    Popover: typeof import('primevue/popover')['default']
     Rating: typeof import('primevue/rating')['default']
     RegisterFormComponenet: typeof import('./src/components/Forms/Auth/RegisterFormComponenet.vue')['default']
     RegisterFormComponent: typeof import('./src/components/Forms/Auth/RegisterFormComponent.vue')['default']
