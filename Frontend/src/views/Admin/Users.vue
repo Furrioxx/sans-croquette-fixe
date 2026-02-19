@@ -6,6 +6,7 @@ import EditUserModal from '@/components/Modals/EditUserModal.vue'
 const userStore = useUserStore()
 
 const loading = ref<boolean>(false)
+const editModalVisible = ref<boolean>(false)
 
 const users = computed(() => userStore.users)
 const selectedUser = computed(() => userStore.selectedUser)
@@ -27,13 +28,26 @@ const loadData = async () => {
 
 const editUser = async (userId: number) => {
   try {
-    await userStore.fetchUserById(userId)
+    userStore.fetchUserById(userId)
+    editModalVisible.value = true
   } catch (error) {
     console.error('Error fetching user:', error)
   }
 }
+
+const closeModal = (visible: boolean) => {
+  editModalVisible.value = visible
+  userStore.selectedUser = null
+}
 </script>
 <template>
+  <EditUserModal
+    v-if="selectedUser != null"
+    :user="selectedUser"
+    :visible="editModalVisible"
+    @update:visible="closeModal($event)"
+  />
+
   <Button class="mb-3" :label="$t('admin.user-create')" icon="pi pi-plus" iconPos="right" />
 
   <DataTable :value="users" :loading="loading" tableStyle="min-width: 50rem">

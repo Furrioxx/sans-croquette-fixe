@@ -2,6 +2,7 @@
   "hello": "Bonjour",
   "confirm": "Confirmation",
   "cancel": "Annuler",
+  "save": "Enregistrer",
   "add": "Créer",
   "delete": "Supprimer",
   "update": "Modifier",
@@ -49,6 +50,7 @@
     "prenom": "Prénom",
     "nom": "Nom",
     "username": "Nom d'utilisateur",
+    "role": "Rôle",
     "alreadyAccount": "Vous avez déjà un compte ?",
     "noAccount": "Vous n'avez pas de compte ?",
     "login": "Se connecter",
@@ -65,6 +67,8 @@
       "settings": "Paramètres"
     },
     "user-create": "Créer un utilisateur",
-    "users": "Utilisateurs"
+    "users": "Utilisateurs",
+    "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
+    "user-edit-helper": "Modifier les informations de l'utilisateur"
   }
 }
