@@ -24,7 +24,7 @@
   "yes": "Oui",
   "no": "Non",
   "filter": "Filtrer",
-  "logout": "Se déconnecter",
+  "logout": "Déconnexion",
   "login": "Se connecter",
   "register": "Créer un compte",
   "profile": "Profil",
@@ -35,6 +35,7 @@
   "refuse": "Refuser",
   "install": "Installer l'application",
   "share": "Partager",
+  "refresh": "Rafraîchir",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
@@ -57,6 +58,13 @@
     "rememberMe": "Se souvenir de moi"
   },
   "admin": {
-    "user-create": "Créer un utilisateur"
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "analytics": "Analytics",
+      "users": "Utilisateurs",
+      "settings": "Paramètres"
+    },
+    "user-create": "Créer un utilisateur",
+    "users": "Utilisateurs"
   }
 }

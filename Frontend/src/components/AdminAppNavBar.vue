@@ -3,13 +3,9 @@ import { RouteNames } from '@/router/routeNames'
 import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/authentication'
 import router from '@/router'
+import { i18n } from '@/i18n'
 
-const items = [
-  { label: 'Dashboard', icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
-  { label: 'Analytics', icon: 'pi pi-chart-line', routeName: RouteNames.DASHBOARD },
-  { label: 'Utilisateurs', icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
-  { label: 'Paramètres', icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD },
-]
+const { t } = i18n.global
 
 const isActive = (name: string) => route.name === name
 
@@ -19,6 +15,12 @@ const logout = () => {
   authStore.logout()
   router.push({ name: RouteNames.HOME })
 }
+const items = [
+  { label: t('admin.nav.dashboard'), icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
+  { label: t('admin.nav.analytics'), icon: 'pi pi-chart-line', routeName: RouteNames.DASHBOARD },
+  { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
+  { label: t('admin.nav.settings'), icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD },
+]
 </script>
 
 <template>
@@ -48,7 +50,7 @@ const logout = () => {
 
       <div class="p-4 border-t border-gray-100">
         <Button
-          label="Déconnexion"
+          :label="$t('logout')"
           icon="pi pi-sign-out"
           class="w-full p-button-text p-button-danger"
           @click="logout"

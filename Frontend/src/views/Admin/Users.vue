@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/users'
-import { Roles } from '@/router/Roles'
+import EditUserModal from '@/components/Modals/EditUserModal.vue'
 
-const router = useRouter()
 const userStore = useUserStore()
 
 const loading = ref<boolean>(false)
 
 const users = computed(() => userStore.users)
+const selectedUser = computed(() => userStore.selectedUser)
 
 onMounted(() => {
   loadData()
@@ -26,16 +25,11 @@ const loadData = async () => {
   }
 }
 
-const getRoleSeverity = (roleName: string) => {
-  switch (roleName) {
-    case Roles.ADMIN:
-      return 'danger'
-    case Roles.VOLUNTEER:
-      return 'warn'
-    case Roles.USER:
-      return 'info'
-    default:
-      return 'success'
+const editUser = async (userId: number) => {
+  try {
+    await userStore.fetchUserById(userId)
+  } catch (error) {
+    console.error('Error fetching user:', error)
   }
 }
 </script>
@@ -45,8 +39,14 @@ const getRoleSeverity = (roleName: string) => {
   <DataTable :value="users" :loading="loading" tableStyle="min-width: 50rem">
     <template #header>
       <div class="flex flex-wrap items-center justify-between gap-2">
-        <span class="text-xl font-bold">Users</span>
-        <Button icon="pi pi-refresh" rounded raised @click="loadData" />
+        <span class="text-xl font-bold">{{ $t('admin.users') }}</span>
+        <Button
+          icon="pi pi-refresh"
+          v-tooltip.top="$t('refresh')"
+          rounded
+          raised
+          @click="loadData"
+        />
       </div>
     </template>
     <Column field="username" header="Name"></Column>
@@ -55,7 +55,18 @@ const getRoleSeverity = (roleName: string) => {
       <template #body="slotProps">
         <Tag
           :value="slotProps.data.role.name"
-          :severity="getRoleSeverity(slotProps.data.role.type)"
+          :severity="userStore.getRoleSeverity(slotProps.data.role.type)"
+        />
+      </template>
+    </Column>
+    <Column header="Actions">
+      <template #body="slotProps">
+        <Button
+          icon="pi pi-pencil"
+          rounded
+          text
+          v-tooltip.top="$t('update')"
+          @click="editUser(slotProps.data.id)"
         />
       </template>
     </Column>

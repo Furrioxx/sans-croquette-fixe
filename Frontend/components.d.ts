@@ -10,10 +10,13 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    Dialog: typeof import('primevue/dialog')['default']
+    EditUserModal: typeof import('./src/components/Modals/EditUserModal.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LoginFormComponent: typeof import('./src/components/Forms/Auth/LoginFormComponent.vue')['default']
     Message: typeof import('primevue/message')['default']
@@ -25,5 +28,8 @@ declare module 'vue' {
     SearchInputTextComponent: typeof import('./src/components/Inputs/SearchInputTextComponent.vue')['default']
     Tag: typeof import('primevue/tag')['default']
     Toast: typeof import('primevue/toast')['default']
+  }
+  export interface GlobalDirectives {
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

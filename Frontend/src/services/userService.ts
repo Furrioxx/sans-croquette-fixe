@@ -14,6 +14,10 @@ export const UserService = {
     })
   },
   GetUserById: async (id: number) => {
-    return await axiosInstance.get(`${API_URL}/${id}`)
+    return await axiosInstance.get(`${API_URL}/${id}`, {
+      params: {
+        populate: 'role',
+      },
+    })
   },
 }

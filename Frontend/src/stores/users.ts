@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { UserService } from '@/services/userService'
 import type { User } from '@/models/User'
+import { Roles } from '@/router/Roles'
 
 export const useUserStore = defineStore('user', () => {
   const users = ref<User[]>([])
@@ -25,10 +26,24 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const getRoleSeverity = (roleName: string) => {
+    switch (roleName) {
+      case Roles.ADMIN:
+        return 'danger'
+      case Roles.VOLUNTEER:
+        return 'warn'
+      case Roles.USER:
+        return 'info'
+      default:
+        return 'success'
+    }
+  }
+
   return {
     users,
     selectedUser,
     fetchUsers,
     fetchUserById,
+    getRoleSeverity,
   }
 })
