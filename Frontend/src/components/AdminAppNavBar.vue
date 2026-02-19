@@ -7,7 +7,7 @@ import router from '@/router'
 const items = [
   { label: 'Dashboard', icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
   { label: 'Analytics', icon: 'pi pi-chart-line', routeName: RouteNames.DASHBOARD },
-  { label: 'Utilisateurs', icon: 'pi pi-users', routeName: RouteNames.DASHBOARD },
+  { label: 'Utilisateurs', icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
   { label: 'Paramètres', icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD },
 ]
 

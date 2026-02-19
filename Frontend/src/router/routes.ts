@@ -38,6 +38,11 @@ const routes = [
         component: () => import('../views/Admin/Home.vue'),
         name: RouteNames.DASHBOARD,
       },
+      {
+        path: 'users',
+        component: () => import('../views/Admin/Users.vue'),
+        name: RouteNames.DASHBOARD_USERS,
+      },
     ],
   },
 ]

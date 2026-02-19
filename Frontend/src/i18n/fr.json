@@ -39,7 +39,8 @@
     "home": "Accueil",
     "login": "Connexion",
     "register": "Inscription",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "dashboard-users": "Utilisateurs"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -54,5 +55,8 @@
     "registerFail": "L'inscription a échoué. Veuillez réessayer.",
     "loginFail": "La connexion a échoué. Veuillez vérifier vos identifiants.",
     "rememberMe": "Se souvenir de moi"
+  },
+  "admin": {
+    "user-create": "Créer un utilisateur"
   }
 }
