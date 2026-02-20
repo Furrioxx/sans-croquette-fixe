@@ -5,6 +5,7 @@ export interface User {
   createdAt: string
   updatedAt: string
   blocked: boolean
+  confirmed: boolean
   role: Role
 }
 
@@ -28,4 +29,10 @@ export interface UserPost {
   username: string
   email: string
   password: string
+}
+
+export interface UserPostPutAdmin extends UserPost {
+  confirmed: boolean
+  blocked: boolean
+  role: number
 }

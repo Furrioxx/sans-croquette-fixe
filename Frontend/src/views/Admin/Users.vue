@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useUserStore } from '@/stores/users'
-import EditUserModal from '@/components/Modals/EditUserModal.vue'
+import UserModal from '@/components/Modals/UserModal.vue'
 
 const userStore = useUserStore()
 
@@ -48,14 +48,19 @@ const closeModal = (visible: boolean) => {
 }
 </script>
 <template>
-  <EditUserModal
-    v-if="selectedUser != null"
+  <UserModal
     :user="selectedUser"
     :visible="editModalVisible"
     @update:visible="closeModal($event)"
   />
 
-  <Button class="mb-3" :label="$t('admin.user-create')" icon="pi pi-plus" iconPos="right" />
+  <Button
+    class="mb-3"
+    :label="$t('admin.user-create')"
+    icon="pi pi-plus"
+    iconPos="right"
+    @click="editModalVisible = true"
+  />
 
   <DataTable :value="users" :loading="loading" tableStyle="min-width: 50rem">
     <template #header>

@@ -52,6 +52,8 @@
     "nom": "Nom",
     "username": "Nom d'utilisateur",
     "role": "Rôle",
+    "confirmed": "Confirmé",
+    "blocked": "Bloqué",
     "alreadyAccount": "Vous avez déjà un compte ?",
     "noAccount": "Vous n'avez pas de compte ?",
     "login": "Se connecter",
