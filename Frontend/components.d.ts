@@ -10,16 +10,30 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
+    Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
+    Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
+    DataTable: typeof import('primevue/datatable')['default']
+    Dialog: typeof import('primevue/dialog')['default']
+    EditUserModal: typeof import('./src/components/Modals/EditUserModal.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LoginFormComponent: typeof import('./src/components/Forms/Auth/LoginFormComponent.vue')['default']
     Message: typeof import('primevue/message')['default']
+    Popover: typeof import('primevue/popover')['default']
+    Rating: typeof import('primevue/rating')['default']
     RegisterFormComponenet: typeof import('./src/components/Forms/Auth/RegisterFormComponenet.vue')['default']
     RegisterFormComponent: typeof import('./src/components/Forms/Auth/RegisterFormComponent.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchInputTextComponent: typeof import('./src/components/Inputs/SearchInputTextComponent.vue')['default']
+    Select: typeof import('primevue/select')['default']
+    Tag: typeof import('primevue/tag')['default']
     Toast: typeof import('primevue/toast')['default']
+    ToggleSwitch: typeof import('primevue/toggleswitch')['default']
+    UserModal: typeof import('./src/components/Modals/UserModal.vue')['default']
+  }
+  export interface GlobalDirectives {
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

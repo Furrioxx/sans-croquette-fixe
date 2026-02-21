@@ -38,6 +38,21 @@ const routes = [
         component: () => import('../views/Admin/Home.vue'),
         name: RouteNames.DASHBOARD,
       },
+      {
+        path: 'users',
+        component: () => import('../views/Admin/Users.vue'),
+        name: RouteNames.DASHBOARD_USERS,
+      },
+      {
+        path: 'analytics',
+        component: () => import('../views/Admin/Analytics.vue'),
+        name: RouteNames.DASHBOARD_ANALYTICS,
+      },
+      {
+        path: 'settings',
+        component: () => import('../views/Admin/Settings.vue'),
+        name: RouteNames.DASHBOARD_SETTINGS,
+      },
     ],
   },
 ]

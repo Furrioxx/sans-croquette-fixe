@@ -2,6 +2,7 @@
   "hello": "Bonjour",
   "confirm": "Confirmation",
   "cancel": "Annuler",
+  "save": "Enregistrer",
   "add": "Créer",
   "delete": "Supprimer",
   "update": "Modifier",
@@ -24,7 +25,7 @@
   "yes": "Oui",
   "no": "Non",
   "filter": "Filtrer",
-  "logout": "Se déconnecter",
+  "logout": "Déconnexion",
   "login": "Se connecter",
   "register": "Créer un compte",
   "profile": "Profil",
@@ -35,11 +36,14 @@
   "refuse": "Refuser",
   "install": "Installer l'application",
   "share": "Partager",
+  "refresh": "Rafraîchir",
+  "settings": "Paramètres",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
     "register": "Inscription",
-    "dashboard": "Tableau de bord"
+    "dashboard": "Tableau de bord",
+    "dashboard-users": "Utilisateurs"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -47,6 +51,9 @@
     "prenom": "Prénom",
     "nom": "Nom",
     "username": "Nom d'utilisateur",
+    "role": "Rôle",
+    "confirmed": "Confirmé",
+    "blocked": "Bloqué",
     "alreadyAccount": "Vous avez déjà un compte ?",
     "noAccount": "Vous n'avez pas de compte ?",
     "login": "Se connecter",
@@ -54,5 +61,18 @@
     "registerFail": "L'inscription a échoué. Veuillez réessayer.",
     "loginFail": "La connexion a échoué. Veuillez vérifier vos identifiants.",
     "rememberMe": "Se souvenir de moi"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "analytics": "Analytics",
+      "users": "Utilisateurs",
+      "settings": "Paramètres"
+    },
+    "user-create": "Créer un utilisateur",
+    "users": "Utilisateurs",
+    "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
+    "user-edit-helper": "Modifier les informations de l'utilisateur",
+    "block-user": "Bloquer l'utilisateur"
   }
 }
