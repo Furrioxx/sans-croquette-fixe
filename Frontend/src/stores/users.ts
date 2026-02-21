@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { UserService } from '@/services/userService'
-import type { Role, User } from '@/models/User'
+import type { Role, User, UserPostPutAdmin } from '@/models/User'
 import { Roles } from '@/router/Roles'
 
 export const useUserStore = defineStore('user', () => {
@@ -48,6 +48,22 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const addUserAdmin = async (user: UserPostPutAdmin) => {
+    try {
+      await UserService.AddUserAdmin(user)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const updateUserAdmin = async (user: UserPostPutAdmin) => {
+    try {
+      await UserService.UpdateUserAdmin(user)
+    } catch (error) {
+      throw error
+    }
+  }
+
   const getRoleSeverity = (roleName: string) => {
     switch (roleName) {
       case Roles.ADMIN:
@@ -69,6 +85,8 @@ export const useUserStore = defineStore('user', () => {
     fetchUsers,
     fetchUserById,
     toggleBlockUser,
+    addUserAdmin,
+    updateUserAdmin,
     getRoleSeverity,
   }
 })

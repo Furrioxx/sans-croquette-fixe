@@ -1,3 +1,4 @@
+import type { UserPostPutAdmin } from '@/models/User'
 import { axiosInstance } from './axiosInsance'
 
 const API_URL = '/users'
@@ -32,5 +33,13 @@ export const UserService = {
     return await axiosInstance.put(`${API_URL}/${id}`, {
       blocked: false,
     })
+  },
+  AddUserAdmin: async (user: UserPostPutAdmin) => {
+    const { id, ...userPost } = user
+    return await axiosInstance.post(`${API_URL}`, userPost)
+  },
+  UpdateUserAdmin: async (user: UserPostPutAdmin) => {
+    const { id, password, ...userPut } = user
+    return await axiosInstance.put(`${API_URL}/${id}`, userPut)
   },
 }

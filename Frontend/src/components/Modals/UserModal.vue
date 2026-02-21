@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const userStore = useUserStore()
-const emit = defineEmits(['update:visible'])
+const emit = defineEmits(['update:visible', 'update:datas'])
 
 const props = defineProps<{
   user: User | null
@@ -18,9 +18,10 @@ const header = computed(() => (props.user ? props.user.username : t('admin.user-
 const isEditMode = computed<boolean>(() => !!props.user)
 
 const form = reactive<UserPostPutAdmin>({
+  id: props.user?.id || null,
   username: props.user?.username || '',
   email: props.user?.email || '',
-  password: '',
+  password: null,
   confirmed: props.user?.confirmed || false,
   blocked: props.user?.blocked || false,
   role: props.user?.role.id || 4,
@@ -29,6 +30,7 @@ const form = reactive<UserPostPutAdmin>({
 watch(
   () => props.user,
   (newUser) => {
+    form.id = newUser?.id || null
     form.username = newUser?.username || ''
     form.email = newUser?.email || ''
     form.confirmed = newUser?.confirmed || false
@@ -47,6 +49,16 @@ const loadRoles = async () => {
   } catch (error) {
     console.error('Error fetching roles:', error)
   }
+}
+
+const save = async () => {
+  if (isEditMode.value) {
+    await userStore.updateUserAdmin(form)
+  } else {
+    await userStore.addUserAdmin(form)
+  }
+  emit('update:visible', false)
+  emit('update:datas')
 }
 </script>
 
@@ -118,13 +130,7 @@ const loadRoles = async () => {
         @click="emit('update:visible', false)"
         autofocus
       />
-      <Button
-        :label="$t('save')"
-        variant="outlined"
-        severity="success"
-        @click="emit('update:visible', false)"
-        autofocus
-      />
+      <Button :label="$t('save')" variant="outlined" severity="success" @click="save" autofocus />
     </template>
   </Dialog>
 </template>

@@ -28,10 +28,11 @@ export interface UserLogin {
 export interface UserPost {
   username: string
   email: string
-  password: string
+  password: string | null
 }
 
 export interface UserPostPutAdmin extends UserPost {
+  id: number | null
   confirmed: boolean
   blocked: boolean
   role: number

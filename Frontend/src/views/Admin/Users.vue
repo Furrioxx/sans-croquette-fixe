@@ -52,6 +52,7 @@ const closeModal = (visible: boolean) => {
     :user="selectedUser"
     :visible="editModalVisible"
     @update:visible="closeModal($event)"
+    @update:datas="loadData"
   />
 
   <Button
