@@ -43,7 +43,10 @@
     "login": "Connexion",
     "register": "Inscription",
     "dashboard": "Tableau de bord",
-    "dashboard-users": "Utilisateurs"
+    "dashboard-users": "Utilisateurs",
+    "dashboard-settings": "Paramètres",
+    "dashboard-analytics": "Analytics",
+    "dashboard-cats": "Fiches chat"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -67,7 +70,8 @@
       "dashboard": "Tableau de bord",
       "analytics": "Analytics",
       "users": "Utilisateurs",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "cats": "Fiches chat"
     },
     "user-create": "Créer un utilisateur",
     "users": "Utilisateurs",

@@ -39,6 +39,11 @@ const routes = [
         name: RouteNames.DASHBOARD,
       },
       {
+        path: 'cats',
+        component: () => import('../views/Admin/Cats.vue'),
+        name: RouteNames.DASHBOARD_CATS,
+      },
+      {
         path: 'users',
         component: () => import('../views/Admin/Users.vue'),
         name: RouteNames.DASHBOARD_USERS,

@@ -6,4 +6,5 @@ export const enum RouteNames {
   DASHBOARD_USERS = 'dashboard-users',
   DASHBOARD_SETTINGS = 'dashboard-settings',
   DASHBOARD_ANALYTICS = 'dashboard-analytics',
+  DASHBOARD_CATS = 'dashboard-cats',
 }
