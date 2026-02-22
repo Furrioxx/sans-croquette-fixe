@@ -12,6 +12,7 @@ declare module 'vue' {
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
+    CatSheetModal: typeof import('./src/components/Modals/CatSheetModal.vue')['default']
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']

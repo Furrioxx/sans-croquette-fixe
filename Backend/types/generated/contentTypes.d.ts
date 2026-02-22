@@ -467,6 +467,71 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCatMoodCatMood extends Struct.CollectionTypeSchema {
+  collectionName: 'cat_moods';
+  info: {
+    displayName: 'CatMood';
+    pluralName: 'cat-moods';
+    singularName: 'cat-mood';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cat-mood.cat-mood'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiCatCat extends Struct.CollectionTypeSchema {
+  collectionName: 'cats';
+  info: {
+    displayName: 'Cat';
+    pluralName: 'cats';
+    singularName: 'cat';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    age: Schema.Attribute.Integer;
+    birthDate: Schema.Attribute.Date;
+    cat_moods: Schema.Attribute.Relation<'oneToMany', 'api::cat-mood.cat-mood'>;
+    catFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
+    childFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    decontaminate: Schema.Attribute.Boolean;
+    dogFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
+    gender: Schema.Attribute.Enumeration<['male', 'female']>;
+    identified: Schema.Attribute.Boolean;
+    isDuo: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    sterilized: Schema.Attribute.Boolean;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    vaccinated: Schema.Attribute.Boolean;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -978,6 +1043,8 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::cat-mood.cat-mood': ApiCatMoodCatMood;
+      'api::cat.cat': ApiCatCat;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
