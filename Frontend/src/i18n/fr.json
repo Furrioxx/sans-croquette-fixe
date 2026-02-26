@@ -77,6 +77,11 @@
     "users": "Utilisateurs",
     "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
     "user-edit-helper": "Modifier les informations de l'utilisateur",
-    "block-user": "Bloquer l'utilisateur"
+    "block-user": "Bloquer l'utilisateur",
+    "cat": {
+      "mood": "Humeur du chat",
+      "cat-create": "Créer une fiche chat",
+      "cat-edit-helper": "Modifier les informations de la fiche chat"
+    }
   }
 }
