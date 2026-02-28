@@ -32,7 +32,23 @@ const form = ref<UserPostPutAdmin>({
   role: props.user?.role.id || 4,
 })
 
+const resetForm = () => {
+  form.value = {
+    id: props.user?.id || null,
+    username: props.user?.username || '',
+    email: props.user?.email || '',
+    password: '',
+    confirmed: props.user?.confirmed || false,
+    blocked: props.user?.blocked || false,
+    role: props.user?.role.id || 4,
+  }
+  errors.value = []
+}
+
+watch(() => props.user, resetForm)
+
 onMounted(() => {
+  resetForm()
   loadRoles()
 })
 
@@ -47,10 +63,10 @@ const loadRoles = async () => {
 const checkValidity = () => {
   errors.value = []
   errors.value.push(
-    StringUtils.checkInputValidity('username', form.value.username, t('requiredInputError'), 4),
+    StringUtils.checkInputTextValidity('username', form.value.username, t('requiredInputError'), 4),
   )
   errors.value.push(
-    StringUtils.checkInputValidity('email', form.value.email, t('requiredInputError')),
+    StringUtils.checkInputTextValidity('email', form.value.email, t('requiredInputError')),
   )
 
   if (errors.value.filter((x) => x.valid == false).length > 0) {
@@ -61,15 +77,17 @@ const checkValidity = () => {
 
 const save = async () => {
   const valid = checkValidity()
-  if (valid) {
-    if (isEditMode.value) {
-      await userStore.updateUserAdmin(form.value)
-    } else {
-      await userStore.addUserAdmin(form.value)
-    }
-    emit('update:visible', false)
-    emit('update:datas')
-  }
+  console.log(form.value)
+
+  // if (valid) {
+  //   if (isEditMode.value) {
+  //     await userStore.updateUserAdmin(form.value)
+  //   } else {
+  //     await userStore.addUserAdmin(form.value)
+  //   }
+  //   emit('update:visible', false)
+  //   emit('update:datas')
+  // }
 }
 </script>
 
@@ -112,7 +130,7 @@ const save = async () => {
       :options="roles"
       optionLabel="name"
       optionValue="id"
-      value="form.role"
+      v-model="form.role"
       :label="$t('auth.role')"
     />
     <div v-if="!isEditMode">
@@ -121,11 +139,11 @@ const save = async () => {
 
       <ToggleSwitchWithLabel
         name="confirmed"
-        :value="form.confirmed"
+        v-model="form.confirmed"
         :label="$t('auth.confirmed')"
       />
 
-      <ToggleSwitchWithLabel name="blocked" :value="form.blocked" :label="$t('auth.blocked')" />
+      <ToggleSwitchWithLabel name="blocked" v-model="form.blocked" :label="$t('auth.blocked')" />
     </div>
     <template #footer>
       <Button

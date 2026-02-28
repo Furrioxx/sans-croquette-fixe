@@ -5,8 +5,18 @@ const props = defineProps<{
   name: string
   label: string
   optionLabel: string
-  value: any
+  modelValue: any
+  valid?: boolean
+  errorMessage?: string
 }>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
+
+const handleUpdate = (value: string | undefined) => {
+  emit('update:modelValue', value ?? '')
+}
 </script>
 
 <template>
@@ -15,10 +25,19 @@ const props = defineProps<{
     <Select
       :inputId="props.name"
       :options="props.options"
-      v-model="props.value"
+      :model-value="props.modelValue"
       :optionValue="props.optionValue"
       :optionLabel="props.optionLabel"
+      @update:model-value="handleUpdate"
       class="flex-auto"
     />
   </div>
+  <Message
+    v-if="props.valid === false && props.errorMessage"
+    class="mb-2"
+    severity="error"
+    size="small"
+    variant="simple"
+    >{{ errorMessage }}</Message
+  >
 </template>

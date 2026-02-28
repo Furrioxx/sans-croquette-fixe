@@ -7,7 +7,12 @@ export const StringUtils = {
     return value != null && value != undefined && value.length > (length ? length : 0)
   },
 
-  checkInputValidity: (id: string, value: string, message?: string, length?: number): FormError => {
+  checkInputTextValidity: (
+    id: string,
+    value: string,
+    message?: string,
+    length?: number,
+  ): FormError => {
     if (!StringUtils.isValueValid(value, length)) {
       return {
         inputId: id,
