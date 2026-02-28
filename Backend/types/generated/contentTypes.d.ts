@@ -516,8 +516,12 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     decontaminate: Schema.Attribute.Boolean;
     dogFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
-    gender: Schema.Attribute.Enumeration<['male', 'female']>;
+    gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']>;
     identified: Schema.Attribute.Boolean;
+    images: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     isDuo: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &

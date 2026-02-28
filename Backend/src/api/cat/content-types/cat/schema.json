@@ -24,7 +24,8 @@
       "type": "enumeration",
       "enum": [
         "male",
-        "female"
+        "female",
+        "not_determined"
       ]
     },
     "age": {
@@ -70,6 +71,16 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cat-mood.cat-mood"
+    },
+    "images": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
     }
   }
 }

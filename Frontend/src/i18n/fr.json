@@ -38,6 +38,7 @@
   "share": "Partager",
   "refresh": "Rafraîchir",
   "settings": "Paramètres",
+  "requiredInputError": "Ce champs est obligatoire",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
@@ -81,7 +82,18 @@
     "cat": {
       "mood": "Humeur du chat",
       "cat-create": "Créer une fiche chat",
-      "cat-edit-helper": "Modifier les informations de la fiche chat"
+      "cat-edit-helper": "Modifier les informations de la fiche chat",
+      "name": "Nom du chat",
+      "gender": "Genre du chat",
+      "identified": "Identifié",
+      "vaccinated": "Vacciné",
+      "decontaminate": "Déparasité",
+      "sterilized": "Stérilisé",
+      "age": "Âge",
+      "isDuo": "Chats en duo",
+      "catFriendly": "Ententes avec les chats",
+      "dogFriendly": "Ententes avec les chiens",
+      "childFriendly": "Ententes avec les enfants"
     }
   }
 }

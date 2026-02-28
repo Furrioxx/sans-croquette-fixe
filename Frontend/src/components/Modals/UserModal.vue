@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { type User, type UserPostPutAdmin } from '@/models/User'
-import { computed, onMounted, reactive, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useUserStore } from '@/stores/users'
 import { useI18n } from 'vue-i18n'
+import InputTextWithLabel from '../Forms/elements/InputTextWithLabel.vue'
+import ToggleSwitchWithLabel from '../Forms/elements/ToggleSwitchWithLabel.vue'
+import SelectWithLabel from '../Forms/elements/SelectWithLabel.vue'
+import type { FormError } from '@/models/FormError'
+import { StringUtils } from '@/utils/stringUtils'
 
 const { t } = useI18n()
 const userStore = useUserStore()
@@ -16,28 +21,16 @@ const props = defineProps<{
 const roles = computed(() => userStore.roles)
 const header = computed(() => (props.user ? props.user.username : t('admin.user-create')))
 const isEditMode = computed<boolean>(() => !!props.user)
-
-const form = reactive<UserPostPutAdmin>({
+const errors = ref<FormError[]>([])
+const form = ref<UserPostPutAdmin>({
   id: props.user?.id || null,
   username: props.user?.username || '',
   email: props.user?.email || '',
-  password: null,
+  password: '',
   confirmed: props.user?.confirmed || false,
   blocked: props.user?.blocked || false,
   role: props.user?.role.id || 4,
 })
-
-watch(
-  () => props.user,
-  (newUser) => {
-    form.id = newUser?.id || null
-    form.username = newUser?.username || ''
-    form.email = newUser?.email || ''
-    form.confirmed = newUser?.confirmed || false
-    form.blocked = newUser?.blocked || false
-    form.role = newUser?.role.id || 4
-  },
-)
 
 onMounted(() => {
   loadRoles()
@@ -51,14 +44,32 @@ const loadRoles = async () => {
   }
 }
 
-const save = async () => {
-  if (isEditMode.value) {
-    await userStore.updateUserAdmin(form)
-  } else {
-    await userStore.addUserAdmin(form)
+const checkValidity = () => {
+  errors.value = []
+  errors.value.push(
+    StringUtils.checkInputValidity('username', form.value.username, t('requiredInputError'), 4),
+  )
+  errors.value.push(
+    StringUtils.checkInputValidity('email', form.value.email, t('requiredInputError')),
+  )
+
+  if (errors.value.filter((x) => x.valid == false).length > 0) {
+    return false
   }
-  emit('update:visible', false)
-  emit('update:datas')
+  return true
+}
+
+const save = async () => {
+  const valid = checkValidity()
+  if (valid) {
+    if (isEditMode.value) {
+      await userStore.updateUserAdmin(form.value)
+    } else {
+      await userStore.addUserAdmin(form.value)
+    }
+    emit('update:visible', false)
+    emit('update:datas')
+  }
 }
 </script>
 
@@ -78,49 +89,43 @@ const save = async () => {
     <span class="text-surface-500 dark:text-surface-400 block mb-4">{{
       $t('admin.user-edit-helper')
     }}</span>
-    <div class="flex items-center gap-4 mb-4">
-      <label for="username" class="font-semibold w-32">{{ $t('auth.username') }}</label>
-      <InputText id="username" class="flex-auto" v-model="form.username" autocomplete="off" />
-    </div>
-    <div class="flex items-center gap-4 mb-4">
-      <label for="email" class="font-semibold w-32">{{ $t('auth.email') }}</label>
-      <InputText
-        id="email"
-        :disabled="isEditMode"
-        v-tooltip.top="$t('admin.user-email-tooltip')"
-        class="flex-auto"
-        v-model="form.email"
-        autocomplete="off"
-      />
-    </div>
-    <div class="flex items-center gap-4 mb-2">
-      <label for="role" class="font-semibold w-32">{{ $t('auth.role') }}</label>
-      <Select
-        id="role"
-        v-model="form.role"
-        :options="roles"
-        optionValue="id"
-        optionLabel="name"
-        placeholder="Select a Role"
-        class="flex-auto"
-      />
-    </div>
+
+    <InputTextWithLabel
+      name="username"
+      :label="$t('auth.username')"
+      v-model="form.username"
+      :valid="StringUtils.getFieldError(errors, 'username')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'username')?.message"
+    />
+    <InputTextWithLabel
+      name="email"
+      :label="$t('auth.email')"
+      v-model="form.email"
+      :tooltip="$t('admin.user-email-tooltip')"
+      :disabled="isEditMode"
+      type="email"
+      :valid="StringUtils.getFieldError(errors, 'email')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'email')?.message"
+    />
+    <SelectWithLabel
+      name="ol"
+      :options="roles"
+      optionLabel="name"
+      optionValue="id"
+      value="form.role"
+      :label="$t('auth.role')"
+    />
     <div v-if="!isEditMode">
       <!-- TODO Remove this field -->
-      <div class="flex items-center gap-4 mb-4">
-        <label for="password" class="font-semibold w-32">{{ $t('auth.password') }}</label>
-        <InputText id="password" class="flex-auto" v-model="form.password" autocomplete="off" />
-      </div>
+      <InputTextWithLabel name="password" :label="$t('auth.password')" v-model="form.password!" />
 
-      <div class="flex items-center gap-4 mb-4">
-        <label for="confirmed" class="font-semibold w-32">{{ $t('auth.confirmed') }}</label>
-        <ToggleSwitch id="confirmed" v-model="form.confirmed" />
-      </div>
+      <ToggleSwitchWithLabel
+        name="confirmed"
+        :value="form.confirmed"
+        :label="$t('auth.confirmed')"
+      />
 
-      <div class="flex items-center gap-4 mb-4">
-        <label for="blocked" class="font-semibold w-32">{{ $t('auth.blocked') }}</label>
-        <ToggleSwitch id="blocked" v-model="form.blocked" />
-      </div>
+      <ToggleSwitchWithLabel name="blocked" :value="form.blocked" :label="$t('auth.blocked')" />
     </div>
     <template #footer>
       <Button
@@ -130,7 +135,14 @@ const save = async () => {
         @click="emit('update:visible', false)"
         autofocus
       />
-      <Button :label="$t('save')" variant="outlined" severity="success" @click="save" autofocus />
+      <Button
+        :label="$t('save')"
+        variant="outlined"
+        type="submit"
+        severity="success"
+        autofocus
+        @click="save"
+      />
     </template>
   </Dialog>
 </template>
