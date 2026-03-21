@@ -6,6 +6,7 @@ const props = defineProps<{
   label: string
   optionLabel: string
   modelValue: any
+  required?: boolean
   valid?: boolean
   errorMessage?: string
 }>()
@@ -21,7 +22,7 @@ const handleUpdate = (value: string | undefined) => {
 
 <template>
   <div class="flex items-center gap-4 mb-2">
-    <label :for="props.name" class="font-semibold w-32">{{ props.label }}</label>
+    <label :for="props.name" class="font-semibold w-32">{{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span></label>
     <Select
       :inputId="props.name"
       :options="props.options"

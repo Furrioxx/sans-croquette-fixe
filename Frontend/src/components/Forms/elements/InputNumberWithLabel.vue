@@ -5,6 +5,7 @@ const props = defineProps<{
   label: string
   min?: number | null
   max?: number | null
+  required?: boolean
   valid?: boolean
   errorMessage?: string
 }>()
@@ -16,7 +17,7 @@ const emit = defineEmits<{
 
 <template>
   <div class="flex items-center gap-4 mb-2">
-    <label :for="props.name" class="font-semibold w-32">{{ props.label }}</label>
+    <label :for="props.name" class="font-semibold w-32">{{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span></label>
     <InputNumber
       :id="props.name"
       class="flex-auto"

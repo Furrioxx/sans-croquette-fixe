@@ -111,6 +111,7 @@ const save = async () => {
       name="username"
       :label="$t('auth.username')"
       v-model="form.username"
+      required
       :valid="StringUtils.getFieldError(errors, 'username')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'username')?.message"
     />
@@ -121,6 +122,7 @@ const save = async () => {
       :tooltip="$t('admin.user-email-tooltip')"
       :disabled="isEditMode"
       type="email"
+      required
       :valid="StringUtils.getFieldError(errors, 'email')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'email')?.message"
     />

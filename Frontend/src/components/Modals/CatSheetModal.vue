@@ -132,6 +132,7 @@ const save = async () => {
       name="name"
       :label="$t('admin.cat.name')"
       v-model="form.name"
+      required
       :valid="StringUtils.getFieldError(errors, 'name')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'name')?.message"
     />
@@ -139,6 +140,7 @@ const save = async () => {
       name="birthDate"
       :label="$t('admin.cat.birthDate')"
       v-model="form.birthDate"
+      required
       :valid="StringUtils.getFieldError(errors, 'birthDate')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'birthDate')?.message"
     />
@@ -149,6 +151,7 @@ const save = async () => {
       optionValue="value"
       v-model="form.gender"
       :label="$t('admin.cat.gender')"
+      required
       :valid="StringUtils.getFieldError(errors, 'gender')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'gender')?.message"
     />
@@ -160,6 +163,7 @@ const save = async () => {
       v-model="form.cat_moods"
       :label="$t('admin.cat.mood')"
       :filter="true"
+      required
       :valid="StringUtils.getFieldError(errors, 'cat_moods')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
     />
@@ -169,6 +173,7 @@ const save = async () => {
       :label="$t('admin.cat.age')"
       name="age"
       v-model="form.age"
+      required
       :valid="StringUtils.getFieldError(errors, 'age')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'age')?.message"
     />
