@@ -5,6 +5,7 @@ import { ref } from 'vue'
 
 export const useCatStore = defineStore('cat', () => {
   const cats = ref<Cat[]>([])
+  const selectedCat = ref<Cat | null>(null)
 
   const fectchCats = async () => {
     try {
@@ -23,7 +24,7 @@ export const useCatStore = defineStore('cat', () => {
     }
   }
 
-  const updateCat = async (id: number, cat: CatPostPut) => {
+  const updateCat = async (id: string, cat: CatPostPut) => {
     try {
       await CatService.UpdateCat(id, cat)
     } catch (error) {
@@ -33,6 +34,7 @@ export const useCatStore = defineStore('cat', () => {
 
   return {
     cats,
+    selectedCat,
     fectchCats,
     addCat,
     updateCat,

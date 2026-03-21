@@ -1,10 +1,14 @@
 <script setup lang="ts">
 const props = defineProps<{
-  value: number
+  modelValue: number
   name: string
   label: string
-  min: number | null
-  max: number | null
+  min?: number | null
+  max?: number | null
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: number]
 }>()
 </script>
 
@@ -14,7 +18,8 @@ const props = defineProps<{
     <InputNumber
       :id="props.name"
       class="flex-auto"
-      v-model="props.value"
+      :model-value="props.modelValue"
+      @update:model-value="emit('update:modelValue', $event ?? 0)"
       autocomplete="off"
       :min="props.min ?? undefined"
       :max="props.max ?? undefined"

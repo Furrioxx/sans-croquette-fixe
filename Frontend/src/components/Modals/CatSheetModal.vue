@@ -88,7 +88,7 @@ const save = async () => {
 
   if (valid) {
     if (isEditMode.value) {
-      await catStore.updateCat(props.cat!.id, form.value)
+      await catStore.updateCat(props.cat!.documentId, form.value)
     } else {
       await catStore.addCat(form.value)
     }
@@ -150,7 +150,7 @@ const save = async () => {
       :max="25"
       :label="$t('admin.cat.age')"
       name="age"
-      :value="form.age"
+      v-model="form.age"
     />
     <div class="flex justify-between">
       <ToggleSwitchWithLabel

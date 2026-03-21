@@ -5,12 +5,16 @@ const API_URL = '/cats'
 
 export const CatService = {
   GetAllCats: async () => {
-    return await axiosInstance.get(`${API_URL}`)
+    return await axiosInstance.get(`${API_URL}`, {
+      params: {
+        populate: 'cat_moods',
+      },
+    })
   },
   AddCat: async (cat: CatPostPut) => {
     return await axiosInstance.post(`${API_URL}`, { data: cat })
   },
-  UpdateCat: async (id: number, cat: CatPostPut) => {
+  UpdateCat: async (id: string, cat: CatPostPut) => {
     return await axiosInstance.put(`${API_URL}/${id}`, { data: cat })
   },
 }
