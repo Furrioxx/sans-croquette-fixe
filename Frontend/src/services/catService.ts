@@ -7,8 +7,13 @@ export const CatService = {
   GetAllCats: async () => {
     return await axiosInstance.get(`${API_URL}`, {
       params: {
-        populate: 'cat_moods',
+        populate: '*',
       },
+    })
+  },
+  UploadImages: async (formData: FormData) => {
+    return await axiosInstance.post('/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     })
   },
   AddCat: async (cat: CatPostPut) => {

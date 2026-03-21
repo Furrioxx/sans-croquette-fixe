@@ -1,6 +1,13 @@
 import type { CatFriendly } from './Enums/CatFriendlyEnum'
 import type { Genders } from './Enums/Genders'
 
+export interface StrapiMedia {
+  id: number
+  documentId: string
+  name: string
+  url: string
+}
+
 export interface CatMood {
   id: number
   documentId: string
@@ -23,6 +30,7 @@ export interface Cat {
   childFriendly: CatFriendly
   isDuo: boolean
   cat_moods: CatMood[]
+  images: StrapiMedia[]
 }
 
 export interface CatPostPut {
@@ -39,4 +47,5 @@ export interface CatPostPut {
   childFriendly: CatFriendly
   isDuo: boolean
   cat_moods: string[]
+  images?: number[]
 }

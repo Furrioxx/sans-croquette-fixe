@@ -32,11 +32,21 @@ export const useCatStore = defineStore('cat', () => {
     }
   }
 
+  const uploadImages = async (formData: FormData): Promise<number[]> => {
+    try {
+      const response = await CatService.UploadImages(formData)
+      return response.data.map((file: any) => file.id)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return {
     cats,
     selectedCat,
     fectchCats,
     addCat,
     updateCat,
+    uploadImages,
   }
 })
