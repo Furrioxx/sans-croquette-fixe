@@ -77,17 +77,16 @@ const checkValidity = () => {
 
 const save = async () => {
   const valid = checkValidity()
-  console.log(form.value)
 
-  // if (valid) {
-  //   if (isEditMode.value) {
-  //     await userStore.updateUserAdmin(form.value)
-  //   } else {
-  //     await userStore.addUserAdmin(form.value)
-  //   }
-  //   emit('update:visible', false)
-  //   emit('update:datas')
-  // }
+  if (valid) {
+    if (isEditMode.value) {
+      await userStore.updateUserAdmin(form.value)
+    } else {
+      await userStore.addUserAdmin(form.value)
+    }
+    emit('update:visible', false)
+    emit('update:datas')
+  }
 }
 </script>
 

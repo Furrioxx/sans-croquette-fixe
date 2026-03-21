@@ -2,8 +2,6 @@ import type { FormError } from '@/models/FormError'
 
 export const StringUtils = {
   isValueValid: (value: string, length?: number): boolean => {
-    console.log(value, length)
-
     return value != null && value != undefined && value.length > (length ? length : 0)
   },
 

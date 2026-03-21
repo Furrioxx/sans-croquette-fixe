@@ -65,7 +65,7 @@ const loadData = async () => {
       $t('admin.cat.cat-edit-helper')
     }}</span>
 
-    <ToggleSwitchWithLabel name="isDuo" :value="form.isDuo" :label="$t('admin.cat.isDuo')" />
+    <ToggleSwitchWithLabel name="isDuo" v-model="form.isDuo" :label="$t('admin.cat.isDuo')" />
     <InputTextWithLabel
       name="name"
       :label="$t('admin.cat.name')"
@@ -78,7 +78,7 @@ const loadData = async () => {
       :options="GenderList"
       optionLabel="label"
       optionValue="value"
-      :value="form.gender"
+      v-model="form.gender"
       :label="$t('admin.cat.gender')"
     />
     <MultiSelectWithLabel
@@ -100,24 +100,24 @@ const loadData = async () => {
     <div class="flex justify-between">
       <ToggleSwitchWithLabel
         name="identified"
-        :value="form.identified"
+        v-model="form.identified"
         :label="$t('admin.cat.identified')"
       />
       <ToggleSwitchWithLabel
         name="decontaminate"
-        :value="form.decontaminate"
+        v-model="form.decontaminate"
         :label="$t('admin.cat.decontaminate')"
       />
     </div>
     <div class="flex justify-between">
       <ToggleSwitchWithLabel
         name="sterilized"
-        :value="form.sterilized"
+        v-model="form.sterilized"
         :label="$t('admin.cat.sterilized')"
       />
       <ToggleSwitchWithLabel
         name="vaccinated"
-        :value="form.vaccinated"
+        v-model="form.vaccinated"
         :label="$t('admin.cat.vaccinated')"
       />
     </div>
@@ -126,7 +126,7 @@ const loadData = async () => {
       :options="CatFriendlyList"
       optionLabel="label"
       optionValue="value"
-      :value="form.catFriendly"
+      v-model="form.catFriendly"
       :label="$t('admin.cat.catFriendly')"
     />
     <SelectWithLabel
@@ -134,7 +134,7 @@ const loadData = async () => {
       :options="CatFriendlyList"
       optionLabel="label"
       optionValue="value"
-      :value="form.dogFriendly"
+      v-model="form.dogFriendly"
       :label="$t('admin.cat.dogFriendly')"
     />
     <SelectWithLabel
@@ -142,7 +142,7 @@ const loadData = async () => {
       :options="CatFriendlyList"
       optionLabel="label"
       optionValue="value"
-      :value="form.childFriendly"
+      v-model="form.childFriendly"
       :label="$t('admin.cat.childFriendly')"
     />
   </Dialog>
