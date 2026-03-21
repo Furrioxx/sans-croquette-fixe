@@ -16,6 +16,8 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    DatePicker: typeof import('primevue/datepicker')['default']
+    DatePickerWithLabel: typeof import('./src/components/Forms/elements/DatePickerWithLabel.vue')['default']
     Dialog: typeof import('primevue/dialog')['default']
     EditUserModal: typeof import('./src/components/Modals/EditUserModal.vue')['default']
     InputNumber: typeof import('primevue/inputnumber')['default']

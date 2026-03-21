@@ -11,6 +11,7 @@ export interface Cat {
   id: number
   documentId: string
   name: string
+  birthDate: string | null
   gender: Genders
   age: number
   vaccinated: boolean
@@ -26,6 +27,7 @@ export interface Cat {
 
 export interface CatPostPut {
   name: string
+  birthDate: string | null
   gender: Genders
   age: number
   vaccinated: boolean

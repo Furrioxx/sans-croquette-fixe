@@ -7,6 +7,7 @@ import { useCatStore } from '@/stores/cats'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputTextWithLabel from '../Forms/elements/InputTextWithLabel.vue'
+import DatePickerWithLabel from '../Forms/elements/DatePickerWithLabel.vue'
 import InputNumberWithLabel from '../Forms/elements/InputNumberWithLabel.vue'
 import SelectWithLabel from '../Forms/elements/SelectWithLabel.vue'
 import MultiSelectWithLabel from '../Forms/elements/MultiSelectWithLabel.vue'
@@ -29,6 +30,7 @@ const isEditMode = computed<boolean>(() => !!props.cat)
 const errors = ref<FormError[]>([])
 const form = ref<CatPostPut>({
   name: props.cat?.name || '',
+  birthDate: props.cat?.birthDate || null,
   gender: props.cat?.gender || Genders.FEMALE,
   age: props.cat?.age || 0,
   vaccinated: props.cat?.vaccinated || false,
@@ -45,6 +47,7 @@ const form = ref<CatPostPut>({
 const resetForm = () => {
   form.value = {
     name: props.cat?.name || '',
+    birthDate: props.cat?.birthDate || null,
     gender: props.cat?.gender || Genders.FEMALE,
     age: props.cat?.age || 0,
     vaccinated: props.cat?.vaccinated || false,
@@ -119,6 +122,11 @@ const save = async () => {
       v-model="form.name"
       :valid="StringUtils.getFieldError(errors, 'name')?.valid"
       :errorMessage="StringUtils.getFieldError(errors, 'name')?.message"
+    />
+    <DatePickerWithLabel
+      name="birthDate"
+      :label="$t('admin.cat.birthDate')"
+      v-model="form.birthDate"
     />
     <SelectWithLabel
       name="gender"
