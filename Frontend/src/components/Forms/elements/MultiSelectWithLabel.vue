@@ -7,6 +7,8 @@ const props = defineProps<{
   optionLabel: string
   modelValue: any
   filter?: boolean
+  valid?: boolean
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
@@ -28,4 +30,12 @@ const emit = defineEmits<{
       :filter="props.filter"
     />
   </div>
+  <Message
+    v-if="props.valid === false && props.errorMessage"
+    class="mb-2"
+    severity="error"
+    size="small"
+    variant="simple"
+    >{{ errorMessage }}</Message
+  >
 </template>

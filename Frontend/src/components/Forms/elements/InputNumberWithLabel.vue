@@ -5,6 +5,8 @@ const props = defineProps<{
   label: string
   min?: number | null
   max?: number | null
+  valid?: boolean
+  errorMessage?: string
 }>()
 
 const emit = defineEmits<{
@@ -25,4 +27,12 @@ const emit = defineEmits<{
       :max="props.max ?? undefined"
     />
   </div>
+  <Message
+    v-if="props.valid === false && props.errorMessage"
+    class="mb-2"
+    severity="error"
+    size="small"
+    variant="simple"
+    >{{ errorMessage }}</Message
+  >
 </template>

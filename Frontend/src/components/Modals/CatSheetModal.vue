@@ -79,6 +79,18 @@ const checkValidity = () => {
   errors.value.push(
     StringUtils.checkInputTextValidity('name', form.value.name, t('requiredInputError')),
   )
+  errors.value.push(
+    StringUtils.checkRequiredValidity('birthDate', form.value.birthDate, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkRequiredValidity('gender', form.value.gender, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkArrayValidity('cat_moods', form.value.cat_moods, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkNumberValidity('age', form.value.age, t('requiredInputError')),
+  )
 
   return errors.value.filter((x) => x.valid == false).length === 0
 }
@@ -127,6 +139,8 @@ const save = async () => {
       name="birthDate"
       :label="$t('admin.cat.birthDate')"
       v-model="form.birthDate"
+      :valid="StringUtils.getFieldError(errors, 'birthDate')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'birthDate')?.message"
     />
     <SelectWithLabel
       name="gender"
@@ -135,6 +149,8 @@ const save = async () => {
       optionValue="value"
       v-model="form.gender"
       :label="$t('admin.cat.gender')"
+      :valid="StringUtils.getFieldError(errors, 'gender')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'gender')?.message"
     />
     <MultiSelectWithLabel
       name="cat_moods"
@@ -144,6 +160,8 @@ const save = async () => {
       v-model="form.cat_moods"
       :label="$t('admin.cat.mood')"
       :filter="true"
+      :valid="StringUtils.getFieldError(errors, 'cat_moods')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
     />
     <InputNumberWithLabel
       :min="0"
@@ -151,6 +169,8 @@ const save = async () => {
       :label="$t('admin.cat.age')"
       name="age"
       v-model="form.age"
+      :valid="StringUtils.getFieldError(errors, 'age')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'age')?.message"
     />
     <div class="flex justify-between">
       <ToggleSwitchWithLabel
