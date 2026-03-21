@@ -3,7 +3,8 @@ import type { Cat, CatPostPut } from '@/models/Cat'
 import { CatFriendly, CatFriendlyList } from '@/models/Enums/CatFriendlyEnum'
 import { GenderList, Genders } from '@/models/Enums/Genders'
 import { useCatMoodStore } from '@/stores/catMoods'
-import { computed, onMounted, ref } from 'vue'
+import { useCatStore } from '@/stores/cats'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputTextWithLabel from '../Forms/elements/InputTextWithLabel.vue'
 import InputNumberWithLabel from '../Forms/elements/InputNumberWithLabel.vue'
@@ -15,6 +16,7 @@ import { StringUtils } from '@/utils/stringUtils'
 
 const { t } = useI18n()
 const catMoodStore = useCatMoodStore()
+const catStore = useCatStore()
 const emit = defineEmits(['update:visible', 'update:datas'])
 const props = defineProps<{
   cat: Cat | null
@@ -22,7 +24,8 @@ const props = defineProps<{
 }>()
 
 const moods = computed(() => catMoodStore.catMoods)
-const header = computed(() => (props.cat ? props.cat.moods : t('admin.cat.cat-create')))
+const header = computed(() => (props.cat ? props.cat.name : t('admin.cat.cat-create')))
+const isEditMode = computed<boolean>(() => !!props.cat)
 const errors = ref<FormError[]>([])
 const form = ref<CatPostPut>({
   name: props.cat?.name || '',
@@ -36,15 +39,59 @@ const form = ref<CatPostPut>({
   catFriendly: props.cat?.catFriendly || CatFriendly.NO,
   childFriendly: props.cat?.childFriendly || CatFriendly.NO,
   isDuo: props.cat?.isDuo || false,
-  moods: props.cat?.moods || null,
+  cat_moods: props.cat?.cat_moods?.map((m) => m.documentId) || [],
 })
 
+const resetForm = () => {
+  form.value = {
+    name: props.cat?.name || '',
+    gender: props.cat?.gender || Genders.FEMALE,
+    age: props.cat?.age || 0,
+    vaccinated: props.cat?.vaccinated || false,
+    identified: props.cat?.identified || false,
+    sterilized: props.cat?.sterilized || false,
+    decontaminate: props.cat?.decontaminate || false,
+    dogFriendly: props.cat?.dogFriendly || CatFriendly.NO,
+    catFriendly: props.cat?.catFriendly || CatFriendly.NO,
+    childFriendly: props.cat?.childFriendly || CatFriendly.NO,
+    isDuo: props.cat?.isDuo || false,
+    cat_moods: props.cat?.cat_moods?.map((m) => m.documentId) || [],
+  }
+  errors.value = []
+}
+
+watch(() => props.cat, resetForm)
+
 onMounted(() => {
+  resetForm()
   loadData()
 })
 
 const loadData = async () => {
   await catMoodStore.fectchCatMoods()
+}
+
+const checkValidity = () => {
+  errors.value = []
+  errors.value.push(
+    StringUtils.checkInputTextValidity('name', form.value.name, t('requiredInputError')),
+  )
+
+  return errors.value.filter((x) => x.valid == false).length === 0
+}
+
+const save = async () => {
+  const valid = checkValidity()
+
+  if (valid) {
+    if (isEditMode.value) {
+      await catStore.updateCat(props.cat!.id, form.value)
+    } else {
+      await catStore.addCat(form.value)
+    }
+    emit('update:visible', false)
+    emit('update:datas')
+  }
 }
 </script>
 
@@ -70,8 +117,8 @@ const loadData = async () => {
       name="name"
       :label="$t('admin.cat.name')"
       v-model="form.name"
-      :valid="StringUtils.getFieldError(errors, 'username')?.valid"
-      :errorMessage="StringUtils.getFieldError(errors, 'username')?.message"
+      :valid="StringUtils.getFieldError(errors, 'name')?.valid"
+      :errorMessage="StringUtils.getFieldError(errors, 'name')?.message"
     />
     <SelectWithLabel
       name="gender"
@@ -82,12 +129,12 @@ const loadData = async () => {
       :label="$t('admin.cat.gender')"
     />
     <MultiSelectWithLabel
-      name="moods"
+      name="cat_moods"
       :options="moods"
       optionLabel="name"
-      optionValue="id"
-      :value="form.moods"
-      :label="$t('admin.cat.gender')"
+      optionValue="documentId"
+      v-model="form.cat_moods"
+      :label="$t('admin.cat.mood')"
       :filter="true"
     />
     <InputNumberWithLabel
@@ -145,5 +192,22 @@ const loadData = async () => {
       v-model="form.childFriendly"
       :label="$t('admin.cat.childFriendly')"
     />
+    <template #footer>
+      <Button
+        :label="$t('cancel')"
+        text
+        severity="secondary"
+        @click="emit('update:visible', false)"
+        autofocus
+      />
+      <Button
+        :label="$t('save')"
+        variant="outlined"
+        type="submit"
+        severity="success"
+        autofocus
+        @click="save"
+      />
+    </template>
   </Dialog>
 </template>

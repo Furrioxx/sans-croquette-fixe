@@ -1,4 +1,4 @@
-import type { Cat } from '@/models/Cat'
+import type { Cat, CatPostPut } from '@/models/Cat'
 import { CatService } from '@/services/catService'
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
@@ -15,8 +15,26 @@ export const useCatStore = defineStore('cat', () => {
     }
   }
 
+  const addCat = async (cat: CatPostPut) => {
+    try {
+      await CatService.AddCat(cat)
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const updateCat = async (id: number, cat: CatPostPut) => {
+    try {
+      await CatService.UpdateCat(id, cat)
+    } catch (error) {
+      throw error
+    }
+  }
+
   return {
     cats,
     fectchCats,
+    addCat,
+    updateCat,
   }
 })

@@ -2,11 +2,14 @@ import type { CatFriendly } from './Enums/CatFriendlyEnum'
 import type { Genders } from './Enums/Genders'
 
 export interface CatMood {
+  id: number
+  documentId: string
   name: string
 }
 
 export interface Cat {
   id: number
+  documentId: string
   name: string
   gender: Genders
   age: number
@@ -18,7 +21,7 @@ export interface Cat {
   catFriendly: CatFriendly
   childFriendly: CatFriendly
   isDuo: boolean
-  moods: CatMood
+  cat_moods: CatMood[]
 }
 
 export interface CatPostPut {
@@ -33,5 +36,5 @@ export interface CatPostPut {
   catFriendly: CatFriendly
   childFriendly: CatFriendly
   isDuo: boolean
-  moods: CatMood | null
+  cat_moods: string[]
 }

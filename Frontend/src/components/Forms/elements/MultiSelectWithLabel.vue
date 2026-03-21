@@ -5,8 +5,12 @@ const props = defineProps<{
   name: string
   label: string
   optionLabel: string
-  value: any
-  filter: boolean
+  modelValue: any
+  filter?: boolean
+}>()
+
+const emit = defineEmits<{
+  'update:modelValue': [value: any]
 }>()
 </script>
 
@@ -16,9 +20,10 @@ const props = defineProps<{
     <MultiSelect
       :inputId="props.name"
       :options="props.options"
-      v-model="props.value"
+      :model-value="props.modelValue"
       :optionValue="props.optionValue"
       :optionLabel="props.optionLabel"
+      @update:model-value="emit('update:modelValue', $event)"
       class="flex-auto"
       :filter="props.filter"
     />
