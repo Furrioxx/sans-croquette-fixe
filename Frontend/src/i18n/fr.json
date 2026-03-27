@@ -39,6 +39,7 @@
   "refresh": "Rafraîchir",
   "settings": "Paramètres",
   "requiredInputError": "Ce champs est obligatoire",
+  "next": "Suivant",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
@@ -93,11 +94,16 @@
       "birthDate": "Date de naissance",
       "age": "Âge",
       "isDuo": "Chats en duo",
+      "linkedVolunteer": "Bénévole responsable",
       "catFriendly": "Ententes avec les chats",
       "dogFriendly": "Ententes avec les chiens",
       "childFriendly": "Ententes avec les enfants",
-      "step-info": "Information chat 1",
-      "step-images": "Gallerie"
+      "step-general": "Général",
+      "step-cat1": "Chat 1",
+      "step-cat2": "Chat 2",
+      "step-images": "Galerie",
+      "images-helper": "Gérer les photos de la fiche",
+      "existing-images": "Images existantes"
     }
   }
 }

@@ -1,152 +1,161 @@
 <script setup lang="ts">
-import type { Cat, CatPostPut } from '@/models/Cat'
-import { CatFriendly, CatFriendlyList } from '@/models/Enums/CatFriendlyEnum'
-import { GenderList, Genders } from '@/models/Enums/Genders'
-import { useCatMoodStore } from '@/stores/catMoods'
+import type { CatPostPut } from '@/models/Cat'
+import type { CatSheet } from '@/models/CatSheet'
+import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
+import { Genders } from '@/models/Enums/Genders'
 import { useCatStore } from '@/stores/cats'
+import { useCatSheetStore } from '@/stores/catSheets'
+import { useCatMoodStore } from '@/stores/catMoods'
+import { UserService } from '@/services/userService'
+import type { User } from '@/models/User'
 import { computed, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
-import InputTextWithLabel from '../Forms/elements/InputTextWithLabel.vue'
-import DatePickerWithLabel from '../Forms/elements/DatePickerWithLabel.vue'
-import InputNumberWithLabel from '../Forms/elements/InputNumberWithLabel.vue'
-import SelectWithLabel from '../Forms/elements/SelectWithLabel.vue'
-import MultiSelectWithLabel from '../Forms/elements/MultiSelectWithLabel.vue'
-import ToggleSwitchWithLabel from '../Forms/elements/ToggleSwitchWithLabel.vue'
-import type { FormError } from '@/models/FormError'
-import { StringUtils } from '@/utils/stringUtils'
+import CatFormPanel from '../Forms/CatFormPanel.vue'
+import CatSheetGeneralPanel from '../Forms/CatSheetGeneralPanel.vue'
+import CatSheetImagesPanel from '../Forms/CatSheetImagesPanel.vue'
 
 const { t } = useI18n()
-const catMoodStore = useCatMoodStore()
 const catStore = useCatStore()
+const catSheetStore = useCatSheetStore()
+const catMoodStore = useCatMoodStore()
 const emit = defineEmits(['update:visible', 'update:datas'])
 const props = defineProps<{
-  cat: Cat | null
+  catSheet: CatSheet | null
   visible: boolean
 }>()
 
-const moods = computed(() => catMoodStore.catMoods)
-const header = computed(() => (props.cat ? props.cat.name : t('admin.cat.cat-create')))
-const isEditMode = computed<boolean>(() => !!props.cat)
-const errors = ref<FormError[]>([])
-const activeStep = ref('1')
-const pendingImages = ref<File[]>([])
-const keptExistingImageIds = ref<number[]>(props.cat?.images?.map((i) => i.id) || [])
-
-const existingImages = computed(
-  () => props.cat?.images?.filter((img) => keptExistingImageIds.value.includes(img.id)) || [],
+const header = computed(() =>
+  props.catSheet ? t('admin.cat.cat-edit-helper') : t('admin.cat.cat-create'),
 )
+const isEditMode = computed<boolean>(() => !!props.catSheet)
+const activeStep = ref('1')
+const cat1Panel = ref<InstanceType<typeof CatFormPanel> | null>(null)
+const cat2Panel = ref<InstanceType<typeof CatFormPanel> | null>(null)
+const imagesPanel = ref<InstanceType<typeof CatSheetImagesPanel> | null>(null)
 
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
+const volunteers = ref<User[]>([])
+
+const generalForm = ref({
+  isDuo: props.catSheet?.isDuo || false,
+  linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null as number | null,
+})
+
+const makeCatForm = (index: number): CatPostPut => {
+  const cat = props.catSheet?.cats?.[index]
+  return {
+    name: cat?.name || '',
+    birthDate: cat?.birthDate || null,
+    gender: cat?.gender || Genders.FEMALE,
+    age: cat?.age || 0,
+    vaccinated: cat?.vaccinated || false,
+    identified: cat?.identified || false,
+    sterilized: cat?.sterilized || false,
+    decontaminate: cat?.decontaminate || false,
+    dogFriendly: cat?.dogFriendly || CatFriendly.NO,
+    catFriendly: cat?.catFriendly || CatFriendly.NO,
+    childFriendly: cat?.childFriendly || CatFriendly.NO,
+    cat_moods: cat?.cat_moods?.map((m) => m.documentId) || [],
+  }
 }
 
-const form = ref<CatPostPut>({
-  name: props.cat?.name || '',
-  birthDate: props.cat?.birthDate || null,
-  gender: props.cat?.gender || Genders.FEMALE,
-  age: props.cat?.age || 0,
-  vaccinated: props.cat?.vaccinated || false,
-  identified: props.cat?.identified || false,
-  sterilized: props.cat?.sterilized || false,
-  decontaminate: props.cat?.decontaminate || false,
-  dogFriendly: props.cat?.dogFriendly || CatFriendly.NO,
-  catFriendly: props.cat?.catFriendly || CatFriendly.NO,
-  childFriendly: props.cat?.childFriendly || CatFriendly.NO,
-  isDuo: props.cat?.isDuo || false,
-  cat_moods: props.cat?.cat_moods?.map((m) => m.documentId) || [],
-})
+const cat1Form = ref<CatPostPut>(makeCatForm(0))
+const cat2Form = ref<CatPostPut>(makeCatForm(1))
 
 const resetForm = () => {
-  form.value = {
-    name: props.cat?.name || '',
-    birthDate: props.cat?.birthDate || null,
-    gender: props.cat?.gender || Genders.FEMALE,
-    age: props.cat?.age || 0,
-    vaccinated: props.cat?.vaccinated || false,
-    identified: props.cat?.identified || false,
-    sterilized: props.cat?.sterilized || false,
-    decontaminate: props.cat?.decontaminate || false,
-    dogFriendly: props.cat?.dogFriendly || CatFriendly.NO,
-    catFriendly: props.cat?.catFriendly || CatFriendly.NO,
-    childFriendly: props.cat?.childFriendly || CatFriendly.NO,
-    isDuo: props.cat?.isDuo || false,
-    cat_moods: props.cat?.cat_moods?.map((m) => m.documentId) || [],
+  generalForm.value = {
+    isDuo: props.catSheet?.isDuo || false,
+    linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null,
   }
-  errors.value = []
+  cat1Form.value = makeCatForm(0)
+  cat2Form.value = makeCatForm(1)
   activeStep.value = '1'
-  pendingImages.value = []
-  keptExistingImageIds.value = props.cat?.images?.map((i) => i.id) || []
+  imagesPanel.value?.reset(props.catSheet?.images || [])
 }
 
-watch(() => props.cat, resetForm)
+watch(() => props.catSheet, resetForm)
 
-onMounted(() => {
+onMounted(async () => {
   resetForm()
-  loadData()
+  await Promise.all([catMoodStore.fectchCatMoods(), loadVolunteers()])
 })
 
-const loadData = async () => {
-  await catMoodStore.fectchCatMoods()
+const loadVolunteers = async () => {
+  try {
+    const response = await UserService.GetVolunteers()
+    volunteers.value = response.data.data
+  } catch (error) {
+    console.error('Error fetching volunteers:', error)
+  }
 }
 
-const checkValidity = () => {
-  errors.value = []
-  errors.value.push(
-    StringUtils.checkInputTextValidity('name', form.value.name, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkRequiredValidity('birthDate', form.value.birthDate, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkRequiredValidity('gender', form.value.gender, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkArrayValidity('cat_moods', form.value.cat_moods, t('requiredInputError')),
-  )
-  errors.value.push(StringUtils.checkNumberValidity('age', form.value.age, t('requiredInputError')))
-
-  return errors.value.filter((x) => x.valid == false).length === 0
+const goNext = () => {
+  if (activeStep.value === '1') {
+    activeStep.value = '2'
+  } else if (activeStep.value === '2') {
+    if (!cat1Panel.value?.validate()) return
+    activeStep.value = generalForm.value.isDuo ? '3' : '4'
+  } else if (activeStep.value === '3') {
+    if (!cat2Panel.value?.validate()) return
+    activeStep.value = '4'
+  }
 }
 
-const goToStep2 = () => {
-  if (checkValidity()) activeStep.value = '2'
+const goBack = () => {
+  if (activeStep.value === '4') {
+    activeStep.value = generalForm.value.isDuo ? '3' : '2'
+  } else if (activeStep.value === '3') {
+    activeStep.value = '2'
+  } else if (activeStep.value === '2') {
+    activeStep.value = '1'
+  }
 }
 
-const onImagesSelect = (event: any) => {
-  pendingImages.value = event.files
-}
-
-const onImagesRemove = (event: any) => {
-  pendingImages.value = event.files
-}
-
-const onImagesClear = () => {
-  pendingImages.value = []
-}
-
-const removeExistingImage = (imageId: number) => {
-  keptExistingImageIds.value = keptExistingImageIds.value.filter((id) => id !== imageId)
-}
+const isLastStep = computed(
+  () => activeStep.value === '4' || (activeStep.value === '3' && !generalForm.value.isDuo),
+)
 
 const save = async () => {
-  let uploadedIds: number[] = []
+  const { keptIds, pendingFiles } = imagesPanel.value!.getState()
 
-  if (pendingImages.value.length > 0) {
+  let uploadedIds: number[] = []
+  if (pendingFiles.length > 0) {
     const formData = new FormData()
-    pendingImages.value.forEach((file) => formData.append('files', file))
-    uploadedIds = await catStore.uploadImages(formData)
+    pendingFiles.forEach((file) => formData.append('files', file))
+    uploadedIds = await catSheetStore.uploadImages(formData)
   }
 
-  const payload: CatPostPut = {
-    ...form.value,
-    images: [...keptExistingImageIds.value, ...uploadedIds],
+  let cat1DocumentId: string
+  let cat2DocumentId: string | undefined
+
+  if (isEditMode.value && props.catSheet!.cats?.[0]) {
+    await catStore.updateCat(props.catSheet!.cats[0].documentId, cat1Form.value)
+    cat1DocumentId = props.catSheet!.cats[0].documentId
+  } else {
+    const response = await catStore.addCatAndReturn(cat1Form.value)
+    cat1DocumentId = response.documentId
+  }
+
+  if (generalForm.value.isDuo) {
+    if (isEditMode.value && props.catSheet!.cats?.[1]) {
+      await catStore.updateCat(props.catSheet!.cats[1].documentId, cat2Form.value)
+      cat2DocumentId = props.catSheet!.cats[1].documentId
+    } else {
+      const response = await catStore.addCatAndReturn(cat2Form.value)
+      cat2DocumentId = response.documentId
+    }
+  }
+
+  const payload = {
+    isDuo: generalForm.value.isDuo,
+    cats: cat2DocumentId ? [cat1DocumentId, cat2DocumentId] : [cat1DocumentId],
+    linkedVolunteer: generalForm.value.linkedVolunteer,
+    images: [...keptIds, ...uploadedIds],
   }
 
   if (isEditMode.value) {
-    await catStore.updateCat(props.cat!.documentId, payload)
+    await catSheetStore.updateCatSheet(props.catSheet!.documentId, payload)
   } else {
-    await catStore.addCat(payload)
+    await catSheetStore.addCatSheet(payload)
   }
 
   emit('update:visible', false)
@@ -169,154 +178,35 @@ const save = async () => {
 
     <Stepper v-model:value="activeStep" :linear="!isEditMode" class="w-full">
       <StepList>
-        <Step value="1">{{ $t('admin.cat.step-info') }}</Step>
-        <Step value="2">{{ $t('admin.cat.step-images') }}</Step>
+        <Step value="1">{{ $t('admin.cat.step-general') }}</Step>
+        <Step value="2">{{ $t('admin.cat.step-cat1') }}</Step>
+        <Step value="3" v-if="generalForm.isDuo">{{ $t('admin.cat.step-cat2') }}</Step>
+        <Step value="4">{{ $t('admin.cat.step-images') }}</Step>
       </StepList>
 
       <StepPanels>
         <StepPanel value="1">
-          <span class="text-surface-500 dark:text-surface-400 block mb-4">{{
-            $t('admin.cat.cat-edit-helper')
-          }}</span>
-
-          <ToggleSwitchWithLabel name="isDuo" v-model="form.isDuo" :label="$t('admin.cat.isDuo')" />
-          <InputTextWithLabel
-            name="name"
-            :label="$t('admin.cat.name')"
-            v-model="form.name"
-            required
-            :valid="StringUtils.getFieldError(errors, 'name')?.valid"
-            :errorMessage="StringUtils.getFieldError(errors, 'name')?.message"
-          />
-          <DatePickerWithLabel
-            name="birthDate"
-            :label="$t('admin.cat.birthDate')"
-            v-model="form.birthDate"
-            required
-            :valid="StringUtils.getFieldError(errors, 'birthDate')?.valid"
-            :errorMessage="StringUtils.getFieldError(errors, 'birthDate')?.message"
-          />
-          <SelectWithLabel
-            name="gender"
-            :options="GenderList"
-            optionLabel="label"
-            optionValue="value"
-            v-model="form.gender"
-            :label="$t('admin.cat.gender')"
-            required
-            :valid="StringUtils.getFieldError(errors, 'gender')?.valid"
-            :errorMessage="StringUtils.getFieldError(errors, 'gender')?.message"
-          />
-          <MultiSelectWithLabel
-            name="cat_moods"
-            :options="moods"
-            optionLabel="name"
-            optionValue="documentId"
-            v-model="form.cat_moods"
-            :label="$t('admin.cat.mood')"
-            :filter="true"
-            required
-            :valid="StringUtils.getFieldError(errors, 'cat_moods')?.valid"
-            :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
-          />
-          <InputNumberWithLabel
-            :min="0"
-            :max="25"
-            :label="$t('admin.cat.age')"
-            name="age"
-            v-model="form.age"
-            required
-            :valid="StringUtils.getFieldError(errors, 'age')?.valid"
-            :errorMessage="StringUtils.getFieldError(errors, 'age')?.message"
-          />
-          <div class="flex justify-between">
-            <ToggleSwitchWithLabel
-              name="identified"
-              v-model="form.identified"
-              :label="$t('admin.cat.identified')"
-            />
-            <ToggleSwitchWithLabel
-              name="decontaminate"
-              v-model="form.decontaminate"
-              :label="$t('admin.cat.decontaminate')"
-            />
-          </div>
-          <div class="flex justify-between">
-            <ToggleSwitchWithLabel
-              name="sterilized"
-              v-model="form.sterilized"
-              :label="$t('admin.cat.sterilized')"
-            />
-            <ToggleSwitchWithLabel
-              name="vaccinated"
-              v-model="form.vaccinated"
-              :label="$t('admin.cat.vaccinated')"
-            />
-          </div>
-          <div class="flex justify-between gap-3">
-            <SelectWithLabel
-              name="catFriendly"
-              :options="CatFriendlyList"
-              optionLabel="label"
-              optionValue="value"
-              v-model="form.catFriendly"
-              :label="$t('admin.cat.catFriendly')"
-            />
-            <SelectWithLabel
-              name="dogFriendly"
-              :options="CatFriendlyList"
-              optionLabel="label"
-              optionValue="value"
-              v-model="form.dogFriendly"
-              :label="$t('admin.cat.dogFriendly')"
-            />
-          </div>
-          <SelectWithLabel
-            name="childFriendly"
-            :options="CatFriendlyList"
-            optionLabel="label"
-            optionValue="value"
-            v-model="form.childFriendly"
-            :label="$t('admin.cat.childFriendly')"
+          <CatSheetGeneralPanel
+            :isDuo="generalForm.isDuo"
+            :linkedVolunteer="generalForm.linkedVolunteer"
+            :volunteers="volunteers"
+            @update:isDuo="generalForm.isDuo = $event"
+            @update:linkedVolunteer="generalForm.linkedVolunteer = $event"
           />
         </StepPanel>
 
         <StepPanel value="2">
-          <span class="text-surface-500 dark:text-surface-400 block mb-4">{{
-            $t('admin.cat.images-helper')
-          }}</span>
+          <CatFormPanel ref="cat1Panel" v-model="cat1Form" />
+        </StepPanel>
 
-          <div v-if="existingImages.length > 0" class="mb-4">
-            <p class="font-semibold mb-2">{{ $t('admin.cat.existing-images') }}</p>
-            <div class="flex flex-wrap gap-3">
-              <div v-for="image in existingImages" :key="image.id" class="relative">
-                <img
-                  :src="getImageUrl(image.url)"
-                  :alt="image.name"
-                  class="w-24 h-24 object-cover rounded"
-                />
-                <Button
-                  icon="pi pi-times"
-                  rounded
-                  text
-                  severity="danger"
-                  size="small"
-                  class="absolute -top-2 -right-2"
-                  @click="removeExistingImage(image.id)"
-                />
-              </div>
-            </div>
-          </div>
+        <StepPanel value="3">
+          <CatFormPanel ref="cat2Panel" v-model="cat2Form" />
+        </StepPanel>
 
-          <FileUpload
-            :multiple="true"
-            accept="image/*"
-            customUpload
-            @select="onImagesSelect"
-            @remove="onImagesRemove"
-            @clear="onImagesClear"
-            @uploader="() => {}"
-            :showUploadButton="false"
+        <StepPanel value="4">
+          <CatSheetImagesPanel
+            ref="imagesPanel"
+            :initialImages="props.catSheet?.images || []"
           />
         </StepPanel>
       </StepPanels>
@@ -330,22 +220,22 @@ const save = async () => {
         @click="emit('update:visible', false)"
       />
       <Button
-        v-if="activeStep === '2'"
+        v-if="activeStep !== '1'"
         :label="$t('back')"
         severity="secondary"
         icon="pi pi-arrow-left"
-        @click="activeStep = '1'"
+        @click="goBack"
       />
       <Button
-        v-if="activeStep === '1'"
+        v-if="!isLastStep"
         :label="$t('next')"
         severity="info"
         icon="pi pi-arrow-right"
         iconPos="right"
-        @click="goToStep2"
+        @click="goNext"
       />
       <Button
-        v-if="activeStep === '2'"
+        v-if="isLastStep"
         :label="$t('save')"
         variant="outlined"
         severity="success"

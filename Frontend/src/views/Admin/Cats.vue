@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import CatSheetModal from '@/components/Modals/CatSheetModal.vue'
-import { useCatStore } from '@/stores/cats'
-import { Genders } from '@/models/Enums/Genders'
+import { useCatSheetStore } from '@/stores/catSheets'
 
-const catStore = useCatStore()
+const catSheetStore = useCatSheetStore()
 const loading = ref<boolean>(false)
 const op = ref()
 const editModalVisible = ref<boolean>(false)
-const selectedCatId = ref<number | null>(null)
+const selectedCatSheetId = ref<number | null>(null)
 
-const cats = computed(() => catStore.cats)
-const selectedCat = computed(() => catStore.selectedCat)
+const catSheets = computed(() => catSheetStore.catSheets)
+const selectedCatSheet = computed(() => catSheetStore.selectedCatSheet)
 
 onMounted(() => {
   loadData()
@@ -20,55 +19,34 @@ onMounted(() => {
 const loadData = async () => {
   try {
     loading.value = true
-    await catStore.fectchCats()
+    await catSheetStore.fetchCatSheets()
   } catch (error) {
-    console.error('Error fetching cats:', error)
+    console.error('Error fetching cat sheets:', error)
   } finally {
     loading.value = false
   }
 }
 
-const togglePopover = (event: any, catId: number) => {
+const togglePopover = (event: any, catSheetId: number) => {
   op.value.toggle(event)
-  selectedCatId.value = catId
+  selectedCatSheetId.value = catSheetId
 }
 
-const editCat = () => {
-  catStore.selectedCat = cats.value.find((c) => c.id === selectedCatId.value) ?? null
+const editCatSheet = () => {
+  catSheetStore.selectedCatSheet =
+    catSheets.value.find((s) => s.id === selectedCatSheetId.value) ?? null
   editModalVisible.value = true
 }
 
 const closeModal = (visible: boolean) => {
   editModalVisible.value = visible
-  catStore.selectedCat = null
-}
-
-const getGenderSeverity = (gender: Genders) => {
-  switch (gender) {
-    case Genders.MALE:
-      return 'info'
-    case Genders.FEMALE:
-      return 'warn'
-    default:
-      return 'secondary'
-  }
-}
-
-const getGenderLabel = (gender: Genders) => {
-  switch (gender) {
-    case Genders.MALE:
-      return 'Mâle'
-    case Genders.FEMALE:
-      return 'Femelle'
-    default:
-      return 'Non déterminé'
-  }
+  catSheetStore.selectedCatSheet = null
 }
 </script>
 
 <template>
   <CatSheetModal
-    :cat="selectedCat"
+    :catSheet="selectedCatSheet"
     :visible="editModalVisible"
     @update:visible="closeModal($event)"
     @update:datas="loadData"
@@ -82,7 +60,7 @@ const getGenderLabel = (gender: Genders) => {
     @click="editModalVisible = true"
   />
 
-  <DataTable :value="cats" :loading="loading" tableStyle="min-width: 50rem">
+  <DataTable :value="catSheets" :loading="loading" tableStyle="min-width: 50rem">
     <template #header>
       <div class="flex flex-wrap items-center justify-between gap-2">
         <span class="text-xl font-bold">{{ $t('admin.cat.cats') }}</span>
@@ -96,32 +74,18 @@ const getGenderLabel = (gender: Genders) => {
       </div>
     </template>
 
-    <Column field="name" :header="$t('admin.cat.name')"></Column>
-
-    <Column :header="$t('admin.cat.gender')">
+    <Column :header="$t('admin.cat.name')">
       <template #body="slotProps">
-        <Tag
-          :value="getGenderLabel(slotProps.data.gender)"
-          :severity="getGenderSeverity(slotProps.data.gender)"
-        />
+        <div class="flex flex-col gap-1">
+          <span v-for="cat in slotProps.data.cats" :key="cat.id">{{ cat.name }}</span>
+        </div>
       </template>
     </Column>
 
-    <Column field="age" :header="$t('admin.cat.age')"></Column>
-
-    <Column field="birthDate" :header="$t('admin.cat.birthDate')"></Column>
-
-    <Column :header="$t('admin.cat.vaccinated')">
+    <Column :header="$t('admin.cat.linkedVolunteer')">
       <template #body="slotProps">
-        <i class="pi pi-check-circle text-green-500" v-if="slotProps.data.vaccinated"></i>
-        <i class="pi pi-times-circle text-red-500" v-else></i>
-      </template>
-    </Column>
-
-    <Column :header="$t('admin.cat.sterilized')">
-      <template #body="slotProps">
-        <i class="pi pi-check-circle text-green-500" v-if="slotProps.data.sterilized"></i>
-        <i class="pi pi-times-circle text-red-500" v-else></i>
+        <span v-if="slotProps.data.linkedVolunteer">{{ slotProps.data.linkedVolunteer.username }}</span>
+        <span v-else class="text-surface-400">—</span>
       </template>
     </Column>
 
@@ -132,16 +96,9 @@ const getGenderLabel = (gender: Genders) => {
       </template>
     </Column>
 
-    <Column :header="$t('admin.cat.mood')">
+    <Column :header="$t('admin.cat.step-images')">
       <template #body="slotProps">
-        <div class="flex flex-wrap gap-1">
-          <Tag
-            v-for="mood in slotProps.data.cat_moods"
-            :key="mood.id"
-            :value="mood.name"
-            severity="secondary"
-          />
-        </div>
+        <span>{{ slotProps.data.images?.length || 0 }}</span>
       </template>
     </Column>
 
@@ -160,7 +117,7 @@ const getGenderLabel = (gender: Genders) => {
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">
-      <li class="btn-bis text-gray-600 hover:text-gray-900" @click="editCat">
+      <li class="btn-bis text-gray-600 hover:text-gray-900" @click="editCatSheet">
         <i class="pi pi-pencil"></i>
         <span>{{ $t('update') }}</span>
       </li>

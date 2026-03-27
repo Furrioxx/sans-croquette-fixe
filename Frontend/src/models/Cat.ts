@@ -28,9 +28,7 @@ export interface Cat {
   dogFriendly: CatFriendly
   catFriendly: CatFriendly
   childFriendly: CatFriendly
-  isDuo: boolean
   cat_moods: CatMood[]
-  images: StrapiMedia[]
 }
 
 export interface CatPostPut {
@@ -45,7 +43,5 @@ export interface CatPostPut {
   dogFriendly: CatFriendly
   catFriendly: CatFriendly
   childFriendly: CatFriendly
-  isDuo: boolean
   cat_moods: string[]
-  images?: number[]
 }

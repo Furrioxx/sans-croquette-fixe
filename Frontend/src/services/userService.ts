@@ -4,6 +4,9 @@ import { axiosInstance } from './axiosInsance'
 const API_URL = '/users'
 
 export const UserService = {
+  GetVolunteers: async () => {
+    return await axiosInstance.get('/user-roles/volunteers')
+  },
   GetAvailableRoles: async () => {
     return await axiosInstance.get('/user-roles/available')
   },

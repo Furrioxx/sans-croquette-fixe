@@ -18,6 +18,17 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
     ctx.body = { data: filteredRoles };
   },
 
+  async getVolunteers(ctx) {
+    const volunteers = await strapi.db
+      .query("plugin::users-permissions.user")
+      .findMany({
+        where: { role: { name: "Volunteer" } },
+        populate: { role: true },
+      });
+
+    ctx.body = { data: volunteers };
+  },
+
   async updateUserRole(ctx) {
     const { userId } = ctx.params;
     const { roleId } = ctx.request.body as { roleId: number };

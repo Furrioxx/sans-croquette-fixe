@@ -24,6 +24,15 @@ export const useCatStore = defineStore('cat', () => {
     }
   }
 
+  const addCatAndReturn = async (cat: CatPostPut): Promise<Cat> => {
+    try {
+      const response = await CatService.AddCat(cat)
+      return response.data.data
+    } catch (error) {
+      throw error
+    }
+  }
+
   const updateCat = async (id: string, cat: CatPostPut) => {
     try {
       await CatService.UpdateCat(id, cat)
@@ -46,6 +55,7 @@ export const useCatStore = defineStore('cat', () => {
     selectedCat,
     fectchCats,
     addCat,
+    addCatAndReturn,
     updateCat,
     uploadImages,
   }
