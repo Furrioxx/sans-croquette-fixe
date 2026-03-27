@@ -64,6 +64,11 @@ const routes = [
         name: RouteNames.DASHBOARD_ANALYTICS,
       },
       {
+        path: 'absences',
+        component: () => import('../views/Admin/Absences.vue'),
+        name: RouteNames.DASHBOARD_ABSENCES,
+      },
+      {
         path: 'settings',
         component: () => import('../views/Admin/Settings.vue'),
         name: RouteNames.DASHBOARD_SETTINGS,

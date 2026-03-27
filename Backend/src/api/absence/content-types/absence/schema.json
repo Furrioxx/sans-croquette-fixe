@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "absences",
+  "info": {
+    "singularName": "absence",
+    "pluralName": "absences",
+    "displayName": "Absence"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "startDate": {
+      "type": "datetime"
+    },
+    "endDate": {
+      "type": "datetime"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "absence_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "approved"
+      ]
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "absences"
+    }
+  }
+}
