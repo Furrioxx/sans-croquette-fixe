@@ -32,8 +32,8 @@ const activeStep = ref('1')
 const pendingImages = ref<File[]>([])
 const keptExistingImageIds = ref<number[]>(props.cat?.images?.map((i) => i.id) || [])
 
-const existingImages = computed(() =>
-  props.cat?.images?.filter((img) => keptExistingImageIds.value.includes(img.id)) || [],
+const existingImages = computed(
+  () => props.cat?.images?.filter((img) => keptExistingImageIds.value.includes(img.id)) || [],
 )
 
 const getImageUrl = (url: string) => {
@@ -104,9 +104,7 @@ const checkValidity = () => {
   errors.value.push(
     StringUtils.checkArrayValidity('cat_moods', form.value.cat_moods, t('requiredInputError')),
   )
-  errors.value.push(
-    StringUtils.checkNumberValidity('age', form.value.age, t('requiredInputError')),
-  )
+  errors.value.push(StringUtils.checkNumberValidity('age', form.value.age, t('requiredInputError')))
 
   return errors.value.filter((x) => x.valid == false).length === 0
 }
@@ -169,7 +167,7 @@ const save = async () => {
       </div>
     </template>
 
-    <Stepper v-model:value="activeStep" linear class="w-full">
+    <Stepper v-model:value="activeStep" :linear="!isEditMode" class="w-full">
       <StepList>
         <Step value="1">{{ $t('admin.cat.step-info') }}</Step>
         <Step value="2">{{ $t('admin.cat.step-images') }}</Step>
@@ -181,11 +179,7 @@ const save = async () => {
             $t('admin.cat.cat-edit-helper')
           }}</span>
 
-          <ToggleSwitchWithLabel
-            name="isDuo"
-            v-model="form.isDuo"
-            :label="$t('admin.cat.isDuo')"
-          />
+          <ToggleSwitchWithLabel name="isDuo" v-model="form.isDuo" :label="$t('admin.cat.isDuo')" />
           <InputTextWithLabel
             name="name"
             :label="$t('admin.cat.name')"
@@ -259,22 +253,24 @@ const save = async () => {
               :label="$t('admin.cat.vaccinated')"
             />
           </div>
-          <SelectWithLabel
-            name="catFriendly"
-            :options="CatFriendlyList"
-            optionLabel="label"
-            optionValue="value"
-            v-model="form.catFriendly"
-            :label="$t('admin.cat.catFriendly')"
-          />
-          <SelectWithLabel
-            name="dogFriendly"
-            :options="CatFriendlyList"
-            optionLabel="label"
-            optionValue="value"
-            v-model="form.dogFriendly"
-            :label="$t('admin.cat.dogFriendly')"
-          />
+          <div class="flex justify-between gap-3">
+            <SelectWithLabel
+              name="catFriendly"
+              :options="CatFriendlyList"
+              optionLabel="label"
+              optionValue="value"
+              v-model="form.catFriendly"
+              :label="$t('admin.cat.catFriendly')"
+            />
+            <SelectWithLabel
+              name="dogFriendly"
+              :options="CatFriendlyList"
+              optionLabel="label"
+              optionValue="value"
+              v-model="form.dogFriendly"
+              :label="$t('admin.cat.dogFriendly')"
+            />
+          </div>
           <SelectWithLabel
             name="childFriendly"
             :options="CatFriendlyList"
@@ -293,11 +289,7 @@ const save = async () => {
           <div v-if="existingImages.length > 0" class="mb-4">
             <p class="font-semibold mb-2">{{ $t('admin.cat.existing-images') }}</p>
             <div class="flex flex-wrap gap-3">
-              <div
-                v-for="image in existingImages"
-                :key="image.id"
-                class="relative"
-              >
+              <div v-for="image in existingImages" :key="image.id" class="relative">
                 <img
                   :src="getImageUrl(image.url)"
                   :alt="image.name"

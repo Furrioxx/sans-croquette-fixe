@@ -21,8 +21,10 @@ const handleUpdate = (value: string | undefined) => {
 </script>
 
 <template>
-  <div class="flex items-center gap-4 mb-2">
-    <label :for="props.name" class="font-semibold w-32">{{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span></label>
+  <div class="flex items-center gap-4 mb-2 flex-1">
+    <label :for="props.name" class="font-semibold w-32"
+      >{{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span></label
+    >
     <Select
       :inputId="props.name"
       :options="props.options"

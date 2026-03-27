@@ -95,7 +95,9 @@
       "isDuo": "Chats en duo",
       "catFriendly": "Ententes avec les chats",
       "dogFriendly": "Ententes avec les chiens",
-      "childFriendly": "Ententes avec les enfants"
+      "childFriendly": "Ententes avec les enfants",
+      "step-info": "Information chat 1",
+      "step-images": "Gallerie"
     }
   }
 }
