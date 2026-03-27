@@ -64,23 +64,10 @@
         "unknown"
       ]
     },
-    "isDuo": {
-      "type": "boolean"
-    },
     "cat_moods": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cat-mood.cat-mood"
-    },
-    "images": {
-      "type": "media",
-      "multiple": true,
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos",
-        "audios"
-      ]
     }
   }
 }

@@ -495,6 +495,39 @@ export interface ApiCatMoodCatMood extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
+  collectionName: 'cat_sheets';
+  info: {
+    displayName: 'CatSheet';
+    pluralName: 'cat-sheets';
+    singularName: 'cat-sheet';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    cats: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isDuo: Schema.Attribute.Boolean;
+    linkedVolunteer: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cat-sheet.cat-sheet'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiCatCat extends Struct.CollectionTypeSchema {
   collectionName: 'cats';
   info: {
@@ -518,11 +551,6 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     dogFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']>;
     identified: Schema.Attribute.Boolean;
-    images: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
-    isDuo: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &
       Schema.Attribute.Private;
@@ -1048,6 +1076,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::cat-mood.cat-mood': ApiCatMoodCatMood;
+      'api::cat-sheet.cat-sheet': ApiCatSheetCatSheet;
       'api::cat.cat': ApiCatCat;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
