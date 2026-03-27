@@ -17,6 +17,7 @@ const logout = () => {
 }
 const items = [
   { label: t('admin.nav.dashboard'), icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
+  { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },
   {
     label: t('admin.nav.analytics'),
     icon: 'pi pi-chart-line',

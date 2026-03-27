@@ -9,6 +9,14 @@ export default {
       },
     },
     {
+      method: "GET",
+      path: "/user-roles/volunteers",
+      handler: "api::user-role.user-role.getVolunteers",
+      config: {
+        policies: ["global::is-admin"],
+      },
+    },
+    {
       method: "PUT",
       path: "/user-roles/:userId",
       handler: "api::user-role.user-role.updateUserRole",

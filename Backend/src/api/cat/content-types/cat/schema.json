@@ -1,0 +1,70 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cats",
+  "info": {
+    "singularName": "cat",
+    "pluralName": "cats",
+    "displayName": "Cat"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "identified": {
+      "type": "boolean"
+    },
+    "name": {
+      "type": "string"
+    },
+    "birthDate": {
+      "type": "date"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "male",
+        "female",
+        "not_determined"
+      ]
+    },
+    "vaccinated": {
+      "type": "boolean"
+    },
+    "sterilized": {
+      "type": "boolean"
+    },
+    "decontaminate": {
+      "type": "boolean"
+    },
+    "dogFriendly": {
+      "type": "enumeration",
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "catFriendly": {
+      "type": "enumeration",
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "childFriendly": {
+      "type": "enumeration",
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    },
+    "cat_moods": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cat-mood.cat-mood"
+    }
+  }
+}

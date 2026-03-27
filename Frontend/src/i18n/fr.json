@@ -38,12 +38,17 @@
   "share": "Partager",
   "refresh": "Rafraîchir",
   "settings": "Paramètres",
+  "requiredInputError": "Ce champs est obligatoire",
+  "next": "Suivant",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
     "register": "Inscription",
     "dashboard": "Tableau de bord",
-    "dashboard-users": "Utilisateurs"
+    "dashboard-users": "Utilisateurs",
+    "dashboard-settings": "Paramètres",
+    "dashboard-analytics": "Analytics",
+    "dashboard-cats": "Fiches chat"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -67,12 +72,37 @@
       "dashboard": "Tableau de bord",
       "analytics": "Analytics",
       "users": "Utilisateurs",
-      "settings": "Paramètres"
+      "settings": "Paramètres",
+      "cats": "Fiches chat"
     },
     "user-create": "Créer un utilisateur",
     "users": "Utilisateurs",
     "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
     "user-edit-helper": "Modifier les informations de l'utilisateur",
-    "block-user": "Bloquer l'utilisateur"
+    "block-user": "Bloquer l'utilisateur",
+    "cat": {
+      "cats": "Fiches chat",
+      "mood": "Humeur du chat",
+      "cat-create": "Créer une fiche chat",
+      "cat-edit-helper": "Modifier les informations de la fiche chat",
+      "name": "Nom du chat",
+      "gender": "Genre du chat",
+      "identified": "Identifié",
+      "vaccinated": "Vacciné",
+      "decontaminate": "Déparasité",
+      "sterilized": "Stérilisé",
+      "birthDate": "Date de naissance",
+      "isDuo": "Chats en duo",
+      "linkedVolunteer": "Bénévole responsable",
+      "catFriendly": "Ententes avec les chats",
+      "dogFriendly": "Ententes avec les chiens",
+      "childFriendly": "Ententes avec les enfants",
+      "step-general": "Général",
+      "step-cat1": "Chat 1",
+      "step-cat2": "Chat 2",
+      "step-images": "Galerie",
+      "images-helper": "Gérer les photos de la fiche",
+      "existing-images": "Images existantes"
+    }
   }
 }
