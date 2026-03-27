@@ -29,6 +29,7 @@ const header = computed(() =>
 )
 const isEditMode = computed<boolean>(() => !!props.catSheet)
 const activeStep = ref('1')
+const generalPanel = ref<InstanceType<typeof CatSheetGeneralPanel> | null>(null)
 const cat1Panel = ref<InstanceType<typeof CatFormPanel> | null>(null)
 const cat2Panel = ref<InstanceType<typeof CatFormPanel> | null>(null)
 const imagesPanel = ref<InstanceType<typeof CatSheetImagesPanel> | null>(null)
@@ -89,6 +90,7 @@ const loadVolunteers = async () => {
 
 const goNext = () => {
   if (activeStep.value === '1') {
+    if (!generalPanel.value?.validate()) return
     activeStep.value = '2'
   } else if (activeStep.value === '2') {
     if (!cat1Panel.value?.validate()) return
@@ -186,6 +188,7 @@ const save = async () => {
       <StepPanels>
         <StepPanel value="1">
           <CatSheetGeneralPanel
+            ref="generalPanel"
             :isDuo="generalForm.isDuo"
             :linkedVolunteer="generalForm.linkedVolunteer"
             :volunteers="volunteers"
