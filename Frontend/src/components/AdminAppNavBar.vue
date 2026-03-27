@@ -23,6 +23,11 @@ const items = [
     icon: 'pi pi-chart-line',
     routeName: RouteNames.DASHBOARD_ANALYTICS,
   },
+  {
+    label: t('admin.nav.absences'),
+    icon: 'pi pi-calendar-times',
+    routeName: RouteNames.DASHBOARD_ABSENCES,
+  },
   { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
   { label: t('admin.nav.settings'), icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD_SETTINGS },
 ]

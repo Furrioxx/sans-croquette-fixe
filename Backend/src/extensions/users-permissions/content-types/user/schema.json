@@ -71,6 +71,12 @@
       "relation": "oneToMany",
       "target": "api::cat-sheet.cat-sheet",
       "mappedBy": "backupVolunteer"
+    },
+    "absences": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::absence.absence",
+      "mappedBy": "user"
     }
   }
 }

@@ -12,6 +12,7 @@ declare module 'vue' {
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
     Avatar: typeof import('primevue/avatar')['default']
     Button: typeof import('primevue/button')['default']
+    Card: typeof import('primevue/card')['default']
     CatFormPanel: typeof import('./src/components/Forms/CatFormPanel.vue')['default']
     CatGalleryModal: typeof import('./src/components/Modals/CatGalleryModal.vue')['default']
     CatSheetCard: typeof import('./src/components/CatSheetCard.vue')['default']
