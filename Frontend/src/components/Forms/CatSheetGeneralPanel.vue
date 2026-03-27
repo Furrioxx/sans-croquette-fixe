@@ -28,7 +28,7 @@ const emit = defineEmits<{
     optionLabel="username"
     optionValue="id"
     :modelValue="linkedVolunteer"
-    @update:modelValue="emit('update:linkedVolunteer', $event as number | null)"
+    @update:modelValue="emit('update:linkedVolunteer', $event ? Number($event) : null)"
     :label="$t('admin.cat.linkedVolunteer')"
   />
 </template>
