@@ -7,7 +7,6 @@ import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import InputTextWithLabel from './elements/InputTextWithLabel.vue'
 import DatePickerWithLabel from './elements/DatePickerWithLabel.vue'
-import InputNumberWithLabel from './elements/InputNumberWithLabel.vue'
 import SelectWithLabel from './elements/SelectWithLabel.vue'
 import MultiSelectWithLabel from './elements/MultiSelectWithLabel.vue'
 import ToggleSwitchWithLabel from './elements/ToggleSwitchWithLabel.vue'
@@ -50,9 +49,6 @@ const validate = (): boolean => {
   )
   errors.value.push(
     StringUtils.checkArrayValidity('cat_moods', form.value.cat_moods, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkNumberValidity('age', form.value.age, t('requiredInputError')),
   )
   return errors.value.filter((x) => x.valid === false).length === 0
 }
@@ -103,17 +99,6 @@ defineExpose({ validate })
     required
     :valid="StringUtils.getFieldError(errors, 'cat_moods')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
-  />
-  <InputNumberWithLabel
-    :min="0"
-    :max="25"
-    :label="$t('admin.cat.age')"
-    name="age"
-    :modelValue="form.age"
-    @update:modelValue="updateField('age', $event)"
-    required
-    :valid="StringUtils.getFieldError(errors, 'age')?.valid"
-    :errorMessage="StringUtils.getFieldError(errors, 'age')?.message"
   />
   <div class="flex justify-between">
     <ToggleSwitchWithLabel

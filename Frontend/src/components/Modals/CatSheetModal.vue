@@ -46,7 +46,6 @@ const makeCatForm = (index: number): CatPostPut => {
     name: cat?.name || '',
     birthDate: cat?.birthDate || null,
     gender: cat?.gender || Genders.FEMALE,
-    age: cat?.age || 0,
     vaccinated: cat?.vaccinated || false,
     identified: cat?.identified || false,
     sterilized: cat?.sterilized || false,

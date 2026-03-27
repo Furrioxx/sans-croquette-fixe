@@ -20,7 +20,6 @@ export interface Cat {
   name: string
   birthDate: string | null
   gender: Genders
-  age: number
   vaccinated: boolean
   identified: boolean
   sterilized: boolean
@@ -35,7 +34,6 @@ export interface CatPostPut {
   name: string
   birthDate: string | null
   gender: Genders
-  age: number
   vaccinated: boolean
   identified: boolean
   sterilized: boolean

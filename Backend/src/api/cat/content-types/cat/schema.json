@@ -28,9 +28,6 @@
         "not_determined"
       ]
     },
-    "age": {
-      "type": "integer"
-    },
     "vaccinated": {
       "type": "boolean"
     },

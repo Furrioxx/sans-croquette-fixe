@@ -543,7 +543,6 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    age: Schema.Attribute.Integer;
     birthDate: Schema.Attribute.Date;
     cat_moods: Schema.Attribute.Relation<'oneToMany', 'api::cat-mood.cat-mood'>;
     catFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;

@@ -7,7 +7,9 @@ export const CatSheetService = {
   GetAllCatSheets: async () => {
     return await axiosInstance.get(`${API_URL}`, {
       params: {
-        populate: '*',
+        'populate[cats][populate][cat_moods]': '*',
+        'populate[linkedVolunteer]': true,
+        'populate[images]': true,
       },
     })
   },
