@@ -102,7 +102,10 @@
       "step-cat2": "Chat 2",
       "step-images": "Galerie",
       "images-helper": "Gérer les photos de la fiche",
-      "existing-images": "Images existantes"
+      "existing-images": "Images existantes",
+      "gallery-view": "Voir la galerie",
+      "gallery-empty": "Aucune photo pour cette fiche",
+      "gallery-photo-count": "photo(s)"
     }
   }
 }
