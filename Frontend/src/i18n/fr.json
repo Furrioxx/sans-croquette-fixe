@@ -105,7 +105,16 @@
       "existing-images": "Images existantes",
       "gallery-view": "Voir la galerie",
       "gallery-empty": "Aucune photo pour cette fiche",
-      "gallery-photo-count": "photo(s)"
+      "gallery-photo-count": "photo(s)",
+      "step-suivi": "Suivi",
+      "status": "Statut",
+      "backupVolunteer": "Bénévole suppléant",
+      "trappingDate": "Date de piégeage",
+      "medicalHistory": "Historique médical",
+      "cat1-label": "Chat 1",
+      "cat2-label": "Chat 2",
+      "suivi-helper": "Informations de suivi et historique médical du chat"
     }
-  }
+  },
+  "back": "Retour"
 }

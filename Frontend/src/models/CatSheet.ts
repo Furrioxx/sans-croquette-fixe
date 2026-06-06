@@ -7,6 +7,7 @@ export interface CatSheet {
   isDuo: boolean
   cats: Cat[]
   linkedVolunteer: User | null
+  backupVolunteer: User | null
   images: StrapiMedia[]
 }
 
@@ -14,5 +15,6 @@ export interface CatSheetPostPut {
   isDuo: boolean
   cats: string[]
   linkedVolunteer: number | null
+  backupVolunteer: number | null
   images?: number[]
 }

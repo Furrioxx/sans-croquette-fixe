@@ -9,6 +9,7 @@ export const CatSheetService = {
       params: {
         'populate[cats][populate][cat_moods]': '*',
         'populate[linkedVolunteer]': true,
+        'populate[backupVolunteer]': true,
         'populate[images]': true,
       },
     })

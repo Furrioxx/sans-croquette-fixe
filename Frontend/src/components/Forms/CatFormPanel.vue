@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CatPostPut } from '@/models/Cat'
 import { CatFriendly, CatFriendlyList } from '@/models/Enums/CatFriendlyEnum'
+import { CatStatus, CatStatusList } from '@/models/Enums/CatStatusEnum'
 import { GenderList, Genders } from '@/models/Enums/Genders'
 import { useCatMoodStore } from '@/stores/catMoods'
 import { computed, ref } from 'vue'
@@ -86,6 +87,15 @@ defineExpose({ validate })
     required
     :valid="StringUtils.getFieldError(errors, 'gender')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'gender')?.message"
+  />
+  <SelectWithLabel
+    name="status"
+    :options="CatStatusList"
+    optionLabel="label"
+    optionValue="value"
+    :modelValue="form.catStatus"
+    @update:modelValue="updateField('catStatus', $event as CatStatus | null)"
+    :label="$t('admin.cat.status')"
   />
   <MultiSelectWithLabel
     name="cat_moods"

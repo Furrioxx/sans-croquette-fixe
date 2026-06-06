@@ -2,7 +2,7 @@
 import type { User } from '@/models/User'
 import type { FormError } from '@/models/FormError'
 import { StringUtils } from '@/utils/stringUtils'
-import { ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import ToggleSwitchWithLabel from './elements/ToggleSwitchWithLabel.vue'
 import SelectWithLabel from './elements/SelectWithLabel.vue'
@@ -12,15 +12,30 @@ const { t } = useI18n()
 const props = defineProps<{
   isDuo: boolean
   linkedVolunteer: number | null
+  backupVolunteer: number | null
   volunteers: User[]
 }>()
 
 const emit = defineEmits<{
   'update:isDuo': [value: boolean]
   'update:linkedVolunteer': [value: number | null]
+  'update:backupVolunteer': [value: number | null]
 }>()
 
 const errors = ref<FormError[]>([])
+
+const filteredVolunteers = computed(() =>
+  props.volunteers.filter((v) => v.id !== props.linkedVolunteer),
+)
+
+watch(
+  () => props.linkedVolunteer,
+  (newVal) => {
+    if (newVal !== null && newVal === props.backupVolunteer) {
+      emit('update:backupVolunteer', null)
+    }
+  },
+)
 
 const validate = (): boolean => {
   errors.value = []
@@ -55,5 +70,14 @@ defineExpose({ validate })
     required
     :valid="StringUtils.getFieldError(errors, 'linkedVolunteer')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'linkedVolunteer')?.message"
+  />
+  <SelectWithLabel
+    name="backupVolunteer"
+    :options="filteredVolunteers"
+    optionLabel="username"
+    optionValue="id"
+    :modelValue="backupVolunteer"
+    @update:modelValue="emit('update:backupVolunteer', $event ? Number($event) : null)"
+    :label="$t('admin.cat.backupVolunteer')"
   />
 </template>

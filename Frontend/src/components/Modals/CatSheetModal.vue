@@ -13,6 +13,7 @@ import { useI18n } from 'vue-i18n'
 import CatFormPanel from '../Forms/CatFormPanel.vue'
 import CatSheetGeneralPanel from '../Forms/CatSheetGeneralPanel.vue'
 import CatSheetImagesPanel from '../Forms/CatSheetImagesPanel.vue'
+import CatSheetSuiviPanel from '../Forms/CatSheetSuiviPanel.vue'
 
 const { t } = useI18n()
 const catStore = useCatStore()
@@ -39,6 +40,7 @@ const volunteers = ref<User[]>([])
 const generalForm = ref({
   isDuo: props.catSheet?.isDuo || false,
   linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null as number | null,
+  backupVolunteer: props.catSheet?.backupVolunteer?.id || null as number | null,
 })
 
 const makeCatForm = (index: number): CatPostPut => {
@@ -55,6 +57,9 @@ const makeCatForm = (index: number): CatPostPut => {
     catFriendly: cat?.catFriendly || CatFriendly.NO,
     childFriendly: cat?.childFriendly || CatFriendly.NO,
     cat_moods: cat?.cat_moods?.map((m) => m.documentId) || [],
+    catStatus: cat?.catStatus || null,
+    trappingDate: cat?.trappingDate || null,
+    medicalHistory: cat?.medicalHistory || null,
   }
 }
 
@@ -65,6 +70,7 @@ const resetForm = () => {
   generalForm.value = {
     isDuo: props.catSheet?.isDuo || false,
     linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null,
+    backupVolunteer: props.catSheet?.backupVolunteer?.id || null,
   }
   cat1Form.value = makeCatForm(0)
   cat2Form.value = makeCatForm(1)
@@ -98,11 +104,15 @@ const goNext = () => {
   } else if (activeStep.value === '3') {
     if (!cat2Panel.value?.validate()) return
     activeStep.value = '4'
+  } else if (activeStep.value === '4') {
+    activeStep.value = '5'
   }
 }
 
 const goBack = () => {
-  if (activeStep.value === '4') {
+  if (activeStep.value === '5') {
+    activeStep.value = '4'
+  } else if (activeStep.value === '4') {
     activeStep.value = generalForm.value.isDuo ? '3' : '2'
   } else if (activeStep.value === '3') {
     activeStep.value = '2'
@@ -111,9 +121,7 @@ const goBack = () => {
   }
 }
 
-const isLastStep = computed(
-  () => activeStep.value === '4' || (activeStep.value === '3' && !generalForm.value.isDuo),
-)
+const isLastStep = computed(() => activeStep.value === '5')
 
 const save = async () => {
   const { keptIds, pendingFiles } = imagesPanel.value!.getState()
@@ -150,6 +158,7 @@ const save = async () => {
     isDuo: generalForm.value.isDuo,
     cats: cat2DocumentId ? [cat1DocumentId, cat2DocumentId] : [cat1DocumentId],
     linkedVolunteer: generalForm.value.linkedVolunteer,
+    backupVolunteer: generalForm.value.backupVolunteer,
     images: [...keptIds, ...uploadedIds],
   }
 
@@ -182,7 +191,8 @@ const save = async () => {
         <Step value="1">{{ $t('admin.cat.step-general') }}</Step>
         <Step value="2">{{ $t('admin.cat.step-cat1') }}</Step>
         <Step value="3" v-if="generalForm.isDuo">{{ $t('admin.cat.step-cat2') }}</Step>
-        <Step value="4">{{ $t('admin.cat.step-images') }}</Step>
+        <Step value="4">{{ $t('admin.cat.step-suivi') }}</Step>
+        <Step value="5">{{ $t('admin.cat.step-images') }}</Step>
       </StepList>
 
       <StepPanels>
@@ -191,9 +201,11 @@ const save = async () => {
             ref="generalPanel"
             :isDuo="generalForm.isDuo"
             :linkedVolunteer="generalForm.linkedVolunteer"
+            :backupVolunteer="generalForm.backupVolunteer"
             :volunteers="volunteers"
             @update:isDuo="generalForm.isDuo = $event"
             @update:linkedVolunteer="generalForm.linkedVolunteer = $event"
+            @update:backupVolunteer="generalForm.backupVolunteer = $event"
           />
         </StepPanel>
 
@@ -206,6 +218,16 @@ const save = async () => {
         </StepPanel>
 
         <StepPanel value="4">
+          <CatSheetSuiviPanel
+            :cat1="{ trappingDate: cat1Form.trappingDate, medicalHistory: cat1Form.medicalHistory }"
+            :cat2="{ trappingDate: cat2Form.trappingDate, medicalHistory: cat2Form.medicalHistory }"
+            :isDuo="generalForm.isDuo"
+            @update:cat1="cat1Form = { ...cat1Form, ...$event }"
+            @update:cat2="cat2Form = { ...cat2Form, ...$event }"
+          />
+        </StepPanel>
+
+        <StepPanel value="5">
           <CatSheetImagesPanel
             ref="imagesPanel"
             :initialImages="props.catSheet?.images || []"
