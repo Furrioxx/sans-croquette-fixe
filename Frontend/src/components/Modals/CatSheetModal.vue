@@ -94,31 +94,51 @@ const loadVolunteers = async () => {
   }
 }
 
-const goNext = () => {
-  if (activeStep.value === '1') {
-    if (!generalPanel.value?.validate()) return
-    activeStep.value = '2'
-  } else if (activeStep.value === '2') {
-    if (!cat1Panel.value?.validate()) return
-    activeStep.value = generalForm.value.isDuo ? '3' : '4'
-  } else if (activeStep.value === '3') {
-    if (!cat2Panel.value?.validate()) return
-    activeStep.value = '4'
-  } else if (activeStep.value === '4') {
-    activeStep.value = '5'
+const logicalSteps = computed(() => {
+  const steps = ['1', '2']
+  if (generalForm.value.isDuo) steps.push('3')
+  steps.push('4', '5')
+  return steps
+})
+
+const validateStep = (step: string): boolean => {
+  switch (step) {
+    case '1': return generalPanel.value?.validate() ?? true
+    case '2': return cat1Panel.value?.validate() ?? true
+    case '3': return cat2Panel.value?.validate() ?? true
+    default:  return true
   }
 }
 
-const goBack = () => {
-  if (activeStep.value === '5') {
-    activeStep.value = '4'
-  } else if (activeStep.value === '4') {
-    activeStep.value = generalForm.value.isDuo ? '3' : '2'
-  } else if (activeStep.value === '3') {
-    activeStep.value = '2'
-  } else if (activeStep.value === '2') {
-    activeStep.value = '1'
+const onStepChange = (target: string) => {
+  const order = logicalSteps.value
+  const from = order.indexOf(activeStep.value)
+  const to = order.indexOf(target)
+
+  if (to <= from) {
+    activeStep.value = target
+    return
   }
+
+  for (let i = from; i < to; i++) {
+    if (!validateStep(order[i])) {
+      activeStep.value = order[i]
+      return
+    }
+  }
+  activeStep.value = target
+}
+
+const goNext = () => {
+  const order = logicalSteps.value
+  const idx = order.indexOf(activeStep.value)
+  if (idx < order.length - 1) onStepChange(order[idx + 1])
+}
+
+const goBack = () => {
+  const order = logicalSteps.value
+  const idx = order.indexOf(activeStep.value)
+  if (idx > 0) onStepChange(order[idx - 1])
 }
 
 const isLastStep = computed(() => activeStep.value === '5')
@@ -186,7 +206,7 @@ const save = async () => {
       </div>
     </template>
 
-    <Stepper v-model:value="activeStep" :linear="!isEditMode" class="w-full">
+    <Stepper :value="activeStep" @update:value="onStepChange" class="w-full">
       <StepList>
         <Step value="1">{{ $t('admin.cat.step-general') }}</Step>
         <Step value="2">{{ $t('admin.cat.step-cat1') }}</Step>

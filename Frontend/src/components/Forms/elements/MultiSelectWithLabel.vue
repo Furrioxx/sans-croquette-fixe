@@ -1,19 +1,16 @@
 <script setup lang="ts">
+const model = defineModel<any>()
+
 const props = defineProps<{
   options: Object[]
   optionValue: string
   name: string
   label: string
   optionLabel: string
-  modelValue: any
   filter?: boolean
   required?: boolean
   valid?: boolean
   errorMessage?: string
-}>()
-
-const emit = defineEmits<{
-  'update:modelValue': [value: any]
 }>()
 </script>
 
@@ -23,10 +20,9 @@ const emit = defineEmits<{
     <MultiSelect
       :inputId="props.name"
       :options="props.options"
-      :model-value="props.modelValue"
+      v-model="model"
       :optionValue="props.optionValue"
       :optionLabel="props.optionLabel"
-      @update:model-value="emit('update:modelValue', $event)"
       class="flex-auto"
       :filter="props.filter"
     />

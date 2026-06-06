@@ -1,7 +1,8 @@
 <script setup lang="ts">
+const model = defineModel<string>({ default: '' })
+
 const props = withDefaults(
   defineProps<{
-    modelValue: string
     name: string
     label: string
     tooltip?: string
@@ -15,14 +16,6 @@ const props = withDefaults(
     type: 'text',
   },
 )
-
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
-
-const handleUpdate = (value: string | undefined) => {
-  emit('update:modelValue', value ?? '')
-}
 </script>
 
 <template>
@@ -32,8 +25,7 @@ const handleUpdate = (value: string | undefined) => {
       :id="props.name"
       class="flex-auto"
       v-tooltip.top="props.tooltip"
-      :model-value="props.modelValue"
-      @update:model-value="handleUpdate"
+      v-model="model"
       :disabled="props.disabled"
       autocomplete="off"
       :type="props.type"
