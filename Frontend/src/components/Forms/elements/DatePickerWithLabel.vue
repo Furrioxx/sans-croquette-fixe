@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+const model = defineModel<string | null>()
+
 const props = defineProps<{
-  modelValue?: string | null
   name: string
   label: string
   required?: boolean
@@ -10,14 +11,10 @@ const props = defineProps<{
   errorMessage?: string
 }>()
 
-const emit = defineEmits<{
-  'update:modelValue': [value: string | null | undefined]
-}>()
-
 const dateValue = computed({
-  get: () => (props.modelValue ? new Date(props.modelValue) : null),
+  get: () => (model.value ? new Date(model.value) : null),
   set: (date: Date | null | undefined) => {
-    emit('update:modelValue', date ? date.toISOString().split('T')[0] : null)
+    model.value = date ? date.toISOString().split('T')[0] : null
   },
 })
 </script>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { CatPostPut } from '@/models/Cat'
-import { CatFriendly, CatFriendlyList } from '@/models/Enums/CatFriendlyEnum'
-import { GenderList, Genders } from '@/models/Enums/Genders'
+import { CatFriendlyList } from '@/models/Enums/CatFriendlyEnum'
+import { CatStatusList } from '@/models/Enums/CatStatusEnum'
+import { GenderList } from '@/models/Enums/Genders'
 import { useCatMoodStore } from '@/stores/catMoods'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
@@ -16,40 +17,16 @@ import { StringUtils } from '@/utils/stringUtils'
 const { t } = useI18n()
 const catMoodStore = useCatMoodStore()
 
-const props = defineProps<{
-  modelValue: CatPostPut
-}>()
-
-const emit = defineEmits<{
-  'update:modelValue': [value: CatPostPut]
-}>()
-
-const form = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-})
-
-const updateField = <K extends keyof CatPostPut>(key: K, value: CatPostPut[K]) => {
-  emit('update:modelValue', { ...props.modelValue, [key]: value })
-}
-
+const form = defineModel<CatPostPut>({ required: true })
 const moods = computed(() => catMoodStore.catMoods)
 const errors = ref<FormError[]>([])
 
 const validate = (): boolean => {
   errors.value = []
-  errors.value.push(
-    StringUtils.checkInputTextValidity('name', form.value.name, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkRequiredValidity('birthDate', form.value.birthDate, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkRequiredValidity('gender', form.value.gender, t('requiredInputError')),
-  )
-  errors.value.push(
-    StringUtils.checkArrayValidity('cat_moods', form.value.cat_moods, t('requiredInputError')),
-  )
+  errors.value.push(StringUtils.checkInputTextValidity('name', form.value!.name, t('requiredInputError')))
+  errors.value.push(StringUtils.checkRequiredValidity('birthDate', form.value!.birthDate, t('requiredInputError')))
+  errors.value.push(StringUtils.checkRequiredValidity('gender', form.value!.gender, t('requiredInputError')))
+  errors.value.push(StringUtils.checkArrayValidity('cat_moods', form.value!.cat_moods, t('requiredInputError')))
   return errors.value.filter((x) => x.valid === false).length === 0
 }
 
@@ -60,8 +37,7 @@ defineExpose({ validate })
   <InputTextWithLabel
     name="name"
     :label="$t('admin.cat.name')"
-    :modelValue="form.name"
-    @update:modelValue="updateField('name', $event)"
+    v-model="form!.name"
     required
     :valid="StringUtils.getFieldError(errors, 'name')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'name')?.message"
@@ -69,8 +45,7 @@ defineExpose({ validate })
   <DatePickerWithLabel
     name="birthDate"
     :label="$t('admin.cat.birthDate')"
-    :modelValue="form.birthDate"
-    @update:modelValue="updateField('birthDate', $event ?? null)"
+    v-model="form!.birthDate"
     required
     :valid="StringUtils.getFieldError(errors, 'birthDate')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'birthDate')?.message"
@@ -80,20 +55,26 @@ defineExpose({ validate })
     :options="GenderList"
     optionLabel="label"
     optionValue="value"
-    :modelValue="form.gender"
-    @update:modelValue="updateField('gender', $event as Genders)"
+    v-model="form!.gender"
     :label="$t('admin.cat.gender')"
     required
     :valid="StringUtils.getFieldError(errors, 'gender')?.valid"
     :errorMessage="StringUtils.getFieldError(errors, 'gender')?.message"
+  />
+  <SelectWithLabel
+    name="catStatus"
+    :options="CatStatusList"
+    optionLabel="label"
+    optionValue="value"
+    v-model="form!.catStatus"
+    :label="$t('admin.cat.status')"
   />
   <MultiSelectWithLabel
     name="cat_moods"
     :options="moods"
     optionLabel="name"
     optionValue="documentId"
-    :modelValue="form.cat_moods"
-    @update:modelValue="updateField('cat_moods', $event)"
+    v-model="form!.cat_moods"
     :label="$t('admin.cat.mood')"
     :filter="true"
     required
@@ -101,32 +82,12 @@ defineExpose({ validate })
     :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
   />
   <div class="flex justify-between">
-    <ToggleSwitchWithLabel
-      name="identified"
-      :modelValue="form.identified"
-      @update:modelValue="updateField('identified', $event)"
-      :label="$t('admin.cat.identified')"
-    />
-    <ToggleSwitchWithLabel
-      name="decontaminate"
-      :modelValue="form.decontaminate"
-      @update:modelValue="updateField('decontaminate', $event)"
-      :label="$t('admin.cat.decontaminate')"
-    />
+    <ToggleSwitchWithLabel name="identified" v-model="form!.identified" :label="$t('admin.cat.identified')" />
+    <ToggleSwitchWithLabel name="decontaminate" v-model="form!.decontaminate" :label="$t('admin.cat.decontaminate')" />
   </div>
   <div class="flex justify-between">
-    <ToggleSwitchWithLabel
-      name="sterilized"
-      :modelValue="form.sterilized"
-      @update:modelValue="updateField('sterilized', $event)"
-      :label="$t('admin.cat.sterilized')"
-    />
-    <ToggleSwitchWithLabel
-      name="vaccinated"
-      :modelValue="form.vaccinated"
-      @update:modelValue="updateField('vaccinated', $event)"
-      :label="$t('admin.cat.vaccinated')"
-    />
+    <ToggleSwitchWithLabel name="sterilized" v-model="form!.sterilized" :label="$t('admin.cat.sterilized')" />
+    <ToggleSwitchWithLabel name="vaccinated" v-model="form!.vaccinated" :label="$t('admin.cat.vaccinated')" />
   </div>
   <div class="flex justify-between gap-3">
     <SelectWithLabel
@@ -134,8 +95,7 @@ defineExpose({ validate })
       :options="CatFriendlyList"
       optionLabel="label"
       optionValue="value"
-      :modelValue="form.catFriendly"
-      @update:modelValue="updateField('catFriendly', $event as CatFriendly)"
+      v-model="form!.catFriendly"
       :label="$t('admin.cat.catFriendly')"
     />
     <SelectWithLabel
@@ -143,8 +103,7 @@ defineExpose({ validate })
       :options="CatFriendlyList"
       optionLabel="label"
       optionValue="value"
-      :modelValue="form.dogFriendly"
-      @update:modelValue="updateField('dogFriendly', $event as CatFriendly)"
+      v-model="form!.dogFriendly"
       :label="$t('admin.cat.dogFriendly')"
     />
   </div>
@@ -153,8 +112,7 @@ defineExpose({ validate })
     :options="CatFriendlyList"
     optionLabel="label"
     optionValue="value"
-    :modelValue="form.childFriendly"
-    @update:modelValue="updateField('childFriendly', $event as CatFriendly)"
+    v-model="form!.childFriendly"
     :label="$t('admin.cat.childFriendly')"
   />
 </template>

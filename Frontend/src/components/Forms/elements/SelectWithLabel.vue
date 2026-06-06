@@ -1,23 +1,16 @@
 <script setup lang="ts">
+const model = defineModel<any>()
+
 const props = defineProps<{
   options: Object[]
   optionValue: string
   name: string
   label: string
   optionLabel: string
-  modelValue: any
   required?: boolean
   valid?: boolean
   errorMessage?: string
 }>()
-
-const emit = defineEmits<{
-  'update:modelValue': [value: string]
-}>()
-
-const handleUpdate = (value: string | undefined) => {
-  emit('update:modelValue', value ?? '')
-}
 </script>
 
 <template>
@@ -28,10 +21,9 @@ const handleUpdate = (value: string | undefined) => {
     <Select
       :inputId="props.name"
       :options="props.options"
-      :model-value="props.modelValue"
+      v-model="model"
       :optionValue="props.optionValue"
       :optionLabel="props.optionLabel"
-      @update:model-value="handleUpdate"
       class="flex-auto"
     />
   </div>

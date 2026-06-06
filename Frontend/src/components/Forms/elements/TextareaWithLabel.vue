@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const model = defineModel<string>({ default: '' })
+const model = defineModel<string | null>()
 
 const props = withDefaults(
   defineProps<{
@@ -7,28 +7,35 @@ const props = withDefaults(
     label: string
     tooltip?: string
     disabled?: boolean
-    type?: string
+    rows?: number
     required?: boolean
     valid?: boolean
     errorMessage?: string
   }>(),
   {
-    type: 'text',
+    rows: 4,
   },
 )
+
+const handleUpdate = (value: string | undefined) => {
+  model.value = value ? value : null
+}
 </script>
 
 <template>
   <div class="flex items-center gap-4 mb-2">
-    <label :for="props.name" class="font-semibold w-32">{{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span></label>
-    <InputText
+    <label :for="props.name" class="font-semibold w-32">
+      {{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span>
+    </label>
+    <Textarea
       :id="props.name"
       class="flex-auto"
       v-tooltip.top="props.tooltip"
-      v-model="model"
+      :model-value="model ?? ''"
+      @update:model-value="handleUpdate"
       :disabled="props.disabled"
-      autocomplete="off"
-      :type="props.type"
+      :rows="props.rows"
+      autoResize
     />
   </div>
   <Message

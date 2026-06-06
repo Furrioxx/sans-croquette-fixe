@@ -33,6 +33,12 @@
         "videos",
         "audios"
       ]
+    },
+    "backupVolunteer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "cat_sheets"
     }
   }
 }

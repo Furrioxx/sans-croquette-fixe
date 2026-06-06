@@ -65,6 +65,23 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::cat-mood.cat-mood"
+    },
+    "catStatus": {
+      "type": "enumeration",
+      "enum": [
+        "en_refuge",
+        "en_famille_accueil",
+        "adopte",
+        "en_soins",
+        "decede",
+        "perdu"
+      ]
+    },
+    "trappingDate": {
+      "type": "date"
+    },
+    "medicalHistory": {
+      "type": "text"
     }
   }
 }

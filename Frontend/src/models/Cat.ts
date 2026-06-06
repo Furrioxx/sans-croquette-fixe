@@ -1,4 +1,5 @@
 import type { CatFriendly } from './Enums/CatFriendlyEnum'
+import type { CatStatus } from './Enums/CatStatusEnum'
 import type { Genders } from './Enums/Genders'
 
 export interface StrapiMedia {
@@ -28,6 +29,9 @@ export interface Cat {
   catFriendly: CatFriendly
   childFriendly: CatFriendly
   cat_moods: CatMood[]
+  catStatus: CatStatus | null
+  trappingDate: string | null
+  medicalHistory: string | null
 }
 
 export interface CatPostPut {
@@ -42,4 +46,7 @@ export interface CatPostPut {
   catFriendly: CatFriendly
   childFriendly: CatFriendly
   cat_moods: string[]
+  catStatus: CatStatus | null
+  trappingDate: string | null
+  medicalHistory: string | null
 }

@@ -506,6 +506,10 @@ export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    backupVolunteer: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     cats: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -546,6 +550,16 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     birthDate: Schema.Attribute.Date;
     cat_moods: Schema.Attribute.Relation<'oneToMany', 'api::cat-mood.cat-mood'>;
     catFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
+    catStatus: Schema.Attribute.Enumeration<
+      [
+        'en_refuge',
+        'en_famille_accueil',
+        'adopte',
+        'en_soins',
+        'decede',
+        'perdu',
+      ]
+    >;
     childFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -557,9 +571,11 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &
       Schema.Attribute.Private;
+    medicalHistory: Schema.Attribute.Text;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     sterilized: Schema.Attribute.Boolean;
+    trappingDate: Schema.Attribute.Date;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1022,10 +1038,13 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    cat_sheets: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cat-sheet.cat-sheet'
+    >;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
