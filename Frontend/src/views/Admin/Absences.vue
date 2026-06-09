@@ -4,6 +4,8 @@ import { useAbsenceStore } from '@/stores/absences'
 import { useAuthStore } from '@/stores/authentication'
 import { Roles } from '@/router/Roles'
 import type { AbsenceStatus } from '@/models/Absence'
+import { UserService } from '@/services/userService'
+import type { User } from '@/models/User'
 
 const absenceStore = useAbsenceStore()
 const authStore = useAuthStore()
@@ -12,6 +14,10 @@ const dialogVisible = ref(false)
 const startDate = ref<Date | null>(null)
 const endDate = ref<Date | null>(null)
 const reason = ref('')
+const selectedVolunteerId = ref<number | null>(null)
+const volunteers = ref<User[]>([])
+const op = ref()
+const selectedAbsenceDocumentId = ref<string | null>(null)
 
 const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
 const absences = computed(() => absenceStore.absences)
@@ -29,10 +35,18 @@ const rejectedCount = computed(
 
 onMounted(() => {
   loadData()
+  if (isAdmin.value) {
+    loadVolunteers()
+  }
 })
 
 const loadData = async () => {
   await absenceStore.fetchAbsences()
+}
+
+const loadVolunteers = async () => {
+  const response = await UserService.GetVolunteers()
+  volunteers.value = response.data.data
 }
 
 const openDialog = () => {
@@ -43,6 +57,7 @@ const resetForm = () => {
   startDate.value = null
   endDate.value = null
   reason.value = ''
+  selectedVolunteerId.value = null
 }
 
 const hideDialog = () => {
@@ -51,7 +66,7 @@ const hideDialog = () => {
 }
 
 const submitAbsence = async () => {
-  if (!startDate.value) {
+  if (!startDate.value || (isAdmin.value && !selectedVolunteerId.value)) {
     return
   }
 
@@ -59,6 +74,7 @@ const submitAbsence = async () => {
     startDate: startDate.value.toISOString(),
     endDate: endDate.value ? endDate.value.toISOString() : null,
     reason: reason.value || null,
+    user: isAdmin.value ? selectedVolunteerId.value! : undefined,
   })
 
   hideDialog()
@@ -84,12 +100,27 @@ const formatDate = (value: string | null) => {
   return new Date(value).toLocaleString('fr-FR')
 }
 
-const approveAbsence = async (id: number) => {
-  await absenceStore.updateAbsenceStatus(id, 'approved')
+const approveAbsence = async (documentId: string) => {
+  await absenceStore.updateAbsenceStatus(documentId, 'approved')
 }
 
-const rejectAbsence = async (id: number) => {
-  await absenceStore.updateAbsenceStatus(id, 'rejected')
+const rejectAbsence = async (documentId: string) => {
+  await absenceStore.updateAbsenceStatus(documentId, 'rejected')
+}
+
+const openActionsMenu = (event: Event, documentId: string) => {
+  selectedAbsenceDocumentId.value = documentId
+  op.value.toggle(event)
+}
+
+const resetAbsenceStatus = async () => {
+  if (!selectedAbsenceDocumentId.value) {
+    return
+  }
+
+  await absenceStore.updateAbsenceStatus(selectedAbsenceDocumentId.value, 'pending')
+  op.value.hide()
+  selectedAbsenceDocumentId.value = null
 }
 </script>
 
@@ -212,14 +243,28 @@ const rejectAbsence = async (id: number) => {
 
           <Column v-if="isAdmin" :header="$t('settings')">
             <template #body="slotProps">
-              <div class="flex gap-2">
+              <div
+                v-if="slotProps.data.absence_status === 'approved'"
+                class="flex justify-start"
+              >
+                <Button
+                  icon="pi pi-ellipsis-v"
+                  size="small"
+                  text
+                  rounded
+                  v-tooltip.top="$t('settings')"
+                  @click="openActionsMenu($event, slotProps.data.documentId)"
+                />
+              </div>
+
+              <div v-else class="flex gap-2">
                 <Button
                   icon="pi pi-check"
                   size="small"
                   severity="success"
                   outlined
                   v-tooltip.top="$t('accept')"
-                  @click="approveAbsence(slotProps.data.id)"
+                  @click="approveAbsence(slotProps.data.documentId)"
                 />
                 <Button
                   icon="pi pi-times"
@@ -227,7 +272,7 @@ const rejectAbsence = async (id: number) => {
                   severity="danger"
                   outlined
                   v-tooltip.top="$t('refuse')"
-                  @click="rejectAbsence(slotProps.data.id)"
+                  @click="rejectAbsence(slotProps.data.documentId)"
                 />
               </div>
             </template>
@@ -235,6 +280,19 @@ const rejectAbsence = async (id: number) => {
         </DataTable>
       </template>
     </Card>
+
+    <Popover ref="op">
+      <div class="flex flex-col gap-2">
+        <button
+          type="button"
+          class="btn-bis text-gray-600 hover:text-gray-900"
+          @click="resetAbsenceStatus"
+        >
+          <i class="pi pi-undo"></i>
+          <span>{{ $t('admin.absence-reset-status') }}</span>
+        </button>
+      </div>
+    </Popover>
 
     <Dialog
       v-model:visible="dialogVisible"
@@ -245,6 +303,18 @@ const rejectAbsence = async (id: number) => {
       <div class="flex flex-col gap-4">
         <div class="rounded-xl bg-gray-50 p-4 text-sm text-gray-600">
           {{ $t('admin.absence-form-helper') }}
+        </div>
+
+        <div v-if="isAdmin" class="flex flex-col gap-2">
+          <label class="font-semibold text-gray-800">{{ $t('admin.absence-volunteer') }}</label>
+          <Select
+            v-model="selectedVolunteerId"
+            :options="volunteers"
+            optionLabel="username"
+            optionValue="id"
+            class="w-full"
+            :placeholder="$t('admin.absence-volunteer-placeholder')"
+          />
         </div>
 
         <div class="flex flex-col gap-2">

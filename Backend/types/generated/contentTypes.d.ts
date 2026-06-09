@@ -430,6 +430,43 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
+  collectionName: 'absences';
+  info: {
+    displayName: 'Absence';
+    pluralName: 'absences';
+    singularName: 'absence';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    absence_status: Schema.Attribute.Enumeration<
+      ['pending', 'approved', 'rejected']
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    endDate: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::absence.absence'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    reason: Schema.Attribute.String;
+    startDate: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiCatMoodCatMood extends Struct.CollectionTypeSchema {
   collectionName: 'cat_moods';
   info: {
@@ -1004,6 +1041,7 @@ export interface PluginUsersPermissionsUser
     draftAndPublish: false;
   };
   attributes: {
+    absences: Schema.Attribute.Relation<'oneToMany', 'api::absence.absence'>;
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     cat_sheets: Schema.Attribute.Relation<
       'oneToMany',
@@ -1060,6 +1098,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::absence.absence': ApiAbsenceAbsence;
       'api::cat-mood.cat-mood': ApiCatMoodCatMood;
       'api::cat-sheet.cat-sheet': ApiCatSheetCatSheet;
       'api::cat.cat': ApiCatCat;
