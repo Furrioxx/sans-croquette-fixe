@@ -21,8 +21,8 @@ export const AbsenceService = {
     })
   },
 
-  async updateAbsenceStatus(id: number, status: AbsenceStatus) {
-    return axiosInstance.put<{ data: Absence }>(`${API_URL}/${id}`, {
+  async updateAbsenceStatus(documentId: string, status: AbsenceStatus) {
+    return axiosInstance.put<{ data: Absence }>(`${API_URL}/${documentId}`, {
       data: {
         absence_status: status,
       },

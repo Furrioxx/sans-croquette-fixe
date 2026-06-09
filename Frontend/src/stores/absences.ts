@@ -22,8 +22,8 @@ export const useAbsenceStore = defineStore('absences', () => {
     await fetchAbsences()
   }
 
-  const updateAbsenceStatus = async (id: number, status: AbsenceStatus) => {
-    await AbsenceService.updateAbsenceStatus(id, status)
+  const updateAbsenceStatus = async (documentId: string, status: AbsenceStatus) => {
+    await AbsenceService.updateAbsenceStatus(documentId, status)
     await fetchAbsences()
   }
 

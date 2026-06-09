@@ -5,6 +5,13 @@
 import { factories } from "@strapi/strapi";
 
 export default factories.createCoreController("api::absence.absence", ({ strapi }) => ({
+  async getFullUser(userId: number) {
+    return await strapi.db.query("plugin::users-permissions.user").findOne({
+      where: { id: userId },
+      populate: { role: true },
+    });
+  },
+
   async getRoleName(user: any) {
     if (!user) {
       return null;
@@ -14,10 +21,7 @@ export default factories.createCoreController("api::absence.absence", ({ strapi 
       return user.role.name;
     }
 
-    const fullUser = await strapi.db.query("plugin::users-permissions.user").findOne({
-      where: { id: user.id },
-      populate: { role: true },
-    });
+    const fullUser = await this.getFullUser(user.id);
 
     return fullUser?.role?.name ?? null;
   },
@@ -30,12 +34,25 @@ export default factories.createCoreController("api::absence.absence", ({ strapi 
     }
 
     const body = ctx.request.body as any;
+    const roleName = await this.getRoleName(user);
+    const payload = (body?.data || body) as any;
+    let targetUserId = user.id;
+
+    if (roleName === "Admin" && payload?.user) {
+      const targetUser = await this.getFullUser(payload.user);
+
+      if (!targetUser || targetUser.role?.name !== "Volunteer") {
+        return ctx.badRequest("Selected user must be a volunteer");
+      }
+
+      targetUserId = targetUser.id;
+    }
 
     ctx.request.body = {
       ...body,
       data: {
-        ...(body?.data || body),
-        user: user.id,
+        ...payload,
+        user: targetUserId,
       },
     };
 
@@ -77,7 +94,7 @@ export default factories.createCoreController("api::absence.absence", ({ strapi 
 
     if (roleName !== "Admin") {
       const entity = await strapi.db.query("api::absence.absence").findOne({
-        where: { id: ctx.params.id },
+        where: { documentId: ctx.params.id },
         populate: { user: true },
       });
 

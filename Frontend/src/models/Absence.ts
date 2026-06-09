@@ -4,6 +4,7 @@ export type AbsenceStatus = 'pending' | 'approved' | 'rejected'
 
 export interface Absence {
   id: number
+  documentId: string
   startDate: string
   endDate: string | null
   reason: string | null
@@ -15,5 +16,6 @@ export interface AbsenceCreatePayload {
   startDate: string
   endDate: string | null
   reason: string | null
+  user?: number
 }
 

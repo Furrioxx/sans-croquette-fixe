@@ -24,7 +24,8 @@
       "type": "enumeration",
       "enum": [
         "pending",
-        "approved"
+        "approved",
+        "rejected"
       ]
     },
     "user": {
