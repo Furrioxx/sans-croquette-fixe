@@ -22,6 +22,11 @@ const routes = [
         name: RouteNames.REGISTER,
         component: () => import('../views/Auth/Register.vue'),
       },
+      {
+        path: 'adopt',
+        name: RouteNames.ADOPT,
+        component: () => import('../views/Adopt.vue'),
+      },
     ],
   },
   {
