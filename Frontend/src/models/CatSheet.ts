@@ -9,6 +9,7 @@ export interface CatSheet {
   linkedVolunteer: User | null
   backupVolunteer: User | null
   images: StrapiMedia[]
+  description: string | null
 }
 
 export interface CatSheetPostPut {
@@ -17,4 +18,5 @@ export interface CatSheetPostPut {
   linkedVolunteer: number | null
   backupVolunteer: number | null
   images?: number[]
+  description?: string | null
 }
