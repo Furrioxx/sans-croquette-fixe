@@ -23,10 +23,18 @@ const errors = ref<FormError[]>([])
 
 const validate = (): boolean => {
   errors.value = []
-  errors.value.push(StringUtils.checkInputTextValidity('name', form.value!.name, t('requiredInputError')))
-  errors.value.push(StringUtils.checkRequiredValidity('birthDate', form.value!.birthDate, t('requiredInputError')))
-  errors.value.push(StringUtils.checkRequiredValidity('gender', form.value!.gender, t('requiredInputError')))
-  errors.value.push(StringUtils.checkArrayValidity('cat_moods', form.value!.cat_moods, t('requiredInputError')))
+  errors.value.push(
+    StringUtils.checkInputTextValidity('name', form.value!.name, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkRequiredValidity('birthDate', form.value!.birthDate, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkRequiredValidity('gender', form.value!.gender, t('requiredInputError')),
+  )
+  errors.value.push(
+    StringUtils.checkArrayValidity('cat_moods', form.value!.cat_moods, t('requiredInputError')),
+  )
   return errors.value.filter((x) => x.valid === false).length === 0
 }
 
@@ -68,6 +76,7 @@ defineExpose({ validate })
     optionValue="value"
     v-model="form!.catStatus"
     :label="$t('admin.cat.status')"
+    required
   />
   <MultiSelectWithLabel
     name="cat_moods"
@@ -82,12 +91,28 @@ defineExpose({ validate })
     :errorMessage="StringUtils.getFieldError(errors, 'cat_moods')?.message"
   />
   <div class="flex justify-between">
-    <ToggleSwitchWithLabel name="identified" v-model="form!.identified" :label="$t('admin.cat.identified')" />
-    <ToggleSwitchWithLabel name="decontaminate" v-model="form!.decontaminate" :label="$t('admin.cat.decontaminate')" />
+    <ToggleSwitchWithLabel
+      name="identified"
+      v-model="form!.identified"
+      :label="$t('admin.cat.identified')"
+    />
+    <ToggleSwitchWithLabel
+      name="decontaminate"
+      v-model="form!.decontaminate"
+      :label="$t('admin.cat.decontaminate')"
+    />
   </div>
   <div class="flex justify-between">
-    <ToggleSwitchWithLabel name="sterilized" v-model="form!.sterilized" :label="$t('admin.cat.sterilized')" />
-    <ToggleSwitchWithLabel name="vaccinated" v-model="form!.vaccinated" :label="$t('admin.cat.vaccinated')" />
+    <ToggleSwitchWithLabel
+      name="sterilized"
+      v-model="form!.sterilized"
+      :label="$t('admin.cat.sterilized')"
+    />
+    <ToggleSwitchWithLabel
+      name="vaccinated"
+      v-model="form!.vaccinated"
+      :label="$t('admin.cat.vaccinated')"
+    />
   </div>
   <div class="flex justify-between gap-3">
     <SelectWithLabel
