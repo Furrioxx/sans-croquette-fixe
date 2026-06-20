@@ -32,7 +32,7 @@ const emit = defineEmits<{
     name="medicalHistory1"
     :label="$t('admin.cat.medicalHistory')"
     :modelValue="cat1.medicalHistory"
-    @update:modelValue="emit('update:cat1', { ...cat1, medicalHistory: $event })"
+    @update:modelValue="emit('update:cat1', { ...cat1, medicalHistory: $event ?? null })"
   />
 
   <template v-if="isDuo">
@@ -48,7 +48,7 @@ const emit = defineEmits<{
       name="medicalHistory2"
       :label="$t('admin.cat.medicalHistory')"
       :modelValue="cat2.medicalHistory"
-      @update:modelValue="emit('update:cat2', { ...cat2, medicalHistory: $event })"
+      @update:modelValue="emit('update:cat2', { ...cat2, medicalHistory: $event ?? null })"
     />
   </template>
 </template>

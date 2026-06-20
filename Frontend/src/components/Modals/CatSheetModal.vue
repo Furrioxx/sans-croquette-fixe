@@ -41,6 +41,7 @@ const generalForm = ref({
   isDuo: props.catSheet?.isDuo || false,
   linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null as number | null,
   backupVolunteer: props.catSheet?.backupVolunteer?.id || null as number | null,
+  description: props.catSheet?.description || null as string | null,
 })
 
 const makeCatForm = (index: number): CatPostPut => {
@@ -71,6 +72,7 @@ const resetForm = () => {
     isDuo: props.catSheet?.isDuo || false,
     linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null,
     backupVolunteer: props.catSheet?.backupVolunteer?.id || null,
+    description: props.catSheet?.description || null,
   }
   cat1Form.value = makeCatForm(0)
   cat2Form.value = makeCatForm(1)
@@ -121,8 +123,8 @@ const onStepChange = (target: string) => {
   }
 
   for (let i = from; i < to; i++) {
-    if (!validateStep(order[i])) {
-      activeStep.value = order[i]
+    if (!validateStep(order[i]!)) {
+      activeStep.value = order[i]!
       return
     }
   }
@@ -132,13 +134,13 @@ const onStepChange = (target: string) => {
 const goNext = () => {
   const order = logicalSteps.value
   const idx = order.indexOf(activeStep.value)
-  if (idx < order.length - 1) onStepChange(order[idx + 1])
+  if (idx < order.length - 1) onStepChange(order[idx + 1]!)
 }
 
 const goBack = () => {
   const order = logicalSteps.value
   const idx = order.indexOf(activeStep.value)
-  if (idx > 0) onStepChange(order[idx - 1])
+  if (idx > 0) onStepChange(order[idx - 1]!)
 }
 
 const isLastStep = computed(() => activeStep.value === '5')
@@ -180,6 +182,7 @@ const save = async () => {
     linkedVolunteer: generalForm.value.linkedVolunteer,
     backupVolunteer: generalForm.value.backupVolunteer,
     images: [...keptIds, ...uploadedIds],
+    description: generalForm.value.description,
   }
 
   if (isEditMode.value) {
@@ -223,9 +226,11 @@ const save = async () => {
             :linkedVolunteer="generalForm.linkedVolunteer"
             :backupVolunteer="generalForm.backupVolunteer"
             :volunteers="volunteers"
+            :description="generalForm.description"
             @update:isDuo="generalForm.isDuo = $event"
             @update:linkedVolunteer="generalForm.linkedVolunteer = $event"
             @update:backupVolunteer="generalForm.backupVolunteer = $event"
+            @update:description="generalForm.description = $event"
           />
         </StepPanel>
 

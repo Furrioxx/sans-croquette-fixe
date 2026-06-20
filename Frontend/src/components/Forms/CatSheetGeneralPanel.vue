@@ -14,12 +14,14 @@ const props = defineProps<{
   linkedVolunteer: number | null
   backupVolunteer: number | null
   volunteers: User[]
+  description: string | null
 }>()
 
 const emit = defineEmits<{
   'update:isDuo': [value: boolean]
   'update:linkedVolunteer': [value: number | null]
   'update:backupVolunteer': [value: number | null]
+  'update:description': [value: string | null]
 }>()
 
 const errors = ref<FormError[]>([])
@@ -80,4 +82,14 @@ defineExpose({ validate })
     @update:modelValue="emit('update:backupVolunteer', $event ? Number($event) : null)"
     :label="$t('admin.cat.backupVolunteer')"
   />
+  <div class="flex flex-col gap-1 mt-2">
+    <label for="description" class="font-semibold text-sm">{{ $t('admin.cat.description') }}</label>
+    <Textarea
+      id="description"
+      :value="description ?? ''"
+      @input="emit('update:description', ($event.target as HTMLTextAreaElement).value || null)"
+      rows="4"
+      class="w-full"
+    />
+  </div>
 </template>
