@@ -26,7 +26,15 @@ onMounted(() => {
       @click="router.push({ name: RouteNames.HOME })"
     />
 
-    <div class="flex"></div>
+    <div class="flex">
+      <Button
+        as="router-link"
+        :to="{ name: RouteNames.ADOPT }"
+        :label="$t('adopt.nav-link')"
+        text
+        severity="secondary"
+      />
+    </div>
 
     <div class="flex gap-3 items-center">
       <Button
