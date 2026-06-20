@@ -163,6 +163,18 @@
     "friendly-unknown": "?",
     "status-refuge": "En refuge",
     "status-accueil": "En famille d'accueil",
-    "active-filters": "filtre(s) actif(s)"
+    "active-filters": "filtre(s) actif(s)",
+    "detail-back": "Retour à la liste",
+    "detail-adopt-cta": "Je veux adopter",
+    "detail-gallery": "Photos",
+    "detail-health": "Santé",
+    "detail-compatibility": "Ententes",
+    "detail-personality": "Personnalité",
+    "detail-not-found": "Cette fiche est introuvable",
+    "detail-not-found-sub": "Elle a peut-être été retirée ou adoptée.",
+    "detail-birth-date": "Né(e) le",
+    "detail-cat-section": "Chat",
+    "health-yes": "Oui",
+    "health-no": "Non"
   }
 }

@@ -27,6 +27,11 @@ const routes = [
         name: RouteNames.ADOPT,
         component: () => import('../views/Adopt.vue'),
       },
+      {
+        path: 'adopt/:documentId',
+        name: RouteNames.ADOPT_DETAIL,
+        component: () => import('../views/AdoptDetail.vue'),
+      },
     ],
   },
   {

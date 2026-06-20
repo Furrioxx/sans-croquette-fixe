@@ -3,6 +3,7 @@ export const enum RouteNames {
   LOGIN = 'login',
   REGISTER = 'register',
   ADOPT = 'adopt',
+  ADOPT_DETAIL = 'adopt-detail',
   DASHBOARD = 'dashboard',
   DASHBOARD_USERS = 'dashboard-users',
   DASHBOARD_SETTINGS = 'dashboard-settings',

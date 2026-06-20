@@ -3,6 +3,7 @@ import type { CatSheet } from '@/models/CatSheet'
 import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
+import { RouteNames } from '@/router/routeNames'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -176,13 +177,14 @@ const friendlyLabel = (value: CatFriendly) => {
       <!-- CTA -->
       <div class="mt-auto pt-2">
         <Button
+          as="router-link"
+          :to="{ name: RouteNames.ADOPT_DETAIL, params: { documentId: catSheet.documentId } }"
           :label="$t('adopt.see-sheet')"
           icon="pi pi-arrow-right"
           iconPos="right"
           class="w-full"
           severity="secondary"
           outlined
-          disabled
         />
       </div>
     </div>

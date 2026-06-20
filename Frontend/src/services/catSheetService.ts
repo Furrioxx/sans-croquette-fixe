@@ -53,6 +53,15 @@ export const CatSheetService = {
     return await axiosInstance.get(API_URL, { params: p })
   },
 
+  GetPublicCatSheet: async (documentId: string) => {
+    return await axiosInstance.get(`${API_URL}/${documentId}`, {
+      params: {
+        'populate[cats][populate][cat_moods]': '*',
+        'populate[images]': true,
+      },
+    })
+  },
+
   AddCatSheet: async (catSheet: CatSheetPostPut) => {
     return await axiosInstance.post(`${API_URL}`, { data: catSheet })
   },
