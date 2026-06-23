@@ -6,9 +6,12 @@ import { Roles } from '@/router/Roles'
 import type { AbsenceStatus } from '@/models/Absence'
 import { UserService } from '@/services/userService'
 import type { User } from '@/models/User'
+import notificationService from '@/services/notificationService'
+import { useI18n } from 'vue-i18n'
 
 const absenceStore = useAbsenceStore()
 const authStore = useAuthStore()
+const { t } = useI18n()
 
 const dialogVisible = ref(false)
 const startDate = ref<Date | null>(null)
@@ -45,8 +48,13 @@ const loadData = async () => {
 }
 
 const loadVolunteers = async () => {
-  const response = await UserService.GetVolunteers()
-  volunteers.value = response.data.data
+  try {
+    const response = await UserService.GetVolunteers()
+    volunteers.value = response.data.data
+  } catch {
+    volunteers.value = []
+    notificationService.showError(t('error'), t('admin.absence-create-error'))
+  }
 }
 
 const openDialog = () => {
@@ -65,19 +73,55 @@ const hideDialog = () => {
   resetForm()
 }
 
+const validateAbsenceForm = () => {
+  if (!startDate.value) {
+    notificationService.showAlert(t('warning'), t('admin.absence-required-start-date'))
+    return false
+  }
+
+  if (!endDate.value) {
+    notificationService.showAlert(t('warning'), t('admin.absence-required-end-date'))
+    return false
+  }
+
+  if (endDate.value < startDate.value) {
+    notificationService.showAlert(t('warning'), t('admin.absence-invalid-range'))
+    return false
+  }
+
+  if (isAdmin.value && !selectedVolunteerId.value) {
+    notificationService.showAlert(t('warning'), t('requiredInputError'))
+    return false
+  }
+
+  return true
+}
+
 const submitAbsence = async () => {
-  if (!startDate.value || (isAdmin.value && !selectedVolunteerId.value)) {
+  if (!validateAbsenceForm()) {
     return
   }
 
-  await absenceStore.createAbsence({
-    startDate: startDate.value.toISOString(),
-    endDate: endDate.value ? endDate.value.toISOString() : null,
-    reason: reason.value || null,
-    user: isAdmin.value ? selectedVolunteerId.value! : undefined,
-  })
+  try {
+    await absenceStore.createAbsence({
+      startDate: startDate.value!.toISOString(),
+      endDate: endDate.value!.toISOString(),
+      reason: reason.value || null,
+      user: isAdmin.value ? selectedVolunteerId.value! : undefined,
+    })
 
-  hideDialog()
+    notificationService.showSuccess(t('success'), t('admin.absence-create-success'))
+    hideDialog()
+  } catch (error: any) {
+    const message = error?.response?.data?.error?.message
+
+    if (message === 'This volunteer already has an absence during this period') {
+      notificationService.showError(t('error'), t('admin.absence-overlap-error'))
+      return
+    }
+
+    notificationService.showError(t('error'), t('admin.absence-create-error'))
+  }
 }
 
 const translateStatus = (status: AbsenceStatus) => {
@@ -324,6 +368,7 @@ const resetAbsenceStatus = async () => {
             showTime
             hourFormat="24"
             :showIcon="true"
+            :maxDate="endDate || undefined"
             inputClass="w-full"
             class="w-full"
           />
@@ -336,6 +381,7 @@ const resetAbsenceStatus = async () => {
             showTime
             hourFormat="24"
             :showIcon="true"
+            :minDate="startDate || undefined"
             inputClass="w-full"
             class="w-full"
           />
@@ -354,4 +400,3 @@ const resetAbsenceStatus = async () => {
     </Dialog>
   </div>
 </template>
-

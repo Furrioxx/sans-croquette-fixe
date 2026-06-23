@@ -12,19 +12,26 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
 
     // Filtre uniquement les rôles prédéfinis
     const filteredRoles = allRoles.filter((role: any) =>
-      ALLOWED_ROLES.includes(role.name),
+      ALLOWED_ROLES.includes(role.name)
     );
 
     ctx.body = { data: filteredRoles };
   },
 
   async getVolunteers(ctx) {
-    const volunteers = await strapi.db
+    const users = await strapi.db
       .query("plugin::users-permissions.user")
       .findMany({
-        where: { role: { name: "Volunteer" } },
         populate: { role: true },
+        orderBy: { username: "asc" },
       });
+
+    const volunteers = users.filter(
+      (user: any) =>
+        user.role?.name === "Volunteer" &&
+        user.confirmed === true &&
+        user.blocked !== true
+    );
 
     ctx.body = { data: volunteers };
   },

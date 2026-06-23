@@ -49,7 +49,8 @@
     "dashboard-users": "Utilisateurs",
     "dashboard-settings": "Paramètres",
     "dashboard-analytics": "Analytics",
-    "dashboard-cats": "Fiches chat"
+    "dashboard-cats": "Fiches chat",
+    "dashboard-absences": "Absences"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -97,6 +98,12 @@
     "absence-reset-status": "Annuler la validation",
     "absence-volunteer": "Bénévole concerné",
     "absence-volunteer-placeholder": "Sélectionner un bénévole",
+    "absence-required-start-date": "La date de début est obligatoire.",
+    "absence-required-end-date": "La date de fin est obligatoire.",
+    "absence-invalid-range": "La date de fin doit être postérieure ou égale à la date de début.",
+    "absence-overlap-error": "Ce bénévole a déjà une absence sur cette période.",
+    "absence-create-success": "L'absence a été enregistrée.",
+    "absence-create-error": "Impossible d'enregistrer l'absence pour le moment.",
     "user-create": "Créer un utilisateur",
     "users": "Utilisateurs",
     "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",
