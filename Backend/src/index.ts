@@ -12,6 +12,9 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     'api::absence.absence.create',
     'api::absence.absence.update',
     'api::absence.absence.delete',
+    'api::user-role.user-role.getVolunteers',
+    'api::user-role.user-role.getAvailableRoles',
+    'api::user-role.user-role.updateUserRole',
   ],
 };
 
