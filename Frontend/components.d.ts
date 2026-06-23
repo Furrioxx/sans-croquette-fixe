@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
+    BlogPostModal: typeof import('./src/components/Modals/BlogPostModal.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     CatFormPanel: typeof import('./src/components/Forms/CatFormPanel.vue')['default']
@@ -47,6 +48,7 @@ declare module 'vue' {
     SearchInputTextComponent: typeof import('./src/components/Inputs/SearchInputTextComponent.vue')['default']
     Select: typeof import('primevue/select')['default']
     SelectWithLabel: typeof import('./src/components/Forms/elements/SelectWithLabel.vue')['default']
+    Skeleton: typeof import('primevue/skeleton')['default']
     Step: typeof import('primevue/step')['default']
     StepList: typeof import('primevue/steplist')['default']
     StepPanel: typeof import('primevue/steppanel')['default']

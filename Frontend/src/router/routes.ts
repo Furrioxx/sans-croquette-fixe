@@ -42,6 +42,16 @@ const routes = [
         name: RouteNames.DISCOVER_LIKES,
         component: () => import('../views/MyLikes.vue'),
       },
+      {
+        path: 'blog',
+        name: RouteNames.BLOG,
+        component: () => import('../views/Blog.vue'),
+      },
+      {
+        path: 'blog/:identifier',
+        name: RouteNames.BLOG_DETAIL,
+        component: () => import('../views/BlogDetail.vue'),
+      },
     ],
   },
   {
@@ -73,6 +83,11 @@ const routes = [
         },
         component: () => import('../views/Admin/Users.vue'),
         name: RouteNames.DASHBOARD_USERS,
+      },
+      {
+        path: 'blog',
+        component: () => import('../views/Admin/BlogPosts.vue'),
+        name: RouteNames.DASHBOARD_BLOG,
       },
       {
         path: 'analytics',

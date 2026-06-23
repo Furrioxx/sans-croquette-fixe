@@ -18,8 +18,7 @@ const logout = () => {
   authStore.logout()
   router.push({ name: RouteNames.HOME })
 }
-const items = computed(() =>
-  [
+const items = computed(() => [
   { label: t('admin.nav.dashboard'), icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
   {
     label: t('admin.nav.absences'),
@@ -30,16 +29,24 @@ const items = computed(() =>
     ? [
         { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },
         {
+          label: t('admin.nav.blog'),
+          icon: 'pi pi-pen-to-square',
+          routeName: RouteNames.DASHBOARD_BLOG,
+        },
+        {
           label: t('admin.nav.analytics'),
           icon: 'pi pi-chart-line',
           routeName: RouteNames.DASHBOARD_ANALYTICS,
         },
         { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
-        { label: t('admin.nav.settings'), icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD_SETTINGS },
+        {
+          label: t('admin.nav.settings'),
+          icon: 'pi pi-cog',
+          routeName: RouteNames.DASHBOARD_SETTINGS,
+        },
       ]
     : []),
-]
-)
+])
 </script>
 
 <template>

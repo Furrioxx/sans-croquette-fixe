@@ -6,10 +6,13 @@ export const enum RouteNames {
   ADOPT_DETAIL = 'adopt-detail',
   DISCOVER = 'discover',
   DISCOVER_LIKES = 'discover-likes',
+  BLOG = 'blog',
+  BLOG_DETAIL = 'blog-detail',
   DASHBOARD = 'dashboard',
   DASHBOARD_USERS = 'dashboard-users',
   DASHBOARD_SETTINGS = 'dashboard-settings',
   DASHBOARD_ANALYTICS = 'dashboard-analytics',
   DASHBOARD_CATS = 'dashboard-cats',
   DASHBOARD_ABSENCES = 'dashboard-absences',
+  DASHBOARD_BLOG = 'dashboard-blog',
 }

@@ -38,6 +38,7 @@
   "share": "Partager",
   "refresh": "Rafraîchir",
   "settings": "Paramètres",
+  "actions": "Actions",
   "requiredInputError": "Ce champs est obligatoire",
   "next": "Suivant",
   "no-photo": "Pas de photo",
@@ -47,12 +48,15 @@
     "register": "Inscription",
     "adopt": "À l'adoption",
     "discover": "Trouver votre chat",
+    "blog": "Blog",
+    "blog-detail": "Article",
     "dashboard": "Tableau de bord",
     "dashboard-users": "Utilisateurs",
     "dashboard-settings": "Paramètres",
     "dashboard-analytics": "Analytics",
     "dashboard-cats": "Fiches chat",
-    "dashboard-absences": "Absences"
+    "dashboard-absences": "Absences",
+    "dashboard-blog": "Blog"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -78,7 +82,8 @@
       "users": "Utilisateurs",
       "absences": "Absences",
       "settings": "Paramètres",
-      "cats": "Fiches chat"
+      "cats": "Fiches chat",
+      "blog": "Blog"
     },
     "absences": "Absences",
     "absence-create": "Déclarer une absence",
@@ -242,5 +247,48 @@
     "no-likes": "Aucun coup de cœur pour le moment",
     "no-likes-sub": "Commencez à découvrir des chats pour les retrouver ici",
     "unlike": "Retirer des favoris"
+  },
+  "blog": {
+    "nav-link": "Blog",
+    "kicker": "Actualités",
+    "title": "Le blog de l'association",
+    "subtitle": "Retrouvez les nouvelles du refuge, les sauvetages et la vie de l'association.",
+    "results": "{n} article(s)",
+    "search": "Rechercher un article",
+    "read-more": "Lire l'article",
+    "published": "Publié",
+    "draft": "Brouillon",
+    "unknown-author": "Association",
+    "empty": "Aucun article disponible",
+    "empty-subtitle": "Les prochains articles apparaîtront ici.",
+    "not-found": "Article introuvable",
+    "not-found-subtitle": "Cet article n'est plus disponible ou n'a pas encore été publié.",
+    "back-to-list": "Retour au blog",
+    "fields": {
+      "title": "Titre",
+      "excerpt": "Résumé",
+      "content": "Contenu",
+      "cover": "Image de couverture",
+      "author": "Auteur",
+      "status": "Statut",
+      "date": "Date",
+      "isPublished": "Publier l'article"
+    },
+    "filters": {
+      "all": "Tous",
+      "published": "Publiés",
+      "draft": "Brouillons"
+    },
+    "admin": {
+      "title": "Gestion du blog",
+      "subtitle": "Créer, publier et modifier les articles du site.",
+      "create": "Créer un article",
+      "edit": "Modifier l'article",
+      "remove-cover": "Retirer l'image",
+      "add-cover": "Ajouter une image",
+      "change-cover": "Changer l'image",
+      "cover-empty": "Aucune image de couverture",
+      "cover-help": "Ajoute une image pour donner un rendu plus propre sur la liste et la page détail."
+    }
   }
 }
