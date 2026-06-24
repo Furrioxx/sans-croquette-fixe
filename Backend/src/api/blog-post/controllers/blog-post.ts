@@ -1,6 +1,7 @@
 import { Core } from '@strapi/strapi'
 
 const BLOG_POST_UID = 'api::blog-post.blog-post'
+const BLOG_CATEGORY_UID = 'api::blog-category.blog-category'
 
 const slugify = (value: string) => {
   return value
@@ -51,6 +52,7 @@ const buildWhereClause = (search: string | null, isPublished?: boolean) => {
 
 const getPopulate = () => ({
   cover: true,
+  category: true,
   author: {
     populate: {
       role: true,
@@ -61,7 +63,7 @@ const getPopulate = () => ({
 const ensureUniqueSlug = async (
   strapi: Core.Strapi,
   title: string,
-  currentDocumentId?: string,
+  currentId?: number,
 ) => {
   const baseSlug = slugify(title) || 'article'
   let slug = baseSlug
@@ -69,24 +71,27 @@ const ensureUniqueSlug = async (
 
   while (true) {
     const existing = await strapi.db.query(BLOG_POST_UID).findMany({
-      where: currentDocumentId
-        ? {
-            slug,
-            documentId: {
-              $ne: currentDocumentId,
-            },
-          }
-        : { slug },
-      limit: 1,
+      where: { slug },
+      limit: 5,
     })
 
-    if (!existing.length) {
+    const conflict = existing.find((entry) => entry.id !== currentId)
+
+    if (!conflict) {
       return slug
     }
 
     index += 1
     slug = `${baseSlug}-${index}`
   }
+}
+
+const getAuthorRoleLabel = (user: any) => {
+  if (!user?.role?.name) {
+    return null
+  }
+
+  return user.role.name
 }
 
 const ensurePersistedSlug = async (
@@ -97,7 +102,7 @@ const ensurePersistedSlug = async (
     return entry
   }
 
-  const slug = await ensureUniqueSlug(strapi, entry.title, entry.documentId)
+  const slug = await ensureUniqueSlug(strapi, entry.title, entry.id)
 
   const updatedEntry = await strapi.db.query(BLOG_POST_UID).update({
     where: { id: entry.id },
@@ -110,13 +115,28 @@ const ensurePersistedSlug = async (
 
 const sanitizePayload = (body: Record<string, unknown>) => {
   const data = (body.data ?? body) as Record<string, unknown>
+  const content = typeof data.content === 'string' ? data.content.trim() : ''
+  const excerpt =
+    typeof data.excerpt === 'string' && data.excerpt.trim().length ? data.excerpt.trim() : null
+  const seoTitle =
+    typeof data.seoTitle === 'string' && data.seoTitle.trim().length ? data.seoTitle.trim() : null
+  const seoDescription =
+    typeof data.seoDescription === 'string' && data.seoDescription.trim().length
+      ? data.seoDescription.trim()
+      : null
+  const category =
+    typeof data.category === 'number' && Number.isFinite(data.category) ? Number(data.category) : null
 
   return {
     title: typeof data.title === 'string' ? data.title.trim() : '',
-    excerpt: typeof data.excerpt === 'string' && data.excerpt.trim().length ? data.excerpt.trim() : null,
-    content: typeof data.content === 'string' ? data.content.trim() : '',
+    excerpt: excerpt ?? (content ? content.slice(0, 180) : null),
+    content,
+    seoTitle,
+    seoDescription: seoDescription ?? excerpt ?? (content ? content.slice(0, 160) : null),
     isPublished: Boolean(data.isPublished),
+    isFeatured: Boolean(data.isFeatured),
     cover: data.cover === null || typeof data.cover === 'number' ? data.cover : undefined,
+    category,
   }
 }
 
@@ -147,14 +167,25 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
   async findPublic(ctx) {
     const { page, pageSize } = parsePagination(ctx.query as Record<string, unknown>)
     const search = normalizeSearch(ctx.query.search)
+    const categorySlug = normalizeSearch(ctx.query.category)
     const where = buildWhereClause(search, true)
+
+    where.publishedAt = {
+      $notNull: true,
+    }
+
+    if (categorySlug) {
+      where.category = {
+        slug: categorySlug,
+      }
+    }
 
     const [results, total] = await strapi.db.query(BLOG_POST_UID).findWithCount({
       where,
       offset: (page - 1) * pageSize,
       limit: pageSize,
       populate: getPopulate(),
-      orderBy: [{ createdAt: 'desc' }],
+      orderBy: [{ isFeatured: 'desc' }, { publishedAt: 'desc' }, { createdAt: 'desc' }],
     })
 
     const hydratedResults = await Promise.all(results.map((entry) => ensurePersistedSlug(strapi, entry)))
@@ -173,12 +204,15 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
     let entry = await findOneByWhere(strapi, {
       slug: identifier,
       isPublished: true,
+      publishedAt: {
+        $notNull: true,
+      },
     })
 
     if (!entry) {
       const documentEntry = await findOneByDocumentId(strapi, identifier)
 
-      if (documentEntry?.isPublished) {
+      if (documentEntry?.isPublished && documentEntry?.publishedAt) {
         entry = documentEntry
       }
     }
@@ -187,6 +221,9 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       const entriesWithoutSlug = await strapi.db.query(BLOG_POST_UID).findMany({
         where: {
           isPublished: true,
+          publishedAt: {
+            $notNull: true,
+          },
         },
         populate: getPopulate(),
         orderBy: { createdAt: 'desc' },
@@ -217,12 +254,22 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
 
     const where = buildWhereClause(search, isPublished)
 
+    if (status === 'published') {
+      where.publishedAt = {
+        $notNull: true,
+      }
+    }
+
+    if (status === 'draft') {
+      where.publishedAt = null
+    }
+
     const [results, total] = await strapi.db.query(BLOG_POST_UID).findWithCount({
       where,
       offset: (page - 1) * pageSize,
       limit: pageSize,
       populate: getPopulate(),
-      orderBy: [{ createdAt: 'desc' }],
+      orderBy: [{ isFeatured: 'desc' }, { publishedAt: 'desc' }, { createdAt: 'desc' }],
     })
 
     const hydratedResults = await Promise.all(results.map((entry) => ensurePersistedSlug(strapi, entry)))
@@ -256,14 +303,29 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       return ctx.badRequest('Le titre et le contenu sont requis')
     }
 
-    const userId = ctx.state.user?.id
+    if (!payload.category) {
+      return ctx.badRequest('La catégorie est requise')
+    }
+
+    const user = ctx.state.user
     const slug = await ensureUniqueSlug(strapi, payload.title)
+    const publishedAt = payload.isPublished ? new Date().toISOString() : null
+
+    const category = await strapi.db.query(BLOG_CATEGORY_UID).findOne({
+      where: { id: payload.category },
+    })
+
+    if (!category) {
+      return ctx.badRequest('La catégorie est invalide')
+    }
 
     const entry = await strapi.db.query(BLOG_POST_UID).create({
       data: {
         ...payload,
         slug,
-        author: userId,
+        publishedAt,
+        author: user?.id,
+        authorRoleLabel: getAuthorRoleLabel(user),
       },
       populate: getPopulate(),
     })
@@ -287,14 +349,32 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       return ctx.notFound('Article introuvable')
     }
 
-    const slug = await ensureUniqueSlug(strapi, payload.title, documentId)
+    if (!payload.category) {
+      return ctx.badRequest('La catégorie est requise')
+    }
+
+    const category = await strapi.db.query(BLOG_CATEGORY_UID).findOne({
+      where: { id: payload.category },
+    })
+
+    if (!category) {
+      return ctx.badRequest('La catégorie est invalide')
+    }
+
+    const slug = await ensureUniqueSlug(strapi, payload.title, existingEntry.id)
+    const publishedAt =
+      payload.isPublished
+        ? existingEntry.publishedAt ?? new Date().toISOString()
+        : null
 
     const entry = await strapi.db.query(BLOG_POST_UID).update({
       where: { id: existingEntry.id },
       data: {
         ...payload,
         slug,
+        publishedAt,
         author: existingEntry.author?.id ?? ctx.state.user?.id,
+        authorRoleLabel: existingEntry.authorRoleLabel ?? getAuthorRoleLabel(ctx.state.user),
       },
       populate: getPopulate(),
     })

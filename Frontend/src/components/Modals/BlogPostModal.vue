@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import type { BlogPost, BlogPostPostPut } from '@/models/BlogPost'
 import { useBlogPostStore } from '@/stores/blogPosts'
 import notificationService from '@/services/notificationService'
+import { useBlogCategoryStore } from '@/stores/blogCategories'
 
 const props = defineProps<{
   visible: boolean
@@ -15,13 +16,18 @@ const emit = defineEmits<{
 }>()
 
 const blogPostStore = useBlogPostStore()
+const blogCategoryStore = useBlogCategoryStore()
 
 const form = ref<BlogPostPostPut>({
   title: '',
   excerpt: null,
   content: '',
+  seoTitle: null,
+  seoDescription: null,
   isPublished: false,
+  isFeatured: false,
   cover: null,
+  category: null,
 })
 const selectedFile = ref<File | null>(null)
 const coverPreviewUrl = ref<string | null>(null)
@@ -38,8 +44,12 @@ const syncForm = () => {
     title: props.blogPost?.title ?? '',
     excerpt: props.blogPost?.excerpt ?? null,
     content: props.blogPost?.content ?? '',
+    seoTitle: props.blogPost?.seoTitle ?? null,
+    seoDescription: props.blogPost?.seoDescription ?? null,
     isPublished: props.blogPost?.isPublished ?? false,
+    isFeatured: props.blogPost?.isFeatured ?? false,
     cover: props.blogPost?.cover?.id ?? null,
+    category: props.blogPost?.category?.id ?? null,
   }
   selectedFile.value = null
   coverPreviewUrl.value = props.blogPost?.cover?.url ? getMediaUrl(props.blogPost.cover.url) : null
@@ -90,6 +100,11 @@ const openFileDialog = () => {
 const submit = async () => {
   if (!form.value.title.trim() || !form.value.content.trim()) {
     notificationService.showError('Erreur', 'Le titre et le contenu sont requis.')
+    return
+  }
+
+  if (!form.value.category) {
+    notificationService.showError('Erreur', 'La catégorie est requise.')
     return
   }
 
@@ -146,9 +161,28 @@ const submit = async () => {
           <InputText id="blog-title" v-model="form.title" />
         </div>
 
-        <div class="flex items-center gap-3 pt-7">
+        <div class="flex flex-col gap-2">
+          <label for="blog-category" class="font-semibold">{{ $t('blog.fields.category') }}</label>
+          <Select
+            id="blog-category"
+            v-model="form.category"
+            :options="blogCategoryStore.categories"
+            optionLabel="name"
+            optionValue="id"
+            :placeholder="$t('blog.admin.category-placeholder')"
+          />
+        </div>
+      </div>
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="flex items-center gap-3">
           <ToggleSwitch v-model="form.isPublished" inputId="blog-published" />
           <label for="blog-published" class="font-medium">{{ $t('blog.fields.isPublished') }}</label>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <ToggleSwitch v-model="form.isFeatured" inputId="blog-featured" />
+          <label for="blog-featured" class="font-medium">{{ $t('blog.fields.isFeatured') }}</label>
         </div>
       </div>
 
@@ -160,6 +194,20 @@ const submit = async () => {
       <div class="flex flex-col gap-2">
         <label for="blog-content" class="font-semibold">{{ $t('blog.fields.content') }}</label>
         <Textarea id="blog-content" v-model="form.content" rows="14" autoResize />
+      </div>
+
+      <Divider />
+
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="flex flex-col gap-2">
+          <label for="blog-seo-title" class="font-semibold">{{ $t('blog.fields.seoTitle') }}</label>
+          <InputText id="blog-seo-title" v-model="form.seoTitle" />
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label for="blog-seo-description" class="font-semibold">{{ $t('blog.fields.seoDescription') }}</label>
+          <Textarea id="blog-seo-description" v-model="form.seoDescription" rows="4" autoResize />
+        </div>
       </div>
 
       <div class="flex flex-col gap-3">

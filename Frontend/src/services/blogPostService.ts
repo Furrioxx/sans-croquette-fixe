@@ -8,6 +8,7 @@ export interface BlogPostQueryParams {
   pageSize: number
   search?: string
   status?: 'all' | 'published' | 'draft'
+  category?: string
 }
 
 export const BlogPostService = {
@@ -17,6 +18,7 @@ export const BlogPostService = {
         page: params.page,
         pageSize: params.pageSize,
         search: params.search,
+        category: params.category,
       },
     })
   },

@@ -268,16 +268,21 @@
       "title": "Titre",
       "excerpt": "Résumé",
       "content": "Contenu",
+      "seoTitle": "Titre SEO",
+      "seoDescription": "Description SEO",
       "cover": "Image de couverture",
       "author": "Auteur",
+      "category": "Catégorie",
       "status": "Statut",
       "date": "Date",
-      "isPublished": "Publier l'article"
+      "isPublished": "Publier l'article",
+      "isFeatured": "Mettre en avant"
     },
     "filters": {
       "all": "Tous",
       "published": "Publiés",
-      "draft": "Brouillons"
+      "draft": "Brouillons",
+      "all-categories": "Toutes les catégories"
     },
     "admin": {
       "title": "Gestion du blog",
@@ -288,7 +293,9 @@
       "add-cover": "Ajouter une image",
       "change-cover": "Changer l'image",
       "cover-empty": "Aucune image de couverture",
-      "cover-help": "Ajoute une image pour donner un rendu plus propre sur la liste et la page détail."
+      "cover-help": "Ajoute une image pour donner un rendu plus propre sur la liste et la page détail.",
+      "create-category": "Créer une catégorie",
+      "category-placeholder": "Choisir une catégorie"
     }
   }
 }

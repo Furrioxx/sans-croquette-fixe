@@ -24,10 +24,23 @@
       "type": "text"
     },
     "content": {
-      "type": "richtext",
+      "type": "text",
       "required": true
     },
+    "seoTitle": {
+      "type": "string"
+    },
+    "seoDescription": {
+      "type": "text"
+    },
     "isPublished": {
+      "type": "boolean",
+      "default": false
+    },
+    "publishedAt": {
+      "type": "datetime"
+    },
+    "isFeatured": {
       "type": "boolean",
       "default": false
     },
@@ -37,6 +50,14 @@
       "allowedTypes": [
         "images"
       ]
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::blog-category.blog-category"
+    },
+    "authorRoleLabel": {
+      "type": "string"
     },
     "author": {
       "type": "relation",
