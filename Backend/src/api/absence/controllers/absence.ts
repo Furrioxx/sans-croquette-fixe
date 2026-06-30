@@ -3,40 +3,17 @@
  */
 
 import { factories } from '@strapi/strapi'
+import {
+  canUserManageAbsences,
+  getFullUser,
+  getRoleName,
+} from '../../../utils/absence-delegation'
 
 type AuthUser = {
   id: number
   role?: {
     name?: string | null
   } | null
-}
-
-type UserWithRole = {
-  id: number
-  role?: {
-    name?: string | null
-  } | null
-}
-
-const getFullUser = async (strapi: any, userId: number): Promise<UserWithRole | null> => {
-  return await strapi.db.query('plugin::users-permissions.user').findOne({
-    where: { id: userId },
-    populate: { role: true },
-  })
-}
-
-const getRoleName = async (strapi: any, user: AuthUser | null | undefined) => {
-  if (!user) {
-    return null
-  }
-
-  if (user.role?.name) {
-    return user.role.name
-  }
-
-  const fullUser = await getFullUser(strapi, user.id)
-
-  return fullUser?.role?.name ?? null
 }
 
 const getDateError = (payload: { startDate?: string | null; endDate?: string | null }) => {
@@ -98,6 +75,7 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
     const roleName = await getRoleName(strapi, user)
     const payload = (body?.data || body) as any
     const dateError = getDateError(payload)
+    const delegateUserId = payload?.delegateUserId
     let targetUserId = user.id
 
     if (dateError) {
@@ -112,6 +90,19 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       }
 
       targetUserId = targetUser.id
+    }
+
+    if (roleName === 'Admin' && !payload?.user && delegateUserId) {
+      const delegateUser = await getFullUser(strapi, delegateUserId)
+
+      if (
+        !delegateUser ||
+        delegateUser.role?.name !== 'Volunteer' ||
+        delegateUser.confirmed !== true ||
+        delegateUser.blocked === true
+      ) {
+        return ctx.badRequest('Selected delegate must be an active volunteer')
+      }
     }
 
     const overlappingAbsence = await hasOverlappingAbsence(
@@ -129,12 +120,28 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       ...body,
       data: {
         ...payload,
+        absence_status: payload.absence_status ?? (roleName === 'Admin' && !payload?.user ? 'approved' : 'pending'),
         user: targetUserId,
       },
     }
 
     // @ts-ignore - "super" est injecte par Strapi dans ce contexte
-    return await super.create(ctx)
+    const createdAbsence = await super.create(ctx)
+
+    if (roleName === 'Admin' && !payload?.user && delegateUserId) {
+      await strapi.db.query('api::absence-delegation.absence-delegation').create({
+        data: {
+          startDate: payload.startDate,
+          endDate: payload.endDate,
+          adminUser: user.id,
+          delegateUser: delegateUserId,
+          isActive: true,
+          sourceAbsenceDocumentId: createdAbsence?.data?.documentId,
+        },
+      })
+    }
+
+    return createdAbsence
   },
 
   async find(ctx) {
@@ -144,9 +151,9 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.unauthorized('You must be authenticated')
     }
 
-    const roleName = await getRoleName(strapi, user)
+    const { canManage } = await canUserManageAbsences(strapi, user)
 
-    if (roleName !== 'Admin') {
+    if (!canManage) {
       const query = (ctx.query || {}) as any
       const existingFilters = (query.filters || {}) as any
 
@@ -170,9 +177,9 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.unauthorized('You must be authenticated')
     }
 
-    const roleName = await getRoleName(strapi, user)
+    const { canManage } = await canUserManageAbsences(strapi, user)
 
-    if (roleName !== 'Admin') {
+    if (!canManage) {
       const entity = await strapi.db.query('api::absence.absence').findOne({
         where: { documentId: ctx.params.id },
         populate: { user: true },
@@ -185,5 +192,49 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
 
     // @ts-ignore - "super" est injecte par Strapi dans ce contexte
     return await super.findOne(ctx)
+  },
+
+  async update(ctx) {
+    const user = ctx.state.user as AuthUser | undefined
+
+    if (!user) {
+      return ctx.unauthorized('You must be authenticated')
+    }
+
+    const { canManage, roleName } = await canUserManageAbsences(strapi, user)
+
+    if (!canManage) {
+      return ctx.forbidden('You are not allowed to update absences')
+    }
+
+    if (roleName !== 'Admin') {
+      const payload = ((ctx.request.body as any)?.data || ctx.request.body || {}) as any
+      const allowedStatuses = ['pending', 'approved', 'rejected']
+
+      if (
+        Object.keys(payload).some((key) => key !== 'absence_status') ||
+        !allowedStatuses.includes(payload.absence_status)
+      ) {
+        return ctx.forbidden('You are only allowed to update absence status')
+      }
+
+      const entity = await strapi.db.query('api::absence.absence').findOne({
+        where: { documentId: ctx.params.id },
+        populate: {
+          user: {
+            populate: {
+              role: true,
+            },
+          },
+        },
+      })
+
+      if (!entity || entity.user?.role?.name !== 'Volunteer') {
+        return ctx.forbidden('You are not allowed to update this absence')
+      }
+    }
+
+    // @ts-ignore - "super" est injecte par Strapi dans ce contexte
+    return await super.update(ctx)
   },
 }))

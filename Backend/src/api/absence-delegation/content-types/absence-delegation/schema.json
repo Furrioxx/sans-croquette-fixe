@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "absence_delegations",
+  "info": {
+    "singularName": "absence-delegation",
+    "pluralName": "absence-delegations",
+    "displayName": "Absence Delegation"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "startDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "endDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    },
+    "sourceAbsenceDocumentId": {
+      "type": "string",
+      "required": true
+    },
+    "adminUser": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "delegateUser": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

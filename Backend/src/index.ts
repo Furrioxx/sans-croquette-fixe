@@ -5,6 +5,7 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     'api::absence.absence.find',
     'api::absence.absence.findOne',
     'api::absence.absence.create',
+    'api::absence-delegation.absence-delegation.getMyStatus',
   ],
   Admin: [
     'api::absence.absence.find',
@@ -12,6 +13,8 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     'api::absence.absence.create',
     'api::absence.absence.update',
     'api::absence.absence.delete',
+    'api::absence-delegation.absence-delegation.getMyStatus',
+    'api::absence-delegation.absence-delegation.deactivate',
     'api::user-role.user-role.getVolunteers',
     'api::user-role.user-role.getAvailableRoles',
     'api::user-role.user-role.updateUserRole',

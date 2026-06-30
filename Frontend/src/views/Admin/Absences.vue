@@ -3,28 +3,57 @@ import { computed, onMounted, ref } from 'vue'
 import { useAbsenceStore } from '@/stores/absences'
 import { useAuthStore } from '@/stores/authentication'
 import { Roles } from '@/router/Roles'
-import type { AbsenceStatus } from '@/models/Absence'
+import type { Absence, AbsenceDelegationStatus, AbsenceStatus } from '@/models/Absence'
 import { UserService } from '@/services/userService'
 import type { User } from '@/models/User'
 import notificationService from '@/services/notificationService'
 import { useI18n } from 'vue-i18n'
+import { AbsenceDelegationService } from '@/services/absenceDelegationService'
 
 const absenceStore = useAbsenceStore()
 const authStore = useAuthStore()
 const { t } = useI18n()
+
+type AdminAbsenceTarget = 'volunteer' | 'self'
 
 const dialogVisible = ref(false)
 const startDate = ref<Date | null>(null)
 const endDate = ref<Date | null>(null)
 const reason = ref('')
 const selectedVolunteerId = ref<number | null>(null)
+const selectedDelegateVolunteerId = ref<number | null>(null)
 const volunteers = ref<User[]>([])
 const op = ref()
 const selectedAbsenceDocumentId = ref<string | null>(null)
+const adminAbsenceTarget = ref<AdminAbsenceTarget>('volunteer')
+const delegationStatus = ref<AbsenceDelegationStatus | null>(null)
 
 const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
+const canManageAbsences = computed(
+  () => isAdmin.value || delegationStatus.value?.canManageAbsences === true,
+)
+const isDelegatedManager = computed(() => delegationStatus.value?.isDelegatedManager === true)
+const activeOwnedDelegations = computed(() => delegationStatus.value?.activeOwnedDelegations ?? [])
 const absences = computed(() => absenceStore.absences)
 const loading = computed(() => absenceStore.loading)
+const absenceTitle = computed(() =>
+  canManageAbsences.value ? t('admin.absence-list-title-admin') : t('admin.absence-list-title'),
+)
+const absenceDescription = computed(() => {
+  if (isAdmin.value) {
+    return t('admin.absence-admin-description')
+  }
+
+  if (isDelegatedManager.value) {
+    return t('admin.absence-delegate-description')
+  }
+
+  return t('admin.absence-user-description')
+})
+const showVolunteerFields = computed(
+  () => isAdmin.value && adminAbsenceTarget.value === 'volunteer',
+)
+const showAdminDelegateField = computed(() => isAdmin.value && adminAbsenceTarget.value === 'self')
 
 const pendingCount = computed(
   () => absences.value.filter((absence) => absence.absence_status === 'pending').length,
@@ -38,6 +67,7 @@ const rejectedCount = computed(
 
 onMounted(() => {
   loadData()
+  loadDelegationStatus()
   if (isAdmin.value) {
     loadVolunteers()
   }
@@ -45,6 +75,15 @@ onMounted(() => {
 
 const loadData = async () => {
   await absenceStore.fetchAbsences()
+}
+
+const loadDelegationStatus = async () => {
+  try {
+    const response = await AbsenceDelegationService.getStatus()
+    delegationStatus.value = response.data.data
+  } catch {
+    delegationStatus.value = null
+  }
 }
 
 const loadVolunteers = async () => {
@@ -66,6 +105,8 @@ const resetForm = () => {
   endDate.value = null
   reason.value = ''
   selectedVolunteerId.value = null
+  selectedDelegateVolunteerId.value = null
+  adminAbsenceTarget.value = 'volunteer'
 }
 
 const hideDialog = () => {
@@ -89,8 +130,13 @@ const validateAbsenceForm = () => {
     return false
   }
 
-  if (isAdmin.value && !selectedVolunteerId.value) {
+  if (showVolunteerFields.value && !selectedVolunteerId.value) {
     notificationService.showAlert(t('warning'), t('requiredInputError'))
+    return false
+  }
+
+  if (showAdminDelegateField.value && !selectedDelegateVolunteerId.value) {
+    notificationService.showAlert(t('warning'), t('admin.absence-required-delegate'))
     return false
   }
 
@@ -107,16 +153,23 @@ const submitAbsence = async () => {
       startDate: startDate.value!.toISOString(),
       endDate: endDate.value!.toISOString(),
       reason: reason.value || null,
-      user: isAdmin.value ? selectedVolunteerId.value! : undefined,
+      user: showVolunteerFields.value ? selectedVolunteerId.value! : undefined,
+      delegateUserId: showAdminDelegateField.value ? selectedDelegateVolunteerId.value! : undefined,
     })
 
     notificationService.showSuccess(t('success'), t('admin.absence-create-success'))
     hideDialog()
+    await loadDelegationStatus()
   } catch (error: any) {
     const message = error?.response?.data?.error?.message
 
     if (message === 'This volunteer already has an absence during this period') {
       notificationService.showError(t('error'), t('admin.absence-overlap-error'))
+      return
+    }
+
+    if (message === 'Selected delegate must be an active volunteer') {
+      notificationService.showError(t('error'), t('admin.absence-invalid-delegate'))
       return
     }
 
@@ -144,6 +197,14 @@ const formatDate = (value: string | null) => {
   return new Date(value).toLocaleString('fr-FR')
 }
 
+const canReviewAbsence = (absence: Absence) => {
+  return canManageAbsences.value && absence.user?.role?.name === 'Volunteer'
+}
+
+const isAdminOwnedAbsence = (absence: Absence) => {
+  return absence.user?.role?.name === 'Admin'
+}
+
 const approveAbsence = async (documentId: string) => {
   await absenceStore.updateAbsenceStatus(documentId, 'approved')
 }
@@ -166,6 +227,16 @@ const resetAbsenceStatus = async () => {
   op.value.hide()
   selectedAbsenceDocumentId.value = null
 }
+
+const deactivateDelegation = async (delegationId: number) => {
+  try {
+    await AbsenceDelegationService.deactivateDelegation(delegationId)
+    notificationService.showSuccess(t('success'), t('admin.absence-delegation-deactivate-success'))
+    await loadDelegationStatus()
+  } catch {
+    notificationService.showError(t('error'), t('admin.absence-delegation-deactivate-error'))
+  }
+}
 </script>
 
 <template>
@@ -177,14 +248,10 @@ const resetAbsenceStatus = async () => {
             {{ $t('admin.absences') }}
           </p>
           <h1 class="text-2xl font-bold text-gray-900">
-            {{ isAdmin ? $t('admin.absence-list-title-admin') : $t('admin.absence-list-title') }}
+            {{ absenceTitle }}
           </h1>
           <p class="max-w-2xl text-sm text-gray-500">
-            {{
-              isAdmin
-                ? $t('admin.absence-admin-description')
-                : $t('admin.absence-user-description')
-            }}
+            {{ absenceDescription }}
           </p>
         </div>
 
@@ -223,6 +290,51 @@ const resetAbsenceStatus = async () => {
       </div>
     </section>
 
+    <section
+      v-if="isAdmin && activeOwnedDelegations.length"
+      class="flex flex-col gap-4 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-100"
+    >
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl font-bold text-gray-900">
+            {{ $t('admin.absence-delegation-title') }}
+          </h2>
+          <p class="mt-1 text-sm text-gray-500">
+            {{ $t('admin.absence-delegation-description') }}
+          </p>
+        </div>
+        <Tag :value="`${activeOwnedDelegations.length} ${$t('admin.absence-count')}`" severity="info" />
+      </div>
+
+      <div class="grid gap-4">
+        <div
+          v-for="delegation in activeOwnedDelegations"
+          :key="delegation.id"
+          class="flex flex-col gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4 md:flex-row md:items-center md:justify-between"
+        >
+          <div class="space-y-1">
+            <p class="text-sm font-semibold text-gray-900">
+              {{ delegation.delegateUser?.username || '-' }}
+            </p>
+            <p class="text-sm text-gray-600">
+              {{ $t('admin.absence-delegation-period') }}
+              {{ formatDate(delegation.startDate) }}
+              -
+              {{ formatDate(delegation.endDate) }}
+            </p>
+          </div>
+
+          <Button
+            :label="$t('admin.absence-delegation-deactivate')"
+            icon="pi pi-times"
+            severity="danger"
+            outlined
+            @click="deactivateDelegation(delegation.id)"
+          />
+        </div>
+      </div>
+    </section>
+
     <Card>
       <template #title>
         <div class="flex items-center justify-between gap-3">
@@ -246,11 +358,17 @@ const resetAbsenceStatus = async () => {
             </div>
           </template>
 
-          <Column v-if="isAdmin" field="user.username" :header="$t('auth.username')">
+          <Column v-if="canManageAbsences" field="user.username" :header="$t('auth.username')">
             <template #body="slotProps">
               <div class="flex items-center gap-2">
                 <i class="pi pi-user text-sm text-gray-400"></i>
                 <span>{{ slotProps.data.user?.username || '-' }}</span>
+                <Tag
+                  v-if="isAdminOwnedAbsence(slotProps.data)"
+                  :value="$t('auth.role') + ' admin'"
+                  severity="secondary"
+                  rounded
+                />
               </div>
             </template>
           </Column>
@@ -285,10 +403,10 @@ const resetAbsenceStatus = async () => {
             </template>
           </Column>
 
-          <Column v-if="isAdmin" :header="$t('settings')">
+          <Column v-if="canManageAbsences" :header="$t('settings')">
             <template #body="slotProps">
               <div
-                v-if="slotProps.data.absence_status === 'approved'"
+                v-if="canReviewAbsence(slotProps.data) && slotProps.data.absence_status === 'approved'"
                 class="flex justify-start"
               >
                 <Button
@@ -301,7 +419,7 @@ const resetAbsenceStatus = async () => {
                 />
               </div>
 
-              <div v-else class="flex gap-2">
+              <div v-else-if="canReviewAbsence(slotProps.data)" class="flex gap-2">
                 <Button
                   icon="pi pi-check"
                   size="small"
@@ -319,6 +437,10 @@ const resetAbsenceStatus = async () => {
                   @click="rejectAbsence(slotProps.data.documentId)"
                 />
               </div>
+
+              <span v-else class="text-xs text-gray-400">
+                {{ $t('admin.absence-no-review-needed') }}
+              </span>
             </template>
           </Column>
         </DataTable>
@@ -349,7 +471,37 @@ const resetAbsenceStatus = async () => {
           {{ $t('admin.absence-form-helper') }}
         </div>
 
-        <div v-if="isAdmin" class="flex flex-col gap-2">
+        <div v-if="isAdmin" class="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
+          <label class="font-semibold text-gray-800">{{ $t('admin.absence-target-label') }}</label>
+          <div class="grid gap-2 md:grid-cols-2">
+            <button
+              type="button"
+              class="rounded-xl border px-4 py-3 text-left text-sm transition"
+              :class="
+                adminAbsenceTarget === 'volunteer'
+                  ? 'border-primary-500 bg-primary-50 text-primary-700'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+              "
+              @click="adminAbsenceTarget = 'volunteer'"
+            >
+              {{ $t('admin.absence-target-volunteer') }}
+            </button>
+            <button
+              type="button"
+              class="rounded-xl border px-4 py-3 text-left text-sm transition"
+              :class="
+                adminAbsenceTarget === 'self'
+                  ? 'border-primary-500 bg-primary-50 text-primary-700'
+                  : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
+              "
+              @click="adminAbsenceTarget = 'self'"
+            >
+              {{ $t('admin.absence-target-self') }}
+            </button>
+          </div>
+        </div>
+
+        <div v-if="showVolunteerFields" class="flex flex-col gap-2">
           <label class="font-semibold text-gray-800">{{ $t('admin.absence-volunteer') }}</label>
           <Select
             v-model="selectedVolunteerId"
@@ -359,6 +511,19 @@ const resetAbsenceStatus = async () => {
             class="w-full"
             :placeholder="$t('admin.absence-volunteer-placeholder')"
           />
+        </div>
+
+        <div v-if="showAdminDelegateField" class="flex flex-col gap-2">
+          <label class="font-semibold text-gray-800">{{ $t('admin.absence-delegate-label') }}</label>
+          <Select
+            v-model="selectedDelegateVolunteerId"
+            :options="volunteers"
+            optionLabel="username"
+            optionValue="id"
+            class="w-full"
+            :placeholder="$t('admin.absence-delegate-placeholder')"
+          />
+          <p class="text-xs text-gray-500">{{ $t('admin.absence-delegate-helper') }}</p>
         </div>
 
         <div class="flex flex-col gap-2">

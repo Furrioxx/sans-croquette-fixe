@@ -7,7 +7,7 @@ export const AbsenceService = {
   async getAbsences() {
     return axiosInstance.get<{ data: Absence[] }>(API_URL, {
       params: {
-        populate: ['user'],
+        'populate[user][populate][0]': 'role',
         sort: ['startDate:desc'],
       },
     })
@@ -29,4 +29,3 @@ export const AbsenceService = {
     })
   },
 }
-

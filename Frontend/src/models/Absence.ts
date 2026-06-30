@@ -17,5 +17,22 @@ export interface AbsenceCreatePayload {
   endDate: string | null
   reason: string | null
   user?: number
+  delegateUserId?: number
 }
 
+export interface AbsenceDelegation {
+  id: number
+  startDate: string
+  endDate: string
+  isActive: boolean
+  sourceAbsenceDocumentId: string
+  adminUser: User
+  delegateUser: User
+}
+
+export interface AbsenceDelegationStatus {
+  canManageAbsences: boolean
+  isDelegatedManager: boolean
+  activeDelegation: AbsenceDelegation | null
+  activeOwnedDelegations: AbsenceDelegation[]
+}

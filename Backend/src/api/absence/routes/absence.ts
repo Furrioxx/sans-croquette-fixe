@@ -29,7 +29,7 @@ export default {
       path: "/absences/:id",
       handler: "api::absence.absence.update",
       config: {
-        policies: ["global::is-admin"],
+        policies: ["global::can-manage-absences"],
       },
     },
     {
@@ -42,4 +42,3 @@ export default {
     },
   ],
 };
-
