@@ -120,6 +120,8 @@
     "absence-overlap-error": "Ce bénévole a déjà une absence sur cette période.",
     "absence-create-success": "L'absence a été enregistrée.",
     "absence-create-error": "Impossible d'enregistrer l'absence pour le moment.",
+    "absence-delete-confirmation": "Voulez-vous vraiment supprimer cette absence admin et son relais associé ?",
+    "absence-delete-success": "L'absence admin a bien été supprimée.",
     "user-create": "Créer un utilisateur",
     "users": "Utilisateurs",
     "user-email-tooltip": "L'adresse e-mail ne peut pas être modifiée.",

@@ -78,6 +78,18 @@ export const getActiveDelegationsForAdmin = async (
   })
 }
 
+export const getDelegationBySourceAbsenceDocumentId = async (
+  strapi: any,
+  sourceAbsenceDocumentId: string,
+) => {
+  return await strapi.db.query('api::absence-delegation.absence-delegation').findOne({
+    where: {
+      sourceAbsenceDocumentId,
+    },
+    populate: ACTIVE_DELEGATION_POPULATE,
+  })
+}
+
 export const canUserManageAbsences = async (strapi: any, user: AuthUser | null | undefined) => {
   const roleName = await getRoleName(strapi, user)
 

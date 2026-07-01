@@ -12,4 +12,3 @@ export default async (policyContext, _config, { strapi }) => {
 
   return roleName === "Admin" || roleName === "Volunteer";
 };
-

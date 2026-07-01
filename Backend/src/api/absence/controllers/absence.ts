@@ -5,6 +5,7 @@
 import { factories } from '@strapi/strapi'
 import {
   canUserManageAbsences,
+  getDelegationBySourceAbsenceDocumentId,
   getFullUser,
   getRoleName,
 } from '../../../utils/absence-delegation'
@@ -44,10 +45,18 @@ const hasOverlappingAbsence = async (
   userId: number,
   startDate: string,
   endDate: string,
+  excludedDocumentId?: string,
 ) => {
   const existingAbsence = await strapi.db.query('api::absence.absence').findOne({
     where: {
       user: userId,
+      ...(excludedDocumentId
+        ? {
+            documentId: {
+              $ne: excludedDocumentId,
+            },
+          }
+        : {}),
       absence_status: {
         $ne: 'rejected',
       },
@@ -63,6 +72,50 @@ const hasOverlappingAbsence = async (
   return !!existingAbsence
 }
 
+const getAbsenceWithRelations = async (strapi: any, documentId: string) => {
+  return await strapi.documents('api::absence.absence').findOne({
+    documentId,
+    status: 'draft',
+    populate: {
+      user: {
+        populate: {
+          role: true,
+        },
+      },
+    },
+  })
+}
+
+const getAbsencesWithRelations = async (
+  strapi: any,
+  options?: {
+    userId?: number
+  },
+) => {
+  return await strapi.documents('api::absence.absence').findMany({
+    status: 'draft',
+    filters: options?.userId
+      ? {
+          user: {
+            id: {
+              $eq: options.userId,
+            },
+          },
+        }
+      : undefined,
+    populate: {
+      user: {
+        populate: {
+          role: true,
+        },
+      },
+    },
+    sort: {
+      startDate: 'desc',
+    },
+  })
+}
+
 export default factories.createCoreController('api::absence.absence', ({ strapi }) => ({
   async create(ctx) {
     const user = ctx.state.user as AuthUser | undefined
@@ -74,6 +127,7 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
     const body = ctx.request.body as any
     const roleName = await getRoleName(strapi, user)
     const payload = (body?.data || body) as any
+    const { delegateUserId: _delegateUserId, ...absenceData } = payload
     const dateError = getDateError(payload)
     const delegateUserId = payload?.delegateUserId
     let targetUserId = user.id
@@ -116,17 +170,15 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.badRequest('This volunteer already has an absence during this period')
     }
 
-    ctx.request.body = {
-      ...body,
+    const createdAbsence = await strapi.documents('api::absence.absence').create({
+      status: 'draft',
       data: {
-        ...payload,
-        absence_status: payload.absence_status ?? (roleName === 'Admin' && !payload?.user ? 'approved' : 'pending'),
+        ...absenceData,
+        absence_status:
+          payload.absence_status ?? (roleName === 'Admin' && !payload?.user ? 'approved' : 'pending'),
         user: targetUserId,
       },
-    }
-
-    // @ts-ignore - "super" est injecte par Strapi dans ce contexte
-    const createdAbsence = await super.create(ctx)
+    })
 
     if (roleName === 'Admin' && !payload?.user && delegateUserId) {
       await strapi.db.query('api::absence-delegation.absence-delegation').create({
@@ -136,12 +188,14 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
           adminUser: user.id,
           delegateUser: delegateUserId,
           isActive: true,
-          sourceAbsenceDocumentId: createdAbsence?.data?.documentId,
+          sourceAbsenceDocumentId: createdAbsence?.documentId,
         },
       })
     }
 
-    return createdAbsence
+    const populatedAbsence = await getAbsenceWithRelations(strapi, createdAbsence.documentId)
+
+    return { data: populatedAbsence }
   },
 
   async find(ctx) {
@@ -153,21 +207,11 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
 
     const { canManage } = await canUserManageAbsences(strapi, user)
 
-    if (!canManage) {
-      const query = (ctx.query || {}) as any
-      const existingFilters = (query.filters || {}) as any
+    const absences = await getAbsencesWithRelations(strapi, {
+      userId: canManage ? undefined : user.id,
+    })
 
-      ctx.query = {
-        ...query,
-        filters: {
-          ...existingFilters,
-          user: user.id,
-        },
-      }
-    }
-
-    // @ts-ignore - "super" est injecte par Strapi dans ce contexte
-    return await super.find(ctx)
+    return { data: absences }
   },
 
   async findOne(ctx) {
@@ -180,10 +224,7 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
     const { canManage } = await canUserManageAbsences(strapi, user)
 
     if (!canManage) {
-      const entity = await strapi.db.query('api::absence.absence').findOne({
-        where: { documentId: ctx.params.id },
-        populate: { user: true },
-      })
+      const entity = await getAbsenceWithRelations(strapi, ctx.params.id)
 
       if (!entity || entity.user?.id !== user.id) {
         return ctx.forbidden('You are not allowed to access this absence')
@@ -207,6 +248,21 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.forbidden('You are not allowed to update absences')
     }
 
+    const entity = await strapi.db.query('api::absence.absence').findOne({
+      where: { documentId: ctx.params.id },
+      populate: {
+        user: {
+          populate: {
+            role: true,
+          },
+        },
+      },
+    })
+
+    if (!entity) {
+      return ctx.notFound('Absence not found')
+    }
+
     if (roleName !== 'Admin') {
       const payload = ((ctx.request.body as any)?.data || ctx.request.body || {}) as any
       const allowedStatuses = ['pending', 'approved', 'rejected']
@@ -218,23 +274,131 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
         return ctx.forbidden('You are only allowed to update absence status')
       }
 
-      const entity = await strapi.db.query('api::absence.absence').findOne({
-        where: { documentId: ctx.params.id },
-        populate: {
-          user: {
-            populate: {
-              role: true,
-            },
-          },
-        },
-      })
-
-      if (!entity || entity.user?.role?.name !== 'Volunteer') {
+      if (entity.user?.role?.name === 'Admin') {
         return ctx.forbidden('You are not allowed to update this absence')
       }
     }
 
-    // @ts-ignore - "super" est injecte par Strapi dans ce contexte
-    return await super.update(ctx)
+    if (roleName === 'Admin' && entity.user?.id === user.id && entity.user?.role?.name === 'Admin') {
+      const body = ctx.request.body as any
+      const payload = (body?.data || body) as any
+      const { delegateUserId: _delegateUserId, ...absenceData } = payload
+      const dateError = getDateError({
+        startDate: payload.startDate ?? entity.startDate,
+        endDate: payload.endDate ?? entity.endDate,
+      })
+      const delegateUserId = payload?.delegateUserId
+
+      if (dateError) {
+        return ctx.badRequest(dateError)
+      }
+
+      if (!delegateUserId) {
+        return ctx.badRequest('Delegate user is required')
+      }
+
+      const delegateUser = await getFullUser(strapi, delegateUserId)
+
+      if (
+        !delegateUser ||
+        delegateUser.role?.name !== 'Volunteer' ||
+        delegateUser.confirmed !== true ||
+        delegateUser.blocked === true
+      ) {
+        return ctx.badRequest('Selected delegate must be an active volunteer')
+      }
+
+      const overlappingAbsence = await hasOverlappingAbsence(
+        strapi,
+        user.id,
+        payload.startDate ?? entity.startDate,
+        payload.endDate ?? entity.endDate,
+        ctx.params.id,
+      )
+
+      if (overlappingAbsence) {
+        return ctx.badRequest('This volunteer already has an absence during this period')
+      }
+
+      await strapi.documents('api::absence.absence').update({
+        documentId: ctx.params.id,
+        data: {
+          ...absenceData,
+          absence_status: 'approved',
+          user: user.id,
+        },
+      })
+
+      const delegation = await getDelegationBySourceAbsenceDocumentId(strapi, ctx.params.id)
+
+      if (delegation) {
+        await strapi.db.query('api::absence-delegation.absence-delegation').update({
+          where: { id: delegation.id },
+          data: {
+            startDate: payload.startDate ?? entity.startDate,
+            endDate: payload.endDate ?? entity.endDate,
+            delegateUser: delegateUserId,
+            isActive: true,
+          },
+        })
+      }
+
+      return { data: await getAbsenceWithRelations(strapi, ctx.params.id) }
+    }
+
+    const body = ctx.request.body as any
+    const payload = (body?.data || body) as any
+
+    await strapi.documents('api::absence.absence').update({
+      documentId: ctx.params.id,
+      data: payload,
+    })
+
+    return { data: await getAbsenceWithRelations(strapi, ctx.params.id) }
+  },
+
+  async delete(ctx) {
+    const user = ctx.state.user as AuthUser | undefined
+
+    if (!user) {
+      return ctx.unauthorized('You must be authenticated')
+    }
+
+    const roleName = await getRoleName(strapi, user)
+
+    if (roleName !== 'Admin') {
+      return ctx.forbidden('You are not allowed to delete absences')
+    }
+
+    const entity = await strapi.db.query('api::absence.absence').findOne({
+      where: { documentId: ctx.params.id },
+      populate: {
+        user: {
+          populate: {
+            role: true,
+          },
+        },
+      },
+    })
+
+    if (!entity) {
+      return ctx.notFound('Absence not found')
+    }
+
+    if (entity.user?.id === user.id && entity.user?.role?.name === 'Admin') {
+      const delegation = await getDelegationBySourceAbsenceDocumentId(strapi, ctx.params.id)
+
+      if (delegation) {
+        await strapi.db.query('api::absence-delegation.absence-delegation').delete({
+          where: { id: delegation.id },
+        })
+      }
+    }
+
+    await strapi.documents('api::absence.absence').delete({
+      documentId: ctx.params.id,
+    })
+
+    return { data: entity }
   },
 }))

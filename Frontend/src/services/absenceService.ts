@@ -8,7 +8,7 @@ export const AbsenceService = {
     return axiosInstance.get<{ data: Absence[] }>(API_URL, {
       params: {
         'populate[user][populate][0]': 'role',
-        sort: ['startDate:desc'],
+        'sort[0]': 'startDate:desc',
       },
     })
   },
@@ -27,5 +27,17 @@ export const AbsenceService = {
         absence_status: status,
       },
     })
+  },
+
+  async updateAbsence(documentId: string, payload: AbsenceCreatePayload) {
+    return axiosInstance.put<{ data: Absence }>(`${API_URL}/${documentId}`, {
+      data: {
+        ...payload,
+      },
+    })
+  },
+
+  async deleteAbsence(documentId: string) {
+    return axiosInstance.delete<{ data: Absence }>(`${API_URL}/${documentId}`)
   },
 }

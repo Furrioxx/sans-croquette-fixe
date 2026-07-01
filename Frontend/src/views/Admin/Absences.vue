@@ -9,6 +9,7 @@ import type { User } from '@/models/User'
 import notificationService from '@/services/notificationService'
 import { useI18n } from 'vue-i18n'
 import { AbsenceDelegationService } from '@/services/absenceDelegationService'
+import confirmationDialogService from '@/services/confirmationDialogService'
 
 const absenceStore = useAbsenceStore()
 const authStore = useAuthStore()
@@ -27,6 +28,7 @@ const op = ref()
 const selectedAbsenceDocumentId = ref<string | null>(null)
 const adminAbsenceTarget = ref<AdminAbsenceTarget>('volunteer')
 const delegationStatus = ref<AbsenceDelegationStatus | null>(null)
+const editingAbsence = ref<Absence | null>(null)
 
 const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
 const canManageAbsences = computed(
@@ -36,6 +38,7 @@ const isDelegatedManager = computed(() => delegationStatus.value?.isDelegatedMan
 const activeOwnedDelegations = computed(() => delegationStatus.value?.activeOwnedDelegations ?? [])
 const absences = computed(() => absenceStore.absences)
 const loading = computed(() => absenceStore.loading)
+const isEditingAdminAbsence = computed(() => editingAbsence.value !== null)
 const absenceTitle = computed(() =>
   canManageAbsences.value ? t('admin.absence-list-title-admin') : t('admin.absence-list-title'),
 )
@@ -74,7 +77,11 @@ onMounted(() => {
 })
 
 const loadData = async () => {
-  await absenceStore.fetchAbsences()
+  try {
+    await absenceStore.fetchAbsences()
+  } catch {
+    notificationService.showError(t('error'), t('serverResponseProblem'))
+  }
 }
 
 const loadDelegationStatus = async () => {
@@ -97,6 +104,8 @@ const loadVolunteers = async () => {
 }
 
 const openDialog = () => {
+  editingAbsence.value = null
+  resetForm()
   dialogVisible.value = true
 }
 
@@ -111,6 +120,7 @@ const resetForm = () => {
 
 const hideDialog = () => {
   dialogVisible.value = false
+  editingAbsence.value = null
   resetForm()
 }
 
@@ -149,13 +159,19 @@ const submitAbsence = async () => {
   }
 
   try {
-    await absenceStore.createAbsence({
+    const payload = {
       startDate: startDate.value!.toISOString(),
       endDate: endDate.value!.toISOString(),
       reason: reason.value || null,
       user: showVolunteerFields.value ? selectedVolunteerId.value! : undefined,
       delegateUserId: showAdminDelegateField.value ? selectedDelegateVolunteerId.value! : undefined,
-    })
+    }
+
+    if (editingAbsence.value) {
+      await absenceStore.updateAbsence(editingAbsence.value.documentId, payload)
+    } else {
+      await absenceStore.createAbsence(payload)
+    }
 
     notificationService.showSuccess(t('success'), t('admin.absence-create-success'))
     hideDialog()
@@ -198,19 +214,31 @@ const formatDate = (value: string | null) => {
 }
 
 const canReviewAbsence = (absence: Absence) => {
-  return canManageAbsences.value && absence.user?.role?.name === 'Volunteer'
+  return canManageAbsences.value && !isAdminOwnedAbsence(absence)
 }
 
 const isAdminOwnedAbsence = (absence: Absence) => {
   return absence.user?.role?.name === 'Admin'
 }
 
+const canEditAdminOwnedAbsence = (absence: Absence) => {
+  return isAdmin.value && isAdminOwnedAbsence(absence) && absence.user?.id === authStore.user?.id
+}
+
 const approveAbsence = async (documentId: string) => {
-  await absenceStore.updateAbsenceStatus(documentId, 'approved')
+  try {
+    await absenceStore.updateAbsenceStatus(documentId, 'approved')
+  } catch {
+    notificationService.showError(t('error'), t('serverResponseProblem'))
+  }
 }
 
 const rejectAbsence = async (documentId: string) => {
-  await absenceStore.updateAbsenceStatus(documentId, 'rejected')
+  try {
+    await absenceStore.updateAbsenceStatus(documentId, 'rejected')
+  } catch {
+    notificationService.showError(t('error'), t('serverResponseProblem'))
+  }
 }
 
 const openActionsMenu = (event: Event, documentId: string) => {
@@ -223,9 +251,13 @@ const resetAbsenceStatus = async () => {
     return
   }
 
-  await absenceStore.updateAbsenceStatus(selectedAbsenceDocumentId.value, 'pending')
-  op.value.hide()
-  selectedAbsenceDocumentId.value = null
+  try {
+    await absenceStore.updateAbsenceStatus(selectedAbsenceDocumentId.value, 'pending')
+    op.value.hide()
+    selectedAbsenceDocumentId.value = null
+  } catch {
+    notificationService.showError(t('error'), t('serverResponseProblem'))
+  }
 }
 
 const deactivateDelegation = async (delegationId: number) => {
@@ -236,6 +268,34 @@ const deactivateDelegation = async (delegationId: number) => {
   } catch {
     notificationService.showError(t('error'), t('admin.absence-delegation-deactivate-error'))
   }
+}
+
+const editAdminAbsence = (absence: Absence) => {
+  editingAbsence.value = absence
+  adminAbsenceTarget.value = 'self'
+  startDate.value = absence.startDate ? new Date(absence.startDate) : null
+  endDate.value = absence.endDate ? new Date(absence.endDate) : null
+  reason.value = absence.reason || ''
+
+  const delegation = activeOwnedDelegations.value.find(
+    (item) => item.sourceAbsenceDocumentId === absence.documentId,
+  )
+
+  selectedDelegateVolunteerId.value = delegation?.delegateUser?.id ?? null
+  dialogVisible.value = true
+}
+
+const deleteAdminAbsence = (absence: Absence) => {
+  confirmationDialogService.showConfirmDelete(
+    t('confirm'),
+    t('admin.absence-delete-confirmation'),
+    async () => {
+      await absenceStore.deleteAbsence(absence.documentId)
+      await loadDelegationStatus()
+      notificationService.showSuccess(t('success'), t('admin.absence-delete-success'))
+    },
+    () => undefined,
+  )
 }
 </script>
 
@@ -264,7 +324,7 @@ const deactivateDelegation = async (delegationId: number) => {
             @click="loadData"
           />
           <Button
-            :label="$t('admin.absence-create')"
+            :label="$t(editingAbsence ? 'update' : 'admin.absence-create')"
             icon="pi pi-plus"
             iconPos="right"
             @click="openDialog"
@@ -438,6 +498,25 @@ const deactivateDelegation = async (delegationId: number) => {
                 />
               </div>
 
+              <div v-else-if="canEditAdminOwnedAbsence(slotProps.data)" class="flex gap-2">
+                <Button
+                  icon="pi pi-pencil"
+                  size="small"
+                  severity="info"
+                  outlined
+                  v-tooltip.top="$t('update')"
+                  @click="editAdminAbsence(slotProps.data)"
+                />
+                <Button
+                  icon="pi pi-trash"
+                  size="small"
+                  severity="danger"
+                  outlined
+                  v-tooltip.top="$t('delete')"
+                  @click="deleteAdminAbsence(slotProps.data)"
+                />
+              </div>
+
               <span v-else class="text-xs text-gray-400">
                 {{ $t('admin.absence-no-review-needed') }}
               </span>
@@ -463,7 +542,7 @@ const deactivateDelegation = async (delegationId: number) => {
     <Dialog
       v-model:visible="dialogVisible"
       modal
-      :header="$t('admin.absence-create')"
+      :header="$t(editingAbsence ? 'update' : 'admin.absence-create')"
       :style="{ width: '32rem' }"
     >
       <div class="flex flex-col gap-4">
@@ -482,6 +561,7 @@ const deactivateDelegation = async (delegationId: number) => {
                   ? 'border-primary-500 bg-primary-50 text-primary-700'
                   : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
               "
+              :disabled="isEditingAdminAbsence"
               @click="adminAbsenceTarget = 'volunteer'"
             >
               {{ $t('admin.absence-target-volunteer') }}
