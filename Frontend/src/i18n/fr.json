@@ -45,6 +45,7 @@
     "login": "Connexion",
     "register": "Inscription",
     "adopt": "À l'adoption",
+    "discover": "Trouver votre chat",
     "dashboard": "Tableau de bord",
     "dashboard-users": "Utilisateurs",
     "dashboard-settings": "Paramètres",
@@ -204,5 +205,8 @@
     "detail-cat-section": "Chat",
     "health-yes": "Oui",
     "health-no": "Non"
+  },
+  "discover": {
+    "nav-link": "Trouver votre chat"
   }
 }
