@@ -5,6 +5,7 @@ export const enum RouteNames {
   ADOPT = 'adopt',
   ADOPT_DETAIL = 'adopt-detail',
   DISCOVER = 'discover',
+  DISCOVER_LIKES = 'discover-likes',
   DASHBOARD = 'dashboard',
   DASHBOARD_USERS = 'dashboard-users',
   DASHBOARD_SETTINGS = 'dashboard-settings',

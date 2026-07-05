@@ -16,7 +16,10 @@ export interface PublicCatSheetParams {
   sterilized?: boolean
   identified?: boolean
   decontaminate?: boolean
+  excludeIds?: string[]
 }
+
+export const ADOPTABLE_STATUSES = ['en_refuge', 'en_famille_accueil']
 
 export const CatSheetService = {
   GetAllCatSheets: async () => {
@@ -38,7 +41,8 @@ export const CatSheetService = {
       'pagination[pageSize]': params.pageSize,
     }
 
-    params.statuses?.forEach((s, i) => { p[`filters[cats][catStatus][$in][${i}]`] = s })
+    const statuses = params.statuses?.length ? params.statuses : ADOPTABLE_STATUSES
+    statuses.forEach((s, i) => { p[`filters[cats][catStatus][$in][${i}]`] = s })
     params.genders?.forEach((g, i) => { p[`filters[cats][gender][$in][${i}]`] = g })
 
     if (params.isDuo !== undefined) p['filters[isDuo][$eq]'] = params.isDuo
@@ -49,6 +53,7 @@ export const CatSheetService = {
     if (params.sterilized) p['filters[cats][sterilized][$eq]'] = true
     if (params.identified) p['filters[cats][identified][$eq]'] = true
     if (params.decontaminate) p['filters[cats][decontaminate][$eq]'] = true
+    params.excludeIds?.forEach((id, i) => { p[`filters[documentId][$notIn][${i}]`] = id })
 
     return await axiosInstance.get(API_URL, { params: p })
   },
@@ -60,6 +65,17 @@ export const CatSheetService = {
         'populate[images]': true,
       },
     })
+  },
+
+  GetCatSheetsByIds: async (documentIds: string[]) => {
+    if (!documentIds.length) return { data: { data: [] } }
+    const p: Record<string, unknown> = {
+      'populate[cats][populate][cat_moods]': '*',
+      'populate[images]': true,
+      'pagination[pageSize]': documentIds.length,
+    }
+    documentIds.forEach((id, i) => { p[`filters[documentId][$in][${i}]`] = id })
+    return await axiosInstance.get(API_URL, { params: p })
   },
 
   AddCatSheet: async (catSheet: CatSheetPostPut) => {

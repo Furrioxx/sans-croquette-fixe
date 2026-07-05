@@ -37,6 +37,11 @@ const routes = [
         name: RouteNames.DISCOVER,
         component: () => import('../views/Discover.vue'),
       },
+      {
+        path: 'discover/likes',
+        name: RouteNames.DISCOVER_LIKES,
+        component: () => import('../views/MyLikes.vue'),
+      },
     ],
   },
   {
