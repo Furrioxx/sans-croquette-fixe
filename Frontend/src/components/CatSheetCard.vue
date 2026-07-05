@@ -24,9 +24,7 @@ const coverImage = computed(() => {
   return first ? getImageUrl(first.url) : null
 })
 
-const catNames = computed(() =>
-  cats.value.map((c) => c.name).join(' & '),
-)
+const catNames = computed(() => cats.value.map((c) => c.name).join(' & '))
 
 const primaryCat = computed(() => cats.value[0])
 
@@ -65,12 +63,12 @@ const age = computed(() => {
   if (months < 12) return t('adopt.age-months', { n: months })
   return t('adopt.age-years', { n: Math.floor(months / 12) })
 })
-
 </script>
 
 <template>
-  <article class="group bg-white dark:bg-surface-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-surface-100 dark:border-surface-700">
-
+  <article
+    class="group bg-white dark:bg-surface-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-surface-100 dark:border-surface-700"
+  >
     <!-- Image -->
     <div class="relative aspect-[4/3] overflow-hidden bg-surface-100 dark:bg-surface-700">
       <img
@@ -84,7 +82,7 @@ const age = computed(() => {
         class="w-full h-full flex flex-col items-center justify-center gap-2 text-surface-300 dark:text-surface-500"
       >
         <i class="pi pi-camera text-5xl"></i>
-        <span class="text-sm">Pas de photo</span>
+        <span class="text-sm">{{ $t('no-photo') }}</span>
       </div>
 
       <!-- Badges overlay -->
@@ -92,20 +90,23 @@ const age = computed(() => {
         <span
           v-if="statusLabel"
           :class="['text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm', statusClass]"
-        >{{ statusLabel }}</span>
+          >{{ statusLabel }}</span
+        >
         <span
           v-if="catSheet.isDuo"
           class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-700"
-        >{{ $t('adopt.duo') }}</span>
+          >{{ $t('adopt.duo') }}</span
+        >
       </div>
     </div>
 
     <!-- Content -->
     <div class="flex flex-col flex-1 p-5 gap-4">
-
       <!-- Name + gender/age -->
       <div>
-        <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">{{ catNames }}</h3>
+        <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">
+          {{ catNames }}
+        </h3>
         <div class="flex items-center gap-1.5 mt-1 text-surface-500 dark:text-surface-400 text-sm">
           <i :class="genderIcon" class="text-xs"></i>
           <span v-if="genderLabel">{{ genderLabel }}</span>

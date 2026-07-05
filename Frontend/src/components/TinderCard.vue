@@ -21,7 +21,7 @@
           class="w-full h-full flex flex-col items-center justify-center gap-2 text-surface-300 dark:text-surface-500"
         >
           <i class="pi pi-camera text-5xl"></i>
-          <span class="text-sm">Pas de photo</span>
+          <span class="text-sm">{{ $t('no-photo') }}</span>
         </div>
 
         <div

@@ -40,6 +40,7 @@
   "settings": "Paramètres",
   "requiredInputError": "Ce champs est obligatoire",
   "next": "Suivant",
+  "no-photo": "Pas de photo",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
