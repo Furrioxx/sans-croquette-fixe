@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CatSheetDetails from '@/components/CatSheetDetails.vue'
 import CheckboxWithLabel from '@/components/Forms/elements/CheckboxWithLabel.vue'
 import TinderCard from '@/components/TinderCard.vue'
 import { useTinderDeck } from '@/composables/useTinderDeck'
@@ -268,6 +269,14 @@ onUnmounted(() => {
             @click="resetFilters"
           />
         </div>
+      </div>
+
+      <!-- Details of the currently shown card -->
+      <div
+        v-if="currentCard"
+        class="mt-4 bg-white dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 shadow-sm p-5"
+      >
+        <CatSheetDetails :catSheet="currentCard" :truncateDescription="false" />
       </div>
 
       <!-- Action buttons -->

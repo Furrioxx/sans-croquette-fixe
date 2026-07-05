@@ -16,6 +16,7 @@ declare module 'vue' {
     CatFormPanel: typeof import('./src/components/Forms/CatFormPanel.vue')['default']
     CatGalleryModal: typeof import('./src/components/Modals/CatGalleryModal.vue')['default']
     CatSheetCard: typeof import('./src/components/CatSheetCard.vue')['default']
+    CatSheetDetails: typeof import('./src/components/CatSheetDetails.vue')['default']
     CatSheetGeneralPanel: typeof import('./src/components/Forms/CatSheetGeneralPanel.vue')['default']
     CatSheetImagesPanel: typeof import('./src/components/Forms/CatSheetImagesPanel.vue')['default']
     CatSheetModal: typeof import('./src/components/Modals/CatSheetModal.vue')['default']
