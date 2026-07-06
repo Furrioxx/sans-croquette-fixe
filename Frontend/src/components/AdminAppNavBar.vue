@@ -4,6 +4,8 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/authentication'
 import router from '@/router'
 import { i18n } from '@/i18n'
+import { computed } from 'vue'
+import { Roles } from '@/router/Roles'
 
 const { t } = i18n.global
 
@@ -11,26 +13,33 @@ const isActive = (name: string) => route.name === name
 
 const authStore = useAuthStore()
 const route = useRoute()
+const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
 const logout = () => {
   authStore.logout()
   router.push({ name: RouteNames.HOME })
 }
-const items = [
+const items = computed(() =>
+  [
   { label: t('admin.nav.dashboard'), icon: 'pi pi-home', routeName: RouteNames.DASHBOARD },
-  { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },
-  {
-    label: t('admin.nav.analytics'),
-    icon: 'pi pi-chart-line',
-    routeName: RouteNames.DASHBOARD_ANALYTICS,
-  },
   {
     label: t('admin.nav.absences'),
     icon: 'pi pi-calendar-times',
     routeName: RouteNames.DASHBOARD_ABSENCES,
   },
-  { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
-  { label: t('admin.nav.settings'), icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD_SETTINGS },
+  ...(isAdmin.value
+    ? [
+        { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },
+        {
+          label: t('admin.nav.analytics'),
+          icon: 'pi pi-chart-line',
+          routeName: RouteNames.DASHBOARD_ANALYTICS,
+        },
+        { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
+        { label: t('admin.nav.settings'), icon: 'pi pi-cog', routeName: RouteNames.DASHBOARD_SETTINGS },
+      ]
+    : []),
 ]
+)
 </script>
 
 <template>

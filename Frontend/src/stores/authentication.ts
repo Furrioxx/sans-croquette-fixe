@@ -65,11 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const me = async () => {
     try {
-      const res = await axiosInstance.get('/users/me', {
-        params: {
-          populate: 'role',
-        },
-      })
+      const res = await axiosInstance.get('/user-profiles/me')
       const userData: User = res.data
       setUser(userData)
     } catch (error: Error | any) {

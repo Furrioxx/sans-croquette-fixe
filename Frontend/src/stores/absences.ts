@@ -27,6 +27,16 @@ export const useAbsenceStore = defineStore('absences', () => {
     await fetchAbsences()
   }
 
+  const updateAbsence = async (documentId: string, payload: AbsenceCreatePayload) => {
+    await AbsenceService.updateAbsence(documentId, payload)
+    await fetchAbsences()
+  }
+
+  const deleteAbsence = async (documentId: string) => {
+    await AbsenceService.deleteAbsence(documentId)
+    await fetchAbsences()
+  }
+
   const getStatusSeverity = (status: AbsenceStatus) => {
     switch (status) {
       case 'approved':
@@ -45,7 +55,8 @@ export const useAbsenceStore = defineStore('absences', () => {
     fetchAbsences,
     createAbsence,
     updateAbsenceStatus,
+    updateAbsence,
+    deleteAbsence,
     getStatusSeverity,
   }
 })
-

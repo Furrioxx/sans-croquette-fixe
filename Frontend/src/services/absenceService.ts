@@ -5,12 +5,7 @@ const API_URL = '/absences'
 
 export const AbsenceService = {
   async getAbsences() {
-    return axiosInstance.get<{ data: Absence[] }>(API_URL, {
-      params: {
-        populate: ['user'],
-        sort: ['startDate:desc'],
-      },
-    })
+    return axiosInstance.get<{ data: Absence[] }>(API_URL)
   },
 
   async createAbsence(payload: AbsenceCreatePayload) {
@@ -28,5 +23,16 @@ export const AbsenceService = {
       },
     })
   },
-}
 
+  async updateAbsence(documentId: string, payload: AbsenceCreatePayload) {
+    return axiosInstance.put<{ data: Absence }>(`${API_URL}/${documentId}`, {
+      data: {
+        ...payload,
+      },
+    })
+  },
+
+  async deleteAbsence(documentId: string) {
+    return axiosInstance.delete<{ data: Absence }>(`${API_URL}/${documentId}`)
+  },
+}

@@ -7,6 +7,8 @@ const props = defineProps<{
   name: string
   label: string
   optionLabel: string
+  placeholder?: string
+  disabled?: boolean
   required?: boolean
   valid?: boolean
   errorMessage?: string
@@ -24,6 +26,8 @@ const props = defineProps<{
       v-model="model"
       :optionValue="props.optionValue"
       :optionLabel="props.optionLabel"
+      :placeholder="props.placeholder"
+      :disabled="props.disabled"
       class="flex-auto"
     />
   </div>

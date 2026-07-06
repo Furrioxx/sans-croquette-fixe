@@ -60,16 +60,25 @@ const routes = [
       },
       {
         path: 'cats',
+        meta: {
+          requiredRoles: [Roles.ADMIN],
+        },
         component: () => import('../views/Admin/Cats.vue'),
         name: RouteNames.DASHBOARD_CATS,
       },
       {
         path: 'users',
+        meta: {
+          requiredRoles: [Roles.ADMIN],
+        },
         component: () => import('../views/Admin/Users.vue'),
         name: RouteNames.DASHBOARD_USERS,
       },
       {
         path: 'analytics',
+        meta: {
+          requiredRoles: [Roles.ADMIN],
+        },
         component: () => import('../views/Admin/Analytics.vue'),
         name: RouteNames.DASHBOARD_ANALYTICS,
       },
@@ -80,6 +89,9 @@ const routes = [
       },
       {
         path: 'settings',
+        meta: {
+          requiredRoles: [Roles.ADMIN],
+        },
         component: () => import('../views/Admin/Settings.vue'),
         name: RouteNames.DASHBOARD_SETTINGS,
       },

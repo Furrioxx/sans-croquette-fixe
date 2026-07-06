@@ -2,19 +2,31 @@ import type { Core } from '@strapi/strapi';
 
 const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
   Volunteer: [
+    'plugin::users-permissions.user.me',
+    'api::user-profile.user-profile.me',
     'api::absence.absence.find',
     'api::absence.absence.findOne',
     'api::absence.absence.create',
+    'api::absence.absence.update',
+    'api::absence-delegation.absence-delegation.getMyStatus',
   ],
   Admin: [
+    'plugin::users-permissions.user.me',
+    'api::user-profile.user-profile.me',
     'api::absence.absence.find',
     'api::absence.absence.findOne',
     'api::absence.absence.create',
     'api::absence.absence.update',
     'api::absence.absence.delete',
+    'api::absence-delegation.absence-delegation.getMyStatus',
+    'api::absence-delegation.absence-delegation.deactivate',
     'api::user-role.user-role.getVolunteers',
     'api::user-role.user-role.getAvailableRoles',
     'api::user-role.user-role.updateUserRole',
+  ],
+  User: [
+    'plugin::users-permissions.user.me',
+    'api::user-profile.user-profile.me',
   ],
 };
 
