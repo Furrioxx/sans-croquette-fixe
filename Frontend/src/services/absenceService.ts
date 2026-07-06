@@ -5,12 +5,7 @@ const API_URL = '/absences'
 
 export const AbsenceService = {
   async getAbsences() {
-    return axiosInstance.get<{ data: Absence[] }>(API_URL, {
-      params: {
-        'populate[user][populate][0]': 'role',
-        'sort[0]': 'startDate:desc',
-      },
-    })
+    return axiosInstance.get<{ data: Absence[] }>(API_URL)
   },
 
   async createAbsence(payload: AbsenceCreatePayload) {

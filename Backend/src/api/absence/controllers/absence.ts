@@ -47,9 +47,14 @@ const hasOverlappingAbsence = async (
   endDate: string,
   excludedDocumentId?: string,
 ) => {
-  const existingAbsence = await strapi.db.query('api::absence.absence').findOne({
-    where: {
-      user: userId,
+  const existingAbsences = await strapi.documents('api::absence.absence').findMany({
+    status: 'draft',
+    filters: {
+      user: {
+        id: {
+          $eq: userId,
+        },
+      },
       ...(excludedDocumentId
         ? {
             documentId: {
@@ -69,7 +74,7 @@ const hasOverlappingAbsence = async (
     },
   })
 
-  return !!existingAbsence
+  return existingAbsences.length > 0
 }
 
 const getAbsenceWithRelations = async (strapi: any, documentId: string) => {
@@ -222,17 +227,19 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
     }
 
     const { canManage } = await canUserManageAbsences(strapi, user)
+    const entity = await getAbsenceWithRelations(strapi, ctx.params.id)
+
+    if (!entity) {
+      return ctx.notFound('Absence not found')
+    }
 
     if (!canManage) {
-      const entity = await getAbsenceWithRelations(strapi, ctx.params.id)
-
-      if (!entity || entity.user?.id !== user.id) {
+      if (entity.user?.id !== user.id) {
         return ctx.forbidden('You are not allowed to access this absence')
       }
     }
 
-    // @ts-ignore - "super" est injecte par Strapi dans ce contexte
-    return await super.findOne(ctx)
+    return { data: entity }
   },
 
   async update(ctx) {
@@ -248,16 +255,7 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.forbidden('You are not allowed to update absences')
     }
 
-    const entity = await strapi.db.query('api::absence.absence').findOne({
-      where: { documentId: ctx.params.id },
-      populate: {
-        user: {
-          populate: {
-            role: true,
-          },
-        },
-      },
-    })
+    const entity = await getAbsenceWithRelations(strapi, ctx.params.id)
 
     if (!entity) {
       return ctx.notFound('Absence not found')
@@ -370,16 +368,7 @@ export default factories.createCoreController('api::absence.absence', ({ strapi 
       return ctx.forbidden('You are not allowed to delete absences')
     }
 
-    const entity = await strapi.db.query('api::absence.absence').findOne({
-      where: { documentId: ctx.params.id },
-      populate: {
-        user: {
-          populate: {
-            role: true,
-          },
-        },
-      },
-    })
+    const entity = await getAbsenceWithRelations(strapi, ctx.params.id)
 
     if (!entity) {
       return ctx.notFound('Absence not found')
