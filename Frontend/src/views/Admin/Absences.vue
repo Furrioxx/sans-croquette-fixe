@@ -10,6 +10,9 @@ import notificationService from '@/services/notificationService'
 import { useI18n } from 'vue-i18n'
 import { AbsenceDelegationService } from '@/services/absenceDelegationService'
 import confirmationDialogService from '@/services/confirmationDialogService'
+import SelectWithLabel from '@/components/Forms/elements/SelectWithLabel.vue'
+import TextareaWithLabel from '@/components/Forms/elements/TextareaWithLabel.vue'
+import DateTimePickerWithLabel from '@/components/Forms/elements/DateTimePickerWithLabel.vue'
 
 const absenceStore = useAbsenceStore()
 const authStore = useAuthStore()
@@ -29,6 +32,10 @@ const selectedAbsenceDocumentId = ref<string | null>(null)
 const adminAbsenceTarget = ref<AdminAbsenceTarget>('volunteer')
 const delegationStatus = ref<AbsenceDelegationStatus | null>(null)
 const editingAbsence = ref<Absence | null>(null)
+const absenceTargetOptions = computed(() => [
+  { label: t('admin.absence-target-volunteer'), value: 'volunteer' },
+  { label: t('admin.absence-target-self'), value: 'self' },
+])
 
 const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
 const canManageAbsences = computed(
@@ -551,90 +558,67 @@ const deleteAdminAbsence = (absence: Absence) => {
         </div>
 
         <div v-if="isAdmin" class="flex flex-col gap-3 rounded-xl border border-gray-200 p-4">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-target-label') }}</label>
-          <div class="grid gap-2 md:grid-cols-2">
-            <button
-              type="button"
-              class="rounded-xl border px-4 py-3 text-left text-sm transition"
-              :class="
-                adminAbsenceTarget === 'volunteer'
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-              "
-              :disabled="isEditingAdminAbsence"
-              @click="adminAbsenceTarget = 'volunteer'"
-            >
-              {{ $t('admin.absence-target-volunteer') }}
-            </button>
-            <button
-              type="button"
-              class="rounded-xl border px-4 py-3 text-left text-sm transition"
-              :class="
-                adminAbsenceTarget === 'self'
-                  ? 'border-primary-500 bg-primary-50 text-primary-700'
-                  : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-              "
-              @click="adminAbsenceTarget = 'self'"
-            >
-              {{ $t('admin.absence-target-self') }}
-            </button>
-          </div>
+          <SelectWithLabel
+            name="absence-target"
+            :label="$t('admin.absence-target-label')"
+            :options="absenceTargetOptions"
+            optionLabel="label"
+            optionValue="value"
+            v-model="adminAbsenceTarget"
+            :disabled="isEditingAdminAbsence"
+          />
         </div>
 
         <div v-if="showVolunteerFields" class="flex flex-col gap-2">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-volunteer') }}</label>
-          <Select
-            v-model="selectedVolunteerId"
+          <SelectWithLabel
+            name="absence-volunteer"
+            :label="$t('admin.absence-volunteer')"
             :options="volunteers"
             optionLabel="username"
             optionValue="id"
-            class="w-full"
+            v-model="selectedVolunteerId"
             :placeholder="$t('admin.absence-volunteer-placeholder')"
           />
         </div>
 
         <div v-if="showAdminDelegateField" class="flex flex-col gap-2">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-delegate-label') }}</label>
-          <Select
-            v-model="selectedDelegateVolunteerId"
+          <SelectWithLabel
+            name="absence-delegate"
+            :label="$t('admin.absence-delegate-label')"
             :options="volunteers"
             optionLabel="username"
             optionValue="id"
-            class="w-full"
+            v-model="selectedDelegateVolunteerId"
             :placeholder="$t('admin.absence-delegate-placeholder')"
           />
           <p class="text-xs text-gray-500">{{ $t('admin.absence-delegate-helper') }}</p>
         </div>
 
         <div class="flex flex-col gap-2">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-start-date') }}</label>
-          <DatePicker
+          <DateTimePickerWithLabel
+            name="absence-start-date"
+            :label="$t('admin.absence-start-date')"
             v-model="startDate"
-            showTime
-            hourFormat="24"
-            :showIcon="true"
             :maxDate="endDate || undefined"
-            inputClass="w-full"
-            class="w-full"
           />
         </div>
 
         <div class="flex flex-col gap-2">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-end-date') }}</label>
-          <DatePicker
+          <DateTimePickerWithLabel
+            name="absence-end-date"
+            :label="$t('admin.absence-end-date')"
             v-model="endDate"
-            showTime
-            hourFormat="24"
-            :showIcon="true"
             :minDate="startDate || undefined"
-            inputClass="w-full"
-            class="w-full"
           />
         </div>
 
         <div class="flex flex-col gap-2">
-          <label class="font-semibold text-gray-800">{{ $t('admin.absence-reason') }}</label>
-          <Textarea v-model="reason" rows="4" autoResize class="w-full" />
+          <TextareaWithLabel
+            name="absence-reason"
+            :label="$t('admin.absence-reason')"
+            v-model="reason"
+            :rows="4"
+          />
         </div>
       </div>
 
