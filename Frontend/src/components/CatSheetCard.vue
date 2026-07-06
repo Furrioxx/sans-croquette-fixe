@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
 import { CatStatus } from '@/models/Enums/CatStatusEnum'
-import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
+import CatSheetDetails from '@/components/CatSheetDetails.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -24,9 +24,7 @@ const coverImage = computed(() => {
   return first ? getImageUrl(first.url) : null
 })
 
-const catNames = computed(() =>
-  cats.value.map((c) => c.name).join(' & '),
-)
+const catNames = computed(() => cats.value.map((c) => c.name).join(' & '))
 
 const primaryCat = computed(() => cats.value[0])
 
@@ -65,44 +63,12 @@ const age = computed(() => {
   if (months < 12) return t('adopt.age-months', { n: months })
   return t('adopt.age-years', { n: Math.floor(months / 12) })
 })
-
-const description = computed(() => {
-  const d = props.catSheet.description
-  if (!d) return null
-  return d.length > 130 ? d.slice(0, 127) + '…' : d
-})
-
-const healthChips = computed(() => {
-  const cat = primaryCat.value
-  if (!cat) return []
-  return [
-    { key: 'vaccinated', label: t('adopt.vaccinated'), show: cat.vaccinated },
-    { key: 'sterilized', label: t('adopt.sterilized'), show: cat.sterilized },
-    { key: 'identified', label: t('adopt.identified'), show: cat.identified },
-    { key: 'decontaminated', label: t('adopt.decontaminated'), show: cat.decontaminate },
-  ].filter((c) => c.show)
-})
-
-const compatRow = computed(() => {
-  const cat = primaryCat.value
-  if (!cat) return []
-  return [
-    { icon: 'pi pi-heart', label: t('adopt.cat-friendly'), value: cat.catFriendly },
-    { icon: 'pi pi-cloud', label: t('adopt.dog-friendly'), value: cat.dogFriendly },
-    { icon: 'pi pi-star', label: t('adopt.child-friendly'), value: cat.childFriendly },
-  ]
-})
-
-const friendlyLabel = (value: CatFriendly) => {
-  if (value === CatFriendly.YES) return { text: t('adopt.friendly-yes'), cls: 'text-green-600' }
-  if (value === CatFriendly.NO) return { text: t('adopt.friendly-no'), cls: 'text-red-500' }
-  return { text: t('adopt.friendly-unknown'), cls: 'text-surface-400' }
-}
 </script>
 
 <template>
-  <article class="group bg-white dark:bg-surface-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-surface-100 dark:border-surface-700">
-
+  <article
+    class="group bg-white dark:bg-surface-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-surface-100 dark:border-surface-700"
+  >
     <!-- Image -->
     <div class="relative aspect-[4/3] overflow-hidden bg-surface-100 dark:bg-surface-700">
       <img
@@ -116,7 +82,7 @@ const friendlyLabel = (value: CatFriendly) => {
         class="w-full h-full flex flex-col items-center justify-center gap-2 text-surface-300 dark:text-surface-500"
       >
         <i class="pi pi-camera text-5xl"></i>
-        <span class="text-sm">Pas de photo</span>
+        <span class="text-sm">{{ $t('no-photo') }}</span>
       </div>
 
       <!-- Badges overlay -->
@@ -124,20 +90,23 @@ const friendlyLabel = (value: CatFriendly) => {
         <span
           v-if="statusLabel"
           :class="['text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm', statusClass]"
-        >{{ statusLabel }}</span>
+          >{{ statusLabel }}</span
+        >
         <span
           v-if="catSheet.isDuo"
           class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-700"
-        >{{ $t('adopt.duo') }}</span>
+          >{{ $t('adopt.duo') }}</span
+        >
       </div>
     </div>
 
     <!-- Content -->
     <div class="flex flex-col flex-1 p-5 gap-4">
-
       <!-- Name + gender/age -->
       <div>
-        <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">{{ catNames }}</h3>
+        <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">
+          {{ catNames }}
+        </h3>
         <div class="flex items-center gap-1.5 mt-1 text-surface-500 dark:text-surface-400 text-sm">
           <i :class="genderIcon" class="text-xs"></i>
           <span v-if="genderLabel">{{ genderLabel }}</span>
@@ -146,33 +115,7 @@ const friendlyLabel = (value: CatFriendly) => {
         </div>
       </div>
 
-      <!-- Description -->
-      <p v-if="description" class="text-sm text-surface-500 dark:text-surface-400 leading-relaxed">
-        {{ description }}
-      </p>
-
-      <!-- Health chips -->
-      <div v-if="healthChips.length" class="flex flex-wrap gap-1.5">
-        <span
-          v-for="chip in healthChips"
-          :key="chip.key"
-          class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800"
-        >{{ chip.label }}</span>
-      </div>
-
-      <!-- Compatibility -->
-      <div class="grid grid-cols-3 gap-2 pt-1 border-t border-surface-100 dark:border-surface-700">
-        <div
-          v-for="compat in compatRow"
-          :key="compat.label"
-          class="flex flex-col items-center gap-0.5"
-        >
-          <span class="text-xs text-surface-400 dark:text-surface-500">{{ compat.label }}</span>
-          <span :class="['text-xs font-semibold', friendlyLabel(compat.value).cls]">
-            {{ friendlyLabel(compat.value).text }}
-          </span>
-        </div>
-      </div>
+      <CatSheetDetails :catSheet="catSheet" />
 
       <!-- CTA -->
       <div class="mt-auto pt-2">

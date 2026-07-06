@@ -34,6 +34,14 @@ onMounted(() => {
         text
         severity="secondary"
       />
+
+      <Button
+        as="router-link"
+        :to="{ name: RouteNames.DISCOVER }"
+        :label="$t('discover.nav-link')"
+        text
+        severity="secondary"
+      />
     </div>
 
     <div class="flex gap-3 items-center">

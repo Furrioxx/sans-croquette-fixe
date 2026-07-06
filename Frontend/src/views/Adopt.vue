@@ -3,6 +3,7 @@ import type { CatSheet } from '@/models/CatSheet'
 import { CatSheetService } from '@/services/catSheetService'
 import type { PublicCatSheetParams } from '@/services/catSheetService'
 import CatSheetCard from '@/components/CatSheetCard.vue'
+import CheckboxWithLabel from '@/components/Forms/elements/CheckboxWithLabel.vue'
 import { ref, computed, watch, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 
@@ -10,14 +11,12 @@ const { t } = useI18n()
 
 const PAGE_SIZE = 9
 
-// --- state ---
 const catSheets = ref<CatSheet[]>([])
 const totalRecords = ref(0)
 const currentPage = ref(1)
 const loading = ref(false)
 const filterPanelOpen = ref(false)
 
-// filter state
 const filterStatuses = ref<string[]>([])
 const filterGenders = ref<string[]>([])
 const filterIsDuo = ref(false)
@@ -29,7 +28,6 @@ const filterSterilized = ref(false)
 const filterIdentified = ref(false)
 const filterDecontaminate = ref(false)
 
-// active filter chips (for display below toolbar)
 const activeFilters = computed(() => {
   const chips: { key: string; label: string }[] = []
   filterStatuses.value.forEach((s) => {
@@ -41,13 +39,17 @@ const activeFilters = computed(() => {
     chips.push({ key: `gender-${g}`, label })
   })
   if (filterIsDuo.value) chips.push({ key: 'duo', label: t('adopt.filter-duo') })
-  if (filterCatFriendly.value) chips.push({ key: 'catFriendly', label: t('adopt.filter-cat-friendly') })
-  if (filterDogFriendly.value) chips.push({ key: 'dogFriendly', label: t('adopt.filter-dog-friendly') })
-  if (filterChildFriendly.value) chips.push({ key: 'childFriendly', label: t('adopt.filter-child-friendly') })
+  if (filterCatFriendly.value)
+    chips.push({ key: 'catFriendly', label: t('adopt.filter-cat-friendly') })
+  if (filterDogFriendly.value)
+    chips.push({ key: 'dogFriendly', label: t('adopt.filter-dog-friendly') })
+  if (filterChildFriendly.value)
+    chips.push({ key: 'childFriendly', label: t('adopt.filter-child-friendly') })
   if (filterVaccinated.value) chips.push({ key: 'vaccinated', label: t('adopt.filter-vaccinated') })
   if (filterSterilized.value) chips.push({ key: 'sterilized', label: t('adopt.filter-sterilized') })
   if (filterIdentified.value) chips.push({ key: 'identified', label: t('adopt.filter-identified') })
-  if (filterDecontaminate.value) chips.push({ key: 'decontaminate', label: t('adopt.filter-decontaminated') })
+  if (filterDecontaminate.value)
+    chips.push({ key: 'decontaminate', label: t('adopt.filter-decontaminated') })
   return chips
 })
 
@@ -83,7 +85,6 @@ const resetFilters = () => {
   filterDecontaminate.value = false
 }
 
-// --- data fetch ---
 const fetchCatSheets = async () => {
   loading.value = true
   try {
@@ -110,20 +111,20 @@ const fetchCatSheets = async () => {
     loading.value = false
   }
 }
-
-// reset page and refetch when filters change
-const filterSnapshot = computed(() => JSON.stringify({
-  filterStatuses: filterStatuses.value,
-  filterGenders: filterGenders.value,
-  filterIsDuo: filterIsDuo.value,
-  filterCatFriendly: filterCatFriendly.value,
-  filterDogFriendly: filterDogFriendly.value,
-  filterChildFriendly: filterChildFriendly.value,
-  filterVaccinated: filterVaccinated.value,
-  filterSterilized: filterSterilized.value,
-  filterIdentified: filterIdentified.value,
-  filterDecontaminate: filterDecontaminate.value,
-}))
+const filterSnapshot = computed(() =>
+  JSON.stringify({
+    filterStatuses: filterStatuses.value,
+    filterGenders: filterGenders.value,
+    filterIsDuo: filterIsDuo.value,
+    filterCatFriendly: filterCatFriendly.value,
+    filterDogFriendly: filterDogFriendly.value,
+    filterChildFriendly: filterChildFriendly.value,
+    filterVaccinated: filterVaccinated.value,
+    filterSterilized: filterSterilized.value,
+    filterIdentified: filterIdentified.value,
+    filterDecontaminate: filterDecontaminate.value,
+  }),
+)
 
 watch(filterSnapshot, () => {
   currentPage.value = 1
@@ -142,10 +143,13 @@ const onPageChange = (event: { page: number }) => {
 
 <template>
   <div class="min-h-screen bg-surface-50 dark:bg-surface-900">
-
     <!-- Hero header -->
-    <div class="bg-gradient-to-b from-primary-50 to-surface-50 dark:from-primary-950/20 dark:to-surface-900 pt-12 pb-8 px-4 text-center">
-      <h1 class="text-4xl sm:text-5xl font-bold text-surface-800 dark:text-surface-50 tracking-tight">
+    <div
+      class="bg-gradient-to-b from-primary-50 to-surface-50 dark:from-primary-950/20 dark:to-surface-900 pt-12 pb-8 px-4 text-center"
+    >
+      <h1
+        class="text-4xl sm:text-5xl font-bold text-surface-800 dark:text-surface-50 tracking-tight"
+      >
         {{ $t('adopt.title') }}
       </h1>
       <p class="mt-3 text-lg text-surface-500 dark:text-surface-400">
@@ -154,7 +158,6 @@ const onPageChange = (event: { page: number }) => {
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-
       <!-- Toolbar -->
       <div class="flex items-center justify-between py-5 gap-4 flex-wrap">
         <span class="text-surface-500 dark:text-surface-400 text-sm">
@@ -177,7 +180,8 @@ const onPageChange = (event: { page: number }) => {
               <span
                 v-if="activeFilterCount > 0"
                 class="inline-flex items-center justify-center w-5 h-5 text-xs rounded-full bg-white/30"
-              >{{ activeFilterCount }}</span>
+                >{{ activeFilterCount }}</span
+              >
             </span>
           </template>
         </Button>
@@ -190,112 +194,119 @@ const onPageChange = (event: { page: number }) => {
           class="bg-white dark:bg-surface-800 rounded-2xl border border-surface-200 dark:border-surface-700 shadow-sm mb-6 overflow-hidden"
         >
           <div class="p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
             <!-- Statut -->
             <div>
-              <p class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3">
+              <p
+                class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3"
+              >
                 {{ $t('adopt.filter-status') }}
               </p>
               <div class="flex flex-col gap-2">
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterStatuses" value="en_refuge" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-refuge') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterStatuses" value="en_famille_accueil" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-accueil') }}
-                  </span>
-                </label>
+                <CheckboxWithLabel
+                  name="adopt-status-refuge"
+                  v-model="filterStatuses"
+                  value="en_refuge"
+                  :label="$t('adopt.filter-refuge')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-status-accueil"
+                  v-model="filterStatuses"
+                  value="en_famille_accueil"
+                  :label="$t('adopt.filter-accueil')"
+                />
               </div>
             </div>
 
             <!-- Profil -->
             <div>
-              <p class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3">
+              <p
+                class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3"
+              >
                 {{ $t('adopt.filter-profile') }}
               </p>
               <div class="flex flex-col gap-2">
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterIsDuo" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-duo') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterGenders" value="male" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-male') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterGenders" value="female" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-female') }}
-                  </span>
-                </label>
+                <CheckboxWithLabel
+                  name="adopt-duo"
+                  v-model="filterIsDuo"
+                  :binary="true"
+                  :label="$t('adopt.filter-duo')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-gender-male"
+                  v-model="filterGenders"
+                  value="male"
+                  :label="$t('adopt.filter-male')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-gender-female"
+                  v-model="filterGenders"
+                  value="female"
+                  :label="$t('adopt.filter-female')"
+                />
               </div>
             </div>
 
             <!-- Ententes -->
             <div>
-              <p class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3">
+              <p
+                class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3"
+              >
                 {{ $t('adopt.filter-compatible') }}
               </p>
               <div class="flex flex-col gap-2">
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterCatFriendly" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-cat-friendly') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterDogFriendly" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-dog-friendly') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterChildFriendly" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-child-friendly') }}
-                  </span>
-                </label>
+                <CheckboxWithLabel
+                  name="adopt-cat-friendly"
+                  v-model="filterCatFriendly"
+                  :binary="true"
+                  :label="$t('adopt.filter-cat-friendly')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-dog-friendly"
+                  v-model="filterDogFriendly"
+                  :binary="true"
+                  :label="$t('adopt.filter-dog-friendly')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-child-friendly"
+                  v-model="filterChildFriendly"
+                  :binary="true"
+                  :label="$t('adopt.filter-child-friendly')"
+                />
               </div>
             </div>
 
             <!-- Santé -->
             <div>
-              <p class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3">
+              <p
+                class="text-xs font-semibold text-surface-400 dark:text-surface-500 uppercase tracking-wider mb-3"
+              >
                 {{ $t('adopt.filter-health') }}
               </p>
               <div class="flex flex-col gap-2">
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterVaccinated" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-vaccinated') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterSterilized" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-sterilized') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterIdentified" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-identified') }}
-                  </span>
-                </label>
-                <label class="flex items-center gap-2 cursor-pointer group/cb">
-                  <Checkbox v-model="filterDecontaminate" :binary="true" />
-                  <span class="text-sm text-surface-700 dark:text-surface-300 group-hover/cb:text-primary-600 transition-colors">
-                    {{ $t('adopt.filter-decontaminated') }}
-                  </span>
-                </label>
+                <CheckboxWithLabel
+                  name="adopt-vaccinated"
+                  v-model="filterVaccinated"
+                  :binary="true"
+                  :label="$t('adopt.filter-vaccinated')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-sterilized"
+                  v-model="filterSterilized"
+                  :binary="true"
+                  :label="$t('adopt.filter-sterilized')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-identified"
+                  v-model="filterIdentified"
+                  :binary="true"
+                  :label="$t('adopt.filter-identified')"
+                />
+                <CheckboxWithLabel
+                  name="adopt-decontaminate"
+                  v-model="filterDecontaminate"
+                  :binary="true"
+                  :label="$t('adopt.filter-decontaminated')"
+                />
               </div>
             </div>
           </div>
@@ -354,7 +365,9 @@ const onPageChange = (event: { page: number }) => {
         v-else-if="catSheets.length === 0"
         class="flex flex-col items-center justify-center py-24 gap-4 text-center"
       >
-        <div class="w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center">
+        <div
+          class="w-20 h-20 rounded-full bg-primary-50 dark:bg-primary-900/20 flex items-center justify-center"
+        >
           <i class="pi pi-heart text-3xl text-primary-300 dark:text-primary-600"></i>
         </div>
         <h3 class="text-xl font-semibold text-surface-700 dark:text-surface-300">
@@ -397,7 +410,9 @@ const onPageChange = (event: { page: number }) => {
 <style scoped>
 .filter-panel-enter-active,
 .filter-panel-leave-active {
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
   max-height: 600px;
 }
 .filter-panel-enter-from,

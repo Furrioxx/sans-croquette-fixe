@@ -40,11 +40,13 @@
   "settings": "Paramètres",
   "requiredInputError": "Ce champs est obligatoire",
   "next": "Suivant",
+  "no-photo": "Pas de photo",
   "title": {
     "home": "Accueil",
     "login": "Connexion",
     "register": "Inscription",
     "adopt": "À l'adoption",
+    "discover": "Trouver votre chat",
     "dashboard": "Tableau de bord",
     "dashboard-users": "Utilisateurs",
     "dashboard-settings": "Paramètres",
@@ -204,5 +206,23 @@
     "detail-cat-section": "Chat",
     "health-yes": "Oui",
     "health-no": "Non"
+  },
+  "discover": {
+    "nav-link": "Trouver votre chat",
+    "title": "Découvrez votre futur chat",
+    "subtitle": "Glissez à droite pour aimer, à gauche pour passer",
+    "like-stamp": "J'adore",
+    "pass-stamp": "Passer",
+    "like": "J'aime",
+    "pass": "Passer",
+    "my-likes": "Mes coups de cœur",
+    "no-more": "Plus de chats à découvrir",
+    "no-more-sub": "Revenez plus tard ou essayez de modifier vos filtres",
+    "my-likes-title": "Vos coups de cœur",
+    "my-likes-subtitle": "Retrouvez les chats que vous avez aimés",
+    "back-to-discover": "Retour à la découverte",
+    "no-likes": "Aucun coup de cœur pour le moment",
+    "no-likes-sub": "Commencez à découvrir des chats pour les retrouver ici",
+    "unlike": "Retirer des favoris"
   }
 }

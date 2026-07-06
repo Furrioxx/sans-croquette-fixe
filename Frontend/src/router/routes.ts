@@ -32,6 +32,16 @@ const routes = [
         name: RouteNames.ADOPT_DETAIL,
         component: () => import('../views/AdoptDetail.vue'),
       },
+      {
+        path: 'discover',
+        name: RouteNames.DISCOVER,
+        component: () => import('../views/Discover.vue'),
+      },
+      {
+        path: 'discover/likes',
+        name: RouteNames.DISCOVER_LIKES,
+        component: () => import('../views/MyLikes.vue'),
+      },
     ],
   },
   {
