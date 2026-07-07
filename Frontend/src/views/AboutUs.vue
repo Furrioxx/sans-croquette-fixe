@@ -14,6 +14,7 @@ import PepinetteImage from '@/assets/about/site-cats/pepinette.jpg'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
+const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
 
 const actions = [
   {
@@ -24,7 +25,7 @@ const actions = [
   {
     icon: IconDistribution,
     title: 'Distribution alimentaire',
-    text: 'Aide chaque vendredi à Lyon pour les personnes en difficulté, afin de préserver le lien avec leur animal et éviter des abandons subis.',
+    text: 'Aide chaque vendredi à Lyon pour les personnes en difficulté, afin de préserver le lien avec leur animal et d’éviter des abandons subis.',
   },
   {
     icon: IconSterilisation,
@@ -99,15 +100,23 @@ const cats = [
     <section
       class="hero-panel section-card rounded-[2.5rem] bg-gradient-to-br from-sky-100 via-cyan-50 to-amber-50 px-6 py-8 md:px-10 md:py-12"
     >
-      <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-        <div class="space-y-5">
+      <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+        <div class="space-y-6">
           <span class="eyebrow">Association de protection animale à Lyon</span>
-          <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
-          <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-            Sans Croquettes Fixes est une association de protection animale à Lyon qui agit pour
-            aider les chats en détresse, soutenir les foyers fragilisés et faciliter l’adoption de
-            chat à Lyon, Villeurbanne et dans les communes voisines.
-          </p>
+          <div class="space-y-4">
+            <h1 class="display-font title-wide text-4xl font-semibold md:text-6xl">{{ title }}</h1>
+            <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
+              Sans Croquettes Fixes est une association de protection animale à Lyon qui agit pour
+              aider les chats en détresse, soutenir les foyers fragilisés et faciliter l’adoption de
+              chat à Lyon, Villeurbanne et dans les communes voisines.
+            </p>
+            <p class="max-w-2xl text-sm leading-7 text-[var(--scf-muted)] md:text-base">
+              Notre rôle ne se limite pas à présenter des profils de chats. Nous intervenons aussi
+              sur la prévention de l’abandon, la distribution alimentaire, les prises en charge
+              urgentes et l’accompagnement des adoptants dans la durée.
+            </p>
+          </div>
+
           <div class="grid gap-3 sm:grid-cols-3">
             <article
               v-for="commitment in commitments"
@@ -117,38 +126,61 @@ const cats = [
               {{ commitment }}
             </article>
           </div>
+
+          <div class="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
+            <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
+              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
+                Notre présence locale
+              </p>
+              <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
+                Être une association chat Lyon, c’est pouvoir répondre plus vite, mieux orienter les
+                adoptants et garder une vraie proximité avec les situations de terrain.
+              </p>
+            </article>
+            <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
+              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
+                Adoption responsable
+              </p>
+              <p class="mt-3 text-sm leading-7 text-[var(--scf-text)]">
+                Profil du chat, rythme du foyer, contraintes réelles et suivi après accueil.
+              </p>
+            </article>
+          </div>
         </div>
 
-        <div class="grid gap-4 md:grid-cols-[0.82fr_1.18fr]">
-          <article class="section-card overflow-hidden rounded-[2rem] bg-white/80 p-3">
-            <img
-              :src="AnaisPhoto"
-              alt="Membre de l’association Sans Croquettes Fixes"
-              class="cat-photo aspect-[4/5] rounded-[1.5rem]"
-            />
+        <div class="grid gap-4 lg:pt-2">
+          <article class="section-card overflow-hidden rounded-[2rem] bg-white/85 p-3">
+            <div class="grid gap-3 sm:grid-cols-[0.78fr_1.22fr] sm:items-center">
+              <img
+                :src="AnaisPhoto"
+                alt="Membre de l’association Sans Croquettes Fixes"
+                class="cat-photo aspect-square rounded-[1.5rem]"
+              />
+              <div class="space-y-2 p-1">
+                <p class="display-font text-2xl font-semibold">Une action de terrain, pas seulement un site</p>
+                <p class="text-sm leading-6 text-[var(--scf-text)]">
+                  Cette page doit montrer une association proche du réel : aide alimentaire, prises
+                  en charge, prévention de l’abandon et adoption responsable.
+                </p>
+                <a
+                  href="https://sanscroquettesfixes.fr/about-us"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
+                >
+                  <i class="pi pi-external-link text-[0.7rem]"></i>
+                  Contenu inspiré de la page about-us actuelle
+                </a>
+              </div>
+            </div>
           </article>
-          <article class="section-card overflow-hidden rounded-[2rem] bg-white/80 p-3">
+
+          <article class="section-card overflow-hidden rounded-[2rem] bg-white/85 p-3">
             <img
               :src="PuppyImage"
               alt="Chat pris en charge par l’association"
-              class="cat-photo aspect-[4/5] rounded-[1.5rem]"
+              class="cat-photo aspect-[5/4] rounded-[1.5rem]"
             />
-            <div class="space-y-2 px-2 pb-2 pt-4">
-              <p class="display-font text-2xl font-semibold">Une action de terrain, pas seulement un site</p>
-              <p class="text-sm leading-6 text-[var(--scf-text)]">
-                Cette page doit montrer une association chat Lyon proche du réel : aide alimentaire,
-                prises en charge, prévention de l’abandon et adoption responsable.
-              </p>
-              <a
-                href="https://sanscroquettesfixes.fr/about-us"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
-              >
-                <i class="pi pi-external-link text-[0.7rem]"></i>
-                Contenu inspiré de la page about-us actuelle
-              </a>
-            </div>
           </article>
         </div>
       </div>
@@ -283,7 +315,10 @@ const cats = [
             label="Nous soutenir"
             icon="pi pi-gift"
             severity="contrast"
-            @click="router.push({ name: RouteNames.DONATE })"
+            as="a"
+            :href="donationUrl"
+            target="_blank"
+            rel="noopener noreferrer"
           />
         </div>
       </article>
