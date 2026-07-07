@@ -11,30 +11,30 @@ const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixe
 const highlights = [
   {
     value: '48h',
-    label: 'pour analyser un premier dossier d’adoption de chat à Lyon',
+    label: "pour analyser un premier dossier d'adoption de chat a Lyon",
   },
   {
     value: 'Local',
-    label: 'association chat Lyon ancrée sur la métropole et les alentours',
+    label: 'association chat Lyon ancree sur la metropole et les alentours',
   },
   {
     value: 'Humain',
-    label: 'adoption de chat accompagnée avant et après accueil',
+    label: "adoption de chat accompagnee avant et apres l'accueil",
   },
 ]
 
 const steps = [
   {
     title: 'Observer le bon profil',
-    text: 'Comparer les besoins, le rythme de vie et la sociabilité de chaque chat avant de lancer une demande d’adoption à Lyon ou autour de Lyon.',
+    text: "Comparer les besoins, le rythme de vie et la sociabilite de chaque chat avant de lancer une demande d'adoption a Lyon ou autour de Lyon.",
   },
   {
     title: 'Constituer un dossier simple',
-    text: 'Créer un compte, présenter ton foyer et décrire des conditions d’accueil réelles pour adopter un chat à Lyon dans de bonnes conditions.',
+    text: "Creer un compte, presenter ton foyer et decrire des conditions d'accueil reelles pour adopter un chat a Lyon dans de bonnes conditions.",
   },
   {
-    title: 'Échanger avec l’association',
-    text: 'Valider ensemble l’adéquation entre le chat, le lieu de vie, la disponibilité et la capacité d’engagement sur la durée.',
+    title: "Echanger avec l'association",
+    text: "Valider ensemble l'adequation entre le chat, le lieu de vie, la disponibilite et la capacite d'engagement sur la duree.",
   },
 ]
 </script>
@@ -52,9 +52,9 @@ const steps = [
               {{ title }}
             </h1>
             <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-              Sans Croquettes Fixes est une association de protection animale qui facilite l’adoption
-              de chat à Lyon, dans la métropole lyonnaise et dans les alentours. Le site aide à adopter
-              un chat en comprenant son caractère, ses besoins et les conditions d’accueil qui lui
+              Sans Croquettes Fixes est une association de protection animale qui facilite l'adoption
+              de chat a Lyon, dans la metropole lyonnaise et dans les alentours. Le site aide a adopter
+              un chat en comprenant son caractere, ses besoins et les conditions d'accueil qui lui
               correspondent vraiment.
             </p>
           </div>
@@ -66,7 +66,7 @@ const steps = [
               @click="router.push({ name: RouteNames.REGISTER })"
             />
             <Button
-              label="Connaître l’association"
+              label="Connaitre l'association"
               icon="pi pi-arrow-right"
               severity="secondary"
               outlined
@@ -95,7 +95,7 @@ const steps = [
                 <img :src="featuredCats[0].imageUrl" :alt="featuredCats[0].name" class="cat-photo aspect-[4/5]" />
               </div>
               <div class="space-y-3">
-                <span class="eyebrow">En recherche d’accueil</span>
+                <span class="eyebrow">En recherche d'accueil</span>
                 <div>
                   <h2 class="display-font text-3xl font-semibold">{{ featuredCats[0].name }}</h2>
                   <p class="text-sm uppercase tracking-[0.2em] text-[var(--scf-muted)]">
@@ -131,11 +131,11 @@ const steps = [
         <div class="space-y-2">
           <span class="eyebrow">Profils mis en avant</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
-            Adopter un chat à Lyon avec des profils clairs
+            Adopter un chat a Lyon avec des profils clairs
           </h2>
         </div>
         <Button
-          label="Créer un compte"
+          label="Creer un compte"
           icon="pi pi-user-plus"
           severity="secondary"
           outlined
@@ -183,13 +183,13 @@ const steps = [
 
     <section class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Méthode</span>
+        <span class="eyebrow">Methode</span>
         <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          Comment adopter un chat à Lyon avec l’association
+          Comment adopter un chat a Lyon avec l'association
         </h2>
         <p class="mt-3 max-w-xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Le parcours d’adoption doit être lisible. La page explique le rythme, la logique et le
-          niveau d’engagement attendu pour une adoption de chat responsable à Lyon, Villeurbanne,
+          Le parcours d'adoption doit etre lisible. La page explique le rythme, la logique et le
+          niveau d'engagement attendu pour une adoption de chat responsable a Lyon, Villeurbanne,
           Bron, Caluire-et-Cuire et dans les communes voisines.
         </p>
       </article>
@@ -209,19 +209,17 @@ const steps = [
       </div>
     </section>
 
-    <section
-      class="section-card rounded-[2.25rem] bg-[linear-gradient(135deg,rgba(36,31,27,0.98),rgba(85,58,39,0.94))] px-6 py-8 text-white md:px-8"
-    >
+    <section class="dark-cta-panel rounded-[2.25rem] px-6 py-8 text-white md:px-8">
       <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div class="max-w-2xl space-y-3">
-          <span class="eyebrow !bg-white/10 !text-orange-100">Soutenir l’association</span>
+          <span class="eyebrow !bg-white/10 !text-orange-100">Soutenir l'association</span>
           <h2 class="display-font text-3xl font-semibold !text-white md:text-4xl">
-            Une association chat à Lyon qui prépare des adoptions durables
+            Une association chat a Lyon qui prepare des adoptions durables
           </h2>
           <p class="text-sm leading-7 text-orange-50/85 md:text-base">
-            L’objectif est simple : rendre visible une association chat Lyon sérieuse, rassurer les
-            adoptants et mieux faire remonter le site sur les recherches autour de l’adoption de chat
-            à Lyon et ses alentours.
+            L'objectif est simple : rendre visible une association chat Lyon serieuse, rassurer les
+            adoptants et mieux faire remonter le site sur les recherches autour de l'adoption de chat
+            a Lyon et ses alentours.
           </p>
         </div>
         <Button
