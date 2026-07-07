@@ -6,6 +6,7 @@ import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
 import { CatSheetService } from '@/services/catSheetService'
+import { isKitten, kittenLabelClass } from '@/utils/catUtils'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -82,6 +83,8 @@ const genderIcon = (cat: Cat) => {
   if (cat.gender === Genders.FEMALE) return 'pi pi-venus'
   return 'pi pi-question'
 }
+
+const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 
 const healthItems = (cat: Cat) => [
   { label: t('adopt.vaccinated'), value: cat.vaccinated },
@@ -181,6 +184,11 @@ const friendlyDisplay = (value: CatFriendly) => {
               v-if="catSheet.isDuo"
               class="text-xs font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-700"
             >{{ $t('adopt.duo') }}</span>
+            <span
+              v-for="cat in cats"
+              :key="cat.documentId"
+              :class="['text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm', kittenLabelClass(kittenLabel(cat), t)]"
+            >{{ catSheet.isDuo ? `${cat.name} · ` : '' }}{{ kittenLabel(cat) }}</span>
           </div>
 
           <!-- Name -->
@@ -222,6 +230,9 @@ const friendlyDisplay = (value: CatFriendly) => {
                     <span class="text-surface-300">·</span>
                     <span>{{ formatAge(cat.birthDate) }}</span>
                   </div>
+                  <span
+                    :class="['text-xs font-semibold px-2.5 py-1 rounded-full ml-2', kittenLabelClass(kittenLabel(cat), t)]"
+                  >{{ kittenLabel(cat) }}</span>
                 </div>
 
                 <!-- Health -->
@@ -342,6 +353,10 @@ const friendlyDisplay = (value: CatFriendly) => {
                   <span class="text-surface-300">·</span>
                   <span>{{ formatAge(cats[0]?.birthDate ?? null) }}</span>
                 </div>
+                <span
+                  v-if="cats[0]"
+                  :class="['inline-block text-xs font-semibold px-2.5 py-1 rounded-full mt-2', kittenLabelClass(kittenLabel(cats[0]), t)]"
+                >{{ kittenLabel(cats[0]) }}</span>
               </div>
 
               <!-- Status badge -->
@@ -393,6 +408,9 @@ const friendlyDisplay = (value: CatFriendly) => {
                 <span class="text-surface-300">·</span>
                 <span>{{ formatAge(cats[1].birthDate) }}</span>
               </div>
+              <span
+                :class="['inline-block text-xs font-semibold px-2.5 py-1 rounded-full mt-1.5', kittenLabelClass(kittenLabel(cats[1]), t)]"
+              >{{ kittenLabel(cats[1]) }}</span>
               <div v-if="cats[1].birthDate" class="flex items-center gap-2 text-xs text-surface-400 mt-1.5">
                 <i class="pi pi-calendar text-xs"></i>
                 <span>{{ formatBirthDate(cats[1].birthDate) }}</span>
