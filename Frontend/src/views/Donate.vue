@@ -26,7 +26,7 @@ const donations = [
 <template>
   <div class="page-shell space-y-8 pb-16">
     <section
-      class="hero-panel section-card rounded-[2.5rem] bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100 px-6 py-8 md:px-10 md:py-12"
+      class="hero-panel hero-donate-gradient section-card rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
     >
       <div class="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
         <div class="space-y-5">
@@ -118,9 +118,9 @@ const donations = [
       <article
         class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
       >
-        <span class="eyebrow !bg-white/12 !text-orange-100">Dons matériels</span>
+        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">Dons matériels</span>
         <h2 class="display-font mt-4 text-3xl font-semibold !text-white">Autre façon d’aider</h2>
-        <p class="mt-3 text-sm leading-7 text-orange-50/90 md:text-base">
+        <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
           Nourriture non périmée, litière, accessoires propres, produits de soin et petits objets du
           quotidien peuvent aussi soulager les familles d’accueil.
         </p>

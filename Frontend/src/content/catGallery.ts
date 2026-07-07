@@ -27,7 +27,7 @@ export const featuredCats: CatProfile[] = [
     creditLabel: 'Photo CC0 par Bicanski via Pixnio',
     creditUrl: 'https://pixnio.com/media/tabby-cat-eyes-greenish-yellow-nose-portrait',
     licenseLabel: 'CC0',
-    accentClass: 'from-amber-200 via-orange-100 to-rose-100',
+    accentClass: 'cat-accent-primary',
   },
   {
     name: 'Nova',
@@ -40,7 +40,7 @@ export const featuredCats: CatProfile[] = [
     creditLabel: 'Photo CC0 par Bicanski via Pixnio',
     creditUrl: 'https://pixnio.com/media/playful-kitten-adorable-green-eyes',
     licenseLabel: 'CC0',
-    accentClass: 'from-emerald-200 via-lime-100 to-amber-50',
+    accentClass: 'cat-accent-secondary',
   },
   {
     name: 'Simba',
@@ -53,6 +53,6 @@ export const featuredCats: CatProfile[] = [
     creditLabel: 'Photo CC0 par Bicanski via Pixnio',
     creditUrl: 'https://pixnio.com/media/kitten-portrait-adorable-greenish-yellow-eyes',
     licenseLabel: 'CC0',
-    accentClass: 'from-sky-200 via-cyan-100 to-teal-50',
+    accentClass: 'cat-accent-tertiary',
   },
 ]
