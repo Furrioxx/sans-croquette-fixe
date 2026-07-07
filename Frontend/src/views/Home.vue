@@ -6,6 +6,7 @@ import { useRouter } from 'vue-router'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
+const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
 
 const highlights = [
   {
@@ -224,10 +225,13 @@ const steps = [
           </p>
         </div>
         <Button
+          as="a"
+          :href="donationUrl"
+          target="_blank"
+          rel="noopener noreferrer"
           label="Faire un don"
           icon="pi pi-gift"
           severity="contrast"
-          @click="router.push({ name: RouteNames.DONATE })"
         />
       </div>
     </section>
