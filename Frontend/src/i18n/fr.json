@@ -228,7 +228,9 @@
     "detail-birth-date": "Né(e) le",
     "detail-cat-section": "Chat",
     "health-yes": "Oui",
-    "health-no": "Non"
+    "health-no": "Non",
+    "kitten": "Châton",
+    "not-kitten": "Adulte"
   },
   "discover": {
     "nav-link": "Trouver votre chat",

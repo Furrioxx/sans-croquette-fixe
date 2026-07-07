@@ -6,6 +6,7 @@ import { RouteNames } from '@/router/routeNames'
 import CatSheetDetails from '@/components/CatSheetDetails.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { isKitten, kittenLabelClass } from '@/utils/catUtils'
 
 const { t } = useI18n()
 
@@ -42,19 +43,11 @@ const statusClass = computed(() => {
   return ''
 })
 
-const genderLabel = computed(() => {
-  const g = primaryCat.value?.gender
-  if (g === Genders.MALE) return t('adopt.male')
-  if (g === Genders.FEMALE) return t('adopt.female')
-  return null
-})
-
-const genderIcon = computed(() => {
-  const g = primaryCat.value?.gender
-  if (g === Genders.MALE) return 'pi pi-mars'
-  if (g === Genders.FEMALE) return 'pi pi-venus'
-  return 'pi pi-question'
-})
+const genderLabel = computed(() =>
+  cats.value
+    .map((c) => (c.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')))
+    .join(' & '),
+)
 
 const age = computed(() => {
   const bd = primaryCat.value?.birthDate
@@ -63,6 +56,10 @@ const age = computed(() => {
   if (months < 12) return t('adopt.age-months', { n: months })
   return t('adopt.age-years', { n: Math.floor(months / 12) })
 })
+
+const kittenLabelArray = computed(() =>
+  cats.value.map((c) => (isKitten(c) ? t('adopt.kitten') : t('adopt.not-kitten'))),
+)
 </script>
 
 <template>
@@ -108,10 +105,19 @@ const age = computed(() => {
           {{ catNames }}
         </h3>
         <div class="flex items-center gap-1.5 mt-1 text-surface-500 dark:text-surface-400 text-sm">
-          <i :class="genderIcon" class="text-xs"></i>
-          <span v-if="genderLabel">{{ genderLabel }}</span>
+          <span>{{ genderLabel }}</span>
           <span class="text-surface-300 dark:text-surface-600">·</span>
           <span>{{ age }}</span>
+        </div>
+        <div class="mt-2">
+          <span
+            v-for="kittenLabel in kittenLabelArray"
+            :class="[
+              'text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm mr-1',
+              kittenLabelClass(kittenLabel, $t),
+            ]"
+            >{{ kittenLabel }}</span
+          >
         </div>
       </div>
 
