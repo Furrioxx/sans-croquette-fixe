@@ -98,7 +98,7 @@ const cats = [
 <template>
   <div class="page-shell space-y-8 pb-16">
     <section
-      class="hero-panel section-card rounded-[2.5rem] bg-gradient-to-br from-sky-100 via-cyan-50 to-amber-50 px-6 py-8 md:px-10 md:py-12"
+      class="hero-panel hero-about-gradient section-card rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
     >
       <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
         <div class="space-y-6">
@@ -296,9 +296,9 @@ const cats = [
       <article
         class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
       >
-        <span class="eyebrow !bg-white/12 !text-orange-100">Passer à l’action</span>
+        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">Passer à l’action</span>
         <h2 class="display-font mt-4 text-3xl font-semibold !text-white">Adopter, aider, relayer</h2>
-        <p class="mt-3 text-sm leading-7 text-orange-50/90 md:text-base">
+        <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
           Vous pouvez adopter un chat, devenir famille d’accueil, soutenir l’association ou relayer
           son travail autour de Lyon. Plus la page est claire, plus elle aide les bons foyers à se
           projeter.

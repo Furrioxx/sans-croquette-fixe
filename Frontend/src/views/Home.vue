@@ -42,7 +42,7 @@ const steps = [
 <template>
   <div class="page-shell space-y-8 pb-16">
     <section
-      class="hero-panel section-card overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-orange-100 via-amber-50 to-emerald-100 px-6 py-8 md:px-10 md:py-12"
+      class="hero-panel hero-home-gradient section-card overflow-hidden rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
     >
       <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div class="max-w-3xl space-y-6">
