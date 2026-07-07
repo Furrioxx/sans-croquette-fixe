@@ -25,7 +25,7 @@ confirmationDialogService.init(confirm)
   margin: 0 1em;
 }
 .p-progressspinner-circle {
-  stroke: #7c86ff !important;
+  stroke: #e07a5f !important;
 }
 @media (max-width: 768px) {
   .margin-base {
