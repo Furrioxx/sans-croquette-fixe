@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
+    BlogPostForm: typeof import('./src/components/Forms/BlogPostForm.vue')['default']
     BlogPostModal: typeof import('./src/components/Modals/BlogPostModal.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']

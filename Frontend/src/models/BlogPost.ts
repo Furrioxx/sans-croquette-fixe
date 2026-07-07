@@ -12,24 +12,28 @@ export interface BlogPost {
   seoTitle: string | null
   seoDescription: string | null
   publishedAt: string | null
-  isPublished: boolean
   isFeatured: boolean
   cover: StrapiMedia | null
   category: BlogCategory | null
   author: User | null
-  authorRoleLabel: string | null
   createdAt: string
   updatedAt: string
 }
 
 export interface BlogPostPostPut {
   title: string
+  slug: string
   excerpt: string | null
   content: string
   seoTitle: string | null
   seoDescription: string | null
-  isPublished: boolean
   isFeatured: boolean
   cover: number | null
-  category: number | null
+  category: string | null
+  author?: number | null
+  publishedAt?: string | null
+}
+
+export interface BlogPostFormValues extends BlogPostPostPut {
+  isPublished: boolean
 }

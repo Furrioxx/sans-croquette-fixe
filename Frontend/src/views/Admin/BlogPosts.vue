@@ -122,24 +122,28 @@ const createCategory = async () => {
     notificationService.showSuccess('Succès', 'Catégorie créée.')
   } catch (error) {
     console.error('Error creating category', error)
-    notificationService.showError('Erreur', 'Impossible de créer la catégorie.')
+    const message =
+      (error as any)?.response?.data?.error?.message || 'Impossible de créer la catégorie.'
+    notificationService.showError('Erreur', message)
   }
 }
 
-const deleteCategory = async (id: number) => {
+const deleteCategory = async (documentId: string) => {
   confirmationDialogService.showConfirmDelete(
     'Suppression',
     'Voulez-vous vraiment supprimer cette catégorie ?',
     async () => {
       try {
-        await blogCategoryStore.deleteCategory(id)
+        await blogCategoryStore.deleteCategory(documentId)
         if (categoryName.value && !categories.value.find((category) => category.slug === categoryName.value)) {
           categoryName.value = ''
         }
         notificationService.showSuccess('Succès', 'Catégorie supprimée.')
       } catch (error) {
         console.error('Error deleting category', error)
-        notificationService.showError('Erreur', 'Impossible de supprimer la catégorie.')
+        const message =
+          (error as any)?.response?.data?.error?.message || 'Impossible de supprimer la catégorie.'
+        notificationService.showError('Erreur', message)
       }
     },
     () => {},
@@ -249,14 +253,14 @@ const formatDate = (value: string) => {
         <template #default>
           <div class="flex items-center gap-2">
             <span>{{ category.name }}</span>
-            <Button
-              v-if="isAdmin"
-              icon="pi pi-times"
-              text
-              rounded
-              size="small"
-              @click="deleteCategory(category.id)"
-            />
+              <Button
+                v-if="isAdmin"
+                icon="pi pi-times"
+                text
+                rounded
+                size="small"
+                @click="deleteCategory(category.documentId)"
+              />
           </div>
         </template>
       </Tag>
@@ -284,7 +288,7 @@ const formatDate = (value: string) => {
         <template #body="slotProps">
           <div class="flex flex-col gap-1">
             <span>{{ slotProps.data.author?.username || '—' }}</span>
-            <span class="text-xs text-surface-400">{{ slotProps.data.authorRoleLabel || '—' }}</span>
+            <span class="text-xs text-surface-400">{{ slotProps.data.author?.role?.name || '—' }}</span>
           </div>
         </template>
       </Column>
@@ -298,8 +302,8 @@ const formatDate = (value: string) => {
       <Column :header="$t('blog.fields.status')">
         <template #body="slotProps">
           <Tag
-            :value="slotProps.data.isPublished ? $t('blog.published') : $t('blog.draft')"
-            :severity="slotProps.data.isPublished ? 'success' : 'warn'"
+            :value="slotProps.data.publishedAt ? $t('blog.published') : $t('blog.draft')"
+            :severity="slotProps.data.publishedAt ? 'success' : 'warn'"
           />
         </template>
       </Column>

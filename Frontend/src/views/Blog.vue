@@ -6,6 +6,12 @@ import { RouteNames } from '@/router/routeNames'
 import { BlogCategoryService } from '@/services/blogCategoryService'
 import type { BlogCategory } from '@/models/BlogCategory'
 import { SeoUtils } from '@/utils/seoUtils'
+import {
+  formatBlogDate,
+  getBlogAuthorLabel,
+  getBlogMediaUrl,
+  getBlogPlaceholderLabel,
+} from '@/utils/blogUtils'
 
 const PAGE_SIZE = 6
 
@@ -23,30 +29,7 @@ const selectedCategoryLabel = computed(() => {
   return categories.value.find((item) => item.slug === category.value)?.name ?? null
 })
 
-const getPostIdentifier = (post: BlogPost) => post.slug || post.documentId
-
-const getPlaceholderLabel = (title: string) => {
-  const first = title.trim().charAt(0).toUpperCase()
-  return first || 'B'
-}
-
-const getMediaUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
-
-const formatDate = (value: string) => {
-  return new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(value))
-}
-
-const authorLabel = (post: BlogPost) => {
-  const username = post.author?.username || 'Sans Croquette Fixe'
-  return post.authorRoleLabel ? `${username} · ${post.authorRoleLabel}` : username
-}
+const getPostIdentifier = (post: BlogPost) => post.slug
 
 const fetchBlogPosts = async () => {
   try {
@@ -58,8 +41,8 @@ const fetchBlogPosts = async () => {
       category: category.value || undefined,
     })
 
-    blogPosts.value = response.data.results
-    totalRecords.value = response.data.total
+    blogPosts.value = response.data.data
+    totalRecords.value = response.data.meta.pagination.total
   } catch (error) {
     console.error('Error fetching blog posts', error)
   } finally {
@@ -171,7 +154,7 @@ const onPageChange = (event: { page: number }) => {
             >
               <img
                 v-if="post.cover"
-                :src="getMediaUrl(post.cover.url)"
+                :src="getBlogMediaUrl(post.cover.url)"
                 :alt="post.title"
                 class="h-44 w-full object-cover"
               />
@@ -180,14 +163,14 @@ const onPageChange = (event: { page: number }) => {
                 class="blog-placeholder h-44 text-primary-400"
               >
                 <div class="blog-placeholder__badge">
-                  {{ getPlaceholderLabel(post.title) }}
+                  {{ getBlogPlaceholderLabel(post.title) }}
                 </div>
               </div>
 
               <div class="blog-list-card__body">
                 <div class="blog-meta-row">
                   <span class="blog-chip">{{ post.category?.name || 'Actualité' }}</span>
-                  <span>{{ formatDate(post.publishedAt || post.createdAt) }}</span>
+                  <span>{{ formatBlogDate(post.publishedAt || post.createdAt) }}</span>
                 </div>
 
                 <div class="space-y-2">
@@ -200,7 +183,7 @@ const onPageChange = (event: { page: number }) => {
                 </div>
 
                 <div class="mt-auto flex items-end justify-between gap-4 pt-2">
-                  <span class="blog-author-name text-sm line-clamp-2">{{ authorLabel(post) }}</span>
+                  <span class="blog-author-name text-sm line-clamp-2">{{ getBlogAuthorLabel(post) }}</span>
                   <Button
                     as="router-link"
                     :to="{ name: RouteNames.BLOG_DETAIL, params: { identifier: getPostIdentifier(post) } }"

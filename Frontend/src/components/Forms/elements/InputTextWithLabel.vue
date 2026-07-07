@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const model = defineModel<string>({ default: '' })
+const model = defineModel<string | null>({ default: '' })
 
 const props = withDefaults(
   defineProps<{
@@ -16,6 +16,10 @@ const props = withDefaults(
     type: 'text',
   },
 )
+
+const handleUpdate = (value: string | undefined) => {
+  model.value = value ? value : null
+}
 </script>
 
 <template>
@@ -25,7 +29,8 @@ const props = withDefaults(
       :id="props.name"
       class="flex-auto"
       v-tooltip.top="props.tooltip"
-      v-model="model"
+      :model-value="model ?? ''"
+      @update:model-value="handleUpdate"
       :disabled="props.disabled"
       autocomplete="off"
       :type="props.type"

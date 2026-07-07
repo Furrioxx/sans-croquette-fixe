@@ -12,15 +12,13 @@ export const useBlogCategoryStore = defineStore('blogCategory', () => {
   }
 
   const addCategory = async (name: string) => {
-    const response = await BlogCategoryService.AddCategory(name)
-    categories.value = [...categories.value, response.data.data].sort((a, b) =>
-      a.name.localeCompare(b.name),
-    )
+    await BlogCategoryService.AddCategory(name)
+    await fetchCategories()
   }
 
-  const deleteCategory = async (id: number) => {
-    await BlogCategoryService.DeleteCategory(id)
-    categories.value = categories.value.filter((category) => category.id !== id)
+  const deleteCategory = async (documentId: string) => {
+    await BlogCategoryService.DeleteCategory(documentId)
+    categories.value = categories.value.filter((category) => category.documentId !== documentId)
   }
 
   return {

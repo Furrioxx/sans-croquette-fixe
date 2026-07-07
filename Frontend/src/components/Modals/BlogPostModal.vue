@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import type { BlogPost, BlogPostPostPut } from '@/models/BlogPost'
+import type { BlogPost, BlogPostFormValues, BlogPostPostPut } from '@/models/BlogPost'
 import { useBlogPostStore } from '@/stores/blogPosts'
 import notificationService from '@/services/notificationService'
 import { useBlogCategoryStore } from '@/stores/blogCategories'
+import { useAuthStore } from '@/stores/authentication'
+import BlogPostForm from '@/components/Forms/BlogPostForm.vue'
+import type { FormError } from '@/models/FormError'
+import { StringUtils } from '@/utils/stringUtils'
+import { getBlogMediaUrl } from '@/utils/blogUtils'
+import { slugify } from '@/utils/slugify'
 
 const props = defineProps<{
   visible: boolean
@@ -17,11 +23,13 @@ const emit = defineEmits<{
 
 const blogPostStore = useBlogPostStore()
 const blogCategoryStore = useBlogCategoryStore()
+const authStore = useAuthStore()
 
-const form = ref<BlogPostPostPut>({
+const form = ref<BlogPostFormValues>({
   title: '',
-  excerpt: null,
+  slug: '',
   content: '',
+  excerpt: null,
   seoTitle: null,
   seoDescription: null,
   isPublished: false,
@@ -33,39 +41,47 @@ const selectedFile = ref<File | null>(null)
 const coverPreviewUrl = ref<string | null>(null)
 const saving = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
-
-const getMediaUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
+const errors = ref<FormError[]>([])
 
 const syncForm = () => {
   form.value = {
     title: props.blogPost?.title ?? '',
-    excerpt: props.blogPost?.excerpt ?? null,
+    slug: props.blogPost?.slug ?? '',
     content: props.blogPost?.content ?? '',
+    excerpt: props.blogPost?.excerpt ?? null,
     seoTitle: props.blogPost?.seoTitle ?? null,
     seoDescription: props.blogPost?.seoDescription ?? null,
-    isPublished: props.blogPost?.isPublished ?? false,
+    isPublished: !!props.blogPost?.publishedAt,
     isFeatured: props.blogPost?.isFeatured ?? false,
     cover: props.blogPost?.cover?.id ?? null,
-    category: props.blogPost?.category?.id ?? null,
+    category: props.blogPost?.category?.documentId ?? null,
   }
   selectedFile.value = null
-  coverPreviewUrl.value = props.blogPost?.cover?.url ? getMediaUrl(props.blogPost.cover.url) : null
+  coverPreviewUrl.value = props.blogPost?.cover?.url ? getBlogMediaUrl(props.blogPost.cover.url) : null
+  errors.value = []
+
+  if (fileInput.value) {
+    fileInput.value.value = ''
+  }
 }
 
-watch(() => props.visible, (visible) => {
-  if (visible) {
-    syncForm()
-  }
-})
+watch(
+  () => props.visible,
+  (visible) => {
+    if (visible) {
+      syncForm()
+    }
+  },
+)
 
-watch(() => props.blogPost, () => {
-  if (props.visible) {
-    syncForm()
-  }
-})
+watch(
+  () => props.blogPost,
+  () => {
+    if (props.visible) {
+      syncForm()
+    }
+  },
+)
 
 const closeModal = () => {
   emit('update:visible', false)
@@ -76,10 +92,10 @@ const onFileChange = (event: Event) => {
   const file = input.files?.[0] ?? null
 
   selectedFile.value = file
-  coverPreviewUrl.value = file ? URL.createObjectURL(file) : props.blogPost?.cover?.url ?? null
+  coverPreviewUrl.value = file ? URL.createObjectURL(file) : null
 
   if (!file && props.blogPost?.cover?.url) {
-    coverPreviewUrl.value = getMediaUrl(props.blogPost.cover.url)
+    coverPreviewUrl.value = getBlogMediaUrl(props.blogPost.cover.url)
   }
 }
 
@@ -97,14 +113,21 @@ const openFileDialog = () => {
   fileInput.value?.click()
 }
 
-const submit = async () => {
-  if (!form.value.title.trim() || !form.value.content.trim()) {
-    notificationService.showError('Erreur', 'Le titre et le contenu sont requis.')
-    return
-  }
+const validate = () => {
+  errors.value = []
+  errors.value.push(
+    StringUtils.checkInputTextValidity('title', form.value.title.trim(), 'Le titre est requis.'),
+  )
+  errors.value.push(
+    StringUtils.checkInputTextValidity('content', form.value.content.trim(), 'Le contenu est requis.'),
+  )
 
-  if (!form.value.category) {
-    notificationService.showError('Erreur', 'La catégorie est requise.')
+  return errors.value.every((error) => error.valid)
+}
+
+const submit = async () => {
+  if (!validate()) {
+    notificationService.showError('Erreur', 'Le formulaire est incomplet.')
     return
   }
 
@@ -119,19 +142,31 @@ const submit = async () => {
       coverId = await blogPostStore.uploadCover(uploadData)
     }
 
+    const excerpt = form.value.excerpt?.trim() || null
+    const content = form.value.content.trim()
+    const fallbackExcerpt = excerpt || content.slice(0, 180) || null
+    const seoDescription = form.value.seoDescription?.trim() || excerpt || content.slice(0, 160) || null
+    const status = form.value.isPublished ? 'published' : 'draft'
+    const slug = slugify(form.value.title) || 'article'
+
     const payload: BlogPostPostPut = {
-      ...form.value,
       title: form.value.title.trim(),
-      excerpt: form.value.excerpt?.trim() || null,
-      content: form.value.content.trim(),
+      slug,
+      excerpt: fallbackExcerpt,
+      content,
+      seoTitle: form.value.title.trim(),
+      seoDescription,
+      isFeatured: form.value.isFeatured,
       cover: coverId,
+      category: form.value.category,
+      author: props.blogPost?.author?.id ?? authStore.user?.id ?? null,
     }
 
     if (props.blogPost) {
-      await blogPostStore.updateBlogPost(props.blogPost.documentId, payload)
+      await blogPostStore.updateBlogPost(props.blogPost.documentId, payload, status)
       notificationService.showSuccess('Succès', 'Article mis à jour.')
     } else {
-      await blogPostStore.addBlogPost(payload)
+      await blogPostStore.addBlogPost(payload, status)
       notificationService.showSuccess('Succès', 'Article créé.')
     }
 
@@ -139,7 +174,9 @@ const submit = async () => {
     closeModal()
   } catch (error) {
     console.error('Error while saving blog post', error)
-    notificationService.showError('Erreur', 'Impossible de sauvegarder l’article.')
+    const message =
+      (error as any)?.response?.data?.error?.message || 'Impossible de sauvegarder l’article.'
+    notificationService.showError('Erreur', message)
   } finally {
     saving.value = false
   }
@@ -154,115 +191,23 @@ const submit = async () => {
     class="w-[95vw] max-w-4xl"
     @update:visible="emit('update:visible', $event)"
   >
-    <div class="flex flex-col gap-5">
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="flex flex-col gap-2">
-          <label for="blog-title" class="font-semibold">{{ $t('blog.fields.title') }}</label>
-          <InputText id="blog-title" v-model="form.title" />
-        </div>
+    <input
+      id="blog-cover"
+      ref="fileInput"
+      type="file"
+      accept="image/*"
+      class="hidden"
+      @change="onFileChange"
+    />
 
-        <div class="flex flex-col gap-2">
-          <label for="blog-category" class="font-semibold">{{ $t('blog.fields.category') }}</label>
-          <Select
-            id="blog-category"
-            v-model="form.category"
-            :options="blogCategoryStore.categories"
-            optionLabel="name"
-            optionValue="id"
-            :placeholder="$t('blog.admin.category-placeholder')"
-          />
-        </div>
-      </div>
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="flex items-center gap-3">
-          <ToggleSwitch v-model="form.isPublished" inputId="blog-published" />
-          <label for="blog-published" class="font-medium">{{ $t('blog.fields.isPublished') }}</label>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <ToggleSwitch v-model="form.isFeatured" inputId="blog-featured" />
-          <label for="blog-featured" class="font-medium">{{ $t('blog.fields.isFeatured') }}</label>
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <label for="blog-excerpt" class="font-semibold">{{ $t('blog.fields.excerpt') }}</label>
-        <Textarea id="blog-excerpt" v-model="form.excerpt" rows="3" autoResize />
-      </div>
-
-      <div class="flex flex-col gap-2">
-        <label for="blog-content" class="font-semibold">{{ $t('blog.fields.content') }}</label>
-        <Textarea id="blog-content" v-model="form.content" rows="14" autoResize />
-      </div>
-
-      <Divider />
-
-      <div class="grid gap-4 md:grid-cols-2">
-        <div class="flex flex-col gap-2">
-          <label for="blog-seo-title" class="font-semibold">{{ $t('blog.fields.seoTitle') }}</label>
-          <InputText id="blog-seo-title" v-model="form.seoTitle" />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <label for="blog-seo-description" class="font-semibold">{{ $t('blog.fields.seoDescription') }}</label>
-          <Textarea id="blog-seo-description" v-model="form.seoDescription" rows="4" autoResize />
-        </div>
-      </div>
-
-      <div class="flex flex-col gap-3">
-        <label class="font-semibold">{{ $t('blog.fields.cover') }}</label>
-
-        <input
-          id="blog-cover"
-          ref="fileInput"
-          type="file"
-          accept="image/*"
-          class="hidden"
-          @change="onFileChange"
-        />
-
-        <div
-          class="flex min-h-44 flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-surface-300 bg-surface-50 p-6 text-center"
-        >
-          <template v-if="coverPreviewUrl">
-            <img
-              :src="coverPreviewUrl"
-              :alt="form.title"
-              class="h-48 w-full rounded-xl object-cover border border-surface-200"
-            />
-          </template>
-          <template v-else>
-            <div class="flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm">
-              <i class="pi pi-image text-2xl text-primary-500"></i>
-            </div>
-            <div class="space-y-1">
-              <p class="font-medium text-surface-700">{{ $t('blog.admin.cover-empty') }}</p>
-              <p class="text-sm text-surface-500">{{ $t('blog.admin.cover-help') }}</p>
-            </div>
-          </template>
-
-          <div class="flex flex-wrap justify-center gap-2">
-            <Button
-              :label="coverPreviewUrl ? $t('blog.admin.change-cover') : $t('blog.admin.add-cover')"
-              icon="pi pi-upload"
-              severity="secondary"
-              outlined
-              @click="openFileDialog"
-            />
-            <Button
-              v-if="coverPreviewUrl"
-              :label="$t('blog.admin.remove-cover')"
-              icon="pi pi-times"
-              severity="secondary"
-              outlined
-              @click="removeCover"
-            />
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <BlogPostForm
+      v-model="form"
+      :categories="blogCategoryStore.categories"
+      :errors="errors"
+      :coverPreviewUrl="coverPreviewUrl"
+      @openCoverPicker="openFileDialog"
+      @removeCover="removeCover"
+    />
 
     <template #footer>
       <div class="flex justify-end gap-2">

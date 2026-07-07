@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { BlogPostService } from '@/services/blogPostService'
 import type { BlogPost } from '@/models/BlogPost'
 import { RouteNames } from '@/router/routeNames'
 import { SeoUtils } from '@/utils/seoUtils'
+import {
+  formatBlogDate,
+  getBlogAuthorLabel,
+  getBlogMediaUrl,
+  getBlogPlaceholderLabel,
+} from '@/utils/blogUtils'
 
 const route = useRoute()
 const router = useRouter()
@@ -14,29 +20,6 @@ const recentPosts = ref<BlogPost[]>([])
 const loading = ref(true)
 const notFound = ref(false)
 const articleIdentifier = computed(() => route.params.identifier as string)
-
-const getMediaUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
-
-const formatDate = (value: string) => {
-  return new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
-  }).format(new Date(value))
-}
-
-const authorLabel = (post: BlogPost) => {
-  const username = post.author?.username || 'Sans Croquette Fixe'
-  return post.authorRoleLabel ? `${username} · ${post.authorRoleLabel}` : username
-}
-
-const placeholderLabel = (title: string) => {
-  const first = title.trim().charAt(0).toUpperCase()
-  return first || 'B'
-}
 
 const readingTime = computed(() => {
   if (!blogPost.value?.content) return 1
@@ -58,13 +41,23 @@ const shareArticle = async () => {
   await navigator.clipboard.writeText(currentUrl)
 }
 
-onMounted(async () => {
+const loadArticle = async () => {
+  loading.value = true
+  notFound.value = false
+  blogPost.value = null
+  recentPosts.value = []
+
   try {
     const response = await BlogPostService.GetPublicBlogPost(articleIdentifier.value)
+    if (!response.data.data) {
+      notFound.value = true
+      return
+    }
+
     blogPost.value = response.data.data
 
     const coverUrl = response.data.data.cover?.url
-      ? getMediaUrl(response.data.data.cover.url)
+      ? getBlogMediaUrl(response.data.data.cover.url)
       : null
 
     SeoUtils.applyPageSeo({
@@ -83,7 +76,7 @@ onMounted(async () => {
       category: response.data.data.category?.slug || undefined,
     })
 
-    recentPosts.value = recentResponse.data.results.filter(
+    recentPosts.value = recentResponse.data.data.filter(
       (item: BlogPost) => item.documentId !== response.data.data.documentId,
     )
   } catch {
@@ -91,7 +84,11 @@ onMounted(async () => {
   } finally {
     loading.value = false
   }
-})
+}
+
+watch(articleIdentifier, () => {
+  loadArticle()
+}, { immediate: true })
 </script>
 
 <template>
@@ -132,7 +129,7 @@ onMounted(async () => {
           <div class="space-y-5">
             <div class="blog-meta-row">
               <span class="blog-chip">{{ blogPost.category?.name || 'Actualité' }}</span>
-              <span>{{ formatDate(blogPost.publishedAt || blogPost.createdAt) }}</span>
+              <span>{{ formatBlogDate(blogPost.publishedAt || blogPost.createdAt) }}</span>
               <span>{{ readingTime }} min de lecture</span>
             </div>
 
@@ -148,7 +145,7 @@ onMounted(async () => {
           <div class="blog-detail-cover">
             <img
               v-if="blogPost.cover"
-              :src="getMediaUrl(blogPost.cover.url)"
+              :src="getBlogMediaUrl(blogPost.cover.url)"
               :alt="blogPost.title"
               class="h-full w-full object-cover"
             />
@@ -157,13 +154,13 @@ onMounted(async () => {
               class="blog-placeholder h-full min-h-[24rem] text-primary-400"
             >
               <div class="blog-placeholder__badge">
-                {{ placeholderLabel(blogPost.title) }}
+                {{ getBlogPlaceholderLabel(blogPost.title) }}
               </div>
             </div>
           </div>
 
           <div class="blog-detail-body">
-            <div class="blog-detail-prose whitespace-pre-line">
+            <div class="blog-detail-prose whitespace-pre-wrap break-words">
               {{ blogPost.content }}
             </div>
           </div>
@@ -172,7 +169,7 @@ onMounted(async () => {
         <aside class="space-y-5 lg:sticky lg:top-8">
           <div class="blog-aside-card">
             <p class="blog-eyebrow">rédaction</p>
-            <h2 class="text-xl font-semibold text-surface-800">{{ authorLabel(blogPost) }}</h2>
+            <h2 class="text-xl font-semibold text-surface-800">{{ getBlogAuthorLabel(blogPost) }}</h2>
             <p class="text-sm leading-6 text-surface-500">
               Des nouvelles du refuge, des chats accueillis et des actions menées chaque semaine par l’association.
             </p>
@@ -207,7 +204,7 @@ onMounted(async () => {
           >
             <img
               v-if="post.cover"
-              :src="getMediaUrl(post.cover.url)"
+              :src="getBlogMediaUrl(post.cover.url)"
               :alt="post.title"
               class="h-48 w-full object-cover"
             />
@@ -216,24 +213,24 @@ onMounted(async () => {
               class="blog-placeholder h-48 text-primary-400"
             >
               <div class="blog-placeholder__badge">
-                {{ placeholderLabel(post.title) }}
+                {{ getBlogPlaceholderLabel(post.title) }}
               </div>
             </div>
 
             <div class="blog-grid-card__body">
               <div class="blog-meta-row">
                 <span class="blog-chip">{{ post.category?.name || 'Actualité' }}</span>
-                <span>{{ formatDate(post.publishedAt || post.createdAt) }}</span>
+                <span>{{ formatBlogDate(post.publishedAt || post.createdAt) }}</span>
               </div>
               <h3 class="blog-grid-card__title text-balance">{{ post.title }}</h3>
               <p class="blog-grid-card__excerpt">
                 {{ post.excerpt || post.content }}
               </p>
               <div class="mt-auto flex items-center justify-between gap-4 pt-3">
-                <span class="blog-author-name text-sm">{{ authorLabel(post) }}</span>
+                <span class="blog-author-name text-sm">{{ getBlogAuthorLabel(post) }}</span>
                 <Button
                   as="router-link"
-                  :to="{ name: RouteNames.BLOG_DETAIL, params: { identifier: post.slug || post.documentId } }"
+                  :to="{ name: RouteNames.BLOG_DETAIL, params: { identifier: post.slug } }"
                   :label="$t('blog.read-more')"
                   text
                   icon="pi pi-arrow-right"

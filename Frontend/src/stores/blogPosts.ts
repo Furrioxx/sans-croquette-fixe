@@ -13,10 +13,10 @@ export const useBlogPostStore = defineStore('blogPost', () => {
   const fetchBlogPosts = async (params: BlogPostQueryParams) => {
     const response = await BlogPostService.GetAdminBlogPosts(params)
 
-    blogPosts.value = response.data.results
-    total.value = response.data.total
-    page.value = response.data.page
-    pageSize.value = response.data.pageSize
+    blogPosts.value = response.data.data
+    total.value = response.data.meta.pagination.total
+    page.value = response.data.meta.pagination.page
+    pageSize.value = response.data.meta.pagination.pageSize
   }
 
   const fetchBlogPostById = async (documentId: string) => {
@@ -24,12 +24,16 @@ export const useBlogPostStore = defineStore('blogPost', () => {
     selectedBlogPost.value = response.data.data
   }
 
-  const addBlogPost = async (blogPost: BlogPostPostPut) => {
-    await BlogPostService.AddBlogPost(blogPost)
+  const addBlogPost = async (blogPost: BlogPostPostPut, status: 'draft' | 'published') => {
+    await BlogPostService.AddBlogPost(blogPost, status)
   }
 
-  const updateBlogPost = async (documentId: string, blogPost: BlogPostPostPut) => {
-    await BlogPostService.UpdateBlogPost(documentId, blogPost)
+  const updateBlogPost = async (
+    documentId: string,
+    blogPost: BlogPostPostPut,
+    status: 'draft' | 'published',
+  ) => {
+    await BlogPostService.UpdateBlogPost(documentId, blogPost, status)
   }
 
   const deleteBlogPost = async (documentId: string) => {
