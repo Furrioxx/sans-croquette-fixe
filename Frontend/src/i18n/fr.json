@@ -44,6 +44,8 @@
   "no-photo": "Pas de photo",
   "title": {
     "home": "Accueil",
+    "donate": "Faire un don",
+    "about-us": "A propos de nous",
     "login": "Connexion",
     "register": "Inscription",
     "adopt": "À l'adoption",

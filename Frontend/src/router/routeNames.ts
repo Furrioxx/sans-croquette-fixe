@@ -1,5 +1,7 @@
 export const enum RouteNames {
   HOME = 'home',
+  DONATE = 'donate',
+  ABOUT_US = 'about-us',
   LOGIN = 'login',
   REGISTER = 'register',
   ADOPT = 'adopt',
