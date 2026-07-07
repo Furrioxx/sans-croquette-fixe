@@ -44,19 +44,18 @@ const statusClass = computed(() => {
   return ''
 })
 
-const genderLabel = computed(() =>
-  cats.value
-    .map((c) => (c.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')))
-    .join(' & '),
-)
+const genderLabel = (cat: Cat) =>
+  cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')
 
-const age = computed(() => {
-  const bd = primaryCat.value?.birthDate
+const genderIcon = (cat: Cat) => (cat.gender === Genders.MALE ? 'pi pi-mars' : 'pi pi-venus')
+
+const age = (cat: Cat) => {
+  const bd = cat.birthDate
   if (!bd) return t('adopt.age-unknown')
   const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
   if (months < 12) return t('adopt.age-months', { n: months })
   return t('adopt.age-years', { n: Math.floor(months / 12) })
-})
+}
 
 const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 </script>
@@ -103,10 +102,29 @@ const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.
         <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">
           {{ catNames }}
         </h3>
-        <div class="flex items-center gap-1.5 mt-1 text-surface-500 dark:text-surface-400 text-sm">
-          <span>{{ genderLabel }}</span>
-          <span class="text-surface-300 dark:text-surface-600">·</span>
-          <span>{{ age }}</span>
+        <div
+          class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-surface-500 dark:text-surface-400 text-sm"
+        >
+          <template v-for="cat in cats" :key="cat.documentId">
+            <span class="inline-flex items-center gap-1.5">
+              <i
+                :class="[
+                  genderIcon(cat),
+                  cat.gender === Genders.MALE
+                    ? 'text-blue-400 dark:text-blue-300'
+                    : 'text-pink-400 dark:text-pink-300',
+                ]"
+              ></i>
+              <span
+                v-if="catSheet.isDuo"
+                class="font-medium text-surface-700 dark:text-surface-200"
+                >{{ cat.name }}</span
+              >
+              <span>{{ genderLabel(cat) }}</span>
+              <span class="text-surface-300 dark:text-surface-600">·</span>
+              <span>{{ age(cat) }}</span>
+            </span>
+          </template>
         </div>
         <div class="mt-2">
           <span
