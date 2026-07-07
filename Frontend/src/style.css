@@ -81,6 +81,12 @@ h3,
   box-shadow: var(--scf-shadow);
 }
 
+.dark-cta-panel {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(36, 31, 27, 0.98), rgba(85, 58, 39, 0.94));
+  box-shadow: 0 18px 60px rgba(42, 28, 18, 0.28);
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
