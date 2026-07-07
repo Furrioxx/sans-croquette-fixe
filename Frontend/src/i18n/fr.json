@@ -42,6 +42,8 @@
   "next": "Suivant",
   "title": {
     "home": "Accueil",
+    "donate": "Faire un don",
+    "about-us": "A propos de nous",
     "login": "Connexion",
     "register": "Inscription",
     "dashboard": "Tableau de bord",

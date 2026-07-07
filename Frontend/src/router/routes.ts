@@ -13,6 +13,16 @@ const routes = [
         component: () => import('../views/Home.vue'),
       },
       {
+        path: 'donate',
+        name: RouteNames.DONATE,
+        component: () => import('../views/Donate.vue'),
+      },
+      {
+        path: 'about-us',
+        name: RouteNames.ABOUT_US,
+        component: () => import('../views/AboutUs.vue'),
+      },
+      {
         path: 'login',
         name: RouteNames.LOGIN,
         component: () => import('../views/Auth/Login.vue'),
