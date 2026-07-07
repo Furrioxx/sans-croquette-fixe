@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
+import type { Cat } from '@/models/Cat'
 import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
 import CatSheetDetails from '@/components/CatSheetDetails.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { isKitten, kittenLabelClass } from '@/utils/catUtils'
 
 const { t } = useI18n()
 
@@ -42,27 +44,20 @@ const statusClass = computed(() => {
   return ''
 })
 
-const genderLabel = computed(() => {
-  const g = primaryCat.value?.gender
-  if (g === Genders.MALE) return t('adopt.male')
-  if (g === Genders.FEMALE) return t('adopt.female')
-  return null
-})
+const genderLabel = (cat: Cat) =>
+  cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')
 
-const genderIcon = computed(() => {
-  const g = primaryCat.value?.gender
-  if (g === Genders.MALE) return 'pi pi-mars'
-  if (g === Genders.FEMALE) return 'pi pi-venus'
-  return 'pi pi-question'
-})
+const genderIcon = (cat: Cat) => (cat.gender === Genders.MALE ? 'pi pi-mars' : 'pi pi-venus')
 
-const age = computed(() => {
-  const bd = primaryCat.value?.birthDate
+const age = (cat: Cat) => {
+  const bd = cat.birthDate
   if (!bd) return t('adopt.age-unknown')
   const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
   if (months < 12) return t('adopt.age-months', { n: months })
   return t('adopt.age-years', { n: Math.floor(months / 12) })
-})
+}
+
+const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 </script>
 
 <template>
@@ -107,11 +102,40 @@ const age = computed(() => {
         <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">
           {{ catNames }}
         </h3>
-        <div class="flex items-center gap-1.5 mt-1 text-surface-500 dark:text-surface-400 text-sm">
-          <i :class="genderIcon" class="text-xs"></i>
-          <span v-if="genderLabel">{{ genderLabel }}</span>
-          <span class="text-surface-300 dark:text-surface-600">·</span>
-          <span>{{ age }}</span>
+        <div
+          class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-surface-500 dark:text-surface-400 text-sm"
+        >
+          <template v-for="cat in cats" :key="cat.documentId">
+            <span class="inline-flex items-center gap-1.5">
+              <i
+                :class="[
+                  genderIcon(cat),
+                  cat.gender === Genders.MALE
+                    ? 'text-blue-400 dark:text-blue-300'
+                    : 'text-pink-400 dark:text-pink-300',
+                ]"
+              ></i>
+              <span
+                v-if="catSheet.isDuo"
+                class="font-medium text-surface-700 dark:text-surface-200"
+                >{{ cat.name }}</span
+              >
+              <span>{{ genderLabel(cat) }}</span>
+              <span class="text-surface-300 dark:text-surface-600">·</span>
+              <span>{{ age(cat) }}</span>
+            </span>
+          </template>
+        </div>
+        <div class="mt-2">
+          <span
+            v-for="cat in cats"
+            :key="cat.documentId"
+            :class="[
+              'text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm mr-1',
+              kittenLabelClass(kittenLabel(cat), $t),
+            ]"
+            >{{ catSheet.isDuo ? `${cat.name} · ` : '' }}{{ kittenLabel(cat) }}</span
+          >
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
 import { CatSheetService } from '@/services/catSheetService'
+import { isKitten, kittenLabelClass } from '@/utils/catUtils'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -82,6 +83,8 @@ const genderIcon = (cat: Cat) => {
   if (cat.gender === Genders.FEMALE) return 'pi pi-venus'
   return 'pi pi-question'
 }
+
+const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 
 const healthItems = (cat: Cat) => [
   { label: t('adopt.vaccinated'), value: cat.vaccinated },
@@ -181,6 +184,11 @@ const friendlyDisplay = (value: CatFriendly) => {
               v-if="catSheet.isDuo"
               class="text-xs font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-700"
             >{{ $t('adopt.duo') }}</span>
+            <span
+              v-for="cat in cats"
+              :key="cat.documentId"
+              :class="['text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm', kittenLabelClass(kittenLabel(cat), t)]"
+            >{{ catSheet.isDuo ? `${cat.name} · ` : '' }}{{ kittenLabel(cat) }}</span>
           </div>
 
           <!-- Name -->
@@ -222,6 +230,9 @@ const friendlyDisplay = (value: CatFriendly) => {
                     <span class="text-surface-300">·</span>
                     <span>{{ formatAge(cat.birthDate) }}</span>
                   </div>
+                  <span
+                    :class="['text-xs font-semibold px-2.5 py-1 rounded-full ml-2', kittenLabelClass(kittenLabel(cat), t)]"
+                  >{{ kittenLabel(cat) }}</span>
                 </div>
 
                 <!-- Health -->
@@ -334,27 +345,37 @@ const friendlyDisplay = (value: CatFriendly) => {
 
             <!-- Info card -->
             <div class="bg-white dark:bg-surface-800 rounded-2xl p-6 border border-surface-100 dark:border-surface-700 space-y-4">
-              <div>
-                <h2 class="text-xl font-bold text-surface-800 dark:text-surface-100">{{ catNames }}</h2>
-                <div v-if="cats[0]" class="flex items-center gap-1.5 mt-1 text-surface-500 text-sm">
-                  <i :class="genderIcon(cats[0])" class="text-xs"></i>
-                  <span v-if="genderLabel(cats[0])">{{ genderLabel(cats[0]) }}</span>
+              <h2 class="text-xl font-bold text-surface-800 dark:text-surface-100">{{ catNames }}</h2>
+
+              <!-- Per-cat rows -->
+              <div
+                v-for="(cat, idx) in cats"
+                :key="cat.documentId"
+                :class="{ 'pt-4 border-t border-surface-100 dark:border-surface-700': idx > 0 }"
+                class="space-y-2"
+              >
+                <div class="flex items-center gap-1.5 text-surface-500 text-sm">
+                  <span v-if="catSheet.isDuo" class="font-semibold text-surface-700 dark:text-surface-200">{{ cat.name }}</span>
+                  <i :class="genderIcon(cat)" class="text-xs"></i>
+                  <span v-if="genderLabel(cat)">{{ genderLabel(cat) }}</span>
                   <span class="text-surface-300">·</span>
-                  <span>{{ formatAge(cats[0]?.birthDate ?? null) }}</span>
+                  <span>{{ formatAge(cat.birthDate) }}</span>
                 </div>
-              </div>
 
-              <!-- Status badge -->
-              <div v-if="cats[0] && statusLabel(cats[0])">
-                <span :class="['text-sm font-semibold px-3 py-1.5 rounded-full', statusClass(cats[0])]">
-                  {{ statusLabel(cats[0]) }}
-                </span>
-              </div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <span
+                    :class="['inline-block text-xs font-semibold px-2.5 py-1 rounded-full', kittenLabelClass(kittenLabel(cat), t)]"
+                  >{{ kittenLabel(cat) }}</span>
+                  <span
+                    v-if="statusLabel(cat)"
+                    :class="['text-xs font-semibold px-2.5 py-1 rounded-full', statusClass(cat)]"
+                  >{{ statusLabel(cat) }}</span>
+                </div>
 
-              <!-- Birth date -->
-              <div v-if="cats[0]?.birthDate" class="flex items-center gap-2 text-sm text-surface-500">
-                <i class="pi pi-calendar text-xs"></i>
-                <span>{{ $t('adopt.detail-birth-date') }} {{ formatBirthDate(cats[0].birthDate) }}</span>
+                <div v-if="cat.birthDate" class="flex items-center gap-2 text-sm text-surface-500">
+                  <i class="pi pi-calendar text-xs"></i>
+                  <span>{{ $t('adopt.detail-birth-date') }} {{ formatBirthDate(cat.birthDate) }}</span>
+                </div>
               </div>
 
               <Divider class="my-2" />
@@ -376,27 +397,6 @@ const friendlyDisplay = (value: CatFriendly) => {
                 outlined
                 @click="router.push({ name: RouteNames.ADOPT })"
               />
-            </div>
-
-            <!-- Duo secondary cat quick info -->
-            <div
-              v-if="catSheet.isDuo && cats[1]"
-              class="bg-white dark:bg-surface-800 rounded-2xl p-5 border border-surface-100 dark:border-surface-700"
-            >
-              <div class="flex items-center gap-2 mb-3">
-                <i class="pi pi-heart text-purple-400 text-sm"></i>
-                <span class="text-sm font-semibold text-surface-600 dark:text-surface-300">{{ cats[1].name }}</span>
-              </div>
-              <div class="flex items-center gap-1.5 text-surface-500 text-sm">
-                <i :class="genderIcon(cats[1])" class="text-xs"></i>
-                <span v-if="genderLabel(cats[1])">{{ genderLabel(cats[1]) }}</span>
-                <span class="text-surface-300">·</span>
-                <span>{{ formatAge(cats[1].birthDate) }}</span>
-              </div>
-              <div v-if="cats[1].birthDate" class="flex items-center gap-2 text-xs text-surface-400 mt-1.5">
-                <i class="pi pi-calendar text-xs"></i>
-                <span>{{ formatBirthDate(cats[1].birthDate) }}</span>
-              </div>
             </div>
 
           </aside>
