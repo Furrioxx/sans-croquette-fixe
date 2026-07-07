@@ -64,6 +64,14 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  const updateUserRole = async (userId: number, roleId: number) => {
+    try {
+      await UserService.UpdateUserRole(userId, roleId)
+    } catch (error) {
+      throw error
+    }
+  }
+
   const getRoleSeverity = (roleName: string) => {
     switch (roleName) {
       case Roles.ADMIN:
@@ -87,6 +95,7 @@ export const useUserStore = defineStore('user', () => {
     toggleBlockUser,
     addUserAdmin,
     updateUserAdmin,
+    updateUserRole,
     getRoleSeverity,
   }
 })

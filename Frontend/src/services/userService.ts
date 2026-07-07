@@ -45,4 +45,7 @@ export const UserService = {
     const { id, password, ...userPut } = user
     return await axiosInstance.put(`${API_URL}/${id}`, userPut)
   },
+  UpdateUserRole: async (userId: number, roleId: number) => {
+    return await axiosInstance.put(`/user-roles/${userId}`, { roleId })
+  },
 }

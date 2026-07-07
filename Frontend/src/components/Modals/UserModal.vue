@@ -21,6 +21,17 @@ const props = defineProps<{
 const roles = computed(() => userStore.roles)
 const header = computed(() => (props.user ? props.user.username : t('admin.user-create')))
 const isEditMode = computed<boolean>(() => !!props.user)
+const isRoleOnlyUpdate = computed(() => {
+  if (!props.user) {
+    return false
+  }
+
+  return (
+    form.value.role !== props.user.role.id &&
+    form.value.username === props.user.username &&
+    form.value.email === props.user.email
+  )
+})
 const errors = ref<FormError[]>([])
 const form = ref<UserPostPutAdmin>({
   id: props.user?.id || null,
@@ -62,6 +73,11 @@ const loadRoles = async () => {
 
 const checkValidity = () => {
   errors.value = []
+
+  if (isEditMode.value && isRoleOnlyUpdate.value) {
+    return true
+  }
+
   errors.value.push(
     StringUtils.checkInputTextValidity('username', form.value.username, t('requiredInputError'), 4),
   )
@@ -80,7 +96,11 @@ const save = async () => {
 
   if (valid) {
     if (isEditMode.value) {
-      await userStore.updateUserAdmin(form.value)
+      if (isRoleOnlyUpdate.value && form.value.id) {
+        await userStore.updateUserRole(form.value.id, form.value.role)
+      } else {
+        await userStore.updateUserAdmin(form.value)
+      }
     } else {
       await userStore.addUserAdmin(form.value)
     }
