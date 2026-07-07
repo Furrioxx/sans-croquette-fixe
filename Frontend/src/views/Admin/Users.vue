@@ -35,7 +35,7 @@ const togglePopover = (event: any, userId: number) => {
 
 const editUser = async () => {
   try {
-    userStore.fetchUserById(selectedUserId.value!)
+    await userStore.fetchUserById(selectedUserId.value!)
     editModalVisible.value = true
   } catch (error) {
     console.error('Error fetching user:', error)
