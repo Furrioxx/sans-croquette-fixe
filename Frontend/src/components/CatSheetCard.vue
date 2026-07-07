@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
+import type { Cat } from '@/models/Cat'
 import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
@@ -57,9 +58,7 @@ const age = computed(() => {
   return t('adopt.age-years', { n: Math.floor(months / 12) })
 })
 
-const kittenLabelArray = computed(() =>
-  cats.value.map((c) => (isKitten(c) ? t('adopt.kitten') : t('adopt.not-kitten'))),
-)
+const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 </script>
 
 <template>
@@ -111,12 +110,13 @@ const kittenLabelArray = computed(() =>
         </div>
         <div class="mt-2">
           <span
-            v-for="kittenLabel in kittenLabelArray"
+            v-for="cat in cats"
+            :key="cat.documentId"
             :class="[
               'text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm mr-1',
-              kittenLabelClass(kittenLabel, $t),
+              kittenLabelClass(kittenLabel(cat), $t),
             ]"
-            >{{ kittenLabel }}</span
+            >{{ catSheet.isDuo ? `${cat.name} · ` : '' }}{{ kittenLabel(cat) }}</span
           >
         </div>
       </div>
