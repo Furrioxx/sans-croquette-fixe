@@ -6,6 +6,7 @@ const model = defineModel<string | null>()
 const props = defineProps<{
   name: string
   label: string
+  disabled?: boolean
   required?: boolean
   valid?: boolean
   errorMessage?: string
@@ -28,6 +29,7 @@ const dateValue = computed({
       class="flex-auto"
       dateFormat="dd/mm/yy"
       :showIcon="true"
+      :disabled="props.disabled"
       showButtonBar
     />
   </div>

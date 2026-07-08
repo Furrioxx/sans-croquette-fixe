@@ -81,6 +81,13 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       await me()
 
+      const redirect = router.currentRoute.value.query.redirect
+
+      if (typeof redirect === 'string' && redirect.length > 0) {
+        router.push(redirect)
+        return
+      }
+
       switch (getUserRole.value) {
         case Roles.ADMIN:
         case Roles.VOLUNTEER:

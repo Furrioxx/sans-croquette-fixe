@@ -1,11 +1,12 @@
 <script setup lang="ts">
-const model = defineModel<number>({ default: 0 })
+const model = defineModel<number | null>({ default: null })
 
 const props = defineProps<{
   name: string
   label: string
   min?: number | null
   max?: number | null
+  disabled?: boolean
   required?: boolean
   valid?: boolean
   errorMessage?: string
@@ -22,6 +23,7 @@ const props = defineProps<{
       autocomplete="off"
       :min="props.min ?? undefined"
       :max="props.max ?? undefined"
+      :disabled="props.disabled"
     />
   </div>
   <Message

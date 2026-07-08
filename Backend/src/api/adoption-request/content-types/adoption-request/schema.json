@@ -1,0 +1,265 @@
+{
+  "kind": "collectionType",
+  "collectionName": "adoption_requests",
+  "info": {
+    "singularName": "adoption-request",
+    "pluralName": "adoption-requests",
+    "displayName": "Adoption Request"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "agreementAccepted": {
+      "type": "boolean",
+      "required": true
+    },
+    "animalName": {
+      "type": "string",
+      "required": true
+    },
+    "firstName": {
+      "type": "string",
+      "required": true
+    },
+    "lastName": {
+      "type": "string",
+      "required": true
+    },
+    "birthDate": {
+      "type": "date",
+      "required": true
+    },
+    "streetAddress": {
+      "type": "text",
+      "required": true
+    },
+    "postalCode": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "phone": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "householdComposition": {
+      "type": "enumeration",
+      "enum": [
+        "seul",
+        "couple",
+        "colocation",
+        "autre"
+      ],
+      "required": true
+    },
+    "householdCompositionOther": {
+      "type": "string"
+    },
+    "roommateCount": {
+      "type": "integer"
+    },
+    "hasChildren": {
+      "type": "boolean",
+      "required": true
+    },
+    "childrenCount": {
+      "type": "integer"
+    },
+    "childrenAges": {
+      "type": "string"
+    },
+    "householdAgreement": {
+      "type": "boolean",
+      "required": true
+    },
+    "householdDisagreementReason": {
+      "type": "text"
+    },
+    "isEmployed": {
+      "type": "boolean",
+      "required": true
+    },
+    "profession": {
+      "type": "string"
+    },
+    "workSchedule": {
+      "type": "text"
+    },
+    "aloneTimePerDay": {
+      "type": "string",
+      "required": true
+    },
+    "housingType": {
+      "type": "enumeration",
+      "enum": [
+        "appartement",
+        "maison",
+        "autre"
+      ],
+      "required": true
+    },
+    "housingTypeOther": {
+      "type": "string"
+    },
+    "housingArea": {
+      "type": "string",
+      "required": true
+    },
+    "animalLivingSpace": {
+      "type": "enumeration",
+      "enum": [
+        "interieur",
+        "exterieur",
+        "les_deux",
+        "autre"
+      ],
+      "required": true
+    },
+    "animalLivingSpaceOther": {
+      "type": "string"
+    },
+    "environmentType": {
+      "type": "enumeration",
+      "enum": [
+        "ville",
+        "campagne",
+        "lotissement",
+        "autre"
+      ],
+      "required": true
+    },
+    "environmentTypeOther": {
+      "type": "string"
+    },
+    "nearBusyRoad": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "autre"
+      ],
+      "required": true
+    },
+    "nearBusyRoadOther": {
+      "type": "string"
+    },
+    "canGoOutside": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "autre"
+      ],
+      "required": true
+    },
+    "canGoOutsideOther": {
+      "type": "string"
+    },
+    "apartmentFloor": {
+      "type": "string"
+    },
+    "windowsSecured": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "autre"
+      ]
+    },
+    "windowsSecuredOther": {
+      "type": "string"
+    },
+    "plansToSecureWindows": {
+      "type": "boolean"
+    },
+    "hasGarden": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "autre"
+      ]
+    },
+    "hasGardenOther": {
+      "type": "string"
+    },
+    "livingPlaceDetails": {
+      "type": "text"
+    },
+    "gardenArea": {
+      "type": "string"
+    },
+    "gardenFencedDetails": {
+      "type": "string"
+    },
+    "hasBalconyOrTerrace": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "autre"
+      ]
+    },
+    "balconyOrTerraceArea": {
+      "type": "string"
+    },
+    "balconySecurityDetails": {
+      "type": "text"
+    },
+    "hasOtherAnimals": {
+      "type": "boolean",
+      "required": true
+    },
+    "otherAnimalsDetails": {
+      "type": "text"
+    },
+    "otherAnimalsSterilized": {
+      "type": "enumeration",
+      "enum": [
+        "oui",
+        "non",
+        "partiellement",
+        "non_applicable"
+      ]
+    },
+    "otherAnimalsOwnedDuration": {
+      "type": "string"
+    },
+    "additionalNotes": {
+      "type": "text"
+    },
+    "responsibilityCommitmentAccepted": {
+      "type": "boolean",
+      "required": true
+    },
+    "processingStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "in_review",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "catSheet": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cat-sheet.cat-sheet"
+    },
+    "submittedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
