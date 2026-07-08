@@ -378,6 +378,18 @@ const friendlyDisplay = (value: CatFriendly) => {
                 </div>
               </div>
 
+              <div
+                v-if="catSheet.tarification"
+                class="flex items-center justify-between rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800 px-4 py-3"
+              >
+                <span class="text-sm font-medium text-primary-700 dark:text-primary-300">{{
+                  catSheet.tarification.label
+                }}</span>
+                <span class="text-lg font-bold text-primary-700 dark:text-primary-300"
+                  >{{ catSheet.tarification.price }} €</span
+                >
+              </div>
+
               <Divider class="my-2" />
 
               <!-- CTA adopt -->

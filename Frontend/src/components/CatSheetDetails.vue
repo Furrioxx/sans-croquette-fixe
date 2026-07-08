@@ -55,6 +55,18 @@ const friendlyLabel = (value: CatFriendly) => {
 
 <template>
   <div class="flex flex-col gap-4">
+    <div
+      v-if="catSheet.tarification"
+      class="flex items-center justify-between rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800 px-3 py-2"
+    >
+      <span class="text-sm font-medium text-primary-700 dark:text-primary-300">{{
+        catSheet.tarification.label
+      }}</span>
+      <span class="text-sm font-bold text-primary-700 dark:text-primary-300"
+        >{{ catSheet.tarification.price }} €</span
+      >
+    </div>
+
     <p v-if="description" class="text-sm text-surface-500 dark:text-surface-400 leading-relaxed">
       {{ description }}
     </p>
