@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { User } from '@/models/User'
+import type { Tarification } from '@/models/Tarification'
 import type { FormError } from '@/models/FormError'
 import { StringUtils } from '@/utils/stringUtils'
 import { computed, ref, watch } from 'vue'
@@ -14,6 +15,8 @@ const props = defineProps<{
   linkedVolunteer: number | null
   backupVolunteer: number | null
   volunteers: User[]
+  tarification: number | null
+  tarifications: Tarification[]
   description: string | null
 }>()
 
@@ -21,6 +24,7 @@ const emit = defineEmits<{
   'update:isDuo': [value: boolean]
   'update:linkedVolunteer': [value: number | null]
   'update:backupVolunteer': [value: number | null]
+  'update:tarification': [value: number | null]
   'update:description': [value: string | null]
 }>()
 
@@ -45,6 +49,13 @@ const validate = (): boolean => {
     StringUtils.checkRequiredValidity(
       'linkedVolunteer',
       props.linkedVolunteer?.toString(),
+      t('requiredInputError'),
+    ),
+  )
+  errors.value.push(
+    StringUtils.checkRequiredValidity(
+      'tarification',
+      props.tarification?.toString(),
       t('requiredInputError'),
     ),
   )
@@ -81,6 +92,19 @@ defineExpose({ validate })
     :modelValue="backupVolunteer"
     @update:modelValue="emit('update:backupVolunteer', $event ? Number($event) : null)"
     :label="$t('admin.cat.backupVolunteer')"
+  />
+  <SelectWithLabel
+    name="tarification"
+    :options="tarifications"
+    optionLabel="label"
+    optionValue="id"
+    :modelValue="tarification"
+    @update:modelValue="emit('update:tarification', $event ? Number($event) : null)"
+    :label="$t('admin.cat.tarification')"
+    :placeholder="$t('admin.cat.tarification-placeholder')"
+    required
+    :valid="StringUtils.getFieldError(errors, 'tarification')?.valid"
+    :errorMessage="StringUtils.getFieldError(errors, 'tarification')?.message"
   />
   <div class="flex flex-col gap-1 mt-2">
     <label for="description" class="font-semibold text-sm">{{ $t('admin.cat.description') }}</label>

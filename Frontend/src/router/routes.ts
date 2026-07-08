@@ -103,6 +103,14 @@ const routes = [
         name: RouteNames.DASHBOARD_ABSENCES,
       },
       {
+        path: 'tarifications',
+        meta: {
+          requiredRoles: [Roles.ADMIN],
+        },
+        component: () => import('../views/Admin/Tarifications.vue'),
+        name: RouteNames.DASHBOARD_TARIFICATIONS,
+      },
+      {
         path: 'settings',
         meta: {
           requiredRoles: [Roles.ADMIN],

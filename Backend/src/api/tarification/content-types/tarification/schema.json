@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tarifications",
+  "info": {
+    "singularName": "tarification",
+    "pluralName": "tarifications",
+    "displayName": "Tarification"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "price": {
+      "type": "decimal",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -6,6 +6,7 @@ import { Genders } from '@/models/Enums/Genders'
 import { useCatStore } from '@/stores/cats'
 import { useCatSheetStore } from '@/stores/catSheets'
 import { useCatMoodStore } from '@/stores/catMoods'
+import { useTarificationStore } from '@/stores/tarifications'
 import { UserService } from '@/services/userService'
 import type { User } from '@/models/User'
 import { computed, onMounted, ref, watch } from 'vue'
@@ -19,6 +20,7 @@ const { t } = useI18n()
 const catStore = useCatStore()
 const catSheetStore = useCatSheetStore()
 const catMoodStore = useCatMoodStore()
+const tarificationStore = useTarificationStore()
 const emit = defineEmits(['update:visible', 'update:datas'])
 const props = defineProps<{
   catSheet: CatSheet | null
@@ -41,6 +43,7 @@ const generalForm = ref({
   isDuo: props.catSheet?.isDuo || false,
   linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null as number | null,
   backupVolunteer: props.catSheet?.backupVolunteer?.id || null as number | null,
+  tarification: props.catSheet?.tarification?.id || null as number | null,
   description: props.catSheet?.description || null as string | null,
 })
 
@@ -72,6 +75,7 @@ const resetForm = () => {
     isDuo: props.catSheet?.isDuo || false,
     linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null,
     backupVolunteer: props.catSheet?.backupVolunteer?.id || null,
+    tarification: props.catSheet?.tarification?.id || null,
     description: props.catSheet?.description || null,
   }
   cat1Form.value = makeCatForm(0)
@@ -84,7 +88,11 @@ watch(() => props.catSheet, resetForm)
 
 onMounted(async () => {
   resetForm()
-  await Promise.all([catMoodStore.fectchCatMoods(), loadVolunteers()])
+  await Promise.all([
+    catMoodStore.fectchCatMoods(),
+    loadVolunteers(),
+    tarificationStore.fetchTarifications(),
+  ])
 })
 
 const loadVolunteers = async () => {
@@ -181,6 +189,7 @@ const save = async () => {
     cats: cat2DocumentId ? [cat1DocumentId, cat2DocumentId] : [cat1DocumentId],
     linkedVolunteer: generalForm.value.linkedVolunteer,
     backupVolunteer: generalForm.value.backupVolunteer,
+    tarification: generalForm.value.tarification,
     images: [...keptIds, ...uploadedIds],
     description: generalForm.value.description,
   }
@@ -226,10 +235,13 @@ const save = async () => {
             :linkedVolunteer="generalForm.linkedVolunteer"
             :backupVolunteer="generalForm.backupVolunteer"
             :volunteers="volunteers"
+            :tarification="generalForm.tarification"
+            :tarifications="tarificationStore.tarifications"
             :description="generalForm.description"
             @update:isDuo="generalForm.isDuo = $event"
             @update:linkedVolunteer="generalForm.linkedVolunteer = $event"
             @update:backupVolunteer="generalForm.backupVolunteer = $event"
+            @update:tarification="generalForm.tarification = $event"
             @update:description="generalForm.description = $event"
           />
         </StepPanel>

@@ -120,6 +120,13 @@ const closeGallery = (visible: boolean) => {
       </template>
     </Column>
 
+    <Column :header="$t('admin.cat.tarification')">
+      <template #body="slotProps">
+        <span v-if="slotProps.data.tarification">{{ slotProps.data.tarification.label }}</span>
+        <span v-else class="text-surface-400">—</span>
+      </template>
+    </Column>
+
     <Column :header="$t('admin.cat.isDuo')">
       <template #body="slotProps">
         <i class="pi pi-heart-fill text-pink-500 text-lg" v-if="slotProps.data.isDuo"></i>

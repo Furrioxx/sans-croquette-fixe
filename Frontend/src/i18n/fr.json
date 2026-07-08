@@ -56,7 +56,8 @@
     "dashboard-analytics": "Analytics",
     "dashboard-cats": "Fiches chat",
     "dashboard-absences": "Absences",
-    "dashboard-blog": "Blog"
+    "dashboard-blog": "Blog",
+    "dashboard-tarifications": "Tarifications"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -83,6 +84,7 @@
       "absences": "Absences",
       "settings": "Paramètres",
       "cats": "Fiches chat",
+      "tarifications": "Tarifications",
       "blog": "Blog"
     },
     "absences": "Absences",
@@ -163,12 +165,23 @@
       "step-suivi": "Suivi",
       "status": "Statut",
       "backupVolunteer": "Bénévole suppléant",
+      "tarification": "Tarification",
+      "tarification-placeholder": "Sélectionner une tarification",
       "description": "Description",
       "trappingDate": "Date de trappage",
       "medicalHistory": "Historique médical",
       "cat1-label": "Chat 1",
       "cat2-label": "Chat 2",
       "suivi-helper": "Informations de suivi et historique médical du chat"
+    },
+    "tarification": {
+      "title": "Tarifications",
+      "create": "Créer une tarification",
+      "edit": "Modifier la tarification",
+      "label": "Libellé",
+      "price": "Prix",
+      "empty": "Aucune tarification n'a encore été créée.",
+      "save-success": "La tarification a été enregistrée."
     }
   },
   "back": "Retour",

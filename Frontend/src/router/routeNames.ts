@@ -15,4 +15,5 @@ export const enum RouteNames {
   DASHBOARD_CATS = 'dashboard-cats',
   DASHBOARD_ABSENCES = 'dashboard-absences',
   DASHBOARD_BLOG = 'dashboard-blog',
+  DASHBOARD_TARIFICATIONS = 'dashboard-tarifications',
 }

@@ -1,4 +1,5 @@
 import type { Cat, StrapiMedia } from './Cat'
+import type { Tarification } from './Tarification'
 import type { User } from './User'
 
 export interface CatSheet {
@@ -10,6 +11,7 @@ export interface CatSheet {
   backupVolunteer: User | null
   images: StrapiMedia[]
   description: string | null
+  tarification: Tarification
 }
 
 export interface CatSheetPostPut {
@@ -19,4 +21,5 @@ export interface CatSheetPostPut {
   backupVolunteer: number | null
   images?: number[]
   description?: string | null
+  tarification: number | null
 }

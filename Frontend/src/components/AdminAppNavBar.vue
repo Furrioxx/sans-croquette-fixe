@@ -29,6 +29,11 @@ const items = computed(() => [
     ? [
         { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },
         {
+          label: t('admin.nav.tarifications'),
+          icon: 'pi pi-tag',
+          routeName: RouteNames.DASHBOARD_TARIFICATIONS,
+        },
+        {
           label: t('admin.nav.blog'),
           icon: 'pi pi-pen-to-square',
           routeName: RouteNames.DASHBOARD_BLOG,

@@ -1,5 +1,5 @@
 import type { Cat } from '@/models/Cat'
-import { useI18n, type ComposerTranslation } from 'vue-i18n'
+import { type ComposerTranslation } from 'vue-i18n'
 
 export const isKitten = (cat: Cat) => {
   if (!cat.birthDate) return false
