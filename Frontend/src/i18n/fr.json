@@ -191,7 +191,27 @@
       "title": "Gestion des demandes d'adoption",
       "subtitle": "Consultez, modifiez et supprimez les demandes visibles selon vos droits.",
       "listTitle": "Demandes",
-      "empty": "Aucune demande d'adoption visible pour le moment."
+      "empty": "Aucune demande d'adoption visible pour le moment.",
+      "searchPlaceholder": "Rechercher par chat, nom ou email",
+      "statusPlaceholder": "Filtrer par statut",
+      "mainVolunteer": "Principal :",
+      "backupVolunteer": "Secours :",
+      "stats": {
+        "total": "Total"
+      },
+      "columns": {
+        "animal": "Chat",
+        "requester": "Demandeur",
+        "contacts": "Référents",
+        "submittedAt": "Soumise le",
+        "status": "Statut",
+        "actions": "Actions"
+      },
+      "dialog": {
+        "title": "Demande d'adoption",
+        "editing": "Edition active",
+        "currentStatus": "Statut actuel :"
+      }
     }
   },
   "back": "Retour",
@@ -258,6 +278,7 @@
   "adoptionRequest": {
     "title": "Formulaire d'adoption",
     "subtitle": "Complétez ce formulaire pour soumettre votre demande d'adoption.",
+    "loading": "Chargement du formulaire…",
     "submit": "Envoyer la demande",
     "validationError": "Veuillez corriger les champs du formulaire.",
     "createSuccess": "Votre demande d'adoption a bien été envoyée.",
@@ -268,7 +289,97 @@
     "approvedSuccess": "La demande a été validée.",
     "rejectedSuccess": "La demande a été refusée.",
     "deleteConfirm": "Voulez-vous vraiment supprimer cette demande d'adoption ?",
-    "deleteSuccess": "La demande a bien été supprimée."
+    "deleteSuccess": "La demande a bien été supprimée.",
+    "sections": {
+      "general": "Informations générales",
+      "contact": "Coordonnées",
+      "household": "Foyer et disponibilité",
+      "housing": "Logement",
+      "apartment": "Informations appartement",
+      "otherAnimals": "Autres animaux",
+      "additional": "Compléments"
+    },
+    "fields": {
+      "agreementAccepted": "Êtes-vous d’accord avec la demande ci-dessous ?",
+      "animalName": "Nom de l’animal",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "birthDate": "Date de naissance",
+      "streetAddress": "Adresse postale complète",
+      "postalCode": "Code postal",
+      "city": "Ville",
+      "phone": "Téléphone",
+      "email": "Email",
+      "householdComposition": "Composition du foyer",
+      "roommateCount": "Nombre de colocataires",
+      "specify": "Précisez",
+      "hasChildren": "Avez-vous des enfants ?",
+      "childrenCount": "Combien ?",
+      "childrenAges": "Âges",
+      "householdAgreement": "Tout le foyer est-il d’accord ?",
+      "householdDisagreementReason": "Qui n’est pas d’accord et pourquoi ?",
+      "isEmployed": "Travaillez-vous ?",
+      "profession": "Profession",
+      "workSchedule": "Horaires",
+      "aloneTimePerDay": "Temps seul dans la journée",
+      "housingType": "Vous vivez ?",
+      "housingArea": "Superficie du logement",
+      "animalLivingSpace": "L’animal vivra",
+      "environmentType": "Habitez-vous",
+      "nearBusyRoad": "À proximité d’une route passante ?",
+      "canGoOutside": "L’animal pourra-t-il sortir ?",
+      "livingPlaceDetails": "Précisez votre lieu de vie",
+      "apartmentFloor": "À quel étage ?",
+      "windowsSecured": "Fenêtres sécurisées ?",
+      "plansToSecureWindows": "Envisagez-vous de sécuriser vos fenêtres ?",
+      "hasGarden": "Avez-vous un jardin ?",
+      "gardenArea": "Superficie du jardin",
+      "gardenFencedDetails": "Grillage / hauteur",
+      "hasBalconyOrTerrace": "Balcon ou terrasse ?",
+      "balconyOrTerraceArea": "Superficie",
+      "balconySecurityDetails": "Sécurisation",
+      "hasOtherAnimals": "Avez-vous d’autres animaux ?",
+      "otherAnimalsDetails": "Quels animaux ?",
+      "otherAnimalsSterilized": "Sont-ils stérilisés ?",
+      "otherAnimalsOwnedDuration": "Depuis combien de temps ?",
+      "additionalNotes": "Remarques complémentaires",
+      "processingStatus": "Statut",
+      "responsibilityCommitmentAccepted": "Je m’engage à accepter l’entière responsabilité de l’animal."
+    },
+    "options": {
+      "other": "Autre",
+      "partially": "Partiellement",
+      "notApplicable": "Non applicable",
+      "household": {
+        "alone": "Seul",
+        "couple": "En couple",
+        "roommates": "Colocation"
+      },
+      "housing": {
+        "apartment": "Appartement",
+        "house": "Maison"
+      },
+      "livingSpace": {
+        "indoor": "Intérieur",
+        "outdoor": "Extérieur",
+        "both": "Les deux"
+      },
+      "environment": {
+        "city": "Ville",
+        "country": "Campagne",
+        "subdivision": "Lotissement"
+      }
+    },
+    "status": {
+      "pending": "En attente",
+      "in_review": "En cours",
+      "approved": "Acceptée",
+      "rejected": "Refusée"
+    },
+    "filters": {
+      "all": "Tous"
+    },
+    "commitmentText": "En validant ce formulaire, vous vous engagez à accepter l’entière responsabilité de l’entretien de l’animal, y compris les frais vétérinaires, la nourriture, les accessoires et les conséquences juridiques et pécuniaires liées à sa possession."
   },
   "discover": {
     "nav-link": "Trouver votre chat",

@@ -24,11 +24,11 @@ const errors = ref<Record<string, string>>({})
 const form = reactive<AdoptionRequestFormValues>(createEmptyAdoptionRequestForm())
 
 const statusOptions = [
-  { label: 'Tous', value: null },
-  { label: 'En attente', value: 'pending' },
-  { label: 'En cours', value: 'in_review' },
-  { label: 'Acceptée', value: 'approved' },
-  { label: 'Refusée', value: 'rejected' },
+  { label: t('adoptionRequest.filters.all'), value: null },
+  { label: t('adoptionRequest.status.pending'), value: 'pending' },
+  { label: t('adoptionRequest.status.in_review'), value: 'in_review' },
+  { label: t('adoptionRequest.status.approved'), value: 'approved' },
+  { label: t('adoptionRequest.status.rejected'), value: 'rejected' },
 ]
 
 const filteredRequests = computed(() => {
@@ -64,14 +64,14 @@ const formatDate = (value: string | null) => {
 const statusLabel = (status: string) => {
   switch (status) {
     case 'approved':
-      return 'Acceptée'
+      return t('adoptionRequest.status.approved')
     case 'rejected':
-      return 'Refusée'
+      return t('adoptionRequest.status.rejected')
     case 'in_review':
-      return 'En cours'
+      return t('adoptionRequest.status.in_review')
     case 'pending':
     default:
-      return 'En attente'
+      return t('adoptionRequest.status.pending')
   }
 }
 
@@ -202,15 +202,15 @@ onMounted(loadRequests)
 
       <div class="mt-6 grid gap-4 md:grid-cols-3">
         <div class="rounded-xl border border-surface-200 bg-surface-50 p-4">
-          <p class="text-sm font-medium text-surface-600">Total</p>
+          <p class="text-sm font-medium text-surface-600">{{ $t('admin.adoptionRequests.stats.total') }}</p>
           <p class="mt-2 text-3xl font-bold text-surface-900">{{ requests.length }}</p>
         </div>
         <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
-          <p class="text-sm font-medium text-amber-700">En attente</p>
+          <p class="text-sm font-medium text-amber-700">{{ $t('adoptionRequest.status.pending') }}</p>
           <p class="mt-2 text-3xl font-bold text-amber-900">{{ pendingCount }}</p>
         </div>
         <div class="rounded-xl border border-sky-200 bg-sky-50 p-4">
-          <p class="text-sm font-medium text-sky-700">En cours</p>
+          <p class="text-sm font-medium text-sky-700">{{ $t('adoptionRequest.status.in_review') }}</p>
           <p class="mt-2 text-3xl font-bold text-sky-900">{{ inReviewCount }}</p>
         </div>
       </div>
@@ -221,13 +221,13 @@ onMounted(loadRequests)
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <span>{{ $t('admin.adoptionRequests.listTitle') }}</span>
           <div class="flex flex-col gap-3 md:flex-row">
-            <InputText v-model="search" placeholder="Rechercher par chat, nom ou email" />
+            <InputText v-model="search" :placeholder="$t('admin.adoptionRequests.searchPlaceholder')" />
             <Select
               v-model="statusFilter"
               :options="statusOptions"
               optionLabel="label"
               optionValue="value"
-              placeholder="Filtrer par statut"
+              :placeholder="$t('admin.adoptionRequests.statusPlaceholder')"
               class="min-w-52"
             />
           </div>
@@ -249,7 +249,7 @@ onMounted(loadRequests)
             </div>
           </template>
 
-          <Column field="animalName" header="Chat">
+          <Column field="animalName" :header="$t('admin.adoptionRequests.columns.animal')">
             <template #body="slotProps">
               <div class="flex flex-col">
                 <span class="font-medium text-gray-900">{{ slotProps.data.animalName }}</span>
@@ -260,7 +260,7 @@ onMounted(loadRequests)
             </template>
           </Column>
 
-          <Column header="Demandeur">
+          <Column :header="$t('admin.adoptionRequests.columns.requester')">
             <template #body="slotProps">
               <div class="flex flex-col">
                 <span>{{ slotProps.data.firstName }} {{ slotProps.data.lastName }}</span>
@@ -269,24 +269,24 @@ onMounted(loadRequests)
             </template>
           </Column>
 
-          <Column header="Référents">
+          <Column :header="$t('admin.adoptionRequests.columns.contacts')">
             <template #body="slotProps">
               <div class="flex flex-col text-sm">
-                <span>Principal : {{ slotProps.data.catSheet?.linkedVolunteer?.username || '-' }}</span>
+                <span>{{ $t('admin.adoptionRequests.mainVolunteer') }} {{ slotProps.data.catSheet?.linkedVolunteer?.username || '-' }}</span>
                 <span class="text-gray-500">
-                  Secours : {{ slotProps.data.catSheet?.backupVolunteer?.username || '-' }}
+                  {{ $t('admin.adoptionRequests.backupVolunteer') }} {{ slotProps.data.catSheet?.backupVolunteer?.username || '-' }}
                 </span>
               </div>
             </template>
           </Column>
 
-          <Column field="createdAt" header="Soumise le">
+          <Column field="createdAt" :header="$t('admin.adoptionRequests.columns.submittedAt')">
             <template #body="slotProps">
               {{ formatDate(slotProps.data.createdAt) }}
             </template>
           </Column>
 
-          <Column field="processingStatus" header="Statut">
+          <Column field="processingStatus" :header="$t('admin.adoptionRequests.columns.status')">
             <template #body="slotProps">
               <Tag
                 rounded
@@ -296,7 +296,7 @@ onMounted(loadRequests)
             </template>
           </Column>
 
-          <Column header="Actions">
+          <Column :header="$t('admin.adoptionRequests.columns.actions')">
             <template #body="slotProps">
               <div class="flex gap-2">
                 <Button
@@ -316,13 +316,13 @@ onMounted(loadRequests)
     <Dialog
       v-model:visible="dialogVisible"
       modal
-      header="Demande d'adoption"
+      :header="$t('admin.adoptionRequests.dialog.title')"
       :style="{ width: '70rem' }"
     >
       <template #header>
         <div class="flex w-full items-center justify-between gap-4 pr-4">
           <div class="flex flex-col">
-            <span class="text-lg font-semibold text-surface-900">Demande d'adoption</span>
+            <span class="text-lg font-semibold text-surface-900">{{ $t('admin.adoptionRequests.dialog.title') }}</span>
             <span v-if="selectedRequest" class="text-sm text-surface-500">
               {{ selectedRequest.firstName }} {{ selectedRequest.lastName }} · {{ selectedRequest.animalName }}
             </span>
@@ -332,7 +332,7 @@ onMounted(loadRequests)
             severity="secondary"
             outlined
             size="small"
-            :label="editing ? 'Edition active' : 'Modifier'"
+            :label="editing ? $t('admin.adoptionRequests.dialog.editing') : $t('update')"
             @click="editing = !editing"
           />
         </div>
@@ -340,7 +340,7 @@ onMounted(loadRequests)
 
       <div class="mb-4 flex items-center justify-between rounded-xl bg-surface-50 p-4">
         <div class="text-sm text-surface-600">
-          <span class="font-medium text-surface-900">Statut actuel :</span>
+          <span class="font-medium text-surface-900">{{ $t('admin.adoptionRequests.dialog.currentStatus') }}</span>
           {{ selectedRequest ? statusLabel(selectedRequest.processingStatus) : '-' }}
         </div>
         <Tag
@@ -369,14 +369,14 @@ onMounted(loadRequests)
           @click="saveRequest"
         />
         <Button
-          label="Refuser"
+          :label="$t('refuse')"
           icon="pi pi-times"
           severity="danger"
           :loading="saving"
           @click="updateProcessingStatus('rejected')"
         />
         <Button
-          label="Valider"
+          :label="$t('accept')"
           icon="pi pi-check"
           :loading="saving"
           @click="updateProcessingStatus('approved')"
