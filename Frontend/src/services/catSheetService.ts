@@ -29,6 +29,7 @@ export const CatSheetService = {
         'populate[linkedVolunteer]': true,
         'populate[backupVolunteer]': true,
         'populate[images]': true,
+        'populate[tarification]': true,
       },
     })
   },
@@ -37,6 +38,7 @@ export const CatSheetService = {
     const p: Record<string, unknown> = {
       'populate[cats][populate][cat_moods]': '*',
       'populate[images]': true,
+      'populate[tarification]': true,
       'pagination[page]': params.page,
       'pagination[pageSize]': params.pageSize,
     }
@@ -63,6 +65,7 @@ export const CatSheetService = {
       params: {
         'populate[cats][populate][cat_moods]': '*',
         'populate[images]': true,
+        'populate[tarification]': true,
       },
     })
   },
@@ -72,6 +75,7 @@ export const CatSheetService = {
     const p: Record<string, unknown> = {
       'populate[cats][populate][cat_moods]': '*',
       'populate[images]': true,
+      'populate[tarification]': true,
       'pagination[pageSize]': documentIds.length,
     }
     documentIds.forEach((id, i) => { p[`filters[documentId][$in][${i}]`] = id })

@@ -34,6 +34,7 @@ declare module 'vue' {
     Divider: typeof import('primevue/divider')['default']
     FileUpload: typeof import('primevue/fileupload')['default']
     Galleria: typeof import('primevue/galleria')['default']
+    InputNumber: typeof import('primevue/inputnumber')['default']
     InputNumberWithLabel: typeof import('./src/components/Forms/elements/InputNumberWithLabel.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     InputTextWithLabel: typeof import('./src/components/Forms/elements/InputTextWithLabel.vue')['default']

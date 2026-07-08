@@ -42,6 +42,12 @@
     },
     "description": {
       "type": "text"
+    },
+    "tarification": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::tarification.tarification",
+      "required": true
     }
   }
 }

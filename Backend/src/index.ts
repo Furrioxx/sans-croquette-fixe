@@ -59,6 +59,10 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::user-role.user-role.getVolunteers",
     "api::user-role.user-role.getAvailableRoles",
     "api::user-role.user-role.updateUserRole",
+    "api::tarification.tarification.find",
+    "api::tarification.tarification.findOne",
+    "api::tarification.tarification.create",
+    "api::tarification.tarification.update",
   ],
 };
 
