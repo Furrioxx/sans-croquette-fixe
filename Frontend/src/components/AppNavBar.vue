@@ -49,6 +49,14 @@ onMounted(() => {
         text
         severity="secondary"
       />
+      <Button
+        v-if="authStore.isConnected"
+        as="router-link"
+        :to="{ name: RouteNames.USER_ADOPTION_REQUESTS }"
+        :label="$t('adoptionRequest.user.navLink')"
+        text
+        severity="secondary"
+      />
     </div>
 
     <div class="flex gap-3 items-center">

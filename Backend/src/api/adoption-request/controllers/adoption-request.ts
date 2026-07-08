@@ -62,6 +62,27 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
 
     const roleName = await getRoleName(strapi, user)
     const baseFilters = ((ctx.query?.filters as Record<string, unknown> | undefined) ?? {})
+
+    if (roleName === 'User') {
+      const data = await strapi.documents(ADOPTION_REQUEST_UID).findMany({
+        status: 'draft',
+        filters: {
+          ...baseFilters,
+          submittedBy: {
+            id: {
+              $eq: user.id,
+            },
+          },
+        },
+        populate: ADOPTION_REQUEST_POPULATE as any,
+        sort: {
+          createdAt: 'desc',
+        } as any,
+      })
+
+      return { data }
+    }
+
     const authorizedCatSheetIds = await getAuthorizedCatSheetDocumentIds(strapi, user)
 
     if (roleName !== 'Admin' && authorizedCatSheetIds.length === 0) {
@@ -107,7 +128,11 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
 
     const roleName = await getRoleName(strapi, user)
 
-    if (roleName !== 'Admin') {
+    if (roleName === 'User') {
+      if (entity.submittedBy?.id !== user.id) {
+        return ctx.forbidden('You are not allowed to access this adoption request')
+      }
+    } else if (roleName !== 'Admin') {
       const authorizedCatSheetIds = await getAuthorizedCatSheetDocumentIds(strapi, user)
 
       if (!entity.catSheet?.documentId || !authorizedCatSheetIds.includes(entity.catSheet.documentId)) {
@@ -132,6 +157,10 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
     }
 
     const roleName = await getRoleName(strapi, user)
+
+    if (roleName === 'User') {
+      return ctx.forbidden('You are not allowed to update this adoption request')
+    }
 
     if (roleName !== 'Admin') {
       const authorizedCatSheetIds = await getAuthorizedCatSheetDocumentIds(strapi, user)
@@ -171,6 +200,10 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
     }
 
     const roleName = await getRoleName(strapi, user)
+
+    if (roleName === 'User') {
+      return ctx.forbidden('You are not allowed to delete this adoption request')
+    }
 
     if (roleName !== 'Admin') {
       const authorizedCatSheetIds = await getAuthorizedCatSheetDocumentIds(strapi, user)

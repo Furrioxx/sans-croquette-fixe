@@ -13,6 +13,8 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::blog-category.blog-category.find",
     "api::blog-category.blog-category.findOne",
     "api::adoption-request.adoption-request.create",
+    "api::adoption-request.adoption-request.find",
+    "api::adoption-request.adoption-request.findOne",
     "plugin::users-permissions.user.me",
     "api::user-profile.user-profile.me",
   ],
@@ -131,6 +133,20 @@ export default {
           data: {
             action,
             role: role.id,
+          },
+        });
+      }
+
+      if (role.name === "User") {
+        await strapi.db.query("plugin::users-permissions.permission").deleteMany({
+          where: {
+            role: role.id,
+            action: {
+              $in: [
+                "api::adoption-request.adoption-request.update",
+                "api::adoption-request.adoption-request.delete",
+              ],
+            },
           },
         });
       }
