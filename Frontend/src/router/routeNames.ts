@@ -4,6 +4,7 @@ export const enum RouteNames {
   REGISTER = 'register',
   ADOPT = 'adopt',
   ADOPT_DETAIL = 'adopt-detail',
+  ADOPTION_FORM = 'adoption-form',
   DISCOVER = 'discover',
   DISCOVER_LIKES = 'discover-likes',
   BLOG = 'blog',
@@ -16,4 +17,5 @@ export const enum RouteNames {
   DASHBOARD_ABSENCES = 'dashboard-absences',
   DASHBOARD_BLOG = 'dashboard-blog',
   DASHBOARD_TARIFICATIONS = 'dashboard-tarifications',
+  DASHBOARD_ADOPTION_REQUESTS = 'dashboard-adoption-requests',
 }

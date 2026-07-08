@@ -25,6 +25,11 @@ const items = computed(() => [
     icon: 'pi pi-calendar-times',
     routeName: RouteNames.DASHBOARD_ABSENCES,
   },
+  {
+    label: t('admin.nav.adoptionRequests'),
+    icon: 'pi pi-inbox',
+    routeName: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
+  },
   ...(isAdmin.value
     ? [
         { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },

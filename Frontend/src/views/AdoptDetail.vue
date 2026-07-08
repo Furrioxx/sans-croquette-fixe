@@ -398,6 +398,7 @@ const friendlyDisplay = (value: CatFriendly) => {
                 icon="pi pi-heart"
                 class="w-full"
                 severity="danger"
+                @click="router.push({ name: RouteNames.ADOPTION_FORM, params: { documentId } })"
               />
 
               <!-- Back -->

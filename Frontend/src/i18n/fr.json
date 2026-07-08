@@ -57,7 +57,9 @@
     "dashboard-cats": "Fiches chat",
     "dashboard-absences": "Absences",
     "dashboard-blog": "Blog",
-    "dashboard-tarifications": "Tarifications"
+    "dashboard-tarifications": "Tarifications",
+    "adoption-form": "Formulaire d'adoption",
+    "dashboard-adoption-requests": "Demandes d'adoption"
   },
   "auth": {
     "email": "Adresse e-mail",
@@ -82,6 +84,7 @@
       "analytics": "Analytics",
       "users": "Utilisateurs",
       "absences": "Absences",
+      "adoptionRequests": "Demandes d'adoption",
       "settings": "Paramètres",
       "cats": "Fiches chat",
       "tarifications": "Tarifications",
@@ -182,6 +185,13 @@
       "price": "Prix",
       "empty": "Aucune tarification n'a encore été créée.",
       "save-success": "La tarification a été enregistrée."
+    },
+    "adoptionRequests": {
+      "nav": "Demandes d'adoption",
+      "title": "Gestion des demandes d'adoption",
+      "subtitle": "Consultez, modifiez et supprimez les demandes visibles selon vos droits.",
+      "listTitle": "Demandes",
+      "empty": "Aucune demande d'adoption visible pour le moment."
     }
   },
   "back": "Retour",
@@ -244,6 +254,21 @@
     "health-no": "Non",
     "kitten": "Châton",
     "not-kitten": "Adulte"
+  },
+  "adoptionRequest": {
+    "title": "Formulaire d'adoption",
+    "subtitle": "Complétez ce formulaire pour soumettre votre demande d'adoption.",
+    "submit": "Envoyer la demande",
+    "validationError": "Veuillez corriger les champs du formulaire.",
+    "createSuccess": "Votre demande d'adoption a bien été envoyée.",
+    "createError": "Impossible d'envoyer votre demande pour le moment.",
+    "loadError": "Impossible de charger les demandes d'adoption.",
+    "updateSuccess": "La demande a bien été mise à jour.",
+    "updateError": "Impossible de mettre à jour la demande.",
+    "approvedSuccess": "La demande a été validée.",
+    "rejectedSuccess": "La demande a été refusée.",
+    "deleteConfirm": "Voulez-vous vraiment supprimer cette demande d'adoption ?",
+    "deleteSuccess": "La demande a bien été supprimée."
   },
   "discover": {
     "nav-link": "Trouver votre chat",

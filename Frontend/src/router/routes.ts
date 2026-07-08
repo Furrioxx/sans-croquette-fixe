@@ -33,6 +33,11 @@ const routes = [
         component: () => import('../views/AdoptDetail.vue'),
       },
       {
+        path: 'adopt/:documentId/formulaire',
+        name: RouteNames.ADOPTION_FORM,
+        component: () => import('../views/AdoptionRequest.vue'),
+      },
+      {
         path: 'discover',
         name: RouteNames.DISCOVER,
         component: () => import('../views/Discover.vue'),
@@ -109,6 +114,11 @@ const routes = [
         },
         component: () => import('../views/Admin/Tarifications.vue'),
         name: RouteNames.DASHBOARD_TARIFICATIONS,
+      },
+      {
+        path: 'adoption-requests',
+        component: () => import('../views/Admin/AdoptionRequests.vue'),
+        name: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
       },
       {
         path: 'settings',
