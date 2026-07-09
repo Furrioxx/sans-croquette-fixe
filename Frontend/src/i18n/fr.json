@@ -493,7 +493,11 @@
     "health-yes": "Oui",
     "health-no": "Non",
     "kitten": "Châton",
-    "not-kitten": "Adulte"
+    "not-kitten": "Adulte",
+    "ctaBand": {
+      "text": "Aucun de nos chats ne vous correspond ? Suivez notre page Facebook, de nouvelles fiches arrivent chaque semaine.",
+      "cta": "Voir Facebook"
+    }
   },
   "adoptionRequest": {
     "title": "Formulaire d'adoption",
