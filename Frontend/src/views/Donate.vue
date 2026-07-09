@@ -1,24 +1,27 @@
 <script setup lang="ts">
-import { featuredCats } from '@/content/catGallery'
+import { getFeaturedCats } from '@/content/catGallery'
 import { useManager } from '@/router/manager'
+import { useI18n } from 'vue-i18n'
 
 const title = useManager().getCurrentRouteTitle()
+const { t } = useI18n()
+const featuredCats = getFeaturedCats()
 
 const donations = [
   {
-    amount: '15 EUR',
-    title: 'Petit coup de pouce',
-    text: 'Contribue à la nourriture, à la litière et aux besoins de base d’un accueil temporaire.',
+    amount: t('donate.tiers.small.amount'),
+    title: t('donate.tiers.small.title'),
+    text: t('donate.tiers.small.text'),
   },
   {
-    amount: '45 EUR',
-    title: 'Soin courant',
-    text: 'Participe à une consultation, à des premiers traitements ou à une identification.',
+    amount: t('donate.tiers.medium.amount'),
+    title: t('donate.tiers.medium.title'),
+    text: t('donate.tiers.medium.text'),
   },
   {
-    amount: '90 EUR',
-    title: 'Urgence mieux absorbée',
-    text: 'Aide à lisser un acte vétérinaire plus lourd et à garder une marge d’action.',
+    amount: t('donate.tiers.large.amount'),
+    title: t('donate.tiers.large.title'),
+    text: t('donate.tiers.large.text'),
   },
 ]
 </script>
@@ -30,12 +33,10 @@ const donations = [
     >
       <div class="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
         <div class="space-y-5">
-          <span class="eyebrow">Don et soutien</span>
+          <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
           <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
           <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-            Un don utile finance les soins, les prises en charge et les urgences qui rendent possible
-            l’adoption de chat à Lyon et dans les alentours. Ici, le message doit être simple :
-            l’argent sert directement à protéger des chats et à préparer leur accueil.
+            {{ $t('donate.heroText') }}
           </p>
           <a
             href="https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1"
@@ -44,7 +45,7 @@ const donations = [
             class="inline-flex items-center gap-2 rounded-2xl bg-[var(--scf-ink)] px-5 py-3 font-medium text-white shadow-sm transition-transform hover:-translate-y-0.5"
           >
             <i class="pi pi-heart-fill"></i>
-            Faire un don sur HelloAsso
+            {{ $t('donate.donateOnHelloAsso') }}
           </a>
         </div>
 
@@ -54,12 +55,10 @@ const donations = [
               <img :src="featuredCats[2].imageUrl" :alt="featuredCats[2].name" class="cat-photo aspect-[4/5]" />
             </div>
             <div class="space-y-3">
-              <span class="eyebrow">Impact visible</span>
+              <span class="eyebrow">{{ $t('donate.eyebrowImpact') }}</span>
               <h2 class="display-font text-3xl font-semibold">{{ featuredCats[2].name }}</h2>
               <p class="text-sm leading-6 text-[var(--scf-text)]">
-                Un don ne finance pas seulement un besoin technique. Il permet de garder un chat en
-                sécurité pendant le temps nécessaire pour trouver la bonne famille à Lyon ou dans la
-                région lyonnaise.
+                {{ $t('donate.impactText') }}
               </p>
               <a
                 :href="featuredCats[2].creditUrl"
@@ -92,24 +91,24 @@ const donations = [
 
     <section class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Où va l’aide</span>
+        <span class="eyebrow">{{ $t('donate.eyebrowHelp') }}</span>
         <div class="mt-4 grid gap-4 md:grid-cols-3">
           <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">Soins vétérinaires</h3>
+            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.vet.title') }}</h3>
             <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              Consultations, traitements, stérilisation, examens et suivis avant adoption.
+              {{ $t('donate.help.vet.text') }}
             </p>
           </article>
           <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">Matériel et nourriture</h3>
+            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.supplies.title') }}</h3>
             <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              Litière, alimentation, caisses, produits d’hygiène et petits équipements utiles.
+              {{ $t('donate.help.supplies.text') }}
             </p>
           </article>
           <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">Urgences de terrain</h3>
+            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.emergency.title') }}</h3>
             <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              Souplesse financière pour agir vite lorsqu’une situation se dégrade.
+              {{ $t('donate.help.emergency.text') }}
             </p>
           </article>
         </div>
@@ -118,14 +117,13 @@ const donations = [
       <article
         class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
       >
-        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">Dons matériels</span>
-        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">Autre façon d’aider</h2>
+        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">{{ $t('donate.eyebrowMaterial') }}</span>
+        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">{{ $t('donate.materialTitle') }}</h2>
         <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
-          Nourriture non périmée, litière, accessoires propres, produits de soin et petits objets du
-          quotidien peuvent aussi soulager les familles d’accueil.
+          {{ $t('donate.materialText') }}
         </p>
         <p class="mt-4 text-sm font-medium text-white">
-          Contact:
+          {{ $t('donate.contact') }}
           <a class="underline decoration-white/40 underline-offset-4" href="mailto:dons@sanscroquettesfixes.fr">
             dons@sanscroquettesfixes.fr
           </a>

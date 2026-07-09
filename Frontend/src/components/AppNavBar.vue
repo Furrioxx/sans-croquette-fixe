@@ -24,19 +24,19 @@ onMounted(() => {
         class="flex items-center gap-3 rounded-2xl border border-white/70 bg-white/85 px-3 py-2 text-left shadow-sm transition-transform hover:-translate-y-0.5"
         @click="router.push({ name: RouteNames.HOME })"
       >
-        <img :src="Logo" width="52" alt="Logo Sans Croquettes Fixes" class="shrink-0" />
+        <img :src="Logo" width="52" :alt="$t('nav.brand')" class="shrink-0" />
         <div>
           <p class="display-font text-lg font-semibold leading-none text-[var(--scf-ink)]">
-            Sans Croquettes Fixes
+            {{ $t('nav.brand') }}
           </p>
-          <p class="text-xs uppercase tracking-[0.24em] text-[var(--scf-muted)]">Adoption féline</p>
+          <p class="text-xs uppercase tracking-[0.24em] text-[var(--scf-muted)]">{{ $t('nav.brandTagline') }}</p>
         </div>
       </button>
       <div
         class="hidden lg:flex items-center gap-2 rounded-full bg-white/70 px-3 py-2 text-xs text-[var(--scf-muted)]"
       >
         <i class="pi pi-map-marker text-[var(--scf-accent)]"></i>
-        Lyon et sa région
+        {{ $t('nav.location') }}
       </div>
     </div>
 
@@ -77,7 +77,7 @@ onMounted(() => {
       <Button
         as="router-link"
         :to="RouteNames.ABOUT_US"
-        label="Association"
+        :label="$t('nav.association')"
         size="small"
         text
         severity="secondary"
@@ -85,7 +85,7 @@ onMounted(() => {
       <Button
         as="router-link"
         :to="RouteNames.DONATE"
-        label="Soutenir"
+        :label="$t('nav.support')"
         size="small"
         text
         severity="secondary"

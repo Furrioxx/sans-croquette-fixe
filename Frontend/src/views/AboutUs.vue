@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useManager } from '@/router/manager'
 import { RouteNames } from '@/router/routeNames'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import AnaisPhoto from '@/assets/about/anais-hillion-1.png'
 import IconPriseEnCharge from '@/assets/about/icone.png'
@@ -14,52 +15,53 @@ import PepinetteImage from '@/assets/about/site-cats/pepinette.jpg'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
+const { t } = useI18n()
 const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
 
 const actions = [
   {
     icon: IconPriseEnCharge,
-    title: 'Prise en charge des chats',
-    text: 'Accueil des chats abandonnés, malades, errants ou sans solution, avec stabilisation, soins et orientation vers une adoption responsable.',
+    title: t('about.actions.care.title'),
+    text: t('about.actions.care.text'),
   },
   {
     icon: IconDistribution,
-    title: 'Distribution alimentaire',
-    text: 'Aide chaque vendredi à Lyon pour les personnes en difficulté, afin de préserver le lien avec leur animal et d’éviter des abandons subis.',
+    title: t('about.actions.distribution.title'),
+    text: t('about.actions.distribution.text'),
   },
   {
     icon: IconSterilisation,
-    title: 'Prévention et stérilisation',
-    text: 'Actions de prévention, relais terrain et accompagnement pour limiter l’errance féline et les situations qui dégénèrent.',
+    title: t('about.actions.sterilization.title'),
+    text: t('about.actions.sterilization.text'),
   },
   {
     icon: IconAccompagnement,
-    title: 'Accompagnement des adoptants',
-    text: 'Conseils, écoute et suivi pour aider chaque foyer à adopter un chat à Lyon dans des conditions réalistes et durables.',
+    title: t('about.actions.support.title'),
+    text: t('about.actions.support.text'),
   },
 ]
 
 const commitments = [
-  'Association de protection animale basée à Lyon.',
-  'Intervention locale dans la métropole lyonnaise et les alentours.',
-  'Approche concrète : aider vite, expliquer clairement, accompagner dans la durée.',
+  t('about.commitments.local'),
+  t('about.commitments.metropolis'),
+  t('about.commitments.concrete'),
 ]
 
 const timeline = [
   {
-    year: '2023',
-    title: 'Création de Sans Croquettes Fixes',
-    text: 'L’association naît d’un constat simple : trop de foyers fragilisés, trop de chats sans solution, et un besoin d’aide de proximité plus humain.',
+    year: t('about.timeline.creation.year'),
+    title: t('about.timeline.creation.title'),
+    text: t('about.timeline.creation.text'),
   },
   {
-    year: 'Chaque semaine',
-    title: 'Distribution du vendredi à Lyon',
-    text: 'Une permanence alimentaire permet d’aider des gardiens d’animaux en difficulté et de prévenir des ruptures brutales.',
+    year: t('about.timeline.friday.year'),
+    title: t('about.timeline.friday.title'),
+    text: t('about.timeline.friday.text'),
   },
   {
-    year: 'Au quotidien',
-    title: 'Prises en charge et accompagnement',
-    text: 'Soins, orientation, accueil temporaire, adoption et soutien des familles qui veulent bien faire mais ont besoin d’un cadre.',
+    year: t('about.timeline.daily.year'),
+    title: t('about.timeline.daily.title'),
+    text: t('about.timeline.daily.text'),
   },
 ]
 
@@ -69,28 +71,28 @@ const cats = [
     image: MamboImage,
     sourceUrl:
       'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/IMG_2834-scaled-qm4k5lzx05i8qkrc35kcrkcnvu3gfah96e8uyh5si0.jpg',
-    text: 'Mambo représente ces chats pour lesquels il faut du temps, des soins et un foyer vraiment compatible.',
+    text: t('about.cats.mambo'),
   },
   {
     name: 'Kiki',
     image: KikiImage,
     sourceUrl:
       'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/17cc1429-16f4-40e6-9284-ee0dcbd53cff-r9ae2xxuz9hxzh4dcjlreza2ioszu2jeg6mmvvk03s.jpeg',
-    text: 'Kiki rappelle l’importance d’une association chat Lyon capable d’agir vite quand une situation se complique.',
+    text: t('about.cats.kiki'),
   },
   {
     name: 'Puppy',
     image: PuppyImage,
     sourceUrl:
       'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/520243598_1324533869026764_8395821459482323091_n-scaled-r9a97atjwr22im91z4efzswafoiui691yu3bjhzcso.jpg',
-    text: 'Chaque profil demande une lecture fine : énergie, santé, environnement, présence humaine et rythme du foyer.',
+    text: t('about.cats.puppy'),
   },
   {
     name: 'Pépinette',
     image: PepinetteImage,
     sourceUrl:
       'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/DJI_20250508202836_0291_D-scaled-r9aeatt4b8ajdpo1ayb3bzn9x1xuenuc77n9tfv3wo.jpg',
-    text: 'L’adoption responsable commence par une bonne rencontre, mais aussi par une préparation sérieuse du foyer.',
+    text: t('about.cats.pepinette'),
   },
 ]
 </script>
@@ -102,18 +104,14 @@ const cats = [
     >
       <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
         <div class="space-y-6">
-          <span class="eyebrow">Association de protection animale à Lyon</span>
+          <span class="eyebrow">{{ $t('about.eyebrowHero') }}</span>
           <div class="space-y-4">
             <h1 class="display-font title-wide text-4xl font-semibold md:text-6xl">{{ title }}</h1>
             <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-              Sans Croquettes Fixes est une association de protection animale à Lyon qui agit pour
-              aider les chats en détresse, soutenir les foyers fragilisés et faciliter l’adoption de
-              chat à Lyon, Villeurbanne et dans les communes voisines.
+              {{ $t('about.heroText1') }}
             </p>
             <p class="max-w-2xl text-sm leading-7 text-[var(--scf-muted)] md:text-base">
-              Notre rôle ne se limite pas à présenter des profils de chats. Nous intervenons aussi
-              sur la prévention de l’abandon, la distribution alimentaire, les prises en charge
-              urgentes et l’accompagnement des adoptants dans la durée.
+              {{ $t('about.heroText2') }}
             </p>
           </div>
 
@@ -130,19 +128,18 @@ const cats = [
           <div class="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
             <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
               <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
-                Notre présence locale
+                {{ $t('about.localPresenceTitle') }}
               </p>
               <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-                Être une association chat Lyon, c’est pouvoir répondre plus vite, mieux orienter les
-                adoptants et garder une vraie proximité avec les situations de terrain.
+                {{ $t('about.localPresenceText') }}
               </p>
             </article>
             <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
               <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
-                Adoption responsable
+                {{ $t('about.responsibleAdoptionTitle') }}
               </p>
               <p class="mt-3 text-sm leading-7 text-[var(--scf-text)]">
-                Profil du chat, rythme du foyer, contraintes réelles et suivi après accueil.
+                {{ $t('about.responsibleAdoptionText') }}
               </p>
             </article>
           </div>
@@ -153,14 +150,13 @@ const cats = [
             <div class="grid gap-3 sm:grid-cols-[0.78fr_1.22fr] sm:items-center">
               <img
                 :src="AnaisPhoto"
-                alt="Membre de l’association Sans Croquettes Fixes"
+                :alt="$t('about.photoAlt')"
                 class="cat-photo aspect-square rounded-[1.5rem]"
               />
               <div class="space-y-2 p-1">
-                <p class="display-font text-2xl font-semibold">Une action de terrain, pas seulement un site</p>
+                <p class="display-font text-2xl font-semibold">{{ $t('about.fieldActionTitle') }}</p>
                 <p class="text-sm leading-6 text-[var(--scf-text)]">
-                  Cette page doit montrer une association proche du réel : aide alimentaire, prises
-                  en charge, prévention de l’abandon et adoption responsable.
+                  {{ $t('about.fieldActionText') }}
                 </p>
                 <a
                   href="https://sanscroquettesfixes.fr/about-us"
@@ -169,7 +165,7 @@ const cats = [
                   class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
                 >
                   <i class="pi pi-external-link text-[0.7rem]"></i>
-                  Contenu inspiré de la page about-us actuelle
+                  {{ $t('about.inspiredContent') }}
                 </a>
               </div>
             </div>
@@ -178,7 +174,7 @@ const cats = [
           <article class="section-card overflow-hidden rounded-[2rem] bg-white/85 p-3">
             <img
               :src="PuppyImage"
-              alt="Chat pris en charge par l’association"
+              :alt="$t('about.catInChargeAlt')"
               class="cat-photo aspect-[5/4] rounded-[1.5rem]"
             />
           </article>
@@ -200,25 +196,20 @@ const cats = [
 
     <section class="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Notre mission</span>
+        <span class="eyebrow">{{ $t('about.eyebrowMission') }}</span>
         <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          Faciliter l’adoption de chat à Lyon et prévenir les abandons
+          {{ $t('about.missionTitle') }}
         </h2>
         <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          L’association intervient sur des situations très concrètes : chats errants, abandons,
-          besoins de stérilisation, urgences vétérinaires, foyers en difficulté, besoin d’écoute ou
-          d’orientation. L’objectif n’est pas seulement de sauver dans l’urgence, mais de préparer
-          des adoptions de chat responsables à Lyon et dans la région lyonnaise.
+          {{ $t('about.missionText1') }}
         </p>
         <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Cette approche locale permet d’accompagner les adoptants avec plus de justesse : profil du
-          chat, conditions d’accueil, rythme de vie, contraintes du foyer et capacité réelle à
-          s’engager dans la durée.
+          {{ $t('about.missionText2') }}
         </p>
       </article>
 
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Comment l’association agit</span>
+        <span class="eyebrow">{{ $t('about.eyebrowHow') }}</span>
         <div class="mt-4 grid gap-4 md:grid-cols-3">
           <article
             v-for="item in timeline"
@@ -237,14 +228,12 @@ const cats = [
 
     <section class="space-y-4">
       <div class="space-y-2">
-        <span class="eyebrow">Chats mis en avant</span>
+        <span class="eyebrow">{{ $t('about.eyebrowCats') }}</span>
         <h2 class="display-font text-3xl font-semibold md:text-4xl">
-          Des prises en charge concrètes, des histoires réelles
+          {{ $t('about.catsTitle') }}
         </h2>
         <p class="max-w-3xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Les photos ci-dessous viennent du site actuel de l’association et rendent la page plus
-          crédible qu’une vitrine générique. Elles rappellent qu’une association chat Lyon travaille
-          avec des profils variés, des besoins différents et des adoptions à préparer avec sérieux.
+          {{ $t('about.catsText') }}
         </p>
       </div>
 
@@ -267,7 +256,7 @@ const cats = [
               class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
             >
               <i class="pi pi-external-link text-[0.7rem]"></i>
-              Source image : sanscroquettesfixes.fr
+              {{ $t('about.sourceImage') }}
             </a>
           </div>
         </article>
@@ -276,43 +265,36 @@ const cats = [
 
     <section class="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Pourquoi nous faire confiance</span>
+        <span class="eyebrow">{{ $t('about.eyebrowTrust') }}</span>
         <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          Une association chat Lyon ancrée localement et utile
+          {{ $t('about.trustTitle') }}
         </h2>
         <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Les personnes qui cherchent à adopter un chat à Lyon veulent généralement trois choses :
-          comprendre le sérieux de l’association, savoir comment se passe l’adoption et être
-          rassurées sur l’accompagnement. Cette page répond précisément à ces attentes avec un
-          discours simple, local et crédible.
+          {{ $t('about.trustText1') }}
         </p>
         <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Le référencement local est aussi renforcé naturellement grâce aux formulations autour de
-          l’adoption de chat à Lyon, de la métropole lyonnaise, de l’aide alimentaire et du travail
-          de terrain mené par l’association.
+          {{ $t('about.trustText2') }}
         </p>
       </article>
 
       <article
         class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
       >
-        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">Passer à l’action</span>
-        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">Adopter, aider, relayer</h2>
+        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">{{ $t('about.eyebrowCta') }}</span>
+        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">{{ $t('about.ctaTitle') }}</h2>
         <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
-          Vous pouvez adopter un chat, devenir famille d’accueil, soutenir l’association ou relayer
-          son travail autour de Lyon. Plus la page est claire, plus elle aide les bons foyers à se
-          projeter.
+          {{ $t('about.ctaText') }}
         </p>
         <div class="mt-5 flex flex-wrap gap-3">
           <Button
-            label="Voir l’accueil"
+            :label="$t('about.seeHome')"
             icon="pi pi-home"
             severity="secondary"
             outlined
             @click="router.push({ name: RouteNames.HOME })"
           />
           <Button
-            label="Nous soutenir"
+            :label="$t('about.supportUs')"
             icon="pi pi-gift"
             severity="contrast"
             as="a"

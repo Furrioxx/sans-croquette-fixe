@@ -1,6 +1,7 @@
 import MokaImage from '@/assets/cats/moka.jpg'
 import NovaImage from '@/assets/cats/nova.jpg'
 import SimbaImage from '@/assets/cats/simba.jpg'
+import { i18n } from '@/i18n'
 
 export type CatProfile = {
   name: string
@@ -15,44 +16,45 @@ export type CatProfile = {
   accentClass: string
 }
 
-export const featuredCats: CatProfile[] = [
-  {
-    name: 'Moka',
-    role: 'Profil calme',
-    age: '2 ans',
-    mood: 'Besoin d’un foyer stable',
-    story:
-      'Moka observe, s’adapte vite et cherche surtout un environnement rassurant avec des habitudes simples.',
-    imageUrl: MokaImage,
-    creditLabel: 'Photo CC0 par Bicanski via Pixnio',
-    creditUrl: 'https://pixnio.com/media/tabby-cat-eyes-greenish-yellow-nose-portrait',
-    licenseLabel: 'CC0',
-    accentClass: 'cat-accent-primary',
-  },
-  {
-    name: 'Nova',
-    role: 'Profil joueur',
-    age: '8 mois',
-    mood: 'Curieuse et vive',
-    story:
-      'Nova est parfaite pour une famille présente, capable de lui offrir jeux, exploration et temps d’adaptation.',
-    imageUrl: NovaImage,
-    creditLabel: 'Photo CC0 par Bicanski via Pixnio',
-    creditUrl: 'https://pixnio.com/media/playful-kitten-adorable-green-eyes',
-    licenseLabel: 'CC0',
-    accentClass: 'cat-accent-secondary',
-  },
-  {
-    name: 'Simba',
-    role: 'Profil senior',
-    age: '7 ans',
-    mood: 'Doux et très sociable',
-    story:
-      'Simba recherche une adoption responsable, avec une attention particulière au confort, aux soins et à la routine.',
-    imageUrl: SimbaImage,
-    creditLabel: 'Photo CC0 par Bicanski via Pixnio',
-    creditUrl: 'https://pixnio.com/media/kitten-portrait-adorable-greenish-yellow-eyes',
-    licenseLabel: 'CC0',
-    accentClass: 'cat-accent-tertiary',
-  },
-]
+export function getFeaturedCats(): CatProfile[] {
+  const { t } = i18n.global
+
+  return [
+    {
+      name: 'Moka',
+      role: t('cats.moka.role'),
+      age: t('cats.moka.age'),
+      mood: t('cats.moka.mood'),
+      story: t('cats.moka.story'),
+      imageUrl: MokaImage,
+      creditLabel: t('cats.creditLabel'),
+      creditUrl: 'https://pixnio.com/media/tabby-cat-eyes-greenish-yellow-nose-portrait',
+      licenseLabel: t('cats.licenseLabel'),
+      accentClass: 'cat-accent-primary',
+    },
+    {
+      name: 'Nova',
+      role: t('cats.nova.role'),
+      age: t('cats.nova.age'),
+      mood: t('cats.nova.mood'),
+      story: t('cats.nova.story'),
+      imageUrl: NovaImage,
+      creditLabel: t('cats.creditLabel'),
+      creditUrl: 'https://pixnio.com/media/playful-kitten-adorable-green-eyes',
+      licenseLabel: t('cats.licenseLabel'),
+      accentClass: 'cat-accent-secondary',
+    },
+    {
+      name: 'Simba',
+      role: t('cats.simba.role'),
+      age: t('cats.simba.age'),
+      mood: t('cats.simba.mood'),
+      story: t('cats.simba.story'),
+      imageUrl: SimbaImage,
+      creditLabel: t('cats.creditLabel'),
+      creditUrl: 'https://pixnio.com/media/kitten-portrait-adorable-greenish-yellow-eyes',
+      licenseLabel: t('cats.licenseLabel'),
+      accentClass: 'cat-accent-tertiary',
+    },
+  ]
+}

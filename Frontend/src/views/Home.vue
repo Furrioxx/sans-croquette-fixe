@@ -1,40 +1,43 @@
 <script setup lang="ts">
-import { featuredCats } from '@/content/catGallery'
+import { getFeaturedCats } from '@/content/catGallery'
 import { useManager } from '@/router/manager'
 import { RouteNames } from '@/router/routeNames'
+import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
+const { t } = useI18n()
 const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
+const featuredCats = getFeaturedCats()
 
 const highlights = [
   {
-    value: '48h',
-    label: "pour analyser un premier dossier d'adoption de chat a Lyon",
+    value: t('home.highlights.delay.value'),
+    label: t('home.highlights.delay.label'),
   },
   {
-    value: 'Local',
-    label: 'association chat Lyon ancree sur la metropole et les alentours',
+    value: t('home.highlights.local.value'),
+    label: t('home.highlights.local.label'),
   },
   {
-    value: 'Humain',
-    label: "adoption de chat accompagnee avant et apres l'accueil",
+    value: t('home.highlights.human.value'),
+    label: t('home.highlights.human.label'),
   },
 ]
 
 const steps = [
   {
-    title: 'Observer le bon profil',
-    text: "Comparer les besoins, le rythme de vie et la sociabilite de chaque chat avant de lancer une demande d'adoption a Lyon ou autour de Lyon.",
+    title: t('home.steps.observe.title'),
+    text: t('home.steps.observe.text'),
   },
   {
-    title: 'Constituer un dossier simple',
-    text: "Creer un compte, presenter ton foyer et decrire des conditions d'accueil reelles pour adopter un chat a Lyon dans de bonnes conditions.",
+    title: t('home.steps.file.title'),
+    text: t('home.steps.file.text'),
   },
   {
-    title: "Echanger avec l'association",
-    text: "Valider ensemble l'adequation entre le chat, le lieu de vie, la disponibilite et la capacite d'engagement sur la duree.",
+    title: t('home.steps.exchange.title'),
+    text: t('home.steps.exchange.text'),
   },
 ]
 </script>
@@ -46,27 +49,24 @@ const steps = [
     >
       <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div class="max-w-3xl space-y-6">
-          <span class="eyebrow">Adoption responsable</span>
+          <span class="eyebrow">{{ $t('home.eyebrowHero') }}</span>
           <div class="space-y-4">
             <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
               {{ title }}
             </h1>
             <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-              Sans Croquettes Fixes est une association de protection animale qui facilite l'adoption
-              de chat a Lyon, dans la metropole lyonnaise et dans les alentours. Le site aide a adopter
-              un chat en comprenant son caractere, ses besoins et les conditions d'accueil qui lui
-              correspondent vraiment.
+              {{ $t('home.heroText') }}
             </p>
           </div>
 
           <div class="flex flex-wrap gap-3">
             <Button
-              label="Voir les profils"
+              :label="$t('home.seeProfiles')"
               icon="pi pi-heart-fill"
               @click="router.push({ name: RouteNames.REGISTER })"
             />
             <Button
-              label="Connaitre l'association"
+              :label="$t('home.knowAssociation')"
               icon="pi pi-arrow-right"
               severity="secondary"
               outlined
@@ -95,7 +95,7 @@ const steps = [
                 <img :src="featuredCats[0].imageUrl" :alt="featuredCats[0].name" class="cat-photo aspect-[4/5]" />
               </div>
               <div class="space-y-3">
-                <span class="eyebrow">En recherche d'accueil</span>
+                <span class="eyebrow">{{ $t('home.seekingHome') }}</span>
                 <div>
                   <h2 class="display-font text-3xl font-semibold">{{ featuredCats[0].name }}</h2>
                   <p class="text-sm uppercase tracking-[0.2em] text-[var(--scf-muted)]">
@@ -129,13 +129,13 @@ const steps = [
     <section class="space-y-4">
       <div class="flex items-end justify-between gap-4">
         <div class="space-y-2">
-          <span class="eyebrow">Profils mis en avant</span>
+          <span class="eyebrow">{{ $t('home.eyebrowFeatured') }}</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
-            Adopter un chat a Lyon avec des profils clairs
+            {{ $t('home.featuredTitle') }}
           </h2>
         </div>
         <Button
-          label="Creer un compte"
+          :label="$t('home.createAccount')"
           icon="pi pi-user-plus"
           severity="secondary"
           outlined
@@ -159,7 +159,7 @@ const steps = [
               <div>
                 <h3 class="display-font text-2xl font-semibold">{{ cat.name }}</h3>
                 <p class="text-xs uppercase tracking-[0.18em] text-[var(--scf-muted)]">
-                  {{ cat.role }} . {{ cat.age }} . adoption chat Lyon
+                  {{ cat.role }} . {{ cat.age }} . {{ $t('home.adoptionCatLyon') }}
                 </p>
               </div>
               <span class="rounded-full bg-[var(--scf-bg-soft)] px-3 py-1 text-xs font-semibold text-[var(--scf-accent-dark)]">
@@ -183,14 +183,12 @@ const steps = [
 
     <section class="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
       <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">Methode</span>
+        <span class="eyebrow">{{ $t('home.steps.eyebrow') }}</span>
         <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          Comment adopter un chat a Lyon avec l'association
+          {{ $t('home.steps.title') }}
         </h2>
         <p class="mt-3 max-w-xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          Le parcours d'adoption doit etre lisible. La page explique le rythme, la logique et le
-          niveau d'engagement attendu pour une adoption de chat responsable a Lyon, Villeurbanne,
-          Bron, Caluire-et-Cuire et dans les communes voisines.
+          {{ $t('home.steps.text') }}
         </p>
       </article>
 
@@ -212,14 +210,12 @@ const steps = [
     <section class="dark-cta-panel rounded-[2.25rem] px-6 py-8 text-white md:px-8">
       <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div class="max-w-2xl space-y-3">
-          <span class="eyebrow !bg-white/10 !text-orange-100">Soutenir l'association</span>
+          <span class="eyebrow !bg-white/10 !text-orange-100">{{ $t('home.cta.eyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold !text-white md:text-4xl">
-            Une association chat a Lyon qui prepare des adoptions durables
+            {{ $t('home.cta.title') }}
           </h2>
           <p class="text-sm leading-7 text-orange-50/85 md:text-base">
-            L'objectif est simple : rendre visible une association chat Lyon serieuse, rassurer les
-            adoptants et mieux faire remonter le site sur les recherches autour de l'adoption de chat
-            a Lyon et ses alentours.
+            {{ $t('home.cta.text') }}
           </p>
         </div>
         <Button
@@ -227,7 +223,7 @@ const steps = [
           :href="donationUrl"
           target="_blank"
           rel="noopener noreferrer"
-          label="Faire un don"
+          :label="$t('home.cta.donate')"
           icon="pi pi-gift"
           severity="contrast"
         />
