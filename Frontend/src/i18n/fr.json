@@ -222,82 +222,72 @@
     "contact": "Contact:"
   },
   "about": {
-    "eyebrowHero": "Association de protection animale à Lyon",
-    "heroText1": "Sans Croquettes Fixes est une association de protection animale à Lyon qui agit pour aider les chats en détresse, soutenir les foyers fragilisés et faciliter l’adoption de chat à Lyon, Villeurbanne et dans les communes voisines.",
-    "heroText2": "Notre rôle ne se limite pas à présenter des profils de chats. Nous intervenons aussi sur la prévention de l’abandon, la distribution alimentaire, les prises en charge urgentes et l’accompagnement des adoptants dans la durée.",
-    "commitments": {
-      "local": "Association de protection animale basée à Lyon.",
-      "metropolis": "Intervention locale dans la métropole lyonnaise et les alentours.",
-      "concrete": "Approche concrète : aider vite, expliquer clairement, accompagner dans la durée."
-    },
-    "localPresenceTitle": "Notre présence locale",
-    "localPresenceText": "Être une association chat Lyon, c’est pouvoir répondre plus vite, mieux orienter les adoptants et garder une vraie proximité avec les situations de terrain.",
-    "responsibleAdoptionTitle": "Adoption responsable",
-    "responsibleAdoptionText": "Profil du chat, rythme du foyer, contraintes réelles et suivi après accueil.",
-    "photoAlt": "Membre de l’association Sans Croquettes Fixes",
-    "fieldActionTitle": "Une action de terrain, pas seulement un site",
-    "fieldActionText": "Cette page doit montrer une association proche du réel : aide alimentaire, prises en charge, prévention de l’abandon et adoption responsable.",
-    "inspiredContent": "Contenu inspiré de la page about-us actuelle",
-    "catInChargeAlt": "Chat pris en charge par l’association",
+    "breadcrumb": "À propos de nous",
+    "eyebrowHero": "Qui sommes-nous ?",
+    "heroText1": "Chez Sans Croquettes Fixes, nous croyons que la protection animale passe aussi par la solidarité humaine. Derrière chaque animal en difficulté, il y a souvent un maître en détresse — notre mission vise à redonner espoir, sur le long terme.",
     "actions": {
       "care": {
-        "title": "Prise en charge des chats",
-        "text": "Accueil des chats abandonnés, malades, errants ou sans solution, avec stabilisation, soins et orientation vers une adoption responsable."
+        "title": "Prise en charge",
+        "text": "Chats malades, âgés ou abandonnés, recueillis et soignés."
       },
       "distribution": {
-        "title": "Distribution alimentaire",
-        "text": "Aide chaque vendredi à Lyon pour les personnes en difficulté, afin de préserver le lien avec leur animal et d’éviter des abandons subis."
+        "title": "Distribution",
+        "text": "Croquettes gratuites chaque vendredi à Lyon."
       },
       "sterilization": {
-        "title": "Prévention et stérilisation",
-        "text": "Actions de prévention, relais terrain et accompagnement pour limiter l’errance féline et les situations qui dégénèrent."
+        "title": "Stérilisation",
+        "text": "Campagnes menées avec les communes toute l'année."
       },
       "support": {
-        "title": "Accompagnement des adoptants",
-        "text": "Conseils, écoute et suivi pour aider chaque foyer à adopter un chat à Lyon dans des conditions réalistes et durables."
+        "title": "Accompagnement",
+        "text": "Écoute et conseils pour éviter les abandons."
+      },
+      "awareness": {
+        "title": "Sensibilisation",
+        "text": "Événements pour sensibiliser à la cause animale."
       }
     },
-    "eyebrowMission": "Notre mission",
-    "missionTitle": "Faciliter l’adoption de chat à Lyon et prévenir les abandons",
-    "missionText1": "L’association intervient sur des situations très concrètes : chats errants, abandons, besoins de stérilisation, urgences vétérinaires, foyers en difficulté, besoin d’écoute ou d’orientation. L’objectif n’est pas seulement de sauver dans l’urgence, mais de préparer des adoptions de chat responsables à Lyon et dans la région lyonnaise.",
-    "missionText2": "Cette approche locale permet d’accompagner les adoptants avec plus de justesse : profil du chat, conditions d’accueil, rythme de vie, contraintes du foyer et capacité réelle à s’engager dans la durée.",
-    "eyebrowHow": "Comment l’association agit",
-    "timeline": {
-      "creation": {
-        "year": "2023",
-        "title": "Création de Sans Croquettes Fixes",
-        "text": "L’association naît d’un constat simple : trop de foyers fragilisés, trop de chats sans solution, et un besoin d’aide de proximité plus humain."
+    "missionsBrief": {
+      "eyebrow": "Nos missions en bref",
+      "title": "À Lyon, nous venons en aide aux humains et à leurs animaux",
+      "text1": "Sans Croquettes Fixes est une association loi 1901 à but non lucratif, déclarée en préfecture depuis août 2015 (SIRET : 81819530700017). Basés à Lyon, nous agissons dans toute la région pour limiter les abandons en soutenant les propriétaires d'animaux en difficulté.",
+      "text2": "Nous apportons une solution aux chats sans solution, en les plaçant en familles d'accueil. Une fois prêts, nous les proposons à l'adoption. Toutes nos actions sont bénévoles : nous ne sommes ni un refuge, ni une entreprise.",
+      "food": {
+        "title": "Aide alimentaire",
+        "text": "Distribution gratuite de nourriture chaque semaine à Lyon."
       },
-      "friday": {
-        "year": "Chaque semaine",
-        "title": "Distribution du vendredi à Lyon",
-        "text": "Une permanence alimentaire permet d’aider des gardiens d’animaux en difficulté et de prévenir des ruptures brutales."
+      "care": {
+        "title": "Prises en charge et adoptions",
+        "text": "Chats en détresse, placés en familles d'accueil puis proposés à l'adoption."
       },
-      "daily": {
-        "year": "Au quotidien",
-        "title": "Prises en charge et accompagnement",
-        "text": "Soins, orientation, accueil temporaire, adoption et soutien des familles qui veulent bien faire mais ont besoin d’un cadre."
+      "prevention": {
+        "title": "Prévention de l'abandon",
+        "text": "Soutien concret aux maîtres en difficulté pour éviter les séparations forcées."
       }
     },
-    "eyebrowCats": "Chats mis en avant",
-    "catsTitle": "Des prises en charge concrètes, des histoires réelles",
-    "catsText": "Les photos ci-dessous viennent du site actuel de l’association et rendent la page plus crédible qu’une vitrine générique. Elles rappellent qu’une association chat Lyon travaille avec des profils variés, des besoins différents et des adoptions à préparer avec sérieux.",
-    "cats": {
-      "mambo": "Mambo représente ces chats pour lesquels il faut du temps, des soins et un foyer vraiment compatible.",
-      "kiki": "Kiki rappelle l’importance d’une association chat Lyon capable d’agir vite quand une situation se complique.",
-      "puppy": "Chaque profil demande une lecture fine : énergie, santé, environnement, présence humaine et rythme du foyer.",
-      "pepinette": "L’adoption responsable commence par une bonne rencontre, mais aussi par une préparation sérieuse du foyer."
+    "eyebrowCats": "Vous avez changé leur vie",
+    "catsTitle": "Derrière chaque sauvetage, une rencontre inoubliable",
+    "story": {
+      "eyebrow": "Notre histoire",
+      "title": "Les débuts de Sans Croquettes Fixes",
+      "text1": "L'idée est née en 2015, à la suite d'une discussion avec des associations menant des maraudes auprès des sans-abris. Qui prend soin des animaux des personnes à la rue ? La réponse étant « personne », Hélène et Anaïs ont décidé d'agir.",
+      "text2": "Au fil des années, nos actions se sont élargies : la distribution hebdomadaire reste au cœur de notre mission, mais la prise en charge de chats en difficulté a pris une place grandissante. Derrière un animal en souffrance, il y a souvent une personne en détresse — notre rôle est d'aider les deux.",
+      "photoAlt": "Hélène et Anaïs, fondatrices de Sans Croquettes Fixes"
     },
-    "sourceImage": "Source image : sanscroquettesfixes.fr",
-    "eyebrowTrust": "Pourquoi nous faire confiance",
-    "trustTitle": "Une association chat Lyon ancrée localement et utile",
-    "trustText1": "Les personnes qui cherchent à adopter un chat à Lyon veulent généralement trois choses : comprendre le sérieux de l’association, savoir comment se passe l’adoption et être rassurées sur l’accompagnement. Cette page répond précisément à ces attentes avec un discours simple, local et crédible.",
-    "trustText2": "Le référencement local est aussi renforcé naturellement grâce aux formulations autour de l’adoption de chat à Lyon, de la métropole lyonnaise, de l’aide alimentaire et du travail de terrain mené par l’association.",
-    "eyebrowCta": "Passer à l’action",
-    "ctaTitle": "Adopter, aider, relayer",
-    "ctaText": "Vous pouvez adopter un chat, devenir famille d’accueil, soutenir l’association ou relayer son travail autour de Lyon. Plus la page est claire, plus elle aide les bons foyers à se projeter.",
-    "seeHome": "Voir l’accueil",
-    "supportUs": "Nous soutenir"
+    "donationCta": {
+      "text": "Votre soutien fait toute la différence. Même quelques euros nous aident à nourrir les animaux et accompagner leurs maîtres en difficulté, chaque semaine sur le terrain.",
+      "cta": "Faire un don"
+    },
+    "contact": {
+      "help": {
+        "title": "Vous avez besoin de notre aide ?",
+        "text": "Une situation compliquée avec vos animaux ? Un animal en danger ? Écrivez-nous à sanscroquettesfixes@gmail.com"
+      },
+      "mailOnly": {
+        "title": "Contact uniquement par mail",
+        "text": "Nous faisons le maximum pour répondre à toutes les demandes, mais face au nombre important reçu chaque jour, nos bénévoles ne peuvent pas répondre aussi vite qu'ils le souhaiteraient."
+      }
+    }
   },
   "admin": {
     "nav": {

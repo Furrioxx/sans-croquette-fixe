@@ -1,309 +1,306 @@
 <script setup lang="ts">
-import { useManager } from '@/router/manager'
 import { RouteNames } from '@/router/routeNames'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { CatSheetService } from '@/services/catSheetService'
+import type { CatSheet } from '@/models/CatSheet'
+import { CatStatus } from '@/models/Enums/CatStatusEnum'
+import { getCatImageUrl } from '@/utils/catImageUrl'
+import { onMounted, ref } from 'vue'
 import AnaisPhoto from '@/assets/about/anais-hillion-1.png'
-import IconPriseEnCharge from '@/assets/about/icone.png'
-import IconDistribution from '@/assets/about/icone-1.png'
-import IconSterilisation from '@/assets/about/icone-3.png'
-import IconAccompagnement from '@/assets/about/icone-4.png'
-import MamboImage from '@/assets/about/site-cats/mambo.jpg'
-import KikiImage from '@/assets/about/site-cats/kiki.jpeg'
-import PuppyImage from '@/assets/about/site-cats/puppy.jpg'
-import PepinetteImage from '@/assets/about/site-cats/pepinette.jpg'
 
-const title = useManager().getCurrentRouteTitle()
-const router = useRouter()
 const { t } = useI18n()
 const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
 
 const actions = [
   {
-    icon: IconPriseEnCharge,
+    icon: 'pi pi-heart-fill',
     title: t('about.actions.care.title'),
     text: t('about.actions.care.text'),
   },
   {
-    icon: IconDistribution,
+    icon: 'pi pi-truck',
     title: t('about.actions.distribution.title'),
     text: t('about.actions.distribution.text'),
   },
   {
-    icon: IconSterilisation,
+    icon: 'pi pi-shield',
     title: t('about.actions.sterilization.title'),
     text: t('about.actions.sterilization.text'),
   },
   {
-    icon: IconAccompagnement,
+    icon: 'pi pi-comments',
     title: t('about.actions.support.title'),
     text: t('about.actions.support.text'),
   },
-]
-
-const commitments = [
-  t('about.commitments.local'),
-  t('about.commitments.metropolis'),
-  t('about.commitments.concrete'),
-]
-
-const timeline = [
   {
-    year: t('about.timeline.creation.year'),
-    title: t('about.timeline.creation.title'),
-    text: t('about.timeline.creation.text'),
-  },
-  {
-    year: t('about.timeline.friday.year'),
-    title: t('about.timeline.friday.title'),
-    text: t('about.timeline.friday.text'),
-  },
-  {
-    year: t('about.timeline.daily.year'),
-    title: t('about.timeline.daily.title'),
-    text: t('about.timeline.daily.text'),
+    icon: 'pi pi-megaphone',
+    title: t('about.actions.awareness.title'),
+    text: t('about.actions.awareness.text'),
   },
 ]
 
-const cats = [
+const missionItems = [
   {
-    name: 'Mambo',
-    image: MamboImage,
-    sourceUrl:
-      'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/IMG_2834-scaled-qm4k5lzx05i8qkrc35kcrkcnvu3gfah96e8uyh5si0.jpg',
-    text: t('about.cats.mambo'),
+    icon: 'pi pi-shopping-bag',
+    title: t('about.missionsBrief.food.title'),
+    text: t('about.missionsBrief.food.text'),
   },
   {
-    name: 'Kiki',
-    image: KikiImage,
-    sourceUrl:
-      'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/17cc1429-16f4-40e6-9284-ee0dcbd53cff-r9ae2xxuz9hxzh4dcjlreza2ioszu2jeg6mmvvk03s.jpeg',
-    text: t('about.cats.kiki'),
+    icon: 'pi pi-heart-fill',
+    title: t('about.missionsBrief.care.title'),
+    text: t('about.missionsBrief.care.text'),
   },
   {
-    name: 'Puppy',
-    image: PuppyImage,
-    sourceUrl:
-      'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/520243598_1324533869026764_8395821459482323091_n-scaled-r9a97atjwr22im91z4efzswafoiui691yu3bjhzcso.jpg',
-    text: t('about.cats.puppy'),
-  },
-  {
-    name: 'Pépinette',
-    image: PepinetteImage,
-    sourceUrl:
-      'https://sanscroquettesfixes.fr/wp-content/uploads/elementor/thumbs/DJI_20250508202836_0291_D-scaled-r9aeatt4b8ajdpo1ayb3bzn9x1xuenuc77n9tfv3wo.jpg',
-    text: t('about.cats.pepinette'),
+    icon: 'pi pi-shield',
+    title: t('about.missionsBrief.prevention.title'),
+    text: t('about.missionsBrief.prevention.text'),
   },
 ]
+
+const catSheets = ref<CatSheet[]>([])
+const loadingCats = ref(false)
+
+onMounted(async () => {
+  loadingCats.value = true
+  try {
+    const response = await CatSheetService.GetPublicCatSheets({ page: 1, pageSize: 4 })
+    catSheets.value = response.data.data
+  } catch (e) {
+    console.error(e)
+  } finally {
+    loadingCats.value = false
+  }
+})
+
+const catName = (sheet: CatSheet) => sheet.cats.map((c) => c.name).join(' & ')
+
+const catStatusLabel = (sheet: CatSheet) => {
+  const status = sheet.cats[0]?.catStatus
+  if (status === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
+  if (status === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
+  return null
+}
+
+const catCoverImage = (sheet: CatSheet) => {
+  const image = sheet.images?.[0]
+  return image ? getCatImageUrl(image.url) : null
+}
 </script>
 
 <template>
-  <div class="page-shell space-y-8 pb-16">
+  <div class="flex w-full flex-col">
+    <!-- BREADCRUMB -->
+    <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+      <nav
+        class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
+      >
+        <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
+          $t('footer.links.home')
+        }}</router-link>
+        <span>/</span>
+        <span class="text-[var(--scf-ink)]">{{ $t('about.breadcrumb') }}</span>
+      </nav>
+    </div>
+
+    <!-- HERO -->
     <section
-      class="hero-panel hero-about-gradient section-card rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-14 pt-8 md:px-[60px] md:pb-16"
     >
-      <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-        <div class="space-y-6">
-          <span class="eyebrow">{{ $t('about.eyebrowHero') }}</span>
-          <div class="space-y-4">
-            <h1 class="display-font title-wide text-4xl font-semibold md:text-6xl">{{ title }}</h1>
-            <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-              {{ $t('about.heroText1') }}
-            </p>
-            <p class="max-w-2xl text-sm leading-7 text-[var(--scf-muted)] md:text-base">
-              {{ $t('about.heroText2') }}
-            </p>
-          </div>
+      <div
+        class="pointer-events-none absolute -right-24 -top-28 h-[320px] w-[320px] rounded-full bg-[var(--scf-accent-soft)]"
+      ></div>
+      <div class="page-shell relative max-w-2xl space-y-5">
+        <span class="eyebrow">{{ $t('about.eyebrowHero') }}</span>
+        <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
+          Sans Croquettes Fixes
+        </h1>
+        <p class="max-w-xl text-base leading-8 text-[var(--scf-text)] md:text-lg">
+          {{ $t('about.heroText1') }}
+        </p>
+      </div>
+    </section>
 
-          <div class="grid gap-3 sm:grid-cols-3">
-            <article
-              v-for="commitment in commitments"
-              :key="commitment"
-              class="rounded-3xl border border-white/80 bg-white/75 p-4 text-sm leading-6 text-[var(--scf-text)] shadow-sm"
+    <!-- MISSION PILLARS -->
+    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+      <div class="page-shell space-y-8">
+        <h2 class="display-font text-3xl font-semibold md:text-4xl">Nos actions au quotidien</h2>
+        <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <article
+            v-for="action in actions"
+            :key="action.title"
+            class="rounded-[20px] bg-[var(--scf-bg)] p-6"
+          >
+            <div
+              class="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg text-[var(--scf-accent-dark)]"
             >
-              {{ commitment }}
-            </article>
-          </div>
-
-          <div class="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-            <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
-              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
-                {{ $t('about.localPresenceTitle') }}
-              </p>
-              <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-                {{ $t('about.localPresenceText') }}
-              </p>
-            </article>
-            <article class="rounded-[2rem] border border-white/80 bg-white/80 p-5 shadow-sm">
-              <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
-                {{ $t('about.responsibleAdoptionTitle') }}
-              </p>
-              <p class="mt-3 text-sm leading-7 text-[var(--scf-text)]">
-                {{ $t('about.responsibleAdoptionText') }}
-              </p>
-            </article>
-          </div>
+              <i :class="action.icon"></i>
+            </div>
+            <h3 class="display-font mt-4 text-base font-semibold">{{ action.title }}</h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ action.text }}</p>
+          </article>
         </div>
+      </div>
+    </section>
 
-        <div class="grid gap-4 lg:pt-2">
-          <article class="section-card overflow-hidden rounded-[2rem] bg-white/85 p-3">
-            <div class="grid gap-3 sm:grid-cols-[0.78fr_1.22fr] sm:items-center">
-              <img
-                :src="AnaisPhoto"
-                :alt="$t('about.photoAlt')"
-                class="cat-photo aspect-square rounded-[1.5rem]"
-              />
-              <div class="space-y-2 p-1">
-                <p class="display-font text-2xl font-semibold">{{ $t('about.fieldActionTitle') }}</p>
-                <p class="text-sm leading-6 text-[var(--scf-text)]">
-                  {{ $t('about.fieldActionText') }}
-                </p>
-                <a
-                  href="https://sanscroquettesfixes.fr/about-us"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
-                >
-                  <i class="pi pi-external-link text-[0.7rem]"></i>
-                  {{ $t('about.inspiredContent') }}
-                </a>
-              </div>
+    <!-- MISSIONS EN BREF -->
+    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+      <div class="page-shell grid gap-10 lg:grid-cols-2 lg:items-center">
+        <div class="space-y-4">
+          <span class="eyebrow">{{ $t('about.missionsBrief.eyebrow') }}</span>
+          <h2 class="display-font text-3xl font-semibold">{{ $t('about.missionsBrief.title') }}</h2>
+          <p class="text-sm leading-7 text-[var(--scf-text)] md:text-base">
+            {{ $t('about.missionsBrief.text1') }}
+          </p>
+          <p class="text-sm leading-7 text-[var(--scf-text)] md:text-base">
+            {{ $t('about.missionsBrief.text2') }}
+          </p>
+        </div>
+        <div class="flex flex-col gap-4">
+          <article
+            v-for="item in missionItems"
+            :key="item.title"
+            class="flex items-start gap-4 rounded-[20px] bg-white p-6"
+          >
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg text-[var(--scf-accent-dark)]"
+            >
+              <i :class="item.icon"></i>
+            </div>
+            <div>
+              <h3 class="display-font text-base font-semibold">{{ item.title }}</h3>
+              <p class="mt-1 text-sm leading-6 text-[var(--scf-text)]">{{ item.text }}</p>
             </div>
           </article>
-
-          <article class="section-card overflow-hidden rounded-[2rem] bg-white/85 p-3">
-            <img
-              :src="PuppyImage"
-              :alt="$t('about.catInChargeAlt')"
-              class="cat-photo aspect-[5/4] rounded-[1.5rem]"
-            />
-          </article>
         </div>
       </div>
     </section>
 
-    <section class="grid gap-4 xl:grid-cols-4">
-      <article
-        v-for="action in actions"
-        :key="action.title"
-        class="section-card rounded-[2rem] p-5"
-      >
-        <img :src="action.icon" :alt="action.title" class="mb-4 h-14 w-14 object-contain" />
-        <h2 class="display-font text-2xl font-semibold">{{ action.title }}</h2>
-        <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ action.text }}</p>
-      </article>
-    </section>
-
-    <section class="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
-      <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">{{ $t('about.eyebrowMission') }}</span>
-        <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          {{ $t('about.missionTitle') }}
-        </h2>
-        <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          {{ $t('about.missionText1') }}
-        </p>
-        <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          {{ $t('about.missionText2') }}
-        </p>
-      </article>
-
-      <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">{{ $t('about.eyebrowHow') }}</span>
-        <div class="mt-4 grid gap-4 md:grid-cols-3">
-          <article
-            v-for="item in timeline"
-            :key="item.title"
-            class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4"
+    <!-- SUCCESS STORIES -->
+    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+      <div class="page-shell space-y-8">
+        <div class="space-y-2">
+          <span class="eyebrow">{{ $t('about.eyebrowCats') }}</span>
+          <h2 class="display-font text-3xl font-semibold md:text-4xl">
+            {{ $t('about.catsTitle') }}
+          </h2>
+        </div>
+        <div v-if="loadingCats" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            v-for="i in 4"
+            :key="i"
+            class="animate-pulse overflow-hidden rounded-[20px] bg-[var(--scf-bg)]"
           >
-            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
-              {{ item.year }}
-            </p>
-            <h3 class="display-font mt-3 text-2xl font-semibold">{{ item.title }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ item.text }}</p>
-          </article>
+            <div class="aspect-[4/3] bg-[var(--scf-accent-soft)]"></div>
+            <div class="space-y-3 p-5">
+              <div class="h-4 w-2/3 rounded bg-[var(--scf-accent-soft)]"></div>
+              <div class="h-3 w-full rounded bg-white"></div>
+            </div>
+          </div>
         </div>
-      </article>
+
+        <div v-else-if="catSheets.length" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <router-link
+            v-for="catSheet in catSheets"
+            :key="catSheet.documentId"
+            :to="{ name: RouteNames.ADOPT_DETAIL, params: { documentId: catSheet.documentId } }"
+            class="block overflow-hidden rounded-[20px] bg-[var(--scf-bg)] transition-transform hover:-translate-y-1"
+          >
+            <div class="aspect-[4/3] overflow-hidden bg-[var(--scf-accent-soft)]">
+              <img
+                v-if="catCoverImage(catSheet)"
+                :src="catCoverImage(catSheet)!"
+                :alt="catName(catSheet)"
+                class="h-full w-full object-cover"
+              />
+              <div v-else class="flex h-full w-full items-center justify-center text-[var(--scf-muted)]">
+                <i class="pi pi-camera text-3xl"></i>
+              </div>
+            </div>
+            <div class="space-y-2 p-5">
+              <span
+                v-if="catStatusLabel(catSheet)"
+                class="inline-block rounded-full bg-[var(--scf-ink)] px-2.5 py-1 text-[10px] font-bold uppercase text-white"
+              >
+                {{ catStatusLabel(catSheet) }}
+              </span>
+              <h3 class="display-font text-lg font-semibold">{{ catName(catSheet) }}</h3>
+              <p v-if="catSheet.description" class="text-sm leading-6 text-[var(--scf-text)]">
+                {{ catSheet.description }}
+              </p>
+            </div>
+          </router-link>
+        </div>
+
+        <div
+          v-else
+          class="flex flex-col items-center gap-3 rounded-[20px] bg-[var(--scf-bg)] px-6 py-14 text-center"
+        >
+          <i class="pi pi-heart text-4xl text-[var(--scf-muted)]"></i>
+          <p class="text-sm text-[var(--scf-muted)]">{{ $t('home.noCatsAvailable') }}</p>
+        </div>
+      </div>
     </section>
 
-    <section class="space-y-4">
-      <div class="space-y-2">
-        <span class="eyebrow">{{ $t('about.eyebrowCats') }}</span>
-        <h2 class="display-font text-3xl font-semibold md:text-4xl">
-          {{ $t('about.catsTitle') }}
-        </h2>
-        <p class="max-w-3xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          {{ $t('about.catsText') }}
-        </p>
+    <!-- STORY -->
+    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+      <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
+        <img
+          :src="AnaisPhoto"
+          :alt="$t('about.story.photoAlt')"
+          class="aspect-square w-full shrink-0 rounded-[24px] object-cover md:w-72"
+        />
+        <div class="space-y-3">
+          <span class="eyebrow">{{ $t('about.story.eyebrow') }}</span>
+          <h2 class="display-font text-2xl font-semibold md:text-3xl">
+            {{ $t('about.story.title') }}
+          </h2>
+          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('about.story.text1') }}
+          </p>
+          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('about.story.text2') }}
+          </p>
+        </div>
       </div>
+    </section>
 
-      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <article
-          v-for="cat in cats"
-          :key="cat.name"
-          class="section-card overflow-hidden rounded-[2rem]"
-        >
-          <div class="overflow-hidden rounded-t-[2rem]">
-            <img :src="cat.image" :alt="cat.name" class="cat-photo aspect-[4/5]" />
-          </div>
-          <div class="space-y-3 px-5 pb-5 pt-4">
-            <h3 class="display-font text-2xl font-semibold">{{ cat.name }}</h3>
-            <p class="text-sm leading-6 text-[var(--scf-text)]">{{ cat.text }}</p>
-            <a
-              :href="cat.sourceUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
-            >
-              <i class="pi pi-external-link text-[0.7rem]"></i>
-              {{ $t('about.sourceImage') }}
-            </a>
-          </div>
+    <!-- DONATION CTA -->
+    <section
+      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left"
+    >
+      <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
+        {{ $t('about.donationCta.text') }}
+      </p>
+      <Button
+        as="a"
+        :href="donationUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        :label="$t('about.donationCta.cta')"
+        icon="pi pi-gift"
+        severity="contrast"
+        rounded
+      />
+    </section>
+
+    <!-- CONTACT -->
+    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+      <div class="page-shell grid gap-5 md:grid-cols-2">
+        <article class="rounded-[20px] bg-[var(--scf-bg)] p-8">
+          <h3 class="display-font text-lg font-semibold">{{ $t('about.contact.help.title') }}</h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('about.contact.help.text') }}
+          </p>
+        </article>
+        <article class="rounded-[20px] bg-[var(--scf-bg)] p-8">
+          <h3 class="display-font text-lg font-semibold">
+            {{ $t('about.contact.mailOnly.title') }}
+          </h3>
+          <p class="mt-2 text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('about.contact.mailOnly.text') }}
+          </p>
         </article>
       </div>
-    </section>
-
-    <section class="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-      <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">{{ $t('about.eyebrowTrust') }}</span>
-        <h2 class="display-font title-wide mt-4 text-3xl font-semibold md:text-4xl">
-          {{ $t('about.trustTitle') }}
-        </h2>
-        <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          {{ $t('about.trustText1') }}
-        </p>
-        <p class="mt-3 text-sm leading-7 text-[var(--scf-text)] md:text-base">
-          {{ $t('about.trustText2') }}
-        </p>
-      </article>
-
-      <article
-        class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
-      >
-        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">{{ $t('about.eyebrowCta') }}</span>
-        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">{{ $t('about.ctaTitle') }}</h2>
-        <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
-          {{ $t('about.ctaText') }}
-        </p>
-        <div class="mt-5 flex flex-wrap gap-3">
-          <Button
-            :label="$t('about.seeHome')"
-            icon="pi pi-home"
-            severity="secondary"
-            outlined
-            @click="router.push({ name: RouteNames.HOME })"
-          />
-          <Button
-            :label="$t('about.supportUs')"
-            icon="pi pi-gift"
-            severity="contrast"
-            as="a"
-            :href="donationUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-          />
-        </div>
-      </article>
     </section>
   </div>
 </template>
