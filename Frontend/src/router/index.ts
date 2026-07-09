@@ -5,6 +5,8 @@ import { i18n } from '@/i18n'
 import { useAuthStore } from '@/stores/authentication'
 import { RouteNames } from './routeNames'
 
+const FALLBACK_APP_NAME = "Sans Croquettes Fixes - Association d'adoption de chats"
+
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
@@ -54,7 +56,8 @@ router.afterEach((to) => {
   if (!titleKey) {
     titleKey = `title.${useManager().getCurrentRouteName()}`
   }
-  document.title = `${import.meta.env.VITE_APP_NAME} - ${i18n.global.t(titleKey)}`
+  const appName = import.meta.env.VITE_APP_NAME || FALLBACK_APP_NAME
+  document.title = `${appName} - ${i18n.global.t(titleKey)}`
 })
 
 export default router

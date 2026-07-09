@@ -18,11 +18,13 @@ function handleResize() {
 </script>
 
 <template>
-  <div class="w-full min-h-screen flex flex-col">
+  <div class="site-frame w-full min-h-screen flex flex-col">
     <Toast position="bottom-right" :style="{ width: toastWidth }" />
-    <AppNavBar />
+    <div class="page-shell w-full pt-4 md:pt-6">
+      <AppNavBar />
+    </div>
     <ConfirmDialog></ConfirmDialog>
-    <div class="h-fit flex flex-col flex-1 mb-10">
+    <div class="h-fit flex flex-col flex-1 mb-10 mt-4 md:mt-6">
       <RouterView />
     </div>
   </div>

@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
+    AdoptionRequestDetailsModal: typeof import('./src/components/Modals/AdoptionRequestDetailsModal.vue')['default']
     AdoptionRequestForm: typeof import('./src/components/Forms/AdoptionRequestForm.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
     BlogPostForm: typeof import('./src/components/Forms/BlogPostForm.vue')['default']

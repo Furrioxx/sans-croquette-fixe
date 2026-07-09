@@ -50,7 +50,7 @@ const onSubmit = async () => {
   <div class="flex gap-1">
     <p>{{ $t('auth.noAccount') }}</p>
     <span
-      class="cursor-pointer text-indigo-400"
+      class="cursor-pointer text-[var(--scf-secondary)]"
       @click="router.push({ name: RouteNames.REGISTER })"
       >{{ $t('register') }}</span
     >

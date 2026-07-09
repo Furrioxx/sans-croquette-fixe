@@ -47,7 +47,7 @@ const onSubmit = async () => {
   </form>
   <div class="flex gap-1">
     <p>{{ $t('auth.alreadyAccount') }}</p>
-    <span class="cursor-pointer text-indigo-400" @click="router.push({ name: RouteNames.LOGIN })">{{
+    <span class="cursor-pointer text-[var(--scf-secondary)]" @click="router.push({ name: RouteNames.LOGIN })">{{
       $t('login')
     }}</span>
   </div>

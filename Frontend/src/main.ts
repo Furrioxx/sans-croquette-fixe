@@ -17,17 +17,17 @@ const app = createApp(App)
 const MyPreset = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '{indigo.50}',
-      100: '{indigo.100}',
-      200: '{indigo.200}',
-      300: '{indigo.300}',
-      400: '{indigo.400}',
-      500: '{indigo.500}',
-      600: '{indigo.600}',
-      700: '{indigo.700}',
-      800: '{indigo.800}',
-      900: '{indigo.900}',
-      950: '{indigo.950}',
+      50: '#fff1f1',
+      100: '#ffdede',
+      200: '#ffc4c4',
+      300: '#ffa5a5',
+      400: '#fc7676',
+      500: '#f25f68',
+      600: '#e14f61',
+      700: '#bf4055',
+      800: '#9f384d',
+      900: '#853345',
+      950: '#491923',
     },
   },
 })
