@@ -38,6 +38,14 @@ const routes = [
         component: () => import('../views/AdoptionRequest.vue'),
       },
       {
+        path: 'mes-demandes-adoption',
+        name: RouteNames.USER_ADOPTION_REQUESTS,
+        meta: {
+          requiresAuth: true,
+        },
+        component: () => import('../views/UserAdoptionRequests.vue'),
+      },
+      {
         path: 'discover',
         name: RouteNames.DISCOVER,
         component: () => import('../views/Discover.vue'),

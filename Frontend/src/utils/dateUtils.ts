@@ -1,6 +1,6 @@
 export const DateUtils = {
-  formatDate: (dateString: Date): string => {
-    const date = new Date(dateString)
+  formatDate: (dateValue: string | Date): string => {
+    const date = new Date(dateValue)
 
     const datePart = new Intl.DateTimeFormat('fr-FR', {
       day: '2-digit',

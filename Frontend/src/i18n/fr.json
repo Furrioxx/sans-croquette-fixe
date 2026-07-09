@@ -59,6 +59,7 @@
     "dashboard-blog": "Blog",
     "dashboard-tarifications": "Tarifications",
     "adoption-form": "Formulaire d'adoption",
+    "user-adoption-requests": "Mes demandes d'adoption",
     "dashboard-adoption-requests": "Demandes d'adoption"
   },
   "auth": {
@@ -379,7 +380,23 @@
     "filters": {
       "all": "Tous"
     },
-    "commitmentText": "En validant ce formulaire, vous vous engagez à accepter l’entière responsabilité de l’entretien de l’animal, y compris les frais vétérinaires, la nourriture, les accessoires et les conséquences juridiques et pécuniaires liées à sa possession."
+    "commitmentText": "En validant ce formulaire, vous vous engagez à accepter l’entière responsabilité de l’entretien de l’animal, y compris les frais vétérinaires, la nourriture, les accessoires et les conséquences juridiques et pécuniaires liées à sa possession.",
+    "user": {
+      "navLink": "Mes demandes",
+      "title": "Mes demandes d’adoption",
+      "subtitle": "Retrouvez ici l’avancement de vos demandes déjà envoyées.",
+      "helper": "Le suivi est disponible en lecture seule. Vous pouvez consulter le statut et le contenu de chaque demande, sans la modifier après envoi.",
+      "backToAdopt": "Retour aux chats",
+      "emptyTitle": "Aucune demande envoyée",
+      "emptySubtitle": "Vos futures demandes d’adoption apparaîtront ici dès qu’elles seront soumises.",
+      "submittedAt": "Demande envoyée le {date}",
+      "requester": "Demande au nom de {name}",
+      "openDetail": "Voir le détail",
+      "detailTitle": "Détail de la demande",
+      "detailError": "Impossible de charger le détail de cette demande.",
+      "currentStatus": "Statut actuel",
+      "lastUpdate": "Dernière mise à jour : {date}"
+    }
   },
   "discover": {
     "nav-link": "Trouver votre chat",
