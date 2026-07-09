@@ -19,7 +19,8 @@
     "linkedVolunteer": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
+      "target": "plugin::users-permissions.user",
+      "required": true
     },
     "isDuo": {
       "type": "boolean"

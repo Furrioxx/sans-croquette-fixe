@@ -526,7 +526,7 @@ export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    endDate: Schema.Attribute.DateTime;
+    endDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -535,14 +535,15 @@ export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     reason: Schema.Attribute.String;
-    startDate: Schema.Attribute.DateTime;
+    startDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
-    >;
+    > &
+      Schema.Attribute.Required;
   };
 }
 
@@ -783,7 +784,8 @@ export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
     linkedVolunteer: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
-    >;
+    > &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -813,8 +815,12 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    birthDate: Schema.Attribute.Date;
-    cat_moods: Schema.Attribute.Relation<'oneToMany', 'api::cat-mood.cat-mood'>;
+    birthDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    cat_moods: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cat-mood.cat-mood'
+    > &
+      Schema.Attribute.Required;
     catFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     catStatus: Schema.Attribute.Enumeration<
       [
@@ -825,20 +831,22 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
         'decede',
         'perdu',
       ]
-    >;
+    > &
+      Schema.Attribute.Required;
     childFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     decontaminate: Schema.Attribute.Boolean;
     dogFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
-    gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']>;
+    gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']> &
+      Schema.Attribute.Required;
     identified: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &
       Schema.Attribute.Private;
     medicalHistory: Schema.Attribute.Text;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     sterilized: Schema.Attribute.Boolean;
     trappingDate: Schema.Attribute.Date;

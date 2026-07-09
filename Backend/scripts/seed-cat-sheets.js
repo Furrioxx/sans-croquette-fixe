@@ -44,6 +44,9 @@ const MEDICAL_HISTORIES = [
   null,
 ]
 
+const SOLO_TARIFICATION_LABELS = ['Tarif standard', "Frais d'adoption"]
+const DUO_TARIFICATION_LABELS = ['Tarif duo', "Frais d'adoption (les 2)"]
+
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)]
 }
@@ -87,6 +90,20 @@ async function uploadImage(strapi, filepath, name) {
   return uploaded.id
 }
 
+async function getVolunteerIds(strapi) {
+  const volunteers = await strapi.db.query('plugin::users-permissions.user').findMany({
+    populate: { role: true },
+  })
+  const ids = volunteers.filter((u) => u.role?.name === 'Volunteer').map((u) => u.id)
+  if (!ids.length) {
+    throw new Error(
+      'No user with the "Volunteer" role was found. cat-sheet.linkedVolunteer is now required — ' +
+        'create at least one Volunteer account before running this seed script.',
+    )
+  }
+  return ids
+}
+
 async function ensureMoods(strapi) {
   const existing = await strapi.documents('api::cat-mood.cat-mood').findMany({ pagination: { pageSize: 100 } })
   const existingNames = new Set(existing.map((m) => m.name))
@@ -127,13 +144,28 @@ async function createCat(strapi, data) {
   return doc
 }
 
-async function createCatSheet(strapi, { isDuo, catDocIds, imageIds, description }) {
+function buildTarificationData(isDuo) {
+  if (isDuo) {
+    return { label: pick(DUO_TARIFICATION_LABELS), price: pick([220, 240, 260, 280, 300]) }
+  }
+  return { label: pick(SOLO_TARIFICATION_LABELS), price: pick([80, 100, 120, 150, 180]) }
+}
+
+async function createTarification(strapi, data) {
+  const doc = await strapi.documents('api::tarification.tarification').create({ data })
+  await strapi.documents('api::tarification.tarification').publish({ documentId: doc.documentId })
+  return doc
+}
+
+async function createCatSheet(strapi, { isDuo, catDocIds, imageIds, description, tarificationDocId, linkedVolunteerId }) {
   const doc = await strapi.documents('api::cat-sheet.cat-sheet').create({
     data: {
       isDuo,
       cats: catDocIds,
       images: imageIds,
       description,
+      tarification: tarificationDocId,
+      linkedVolunteer: linkedVolunteerId,
     },
   })
   await strapi.documents('api::cat-sheet.cat-sheet').publish({ documentId: doc.documentId })
@@ -149,6 +181,9 @@ async function main() {
     console.log('Ensuring cat moods exist...')
     const moods = await ensureMoods(app)
     const moodDocIds = moods.map((m) => m.documentId)
+
+    console.log('Looking up volunteer accounts...')
+    const volunteerIds = await getVolunteerIds(app)
 
     let seedCounter = 0
     for (let i = 0; i < count; i++) {
@@ -175,14 +210,20 @@ async function main() {
         imageIds.push(imageId)
       }
 
+      const tarification = await createTarification(app, buildTarificationData(isDuo))
+
       const sheet = await createCatSheet(app, {
         isDuo,
         catDocIds,
         imageIds,
         description: pick(DESCRIPTIONS),
+        tarificationDocId: tarification.documentId,
+        linkedVolunteerId: pick(volunteerIds),
       })
 
-      console.log(`[${i + 1}/${count}] Created cat-sheet ${sheet.documentId} (status=${status}, duo=${isDuo}, images=${imageIds.length})`)
+      console.log(
+        `[${i + 1}/${count}] Created cat-sheet ${sheet.documentId} (status=${status}, duo=${isDuo}, images=${imageIds.length}, tarification=${tarification.label} ${tarification.price}€)`,
+      )
     }
 
     console.log('Done seeding cat sheets.')
