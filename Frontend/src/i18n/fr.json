@@ -500,7 +500,7 @@
     }
   },
   "adoptDetail": {
-    "fromTheFoster": "Le mot de la famille d'accueil",
+    "whyAdopt": "Pourquoi l'adopter",
     "healthLabel": "Mise en règle",
     "compatLabel": "Ententes",
     "birthLabel": "Naissance",
@@ -517,7 +517,10 @@
     "getAlongWithEveryone": "S'entendent avec tout le monde",
     "groupAdoptionOnly": "Adoption groupée uniquement",
     "whyTogether": "Pourquoi les adopter ensemble ?",
-    "adoptionFeeBoth": "Frais d'adoption (les 2)"
+    "adoptionFeeBoth": "Frais d'adoption (les 2)",
+    "personalityLabel": "Personnalité",
+    "medicalHistoryLabel": "Antécédents médicaux",
+    "trappingDateLabel": "Prise en charge le"
   },
   "adoptionRequest": {
     "title": "Formulaire d'adoption",

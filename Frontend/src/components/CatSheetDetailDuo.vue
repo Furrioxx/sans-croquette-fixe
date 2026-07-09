@@ -36,7 +36,8 @@ const statusLabel = (cat: Cat) => {
   return null
 }
 
-const genderLabel = (cat: Cat) => (cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female'))
+const genderLabel = (cat: Cat) =>
+  cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')
 const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 const catTypeLabel = (cat: Cat) => `${kittenLabel(cat)} ${genderLabel(cat).toLowerCase()}`
 
@@ -49,7 +50,11 @@ const formatAge = (bd: string | null) => {
 
 const formatBirthDate = (bd: string | null) => {
   if (!bd) return null
-  return new Date(bd).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  return new Date(bd).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
 }
 
 const healthSummary = (cat: Cat) => {
@@ -66,10 +71,26 @@ const compatSummary = computed(() => {
   const [a, b] = cats.value
   if (!a || !b) return null
   const parts: string[] = []
-  const dims: { key: keyof Pick<Cat, 'catFriendly' | 'dogFriendly' | 'childFriendly'>; yes: string; no: string }[] = [
-    { key: 'catFriendly', yes: t('adoptDetail.getsAlongCats'), no: t('adoptDetail.doesNotKnowCats') },
-    { key: 'dogFriendly', yes: t('adoptDetail.getsAlongDogs'), no: t('adoptDetail.doesNotKnowDogs') },
-    { key: 'childFriendly', yes: t('adoptDetail.getsAlongChildren'), no: t('adoptDetail.doesNotKnowChildren') },
+  const dims: {
+    key: keyof Pick<Cat, 'catFriendly' | 'dogFriendly' | 'childFriendly'>
+    yes: string
+    no: string
+  }[] = [
+    {
+      key: 'catFriendly',
+      yes: t('adoptDetail.getsAlongCats'),
+      no: t('adoptDetail.doesNotKnowCats'),
+    },
+    {
+      key: 'dogFriendly',
+      yes: t('adoptDetail.getsAlongDogs'),
+      no: t('adoptDetail.doesNotKnowDogs'),
+    },
+    {
+      key: 'childFriendly',
+      yes: t('adoptDetail.getsAlongChildren'),
+      no: t('adoptDetail.doesNotKnowChildren'),
+    },
   ]
   dims.forEach((d) => {
     if (a[d.key] === CatFriendly.YES && b[d.key] === CatFriendly.YES) parts.push(d.yes)
@@ -81,6 +102,8 @@ const compatSummary = computed(() => {
   return parts.length ? parts.join(', ') : null
 })
 
+const moodNames = (cat: Cat) => (cat.cat_moods ?? []).map((m) => m.name)
+
 const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
 </script>
 
@@ -88,7 +111,9 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
   <div class="flex w-full flex-col">
     <!-- BREADCRUMB -->
     <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
-      <nav class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]">
+      <nav
+        class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
+      >
         <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
           $t('footer.links.home')
         }}</router-link>
@@ -107,8 +132,16 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
         <!-- GALLERY -->
         <div>
           <div class="mb-3 aspect-[4/3] overflow-hidden rounded-[26px] bg-white">
-            <img v-if="mainImage" :src="mainImage" :alt="catNames" class="h-full w-full object-cover" />
-            <div v-else class="flex h-full w-full flex-col items-center justify-center gap-2 text-[var(--scf-muted)]">
+            <img
+              v-if="mainImage"
+              :src="mainImage"
+              :alt="catNames"
+              class="h-full w-full object-cover"
+            />
+            <div
+              v-else
+              class="flex h-full w-full flex-col items-center justify-center gap-2 text-[var(--scf-muted)]"
+            >
               <i class="pi pi-camera text-5xl"></i>
               <span class="text-sm">{{ $t('no-photo') }}</span>
             </div>
@@ -121,7 +154,11 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
               :class="{ 'ring-2 ring-[var(--scf-accent)]': index === activeImageIndex }"
               @click="activeImageIndex = index"
             >
-              <img :src="getImageUrl(image.url)" :alt="`${catNames} ${index + 1}`" class="h-full w-full object-cover" />
+              <img
+                :src="getImageUrl(image.url)"
+                :alt="`${catNames} ${index + 1}`"
+                class="h-full w-full object-cover"
+              />
             </button>
           </div>
 
@@ -129,16 +166,35 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
             <h2 class="display-font text-2xl font-semibold text-[var(--scf-ink)]">
               {{ $t('adoptDetail.whyTogether') }}
             </h2>
-            <p class="max-w-xl text-sm leading-8 text-[var(--scf-text)]">{{ catSheet.description }}</p>
+            <p class="max-w-xl text-sm leading-8 text-[var(--scf-text)]">
+              {{ catSheet.description }}
+            </p>
+          </div>
+
+          <div
+            v-for="cat in cats.filter((c) => c.medicalHistory)"
+            :key="cat.documentId"
+            class="mt-9 space-y-3"
+          >
+            <h2 class="display-font text-2xl font-semibold text-[var(--scf-ink)]">
+              {{ $t('adoptDetail.medicalHistoryLabel') }} — {{ cat.name }}
+            </h2>
+            <p class="max-w-xl text-sm leading-8 text-[var(--scf-text)]">
+              {{ cat.medicalHistory }}
+            </p>
           </div>
         </div>
 
         <!-- INFO PANEL -->
         <div class="rounded-[26px] bg-white p-9 lg:sticky lg:top-24">
-          <span class="mb-3 inline-block rounded-full bg-[var(--scf-accent-soft)] px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-[var(--scf-accent-dark)]">
+          <span
+            class="mb-3 inline-block rounded-full bg-[var(--scf-accent-soft)] px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-[var(--scf-accent-dark)]"
+          >
             {{ $t('adoptDetail.groupAdoptionOnly') }}
           </span>
-          <h1 class="display-font mb-6 text-3xl font-extrabold text-[var(--scf-ink)] md:text-4xl">{{ catNames }}</h1>
+          <h1 class="display-font mb-6 text-3xl font-extrabold text-[var(--scf-ink)] md:text-4xl">
+            {{ catNames }}
+          </h1>
 
           <div
             v-for="cat in cats"
@@ -147,8 +203,12 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
           >
             <div class="flex items-center justify-between gap-3">
               <div class="flex items-center gap-2">
-                <span class="display-font text-base font-bold text-[var(--scf-ink)]">{{ cat.name }}</span>
-                <span class="rounded-full bg-[var(--scf-accent-soft)] px-2.5 py-1 text-[10px] font-bold uppercase text-[var(--scf-accent-dark)]">
+                <span class="display-font text-base font-bold text-[var(--scf-ink)]">{{
+                  cat.name
+                }}</span>
+                <span
+                  class="rounded-full bg-[var(--scf-accent-soft)] px-2.5 py-1 text-[10px] font-bold uppercase text-[var(--scf-accent-dark)]"
+                >
                   {{ catTypeLabel(cat) }}
                 </span>
               </div>
@@ -159,29 +219,52 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
                 {{ statusLabel(cat) }}
               </span>
             </div>
-            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-semibold text-[var(--scf-muted)]">
+            <div
+              class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs font-semibold text-[var(--scf-muted)]"
+            >
               <span class="inline-flex items-center gap-1.5">
                 <i class="pi pi-calendar text-[var(--scf-accent-dark)]"></i>
                 {{ formatAge(cat.birthDate) }}
-                <template v-if="formatBirthDate(cat.birthDate)"> — {{ formatBirthDate(cat.birthDate) }}</template>
+                <template v-if="formatBirthDate(cat.birthDate)">
+                  — {{ formatBirthDate(cat.birthDate) }}</template
+                >
               </span>
               <span v-if="healthSummary(cat)" class="inline-flex items-center gap-1.5">
                 <i class="pi pi-shield text-[var(--scf-accent-dark)]"></i>
                 {{ healthSummary(cat) }}
               </span>
+              <span v-if="cat.trappingDate" class="inline-flex items-center gap-1.5">
+                <i class="pi pi-map-marker text-[var(--scf-accent-dark)]"></i>
+                {{ $t('adoptDetail.trappingDateLabel') }} {{ formatBirthDate(cat.trappingDate) }}
+              </span>
+            </div>
+            <div v-if="moodNames(cat).length" class="flex flex-wrap gap-1.5">
+              <span
+                v-for="mood in moodNames(cat)"
+                :key="mood"
+                class="rounded-full bg-[var(--scf-bg)] px-2.5 py-1 text-[11px] font-semibold text-[var(--scf-ink)]"
+              >
+                {{ mood }}
+              </span>
             </div>
           </div>
 
           <div v-if="compatSummary" class="mb-7 flex justify-between gap-4">
-            <span class="text-sm font-semibold text-[var(--scf-muted)]">{{ $t('adoptDetail.compatLabel') }}</span>
-            <span class="text-right text-sm font-bold text-[var(--scf-ink)]">{{ compatSummary }}</span>
+            <span class="text-sm font-semibold text-[var(--scf-muted)]">{{
+              $t('adoptDetail.compatLabel')
+            }}</span>
+            <span class="text-right text-sm font-bold text-[var(--scf-ink)]">{{
+              compatSummary
+            }}</span>
           </div>
 
           <div
             v-if="catSheet.tarification"
             class="mb-5 flex items-center justify-between rounded-2xl bg-[var(--scf-bg)] px-5 py-4"
           >
-            <span class="text-sm font-semibold text-[var(--scf-text)]">{{ $t('adoptDetail.adoptionFeeBoth') }}</span>
+            <span class="text-sm font-semibold text-[var(--scf-text)]">{{
+              $t('adoptDetail.adoptionFeeBoth')
+            }}</span>
             <span class="display-font text-2xl font-extrabold text-[var(--scf-accent-dark)]"
               >{{ catSheet.tarification.price }} €</span
             >
@@ -191,7 +274,12 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
             :label="$t('adoptDetail.adoptCta', { name: catNames })"
             rounded
             class="mb-3 w-full !bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
-            @click="router.push({ name: RouteNames.ADOPTION_FORM, params: { documentId: catSheet.documentId } })"
+            @click="
+              router.push({
+                name: RouteNames.ADOPTION_FORM,
+                params: { documentId: catSheet.documentId },
+              })
+            "
           />
           <Button
             as="a"
@@ -213,7 +301,11 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
           {{ $t('adoptDetail.otherCats') }}
         </h2>
         <div class="grid gap-5 sm:grid-cols-3">
-          <CatSheetCard v-for="related in relatedCats" :key="related.documentId" :catSheet="related" />
+          <CatSheetCard
+            v-for="related in relatedCats"
+            :key="related.documentId"
+            :catSheet="related"
+          />
         </div>
       </div>
     </section>
