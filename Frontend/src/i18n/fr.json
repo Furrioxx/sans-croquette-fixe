@@ -88,32 +88,21 @@
     "association": "Association",
     "support": "Soutenir"
   },
-  "cats": {
-    "moka": {
-      "role": "Profil calme",
-      "age": "2 ans",
-      "mood": "Besoin d’un foyer stable",
-      "story": "Moka observe, s’adapte vite et cherche surtout un environnement rassurant avec des habitudes simples."
-    },
-    "nova": {
-      "role": "Profil joueur",
-      "age": "8 mois",
-      "mood": "Curieuse et vive",
-      "story": "Nova est parfaite pour une famille présente, capable de lui offrir jeux, exploration et temps d’adaptation."
-    },
-    "simba": {
-      "role": "Profil senior",
-      "age": "7 ans",
-      "mood": "Doux et très sociable",
-      "story": "Simba recherche une adoption responsable, avec une attention particulière au confort, aux soins et à la routine."
-    },
-    "creditLabel": "Photo CC0 par Bicanski via Pixnio",
-    "licenseLabel": "CC0"
+  "footer": {
+    "tagline": "Association loi 1901 — protection animale à Lyon et alentours.",
+    "navigation": "Navigation",
+    "follow": "Suivez-nous",
+    "legal": "Sans Croquettes Fixes — Association loi 1901.",
+    "links": {
+      "home": "Accueil",
+      "adopt": "Adoption",
+      "about": "À propos"
+    }
   },
   "home": {
     "eyebrowHero": "Adoption responsable",
     "heroText": "Sans Croquettes Fixes est une association de protection animale qui facilite l'adoption de chat a Lyon, dans la metropole lyonnaise et dans les alentours. Le site aide a adopter un chat en comprenant son caractere, ses besoins et les conditions d'accueil qui lui correspondent vraiment.",
-    "seeProfiles": "Voir les profils",
+    "adoptCat": "Adopter un chat",
     "knowAssociation": "Connaitre l'association",
     "highlights": {
       "delay": {
@@ -129,11 +118,49 @@
         "label": "adoption de chat accompagnee avant et apres l'accueil"
       }
     },
-    "seekingHome": "En recherche d'accueil",
-    "eyebrowFeatured": "Profils mis en avant",
-    "featuredTitle": "Adopter un chat a Lyon avec des profils clairs",
-    "createAccount": "Creer un compte",
-    "adoptionCatLyon": "adoption chat Lyon",
+    "donationStrip": {
+      "text": "Chaque don compte : 1€, 5€ ou 10€ peuvent changer le quotidien de nos pensionnaires.",
+      "cta": "Faire un don"
+    },
+    "eyebrowMission": "Qui sommes-nous ?",
+    "missionTitle": "Nos actions au quotidien",
+    "eyebrowAdopt": "À l'adoption",
+    "adoptTitle": "Trouvez votre compagnon",
+    "seeAllCats": "Voir tous les chats",
+    "noCatsAvailable": "Aucun chat à l'adoption pour le moment.",
+    "sanctuary": {
+      "eyebrow": "10 ans de Sans Croquettes",
+      "title": "Les félins de l'ombre",
+      "text": "Un lieu de vie pour les chats trop souvent oubliés, qui ne peuvent être adoptés mais méritent un endroit sûr.",
+      "cta": "Soutenir le projet"
+    },
+    "stats": {
+      "years": { "value": "10", "label": "années d'action" },
+      "animals": { "value": "2,4k", "label": "animaux sauvés" },
+      "food": { "value": "18k", "label": "kg de croquettes distribuées" }
+    },
+    "story": {
+      "eyebrow": "Notre histoire",
+      "title": "Parce que l'abandon ne devrait jamais être une solution",
+      "text": "Au départ, quelques mains tendues pour nourrir les animaux des sans-abri. Puis, au fil des années, un refuge au sens large — un lieu sûr pour ceux qui n'avaient plus nulle part où aller.",
+      "author": "Anaïs Hillion, co-fondatrice",
+      "cta": "En savoir plus"
+    },
+    "waysToHelp": {
+      "title": "Comment nous aider ?",
+      "donate": {
+        "title": "Faire un don",
+        "text": "Pour financer les soins de nos animaux."
+      },
+      "foster": {
+        "title": "Famille d'accueil",
+        "text": "Accueillir un chat temporairement."
+      },
+      "volunteer": {
+        "title": "Devenir bénévole",
+        "text": "Rejoindre l'équipe sur le terrain."
+      }
+    },
     "steps": {
       "eyebrow": "Methode",
       "title": "Comment adopter un chat a Lyon avec l'association",

@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --scf-bg: #f6f1eb;
-  --scf-bg-soft: #fff8f8;
-  --scf-surface: rgba(255, 251, 250, 0.9);
-  --scf-surface-strong: #fffdfd;
-  --scf-accent: #fc7676;
-  --scf-accent-dark: #e56666;
-  --scf-accent-soft: #ffd7d7;
+  --scf-bg: oklch(97% 0.015 80);
+  --scf-bg-soft: oklch(93% 0.04 40);
+  --scf-surface: rgba(255, 253, 253, 0.9);
+  --scf-surface-strong: oklch(99% 0.005 80);
+  --scf-accent: oklch(70% 0.16 35);
+  --scf-accent-dark: oklch(55% 0.16 35);
+  --scf-accent-soft: oklch(90% 0.05 50);
   --scf-secondary: #9b8bc9;
   --scf-secondary-soft: #e5def7;
-  --scf-ink: #3e4560;
-  --scf-text: #4f556a;
-  --scf-muted: #7d8090;
-  --scf-line: rgba(62, 69, 96, 0.12);
+  --scf-ink: oklch(25% 0.02 60);
+  --scf-text: oklch(38% 0.02 60);
+  --scf-muted: oklch(50% 0.02 60);
+  --scf-line: oklch(90% 0.03 50);
   --scf-shadow: 0 18px 60px rgba(62, 69, 96, 0.12);
 }
 
@@ -37,7 +37,7 @@ body {
     radial-gradient(circle at 20% 80%, rgba(62, 69, 96, 0.1) 0, transparent 24%),
     var(--scf-bg);
   color: var(--scf-text);
-  font-family: 'Aptos', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Quicksand', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -61,7 +61,7 @@ h1,
 h2,
 h3,
 .display-font {
-  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-family: 'Baloo 2', 'Quicksand', 'Segoe UI', sans-serif;
   color: var(--scf-ink);
   line-height: 1.05;
   text-wrap: balance;

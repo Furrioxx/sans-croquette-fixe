@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { getFeaturedCats } from '@/content/catGallery'
 import { useManager } from '@/router/manager'
 import { useI18n } from 'vue-i18n'
 
 const title = useManager().getCurrentRouteTitle()
 const { t } = useI18n()
-const featuredCats = getFeaturedCats()
 
 const donations = [
   {
@@ -31,47 +29,21 @@ const donations = [
     <section
       class="hero-panel hero-donate-gradient section-card rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
     >
-      <div class="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-        <div class="space-y-5">
-          <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
-          <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
-          <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-            {{ $t('donate.heroText') }}
-          </p>
-          <a
-            href="https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-2xl bg-[var(--scf-ink)] px-5 py-3 font-medium text-white shadow-sm transition-transform hover:-translate-y-0.5"
-          >
-            <i class="pi pi-heart-fill"></i>
-            {{ $t('donate.donateOnHelloAsso') }}
-          </a>
-        </div>
-
-        <article class="section-card overflow-hidden rounded-[2rem] bg-white/80 p-4">
-          <div class="grid gap-4 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-            <div class="overflow-hidden rounded-[1.5rem]">
-              <img :src="featuredCats[2].imageUrl" :alt="featuredCats[2].name" class="cat-photo aspect-[4/5]" />
-            </div>
-            <div class="space-y-3">
-              <span class="eyebrow">{{ $t('donate.eyebrowImpact') }}</span>
-              <h2 class="display-font text-3xl font-semibold">{{ featuredCats[2].name }}</h2>
-              <p class="text-sm leading-6 text-[var(--scf-text)]">
-                {{ $t('donate.impactText') }}
-              </p>
-              <a
-                :href="featuredCats[2].creditUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
-              >
-                <i class="pi pi-external-link text-[0.7rem]"></i>
-                {{ featuredCats[2].creditLabel }} ({{ featuredCats[2].licenseLabel }})
-              </a>
-            </div>
-          </div>
-        </article>
+      <div class="max-w-2xl space-y-5">
+        <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
+        <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
+        <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
+          {{ $t('donate.heroText') }}
+        </p>
+        <a
+          href="https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-2xl bg-[var(--scf-ink)] px-5 py-3 font-medium text-white shadow-sm transition-transform hover:-translate-y-0.5"
+        >
+          <i class="pi pi-heart-fill"></i>
+          {{ $t('donate.donateOnHelloAsso') }}
+        </a>
       </div>
     </section>
 

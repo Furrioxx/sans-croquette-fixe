@@ -11,6 +11,7 @@ declare module 'vue' {
     AdminAppNavBar: typeof import('./src/components/AdminAppNavBar.vue')['default']
     AdoptionRequestDetailsModal: typeof import('./src/components/Modals/AdoptionRequestDetailsModal.vue')['default']
     AdoptionRequestForm: typeof import('./src/components/Forms/AdoptionRequestForm.vue')['default']
+    AppFooter: typeof import('./src/components/AppFooter.vue')['default']
     AppNavBar: typeof import('./src/components/AppNavBar.vue')['default']
     BlogPostForm: typeof import('./src/components/Forms/BlogPostForm.vue')['default']
     BlogPostModal: typeof import('./src/components/Modals/BlogPostModal.vue')['default']
