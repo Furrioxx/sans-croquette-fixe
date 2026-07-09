@@ -669,6 +669,22 @@
     "not-found": "Article introuvable",
     "not-found-subtitle": "Cet article n'est plus disponible ou n'a pas encore été publié.",
     "back-to-list": "Retour au blog",
+    "eyebrowFeatured": "À la une",
+    "readingTime": "{n} min de lecture",
+    "list": {
+      "fieldNotesEyebrow": "Sur le terrain",
+      "fieldNotesText": "Histoires de sauvetage, nouvelles des chats recueillis et conseils concrets pour mieux comprendre l'abandon, l'accueil et l'adoption.",
+      "latestEyebrow": "Dernières nouvelles",
+      "latestTitle": "Chroniques du refuge",
+      "emptyEyebrow": "Bientôt ici"
+    },
+    "detail": {
+      "authorEyebrow": "Rédaction",
+      "authorText": "Des nouvelles du refuge, des chats accueillis et des actions menées chaque semaine par l'association.",
+      "shareEyebrow": "Partager",
+      "continueReading": "Continuer la lecture",
+      "moreNews": "Autres nouvelles du refuge"
+    },
     "fields": {
       "title": "Titre",
       "excerpt": "Résumé",

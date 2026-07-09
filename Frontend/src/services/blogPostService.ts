@@ -11,6 +11,14 @@ const PUBLIC_BLOG_POST_POPULATE = {
   category: {
     fields: ['name', 'slug'],
   },
+  author: {
+    fields: ['username'],
+    populate: {
+      role: {
+        fields: ['name'],
+      },
+    },
+  },
 }
 
 const ADMIN_BLOG_POST_POPULATE = {
@@ -26,6 +34,7 @@ export interface BlogPostQueryParams {
   search?: string
   status?: 'all' | 'published' | 'draft'
   category?: string
+  isFeatured?: boolean
 }
 
 interface StrapiCollectionResponse<T> {
@@ -49,6 +58,10 @@ const buildFilters = (params: BlogPostQueryParams) => {
         $eq: params.category,
       },
     }
+  }
+
+  if (params.isFeatured !== undefined) {
+    filters.isFeatured = { $eq: params.isFeatured }
   }
 
   if (params.search) {
