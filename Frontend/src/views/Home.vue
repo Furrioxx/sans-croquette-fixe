@@ -91,9 +91,15 @@ onMounted(async () => {
 <template>
   <div class="flex w-full flex-col">
     <!-- HERO -->
-    <section class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-14 md:px-[60px] md:pb-24 md:pt-16">
-      <div class="pointer-events-none absolute -right-24 -top-36 h-[380px] w-[380px] rounded-full bg-[var(--scf-accent-soft)]"></div>
-      <div class="pointer-events-none absolute -right-4 bottom-[-70px] h-[200px] w-[200px] rounded-full bg-[var(--scf-bg-soft)]"></div>
+    <section
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-14 md:px-[60px] md:pb-24 md:pt-16"
+    >
+      <div
+        class="pointer-events-none absolute -right-24 -top-36 h-[380px] w-[380px] rounded-full bg-[var(--scf-accent-soft)]"
+      ></div>
+      <div
+        class="pointer-events-none absolute -right-4 bottom-[-70px] h-[200px] w-[200px] rounded-full bg-[var(--scf-bg-soft)]"
+      ></div>
 
       <div class="page-shell relative max-w-2xl space-y-6">
         <span class="eyebrow">{{ $t('home.eyebrowHero') }}</span>
@@ -129,7 +135,9 @@ onMounted(async () => {
             :key="highlight.value"
             class="rounded-3xl border border-[var(--scf-line)] bg-white p-4"
           >
-            <p class="display-font text-2xl font-semibold text-[var(--scf-ink)]">{{ highlight.value }}</p>
+            <p class="display-font text-2xl font-semibold text-[var(--scf-ink)]">
+              {{ highlight.value }}
+            </p>
             <p class="mt-1 text-sm leading-6 text-[var(--scf-muted)]">{{ highlight.label }}</p>
           </article>
         </div>
@@ -140,7 +148,9 @@ onMounted(async () => {
     <section
       class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left"
     >
-      <p class="flex-1 text-sm font-semibold leading-6 md:text-base">{{ $t('home.donationStrip.text') }}</p>
+      <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
+        {{ $t('home.donationStrip.text') }}
+      </p>
       <Button
         as="a"
         :href="donationUrl"
@@ -158,10 +168,16 @@ onMounted(async () => {
       <div class="page-shell space-y-8">
         <div class="space-y-2">
           <span class="eyebrow">{{ $t('home.eyebrowMission') }}</span>
-          <h2 class="display-font text-3xl font-semibold md:text-4xl">{{ $t('home.missionTitle') }}</h2>
+          <h2 class="display-font text-3xl font-semibold md:text-4xl">
+            {{ $t('home.missionTitle') }}
+          </h2>
         </div>
         <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          <article v-for="pillar in pillars" :key="pillar.title" class="rounded-[20px] bg-[var(--scf-bg)] p-6">
+          <article
+            v-for="pillar in pillars"
+            :key="pillar.title"
+            class="rounded-[20px] bg-[var(--scf-bg)] p-6"
+          >
             <div
               class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg text-[var(--scf-accent-dark)]"
             >
@@ -196,7 +212,11 @@ onMounted(async () => {
         </div>
 
         <div v-if="loadingCats" class="grid gap-5 lg:grid-cols-3">
-          <div v-for="i in 3" :key="i" class="animate-pulse overflow-hidden rounded-[22px] bg-white">
+          <div
+            v-for="i in 3"
+            :key="i"
+            class="animate-pulse overflow-hidden rounded-[22px] bg-white"
+          >
             <div class="aspect-[4/3] bg-[var(--scf-accent-soft)]"></div>
             <div class="space-y-3 p-5">
               <div class="h-4 w-2/3 rounded bg-[var(--scf-accent-soft)]"></div>
@@ -206,10 +226,17 @@ onMounted(async () => {
         </div>
 
         <div v-else-if="catSheets.length" class="grid gap-5 lg:grid-cols-3">
-          <CatSheetCard v-for="catSheet in catSheets" :key="catSheet.documentId" :catSheet="catSheet" />
+          <CatSheetCard
+            v-for="catSheet in catSheets"
+            :key="catSheet.documentId"
+            :catSheet="catSheet"
+          />
         </div>
 
-        <div v-else class="flex flex-col items-center gap-3 rounded-[22px] bg-white px-6 py-14 text-center">
+        <div
+          v-else
+          class="flex flex-col items-center gap-3 rounded-[22px] bg-white px-6 py-14 text-center"
+        >
           <i class="pi pi-heart text-4xl text-[var(--scf-muted)]"></i>
           <p class="text-sm text-[var(--scf-muted)]">{{ $t('home.noCatsAvailable') }}</p>
         </div>
@@ -222,7 +249,9 @@ onMounted(async () => {
         <div class="flex-1 space-y-4">
           <span class="eyebrow">{{ $t('home.sanctuary.eyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold">{{ $t('home.sanctuary.title') }}</h2>
-          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">{{ $t('home.sanctuary.text') }}</p>
+          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('home.sanctuary.text') }}
+          </p>
           <Button
             as="router-link"
             :to="RouteNames.DONATE"
@@ -240,7 +269,9 @@ onMounted(async () => {
     </section>
 
     <!-- STATS -->
-    <section class="grid w-full grid-cols-1 gap-8 bg-[var(--scf-ink)] px-6 py-14 text-center text-white sm:grid-cols-3 md:px-[60px]">
+    <section
+      class="grid w-full grid-cols-1 gap-8 bg-[var(--scf-ink)] px-6 py-14 text-center text-white sm:grid-cols-3 md:px-[60px]"
+    >
       <div v-for="stat in stats" :key="stat.label">
         <p class="display-font text-4xl font-semibold !text-white">{{ stat.value }}</p>
         <p class="mt-1 text-sm font-semibold text-white/80">{{ stat.label }}</p>
@@ -257,9 +288,15 @@ onMounted(async () => {
         </div>
         <div class="space-y-3">
           <span class="eyebrow">{{ $t('home.story.eyebrow') }}</span>
-          <h2 class="display-font text-2xl font-semibold md:text-3xl">{{ $t('home.story.title') }}</h2>
-          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">{{ $t('home.story.text') }}</p>
-          <p class="display-font text-sm font-semibold text-[var(--scf-ink)]">{{ $t('home.story.author') }}</p>
+          <h2 class="display-font text-2xl font-semibold md:text-3xl">
+            {{ $t('home.story.title') }}
+          </h2>
+          <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">
+            {{ $t('home.story.text') }}
+          </p>
+          <p class="display-font text-sm font-semibold text-[var(--scf-ink)]">
+            {{ $t('home.story.author') }}
+          </p>
           <Button
             as="router-link"
             :to="RouteNames.ABOUT_US"
@@ -276,7 +313,9 @@ onMounted(async () => {
     <!-- WAYS TO HELP -->
     <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
       <div class="page-shell space-y-8">
-        <h2 class="display-font text-3xl font-semibold md:text-4xl">{{ $t('home.waysToHelp.title') }}</h2>
+        <h2 class="display-font text-3xl font-semibold md:text-4xl">
+          {{ $t('home.waysToHelp.title') }}
+        </h2>
         <div class="grid gap-5 md:grid-cols-3">
           <a
             :href="donationUrl"
@@ -284,25 +323,43 @@ onMounted(async () => {
             rel="noopener noreferrer"
             class="block rounded-[18px] bg-white p-7 text-center transition-transform hover:-translate-y-1"
           >
-            <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white">
+            <div
+              class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white"
+            >
               <i class="pi pi-heart-fill"></i>
             </div>
-            <h3 class="display-font mt-4 text-base font-semibold">{{ $t('home.waysToHelp.donate.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ $t('home.waysToHelp.donate.text') }}</p>
+            <h3 class="display-font mt-4 text-base font-semibold">
+              {{ $t('home.waysToHelp.donate.title') }}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('home.waysToHelp.donate.text') }}
+            </p>
           </a>
           <div class="rounded-[18px] bg-white p-7 text-center">
-            <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white">
+            <div
+              class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white"
+            >
               <i class="pi pi-home"></i>
             </div>
-            <h3 class="display-font mt-4 text-base font-semibold">{{ $t('home.waysToHelp.foster.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ $t('home.waysToHelp.foster.text') }}</p>
+            <h3 class="display-font mt-4 text-base font-semibold">
+              {{ $t('home.waysToHelp.foster.title') }}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('home.waysToHelp.foster.text') }}
+            </p>
           </div>
           <div class="rounded-[18px] bg-white p-7 text-center">
-            <div class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white">
+            <div
+              class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white"
+            >
               <i class="pi pi-users"></i>
             </div>
-            <h3 class="display-font mt-4 text-base font-semibold">{{ $t('home.waysToHelp.volunteer.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ $t('home.waysToHelp.volunteer.text') }}</p>
+            <h3 class="display-font mt-4 text-base font-semibold">
+              {{ $t('home.waysToHelp.volunteer.title') }}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('home.waysToHelp.volunteer.text') }}
+            </p>
           </div>
         </div>
       </div>
@@ -322,13 +379,19 @@ onMounted(async () => {
         </article>
 
         <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-          <article v-for="(step, index) in steps" :key="step.title" class="rounded-[20px] bg-[var(--scf-bg)] p-5">
+          <article
+            v-for="(step, index) in steps"
+            :key="step.title"
+            class="rounded-[20px] bg-[var(--scf-bg)] p-5"
+          >
             <div
               class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg font-semibold text-[var(--scf-accent-dark)]"
             >
               0{{ index + 1 }}
             </div>
-            <h3 class="display-font title-compact mt-4 text-[1.8rem] font-semibold">{{ step.title }}</h3>
+            <h3 class="display-font title-compact mt-4 text-[1.8rem] font-semibold">
+              {{ step.title }}
+            </h3>
             <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ step.text }}</p>
           </article>
         </div>

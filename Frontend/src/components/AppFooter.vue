@@ -16,7 +16,9 @@ import Logo from '@/assets/Logo.png'
 
       <div class="flex flex-wrap gap-12">
         <div class="flex flex-col gap-3 text-sm font-semibold">
-          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{ $t('footer.navigation') }}</span>
+          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
+            $t('footer.navigation')
+          }}</span>
           <router-link :to="{ name: RouteNames.HOME }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.home') }}
           </router-link>
@@ -29,7 +31,9 @@ import Logo from '@/assets/Logo.png'
         </div>
 
         <div class="flex flex-col gap-3 text-sm font-semibold">
-          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{ $t('footer.follow') }}</span>
+          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
+            $t('footer.follow')
+          }}</span>
           <span class="inline-flex items-center gap-2 text-white/85">
             <i class="pi pi-facebook"></i>
             Facebook

@@ -86,7 +86,7 @@
     "brandTagline": "Adoption féline",
     "location": "Lyon et sa région",
     "association": "Association",
-    "support": "Soutenir"
+    "support": "Faire un don"
   },
   "footer": {
     "tagline": "Association loi 1901 — protection animale à Lyon et alentours.",
@@ -186,42 +186,34 @@
     }
   },
   "donate": {
-    "eyebrowHero": "Don et soutien",
-    "heroText": "Un don utile finance les soins, les prises en charge et les urgences qui rendent possible l’adoption de chat à Lyon et dans les alentours. Ici, le message doit être simple : l’argent sert directement à protéger des chats et à préparer leur accueil.",
+    "eyebrowHero": "Faire un don",
+    "heroText": "Sans Croquettes Fixes est une association 100% bénévole : chaque don sert directement à soigner et protéger les chats les plus fragiles.",
     "donateOnHelloAsso": "Faire un don sur HelloAsso",
-    "eyebrowImpact": "Impact visible",
-    "impactText": "Un don ne finance pas seulement un besoin technique. Il permet de garder un chat en sécurité pendant le temps nécessaire pour trouver la bonne famille à Lyon ou dans la région lyonnaise.",
-    "tiers": {
-      "small": {
-        "amount": "15 EUR",
-        "title": "Petit coup de pouce",
-        "text": "Contribue à la nourriture, à la litière et aux besoins de base d’un accueil temporaire."
-      },
-      "medium": {
-        "amount": "45 EUR",
-        "title": "Soin courant",
-        "text": "Participe à une consultation, à des premiers traitements ou à une identification."
-      },
-      "large": {
-        "amount": "90 EUR",
-        "title": "Urgence mieux absorbée",
-        "text": "Aide à lisser un acte vétérinaire plus lourd et à garder une marge d’action."
-      }
+    "amounts": {
+      "title": "Choisissez un montant",
+      "other": "Autre"
     },
-    "eyebrowHelp": "Où va l’aide",
-    "help": {
+    "usesOfFunds": {
+      "title": "À quoi servent vos dons ?",
       "vet": {
         "title": "Soins vétérinaires",
-        "text": "Consultations, traitements, stérilisation, examens et suivis avant adoption."
+        "text": "Consultations, opérations, traitements."
       },
-      "supplies": {
-        "title": "Matériel et nourriture",
-        "text": "Litière, alimentation, caisses, produits d’hygiène et petits équipements utiles."
+      "food": {
+        "title": "Croquettes",
+        "text": "Distribution gratuite chaque semaine."
       },
-      "emergency": {
-        "title": "Urgences de terrain",
-        "text": "Souplesse financière pour agir vite lorsqu’une situation se dégrade."
+      "sterilization": {
+        "title": "Stérilisations",
+        "text": "Campagnes avec les communes."
+      },
+      "sanctuary": {
+        "title": "Les félins de l'ombre",
+        "text": "Un lieu de vie pour les chats oubliés."
       }
+    },
+    "otherWays": {
+      "title": "D'autres façons d'aider"
     },
     "eyebrowMaterial": "Dons matériels",
     "materialTitle": "Autre façon d’aider",

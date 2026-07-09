@@ -17,11 +17,15 @@ onMounted(() => {
 
 <template>
   <div class="sticky top-0 z-10 w-full border-b border-[var(--scf-line)] bg-[var(--scf-bg)]">
-    <div class="page-shell flex w-full flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between">
+    <div
+      class="page-shell flex w-full flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between"
+    >
       <div class="flex items-center gap-3">
         <button class="flex items-center gap-2" @click="router.push({ name: RouteNames.HOME })">
           <img :src="Logo" width="40" :alt="$t('nav.brand')" class="shrink-0" />
-          <span class="display-font text-lg font-semibold text-[var(--scf-ink)]">{{ $t('nav.brand') }}</span>
+          <span class="display-font text-lg font-semibold text-[var(--scf-ink)]">{{
+            $t('nav.brand')
+          }}</span>
         </button>
         <div class="hidden items-center gap-2 text-xs text-[var(--scf-muted)] lg:flex">
           <i class="pi pi-map-marker text-[var(--scf-accent)]"></i>
