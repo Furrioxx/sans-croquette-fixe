@@ -1,16 +1,11 @@
 <script setup lang="ts">
-import AdoptionRequestForm from '@/components/Forms/AdoptionRequestForm.vue'
-import {
-  createAdoptionRequestFormFromRequest,
-  createEmptyAdoptionRequestForm,
-  type AdoptionRequest,
-  type AdoptionRequestFormValues,
-} from '@/models/AdoptionRequest'
+import AdoptionRequestDetailsModal from '@/components/Modals/AdoptionRequestDetailsModal.vue'
+import type { AdoptionRequest } from '@/models/AdoptionRequest'
 import { RouteNames } from '@/router/routeNames'
 import { AdoptionRequestService } from '@/services/adoptionRequestService'
 import notificationService from '@/services/notificationService'
 import { DateUtils } from '@/utils/dateUtils'
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -19,7 +14,6 @@ const loading = ref(false)
 const dialogVisible = ref(false)
 const requests = ref<AdoptionRequest[]>([])
 const selectedRequest = ref<AdoptionRequest | null>(null)
-const form = reactive<AdoptionRequestFormValues>(createEmptyAdoptionRequestForm())
 
 const sortedRequests = computed(() =>
   [...requests.value].sort(
@@ -75,7 +69,6 @@ const openRequestDialog = async (documentId: string) => {
     loading.value = true
     const response = await AdoptionRequestService.getAdoptionRequest(documentId)
     selectedRequest.value = response.data.data
-    Object.assign(form, createAdoptionRequestFormFromRequest(response.data.data))
     dialogVisible.value = true
   } catch {
     notificationService.showError(t('error'), t('adoptionRequest.user.detailError'))
@@ -87,7 +80,6 @@ const openRequestDialog = async (documentId: string) => {
 const closeDialog = () => {
   dialogVisible.value = false
   selectedRequest.value = null
-  Object.assign(form, createEmptyAdoptionRequestForm())
 }
 
 onMounted(loadRequests)
@@ -192,43 +184,10 @@ onMounted(loadRequests)
       </div>
     </div>
 
-    <Dialog
-      v-model:visible="dialogVisible"
-      modal
-      :header="$t('adoptionRequest.user.detailTitle')"
-      :style="{ width: '70rem' }"
-    >
-      <template #header>
-        <div class="flex w-full flex-col gap-1 pr-4">
-          <span class="text-lg font-semibold text-surface-900 dark:text-surface-50">
-            {{ $t('adoptionRequest.user.detailTitle') }}
-          </span>
-          <span v-if="selectedRequest" class="text-sm text-surface-500 dark:text-surface-400">
-            {{ getAnimalLabel(selectedRequest) }}
-          </span>
-        </div>
-      </template>
-
-      <div
-        v-if="selectedRequest"
-        class="mb-4 flex flex-col gap-3 rounded-xl bg-surface-50 p-4 text-sm text-surface-600 dark:bg-surface-900 dark:text-surface-300"
-      >
-        <div class="flex items-center justify-between gap-4">
-          <span>{{ $t('adoptionRequest.user.currentStatus') }}</span>
-          <Tag
-            rounded
-            :value="statusLabel(selectedRequest.processingStatus)"
-            :severity="statusSeverity(selectedRequest.processingStatus)"
-          />
-        </div>
-        <span>{{ $t('adoptionRequest.user.lastUpdate', { date: DateUtils.formatDate(selectedRequest.updatedAt) }) }}</span>
-      </div>
-
-      <AdoptionRequestForm v-model="form" :disabled="true" :showStatus="true" />
-
-      <template #footer>
-        <Button :label="$t('cancel')" text @click="closeDialog" />
-      </template>
-    </Dialog>
+    <AdoptionRequestDetailsModal
+      :visible="dialogVisible"
+      :request="selectedRequest"
+      @update:visible="closeDialog"
+    />
   </div>
 </template>
