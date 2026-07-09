@@ -34,8 +34,7 @@ body {
   background:
     radial-gradient(circle at top left, rgba(252, 118, 118, 0.16) 0, transparent 32%),
     radial-gradient(circle at 85% 0%, rgba(155, 139, 201, 0.16) 0, transparent 28%),
-    radial-gradient(circle at 20% 80%, rgba(62, 69, 96, 0.1) 0, transparent 24%),
-    var(--scf-bg);
+    radial-gradient(circle at 20% 80%, rgba(62, 69, 96, 0.1) 0, transparent 24%), var(--scf-bg);
   color: var(--scf-text);
   font-family: 'Quicksand', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
@@ -128,27 +127,57 @@ h3,
 }
 
 .hero-home-gradient {
-  background: linear-gradient(135deg, rgba(252, 118, 118, 0.16), rgba(255, 255, 255, 0.92) 46%, rgba(155, 139, 201, 0.16));
+  background: linear-gradient(
+    135deg,
+    rgba(252, 118, 118, 0.16),
+    rgba(255, 255, 255, 0.92) 46%,
+    rgba(155, 139, 201, 0.16)
+  );
 }
 
 .hero-about-gradient {
-  background: linear-gradient(135deg, rgba(155, 139, 201, 0.18), rgba(255, 255, 255, 0.92) 42%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(155, 139, 201, 0.18),
+    rgba(255, 255, 255, 0.92) 42%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .hero-donate-gradient {
-  background: linear-gradient(135deg, rgba(62, 69, 96, 0.12), rgba(255, 255, 255, 0.94) 40%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 69, 96, 0.12),
+    rgba(255, 255, 255, 0.94) 40%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .cat-accent-primary {
-  background: linear-gradient(135deg, rgba(252, 118, 118, 0.2), rgba(255, 255, 255, 0.8) 58%, rgba(155, 139, 201, 0.18));
+  background: linear-gradient(
+    135deg,
+    rgba(252, 118, 118, 0.2),
+    rgba(255, 255, 255, 0.8) 58%,
+    rgba(155, 139, 201, 0.18)
+  );
 }
 
 .cat-accent-secondary {
-  background: linear-gradient(135deg, rgba(155, 139, 201, 0.22), rgba(255, 255, 255, 0.8) 58%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(155, 139, 201, 0.22),
+    rgba(255, 255, 255, 0.8) 58%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .cat-accent-tertiary {
-  background: linear-gradient(135deg, rgba(62, 69, 96, 0.16), rgba(255, 255, 255, 0.82) 58%, rgba(155, 139, 201, 0.16));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 69, 96, 0.16),
+    rgba(255, 255, 255, 0.82) 58%,
+    rgba(155, 139, 201, 0.16)
+  );
 }
 
 .cat-photo {
@@ -239,11 +268,7 @@ h3,
 @layer base {
   body {
     @apply bg-[#fcfaf6] text-slate-900;
-    font-family:
-      'Avenir Next',
-      'Segoe UI',
-      system-ui,
-      sans-serif;
+    font-family: 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
   }
 }
 
