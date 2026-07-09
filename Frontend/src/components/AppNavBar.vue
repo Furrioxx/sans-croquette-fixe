@@ -69,24 +69,22 @@ onMounted(() => {
 
         <Button
           as="router-link"
-          :to="RouteNames.ABOUT_US"
+          :to="{ name: RouteNames.ABOUT_US }"
           :label="$t('nav.association')"
-          size="small"
           text
           severity="secondary"
         />
         <Button
           as="router-link"
-          :to="RouteNames.DONATE"
+          :to="{ name: RouteNames.DONATE }"
           :label="$t('nav.support')"
-          size="small"
           rounded
           class="!bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
         />
         <Button
           v-if="!authStore.isConnected"
           as="router-link"
-          :to="RouteNames.LOGIN"
+          :to="{ name: RouteNames.LOGIN }"
           :label="$t('login')"
           size="small"
           outlined

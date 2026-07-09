@@ -254,7 +254,7 @@ onMounted(async () => {
           </p>
           <Button
             as="router-link"
-            :to="RouteNames.DONATE"
+            :to="{ name: RouteNames.DONATE }"
             :label="$t('home.sanctuary.cta')"
             icon="pi pi-heart-fill"
             rounded
@@ -299,7 +299,7 @@ onMounted(async () => {
           </p>
           <Button
             as="router-link"
-            :to="RouteNames.ABOUT_US"
+            :to="{ name: RouteNames.ABOUT_US }"
             :label="$t('home.story.cta')"
             icon="pi pi-arrow-right"
             iconPos="right"

@@ -25,7 +25,7 @@ import Logo from '@/assets/Logo.png'
           <router-link :to="{ name: RouteNames.ADOPT }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.adopt') }}
           </router-link>
-          <router-link :to="RouteNames.ABOUT_US" class="text-white/85 hover:text-white">
+          <router-link :to="{ name: RouteNames.ABOUT_US }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.about') }}
           </router-link>
         </div>
