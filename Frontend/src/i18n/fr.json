@@ -499,6 +499,26 @@
       "cta": "Voir Facebook"
     }
   },
+  "adoptDetail": {
+    "fromTheFoster": "Le mot de la famille d'accueil",
+    "healthLabel": "Mise en règle",
+    "compatLabel": "Ententes",
+    "birthLabel": "Naissance",
+    "adoptionFee": "Frais d'adoption",
+    "adoptCta": "Je veux adopter {name}",
+    "askQuestion": "Poser une question",
+    "otherCats": "D'autres chats à l'adoption",
+    "getsAlongCats": "S'entend avec les chats",
+    "doesNotKnowCats": "Ne connaît pas les chats",
+    "getsAlongDogs": "S'entend avec les chiens",
+    "doesNotKnowDogs": "Ne connaît pas les chiens",
+    "getsAlongChildren": "S'entend avec les enfants",
+    "doesNotKnowChildren": "Ne connaît pas les enfants",
+    "getAlongWithEveryone": "S'entendent avec tout le monde",
+    "groupAdoptionOnly": "Adoption groupée uniquement",
+    "whyTogether": "Pourquoi les adopter ensemble ?",
+    "adoptionFeeBoth": "Frais d'adoption (les 2)"
+  },
   "adoptionRequest": {
     "title": "Formulaire d'adoption",
     "subtitle": "Complétez ce formulaire pour soumettre votre demande d'adoption.",
