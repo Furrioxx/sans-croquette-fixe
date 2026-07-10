@@ -2,6 +2,7 @@ export const enum RouteNames {
   HOME = 'home',
   DONATE = 'donate',
   ABOUT_US = 'about-us',
+  FOOD_DISTRIBUTION = 'food-distribution',
   LOGIN = 'login',
   REGISTER = 'register',
   ADOPT = 'adopt',
