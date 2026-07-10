@@ -184,5 +184,22 @@ const practicalItems = [
     </article>
   </div>
 </section>
+
+<section class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left">
+  <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
+    {{ $t('distribution.supportText') }}
+  </p>
+
+  <Button
+    as="a"
+    :href="DONATION_URL"
+    target="_blank"
+    rel="noopener noreferrer"
+    :label="$t('distribution.supportCta')"
+    icon="pi pi-heart-fill"
+    severity="contrast"
+    rounded
+  />
+</section>
   </div>
 </template>
