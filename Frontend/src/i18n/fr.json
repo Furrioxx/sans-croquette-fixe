@@ -82,7 +82,53 @@
     "register": "Créer un compte",
     "registerFail": "L'inscription a échoué. Veuillez réessayer.",
     "loginFail": "La connexion a échoué. Veuillez vérifier vos identifiants.",
-    "rememberMe": "Se souvenir de moi"
+    "rememberMe": "Se souvenir de moi",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "confirmPassword": "Retaper le mot de passe",
+    "passwordRulesError": "Le mot de passe ne respecte pas encore les critères demandés.",
+    "login-eyebrow": "Adoption responsable",
+    "login-hero-text": "Retrouvez votre espace pour suivre vos demandes et avancer sereinement vers l'adoption d'un chat.",
+    "login-photo-alt": "Chat paisible de l'association",
+    "login-photo-title": "Revenir en douceur",
+    "login-photo-text": "Un espace simple pour reprendre vos démarches et garder le lien avec l'association.",
+    "login-card-kicker": "Connexion",
+    "login-card-title": "Heureux de vous revoir",
+    "login-card-text": "Connectez-vous pour continuer votre parcours d'adoption.",
+    "login-highlights": {
+      "follow": {
+        "value": "Suivi clair",
+        "label": "Retrouvez rapidement vos demandes et vos échanges."
+      },
+      "message": {
+        "value": "Accès rapide",
+        "label": "Reprenez là où vous vous étiez arrêté."
+      }
+    },
+    "register-eyebrow": "Commencer une rencontre",
+    "register-hero-text": "Créez votre espace adoptant en quelques champs pour découvrir les chats et envoyer une demande.",
+    "register-photo-alt": "Chat curieux de l'association",
+    "register-photo-title": "Un compte, puis l'aventure commence",
+    "register-photo-text": "Créez votre accès pour suivre plus facilement vos coups de coeur et vos échanges.",
+    "register-card-kicker": "Inscription",
+    "register-card-title": "Créer un espace adoptant",
+    "register-card-text": "Quelques informations suffisent pour commencer.",
+    "register-highlights": {
+      "simple": {
+        "value": "Simple",
+        "label": "Seulement les informations utiles pour commencer."
+      },
+      "adoption": {
+        "value": "Adoption",
+        "label": "Un accès pensé pour découvrir, aimer et suivre."
+      }
+    },
+    "passwordRules": {
+      "uppercase": "Au moins une majuscule",
+      "number": "Au moins un chiffre",
+      "special": "Au moins un caractère spécial",
+      "match": "Les deux mots de passe sont identiques"
+    }
   },
   "nav": {
     "brand": "Sans Croquettes Fixes",
