@@ -86,103 +86,111 @@ onMounted(loadRequests)
 </script>
 
 <template>
-  <div class="min-h-screen bg-surface-50 dark:bg-surface-900">
-    <div
-      class="bg-gradient-to-b from-primary-50 to-surface-50 px-4 pb-8 pt-12 text-center dark:from-primary-950/20 dark:to-surface-900"
-    >
-      <h1 class="text-4xl font-bold tracking-tight text-surface-800 dark:text-surface-50 sm:text-5xl">
-        {{ $t('adoptionRequest.user.title') }}
-      </h1>
-      <p class="mt-3 text-lg text-surface-500 dark:text-surface-400">
-        {{ $t('adoptionRequest.user.subtitle') }}
-      </p>
-    </div>
-
-    <div class="mx-auto max-w-5xl px-4 pb-16 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between py-5">
-        <Button
-          as="router-link"
-          :to="{ name: RouteNames.ADOPT }"
-          :label="$t('adoptionRequest.user.backToAdopt')"
-          icon="pi pi-arrow-left"
-          severity="secondary"
-          outlined
-          size="small"
-        />
-      </div>
-
-      <section class="rounded-2xl border border-surface-200 bg-white p-5 shadow-sm dark:border-surface-700 dark:bg-surface-800">
-        <p class="text-sm leading-relaxed text-surface-600 dark:text-surface-300">
-          {{ $t('adoptionRequest.user.helper') }}
-        </p>
-      </section>
-
-      <div v-if="loading" class="mt-6 space-y-4">
-        <div
-          v-for="index in 3"
-          :key="index"
-          class="rounded-2xl border border-surface-200 bg-white p-6 shadow-sm dark:border-surface-700 dark:bg-surface-800"
-        >
-          <div class="animate-pulse space-y-4">
-            <div class="h-5 w-1/3 rounded bg-surface-200 dark:bg-surface-700"></div>
-            <div class="h-4 w-1/4 rounded bg-surface-100 dark:bg-surface-600"></div>
-            <div class="h-10 w-32 rounded bg-surface-100 dark:bg-surface-600"></div>
-          </div>
-        </div>
-      </div>
-
+  <div class="flex w-full flex-col">
+    <!-- HERO -->
+    <section class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 md:px-[60px] md:pb-14">
       <div
-        v-else-if="sortedRequests.length === 0"
-        class="mt-6 flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-surface-300 bg-white px-6 py-16 text-center dark:border-surface-700 dark:bg-surface-800"
-      >
-        <div class="flex h-20 w-20 items-center justify-center rounded-full bg-primary-50 dark:bg-primary-900/20">
-          <i class="pi pi-inbox text-3xl text-primary-300 dark:text-primary-600"></i>
-        </div>
-        <h2 class="text-xl font-semibold text-surface-700 dark:text-surface-200">
-          {{ $t('adoptionRequest.user.emptyTitle') }}
-        </h2>
-        <p class="max-w-md text-sm text-surface-500 dark:text-surface-400">
-          {{ $t('adoptionRequest.user.emptySubtitle') }}
+        class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
+      ></div>
+      <div class="page-shell relative max-w-2xl space-y-5">
+        <span class="eyebrow">{{ $t('adoptionRequest.user.navLink') }}</span>
+        <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
+          {{ $t('adoptionRequest.user.title') }}
+        </h1>
+        <p class="max-w-xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
+          {{ $t('adoptionRequest.user.subtitle') }}
         </p>
       </div>
+    </section>
 
-      <div v-else class="mt-6 space-y-4">
-        <article
-          v-for="request in sortedRequests"
-          :key="request.documentId"
-          class="rounded-2xl border border-surface-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md dark:border-surface-700 dark:bg-surface-800"
-        >
-          <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div class="space-y-2">
-              <h2 class="text-xl font-semibold text-surface-900 dark:text-surface-50">
-                {{ getAnimalLabel(request) }}
-              </h2>
-              <p class="text-sm text-surface-500 dark:text-surface-400">
-                {{ $t('adoptionRequest.user.submittedAt', { date: DateUtils.formatDate(request.createdAt) }) }}
-              </p>
-              <p class="text-sm text-surface-500 dark:text-surface-400">
-                {{ $t('adoptionRequest.user.requester', { name: `${request.firstName} ${request.lastName}` }) }}
-              </p>
-            </div>
+    <!-- LIST -->
+    <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
+      <div class="page-shell">
+        <div class="flex items-center justify-between py-6">
+          <Button
+            as="router-link"
+            :to="{ name: RouteNames.ADOPT }"
+            :label="$t('adoptionRequest.user.backToAdopt')"
+            icon="pi pi-arrow-left"
+            rounded
+            outlined
+            severity="secondary"
+            size="small"
+            class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
+          />
+        </div>
 
-            <div class="flex flex-col items-start gap-3 md:items-end">
-              <Tag
-                rounded
-                :value="statusLabel(request.processingStatus)"
-                :severity="statusSeverity(request.processingStatus)"
-              />
-              <Button
-                :label="$t('adoptionRequest.user.openDetail')"
-                icon="pi pi-eye"
-                outlined
-                size="small"
-                @click="openRequestDialog(request.documentId)"
-              />
+        <section class="rounded-[26px] bg-white p-6">
+          <p class="text-sm leading-relaxed text-[var(--scf-text)]">
+            {{ $t('adoptionRequest.user.helper') }}
+          </p>
+        </section>
+
+        <div v-if="loading" class="mt-6 space-y-4">
+          <div v-for="index in 3" :key="index" class="rounded-[26px] bg-white p-6">
+            <div class="animate-pulse space-y-4">
+              <div class="h-5 w-1/3 rounded bg-[var(--scf-bg)]"></div>
+              <div class="h-4 w-1/4 rounded bg-[var(--scf-bg)]"></div>
+              <div class="h-10 w-32 rounded bg-[var(--scf-bg)]"></div>
             </div>
           </div>
-        </article>
+        </div>
+
+        <div
+          v-else-if="sortedRequests.length === 0"
+          class="mt-6 flex flex-col items-center justify-center gap-4 rounded-[26px] border border-dashed border-[var(--scf-line)] bg-white px-6 py-16 text-center"
+        >
+          <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--scf-accent-soft)]">
+            <i class="pi pi-inbox text-3xl text-[var(--scf-accent-dark)]"></i>
+          </div>
+          <h2 class="display-font text-xl font-semibold text-[var(--scf-ink)]">
+            {{ $t('adoptionRequest.user.emptyTitle') }}
+          </h2>
+          <p class="max-w-md text-sm text-[var(--scf-muted)]">
+            {{ $t('adoptionRequest.user.emptySubtitle') }}
+          </p>
+        </div>
+
+        <div v-else class="mt-6 space-y-4">
+          <article
+            v-for="request in sortedRequests"
+            :key="request.documentId"
+            class="rounded-[26px] bg-white p-6 transition-shadow hover:shadow-md"
+          >
+            <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+              <div class="space-y-2">
+                <h2 class="display-font text-xl font-semibold text-[var(--scf-ink)]">
+                  {{ getAnimalLabel(request) }}
+                </h2>
+                <p class="text-sm text-[var(--scf-muted)]">
+                  {{ $t('adoptionRequest.user.submittedAt', { date: DateUtils.formatDate(request.createdAt) }) }}
+                </p>
+                <p class="text-sm text-[var(--scf-muted)]">
+                  {{ $t('adoptionRequest.user.requester', { name: `${request.firstName} ${request.lastName}` }) }}
+                </p>
+              </div>
+
+              <div class="flex flex-col items-start gap-3 md:items-end">
+                <Tag
+                  rounded
+                  :value="statusLabel(request.processingStatus)"
+                  :severity="statusSeverity(request.processingStatus)"
+                />
+                <Button
+                  :label="$t('adoptionRequest.user.openDetail')"
+                  icon="pi pi-eye"
+                  rounded
+                  outlined
+                  size="small"
+                  class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
+                  @click="openRequestDialog(request.documentId)"
+                />
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
-    </div>
+    </section>
 
     <AdoptionRequestDetailsModal
       :visible="dialogVisible"

@@ -237,53 +237,88 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-surface-50 py-10">
-    <div class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-      <div v-if="loading" class="rounded-2xl bg-white p-8 shadow-sm">
-        <i class="pi pi-spin pi-spinner mr-2"></i>{{ $t('adoptionRequest.loading') }}
+  <div class="flex w-full flex-col">
+    <template v-if="loading">
+      <div class="w-full animate-pulse bg-[var(--scf-bg)] px-6 py-10 md:px-[60px]">
+        <div class="page-shell space-y-4 rounded-[26px] bg-white p-9">
+          <div class="h-6 w-1/3 rounded bg-[var(--scf-bg)]"></div>
+          <div class="h-4 rounded bg-[var(--scf-bg)]"></div>
+          <div class="h-4 w-5/6 rounded bg-[var(--scf-bg)]"></div>
+        </div>
+      </div>
+    </template>
+
+    <template v-else>
+      <!-- BREADCRUMB -->
+      <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+        <nav class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]">
+          <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
+            $t('footer.links.home')
+          }}</router-link>
+          <span>/</span>
+          <router-link :to="{ name: RouteNames.ADOPT }" class="hover:text-[var(--scf-ink)]">{{
+            $t('adopt.nav-link')
+          }}</router-link>
+          <span>/</span>
+          <router-link
+            :to="{ name: RouteNames.ADOPT_DETAIL, params: { documentId } }"
+            class="hover:text-[var(--scf-ink)]"
+            >{{ catNames }}</router-link
+          >
+          <span>/</span>
+          <span class="text-[var(--scf-ink)]">{{ $t('adoptionRequest.title') }}</span>
+        </nav>
       </div>
 
-      <template v-else>
-        <section class="mb-6 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-surface-100">
-          <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p class="text-sm font-medium uppercase tracking-wide text-primary-600">
-                {{ $t('adoptionRequest.title') }}
-              </p>
-              <h1 class="text-2xl font-bold text-surface-900">
-                {{ catNames }}
-              </h1>
-              <p class="mt-2 text-sm text-surface-500">
-                {{ $t('adoptionRequest.subtitle') }}
-              </p>
-            </div>
-            <Button
-              :label="$t('back')"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              outlined
-              @click="router.push({ name: RouteNames.ADOPT_DETAIL, params: { documentId } })"
-            />
+      <!-- HEADER -->
+      <section class="w-full bg-[var(--scf-bg)] px-6 pb-8 pt-4 md:px-[60px]">
+        <div class="page-shell flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div class="space-y-3">
+            <span class="eyebrow">{{ $t('adoptionRequest.title') }}</span>
+            <h1 class="display-font text-3xl font-semibold leading-tight md:text-5xl">
+              {{ catNames }}
+            </h1>
+            <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
+              {{ $t('adoptionRequest.subtitle') }}
+            </p>
           </div>
-        </section>
-
-        <AdoptionRequestForm v-model="form" :errors="errors" />
-
-        <div class="mt-6 flex justify-end gap-3">
           <Button
-            :label="$t('cancel')"
-            severity="secondary"
+            :label="$t('back')"
+            icon="pi pi-arrow-left"
+            rounded
             outlined
+            severity="secondary"
+            class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
             @click="router.push({ name: RouteNames.ADOPT_DETAIL, params: { documentId } })"
           />
-          <Button
-            :label="$t('adoptionRequest.submit')"
-            icon="pi pi-send"
-            :loading="submitting"
-            @click="submit"
-          />
         </div>
-      </template>
-    </div>
+      </section>
+
+      <!-- FORM -->
+      <section class="w-full bg-white px-6 py-12 md:px-[60px]">
+        <div class="page-shell">
+          <AdoptionRequestForm v-model="form" :errors="errors" />
+
+          <div class="mt-8 flex justify-end gap-3">
+            <Button
+              :label="$t('cancel')"
+              rounded
+              outlined
+              severity="secondary"
+              class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
+              @click="router.push({ name: RouteNames.ADOPT_DETAIL, params: { documentId } })"
+            />
+            <Button
+              :label="$t('adoptionRequest.submit')"
+              icon="pi pi-send"
+              rounded
+              :loading="submitting"
+              class="!bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
+              @click="submit"
+            />
+          </div>
+        </div>
+      </section>
+    </template>
   </div>
 </template>
