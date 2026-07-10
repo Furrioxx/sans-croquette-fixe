@@ -157,7 +157,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
               <span class="text-sm">{{ $t('no-photo') }}</span>
             </div>
           </div>
-          <div v-if="images.length > 1" class="grid grid-cols-3 gap-3">
+          <div v-if="images.length > 1" class="grid grid-cols-2 gap-3 sm:grid-cols-3">
             <button
               v-for="(image, index) in images.slice(0, 3)"
               :key="image.id"
@@ -197,7 +197,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
         </div>
 
         <!-- INFO PANEL -->
-        <div class="rounded-[26px] bg-white p-9 lg:sticky lg:top-24">
+        <div class="rounded-[26px] bg-white p-5 sm:p-7 lg:sticky lg:top-24 lg:p-9">
           <span
             class="mb-3 inline-block rounded-full bg-[var(--scf-accent-soft)] px-3.5 py-1.5 text-xs font-bold uppercase tracking-wide text-[var(--scf-accent-dark)]"
           >
@@ -260,7 +260,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
             </div>
           </div>
 
-          <div v-if="compatSummary" class="mb-7 flex justify-between gap-4">
+          <div v-if="compatSummary" class="detail-info-row mb-7">
             <span class="text-sm font-semibold text-[var(--scf-muted)]">{{
               $t('adoptDetail.compatLabel')
             }}</span>
@@ -312,7 +312,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
         <h2 class="display-font text-2xl font-semibold text-[var(--scf-ink)] md:text-3xl">
           {{ $t('adoptDetail.otherCats') }}
         </h2>
-        <div class="grid gap-5 sm:grid-cols-3">
+        <div class="detail-related-grid">
           <CatSheetCard
             v-for="related in relatedCats"
             :key="related.documentId"

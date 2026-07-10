@@ -172,7 +172,7 @@ const onPageChange = (event: { page: number }) => {
           </h2>
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-sm text-[var(--scf-muted)]">{{
               $t('blog.results', { n: totalRecords })
@@ -185,7 +185,7 @@ const onPageChange = (event: { page: number }) => {
             </span>
           </div>
 
-          <div class="flex flex-wrap gap-3">
+          <div class="responsive-filter-controls">
             <SearchInputTextComponent
               :placeholder="$t('blog.search')"
               :value="search"

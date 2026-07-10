@@ -106,7 +106,7 @@ onMounted(loadRequests)
     <!-- LIST -->
     <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
       <div class="page-shell">
-        <div class="flex items-center justify-between py-6">
+        <div class="py-6">
           <Button
             as="router-link"
             :to="{ name: RouteNames.ADOPT }"
@@ -116,7 +116,7 @@ onMounted(loadRequests)
             outlined
             severity="secondary"
             size="small"
-            class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
+            class="w-full !border-[var(--scf-line)] !text-[var(--scf-ink)] sm:w-auto"
           />
         </div>
 

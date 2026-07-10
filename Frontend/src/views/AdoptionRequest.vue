@@ -272,7 +272,7 @@ onMounted(async () => {
 
       <!-- HEADER -->
       <section class="w-full bg-[var(--scf-bg)] px-6 pb-8 pt-4 md:px-[60px]">
-        <div class="page-shell flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div class="page-shell responsive-split-header">
           <div class="space-y-3">
             <span class="eyebrow">{{ $t('adoptionRequest.title') }}</span>
             <h1 class="display-font text-3xl font-semibold leading-tight md:text-5xl">
@@ -299,7 +299,7 @@ onMounted(async () => {
         <div class="page-shell">
           <AdoptionRequestForm v-model="form" :errors="errors" />
 
-          <div class="mt-8 flex justify-end gap-3">
+          <div class="responsive-actions mt-8 md:justify-end">
             <Button
               :label="$t('cancel')"
               rounded

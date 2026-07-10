@@ -100,7 +100,7 @@ onMounted(async () => {
           </p>
         </div>
 
-        <div class="flex flex-wrap gap-3">
+        <div class="responsive-actions">
           <Button
             :label="$t('home.adoptCat')"
             icon="pi pi-heart-fill"
@@ -181,7 +181,7 @@ onMounted(async () => {
     <!-- ADOPTABLE CATS -->
     <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
       <div class="page-shell space-y-8">
-        <div class="flex items-end justify-between gap-4">
+        <div class="responsive-split-header">
           <div class="space-y-2">
             <span class="eyebrow">{{ $t('home.eyebrowAdopt') }}</span>
             <h2 class="display-font text-3xl font-semibold md:text-4xl">

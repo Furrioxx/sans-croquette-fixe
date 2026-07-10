@@ -241,7 +241,7 @@ onUnmounted(() => {
         </Transition>
 
         <!-- Swipe stack -->
-        <div class="relative h-[520px]">
+        <div class="discover-deck relative">
           <template v-if="deck.length">
             <TinderCard
               v-for="(card, i) in [...nextCards].reverse()"
@@ -304,17 +304,17 @@ onUnmounted(() => {
         </div>
 
         <!-- Action buttons -->
-        <div v-if="currentCard" class="mt-8 flex items-center justify-center gap-6">
+        <div v-if="currentCard" class="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <button
             :aria-label="$t('discover.pass')"
-            class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-red-500 transition-transform hover:scale-105"
+            class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl text-red-500 transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
             @click="topCardRef?.triggerPass()"
           >
             <i class="pi pi-times"></i>
           </button>
           <button
             :aria-label="$t('discover.like')"
-            class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl text-[var(--scf-accent)] transition-transform hover:scale-105"
+            class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl text-[var(--scf-accent)] transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
             @click="topCardRef?.triggerLike()"
           >
             <i class="pi pi-heart-fill"></i>

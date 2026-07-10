@@ -14,7 +14,7 @@ import Logo from '@/assets/Logo.png'
         <p class="text-sm leading-6 text-white/70">{{ $t('footer.tagline') }}</p>
       </div>
 
-      <div class="flex flex-wrap gap-12">
+      <div class="responsive-footer-links">
         <div class="flex flex-col gap-3 text-sm font-semibold">
           <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
             $t('footer.navigation')
