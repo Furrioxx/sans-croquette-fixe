@@ -45,6 +45,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     InputTextWithLabel: typeof import('./src/components/Forms/elements/InputTextWithLabel.vue')['default']
     LoginFormComponent: typeof import('./src/components/Forms/Auth/LoginFormComponent.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     Message: typeof import('primevue/message')['default']
     MultiSelect: typeof import('primevue/multiselect')['default']
     MultiSelectWithLabel: typeof import('./src/components/Forms/elements/MultiSelectWithLabel.vue')['default']
