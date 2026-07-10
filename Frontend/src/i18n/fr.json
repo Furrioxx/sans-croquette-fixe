@@ -55,10 +55,10 @@
     "discover": "Trouver votre chat",
     "blog": "Blog",
     "blog-detail": "Article",
-    "dashboard": "Tableau de bord",
+    "dashboard": "Administration",
     "dashboard-users": "Utilisateurs",
     "dashboard-settings": "Paramètres",
-    "dashboard-analytics": "Analytics",
+    "dashboard-analytics": "Statistiques",
     "dashboard-cats": "Fiches chat",
     "dashboard-absences": "Absences",
     "dashboard-blog": "Blog",
@@ -274,9 +274,12 @@
     }
   },
   "admin": {
+    "space-title": "Espace d'administration",
+    "go-to-site": "Voir le site",
     "nav": {
-      "dashboard": "Tableau de bord",
-      "analytics": "Analytics",
+      "dashboard": "Vue d'ensemble",
+      "analytics": "Statistiques",
+      "access": "Gérer le site",
       "users": "Utilisateurs",
       "absences": "Absences",
       "adoptionRequests": "Demandes d'adoption",

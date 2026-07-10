@@ -61,10 +61,9 @@ const items = computed(() => [
 
 <template>
   <div class="w-full h-screen flex overflow-hidden">
-    <!-- Sidebar -->
     <aside class="h-full w-64 bg-white border-r border-gray-200 flex flex-col">
       <div class="h-16 flex items-center px-6 border-b border-gray-100">
-        <span class="text-xl font-semibold text-gray-800"> Mon Dashboard </span>
+        <span class="text-xl font-semibold text-gray-800">{{ $t('admin.space-title') }}</span>
       </div>
 
       <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -85,6 +84,13 @@ const items = computed(() => [
       </nav>
 
       <div class="p-4 border-t border-gray-100">
+        <Button
+          :label="$t('admin.go-to-site')"
+          icon="pi pi-external-link"
+          class="w-full mb-2"
+          outlined
+          @click="router.push({ name: RouteNames.HOME })"
+        />
         <Button
           :label="$t('logout')"
           icon="pi pi-sign-out"

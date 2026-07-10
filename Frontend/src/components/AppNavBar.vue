@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouteNames } from '@/router/routeNames'
+import { Roles } from '@/router/Roles'
 import { useRouter } from 'vue-router'
 import { useDarkModeStore } from '@/stores/darkmode'
 import { computed, onMounted, ref } from 'vue'
@@ -11,6 +12,9 @@ const router = useRouter()
 const darkModeStore = useDarkModeStore()
 const authStore = useAuthStore()
 const { t } = useI18n()
+const canAccessAdmin = computed(() =>
+  [Roles.ADMIN, Roles.VOLUNTEER].includes(authStore.getUserRole as Roles),
+)
 
 onMounted(() => {
   darkModeStore.initDarkMode()
@@ -18,6 +22,16 @@ onMounted(() => {
 
 const userMenu = ref()
 const userMenuItems = computed(() => [
+  ...(canAccessAdmin.value
+    ? [
+        {
+          label: t('admin.nav.access'),
+          icon: 'pi pi-briefcase',
+          command: () => router.push({ name: RouteNames.DASHBOARD }),
+        },
+        { separator: true },
+      ]
+    : []),
   {
     label: t('adoptionRequest.user.navLink'),
     icon: 'pi pi-heart',
@@ -68,7 +82,7 @@ const logoutFromMobile = () => {
       </div>
 
       <!-- DESKTOP NAV -->
-      <div class="hidden items-center gap-2 lg:flex">
+      <div class="hidden items-center gap-2 lg:flex lg:flex-wrap lg:justify-end xl:flex-nowrap">
         <Button
           v-for="link in navLinks"
           :key="link.label"
@@ -83,7 +97,7 @@ const logoutFromMobile = () => {
           :to="{ name: RouteNames.DONATE }"
           :label="$t('nav.support')"
           rounded
-          class="!bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
+          class="whitespace-nowrap !bg-[var(--scf-accent)] !border-[var(--scf-accent)] px-1 shadow-[0_10px_24px_rgba(230,120,84,0.22)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
         />
         <Button
           v-if="!authStore.isConnected"
@@ -94,9 +108,18 @@ const logoutFromMobile = () => {
           outlined
         />
         <template v-else>
+          <Button
+            v-if="canAccessAdmin"
+            as="router-link"
+            :to="{ name: RouteNames.DASHBOARD }"
+            :label="$t('admin.nav.access')"
+            icon="pi pi-briefcase"
+            rounded
+            class="admin-access-btn whitespace-nowrap"
+          />
           <button
             type="button"
-            class="flex items-center gap-1.5 rounded-full bg-[var(--scf-bg-soft)] px-3 py-1.5 text-sm text-[var(--scf-text)]"
+            class="flex shrink-0 items-center gap-1.5 rounded-full bg-[var(--scf-bg-soft)] px-3 py-1.5 text-sm text-[var(--scf-text)]"
             @click="toggleUserMenu"
           >
             <i class="pi pi-user text-xs text-[var(--scf-accent-dark)]"></i>
@@ -151,6 +174,15 @@ const logoutFromMobile = () => {
             </router-link>
             <template v-else>
               <router-link
+                v-if="canAccessAdmin"
+                :to="{ name: RouteNames.DASHBOARD }"
+                class="flex items-center justify-center gap-2 rounded-2xl bg-[linear-gradient(135deg,var(--scf-accent-soft),#fff)] px-4 py-3 text-sm font-semibold text-[var(--scf-accent-dark)] ring-1 ring-[var(--scf-accent)]/20 transition-transform hover:-translate-y-0.5"
+                @click="closeMobileMenu"
+              >
+                <i class="pi pi-briefcase"></i>
+                {{ $t('admin.nav.access') }}
+              </router-link>
+              <router-link
                 :to="{ name: RouteNames.USER_ADOPTION_REQUESTS }"
                 class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--scf-text)] hover:bg-[var(--scf-bg-soft)]"
                 @click="closeMobileMenu"
@@ -175,6 +207,25 @@ const logoutFromMobile = () => {
 </template>
 
 <style scoped>
+.admin-access-btn {
+  border: 1px solid color-mix(in oklab, var(--scf-accent) 28%, white);
+  background:
+    radial-gradient(circle at top left, color-mix(in oklab, var(--scf-accent-soft) 88%, white), transparent 58%),
+    linear-gradient(135deg, white 0%, color-mix(in oklab, var(--scf-accent-soft) 62%, white) 100%);
+  color: var(--scf-accent-dark);
+  box-shadow: 0 12px 26px rgba(230, 120, 84, 0.12);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+.admin-access-btn:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--scf-accent) 50%, white);
+  box-shadow: 0 16px 28px rgba(230, 120, 84, 0.18);
+}
+
 .mobile-menu-enter-active,
 .mobile-menu-leave-active {
   transition: max-height 0.25s ease, opacity 0.2s ease;
