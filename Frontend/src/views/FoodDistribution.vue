@@ -118,5 +118,33 @@ const practicalItems = [
     </div>
   </div>
 </section>
+
+<section class="w-full bg-[var(--scf-accent-soft)] px-6 py-16 md:px-[60px]">
+  <div class="page-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+    <div
+      class="flex aspect-square max-w-sm items-center justify-center rounded-full bg-[var(--scf-accent)] text-white shadow-[var(--scf-shadow)]"
+    >
+      <i class="pi pi-shopping-bag text-6xl"></i>
+    </div>
+
+    <div class="space-y-4">
+      <span class="eyebrow">
+        {{ $t('distribution.storyEyebrow') }}
+      </span>
+
+      <h2 class="display-font text-3xl font-semibold md:text-4xl">
+        {{ $t('distribution.storyTitle') }}
+      </h2>
+
+      <p class="max-w-2xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
+        {{ $t('distribution.storyText1') }}
+      </p>
+
+      <p class="max-w-2xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
+        {{ $t('distribution.storyText2') }}
+      </p>
+    </div>
+  </div>
+</section>
   </div>
 </template>
