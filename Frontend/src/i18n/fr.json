@@ -497,6 +497,7 @@
     "birthLabel": "Naissance",
     "adoptionFee": "Frais d'adoption",
     "adoptCta": "Je veux adopter {name}",
+    "alreadyRequested": "Demande déjà envoyée",
     "askQuestion": "Poser une question",
     "otherCats": "D'autres chats à l'adoption",
     "getsAlongCats": "S'entend avec les chats",

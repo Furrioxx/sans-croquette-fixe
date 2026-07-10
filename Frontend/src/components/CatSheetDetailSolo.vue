@@ -9,16 +9,36 @@ import { isKitten } from '@/utils/catUtils'
 import { getCatImageUrl } from '@/utils/catImageUrl'
 import { useRelatedCatSheets } from '@/composables/useRelatedCatSheets'
 import CatSheetCard from '@/components/CatSheetCard.vue'
-import { computed, ref } from 'vue'
+import { AdoptionRequestService } from '@/services/adoptionRequestService'
+import { useAuthStore } from '@/stores/authentication'
+import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 const router = useRouter()
+const authStore = useAuthStore()
 
 const props = defineProps<{ catSheet: CatSheet }>()
 
 const cat = computed<Cat>(() => props.catSheet.cats[0]!)
+
+const hasExistingRequest = ref(false)
+
+watch(
+  () => props.catSheet.documentId,
+  async (documentId) => {
+    hasExistingRequest.value = false
+    if (!authStore.isConnected || !documentId) return
+    try {
+      const response = await AdoptionRequestService.getAdoptionRequestsForCatSheet(documentId)
+      hasExistingRequest.value = response.data.data.length > 0
+    } catch {
+      hasExistingRequest.value = false
+    }
+  },
+  { immediate: true },
+)
 
 const getImageUrl = getCatImageUrl
 
@@ -267,8 +287,9 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
           </div>
 
           <Button
-            :label="$t('adoptDetail.adoptCta', { name: cat.name })"
+            :label="hasExistingRequest ? $t('adoptDetail.alreadyRequested') : $t('adoptDetail.adoptCta', { name: cat.name })"
             rounded
+            :disabled="hasExistingRequest"
             class="mb-3 w-full !bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
             @click="
               router.push({
