@@ -8,6 +8,8 @@ import { CatSheetService } from '@/services/catSheetService'
 import type { CatSheet } from '@/models/CatSheet'
 import CatSheetCard from '@/components/CatSheetCard.vue'
 import { DONATION_URL } from '@/config/donation'
+import FelinOmbre from '@/assets/home/les-felins-de-lombre-scaled.jpg'
+import FelinAbandon from '@/assets/home/image-abandon.jpg'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
@@ -247,10 +249,9 @@ onMounted(async () => {
           />
         </div>
         <div
-          class="flex aspect-[4/3] w-full shrink-0 items-center justify-center rounded-[24px] bg-white/50 text-[var(--scf-muted)] md:w-80"
-        >
-          <i class="pi pi-image text-5xl"></i>
-        </div>
+          class="aspect-[4/3] w-full shrink-0 rounded-[24px] bg-cover bg-center md:w-80"
+          :style="{ backgroundImage: `url(${FelinOmbre})` }"
+        ></div>
       </div>
     </section>
 
@@ -268,10 +269,9 @@ onMounted(async () => {
     <section class="w-full bg-white px-6 py-16 md:px-[60px]">
       <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
         <div
-          class="flex aspect-square w-full shrink-0 items-center justify-center rounded-full bg-[var(--scf-bg)] text-[var(--scf-muted)] md:w-64"
-        >
-          <i class="pi pi-image text-5xl"></i>
-        </div>
+          class="flex aspect-square w-full shrink-0 bg-cover bg-center rounded-full md:w-64"
+          :style="{ backgroundImage: `url(${FelinAbandon})` }"
+        ></div>
         <div class="space-y-3">
           <span class="eyebrow">{{ $t('home.story.eyebrow') }}</span>
           <h2 class="display-font text-2xl font-semibold md:text-3xl">
