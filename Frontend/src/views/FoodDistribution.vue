@@ -4,6 +4,23 @@ import { RouteNames } from '@/router/routeNames'
 
 const distributionEmail = 'distribution@sanscroquettesfixes.fr'
 const distributionMailto = `mailto:${distributionEmail}`
+const practicalItems = [
+  {
+    icon: 'pi pi-clock',
+    title: 'distribution.scheduleTitle',
+    text: 'distribution.scheduleText',
+  },
+  {
+    icon: 'pi pi-map-marker',
+    title: 'distribution.locationTitle',
+    text: 'distribution.locationText',
+  },
+  {
+    icon: 'pi pi-envelope',
+    title: 'distribution.firstVisitTitle',
+    text: 'distribution.firstVisitText',
+  },
+]
 </script>
 
 <template>
@@ -65,5 +82,41 @@ const distributionMailto = `mailto:${distributionEmail}`
         </aside>
       </div>
     </section>
+
+    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+  <div class="page-shell space-y-8">
+    <div class="space-y-2">
+      <span class="eyebrow">
+        {{ $t('distribution.practicalEyebrow') }}
+      </span>
+
+      <h2 class="display-font text-3xl font-semibold md:text-4xl">
+        {{ $t('distribution.practicalTitle') }}
+      </h2>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-3">
+      <article
+        v-for="item in practicalItems"
+        :key="item.title"
+        class="rounded-[22px] bg-[var(--scf-bg)] p-7"
+      >
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg text-[var(--scf-accent-dark)]"
+        >
+          <i :class="item.icon"></i>
+        </div>
+
+        <h3 class="display-font mt-5 text-lg font-semibold">
+          {{ $t(item.title) }}
+        </h3>
+
+        <p class="mt-2 text-sm leading-7 text-[var(--scf-text)]">
+          {{ $t(item.text) }}
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
   </div>
 </template>
