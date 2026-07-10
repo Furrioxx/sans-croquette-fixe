@@ -12,10 +12,12 @@
   "pluginOptions": {},
   "attributes": {
     "startDate": {
-      "type": "datetime"
+      "type": "datetime",
+      "required": true
     },
     "endDate": {
-      "type": "datetime"
+      "type": "datetime",
+      "required": true
     },
     "reason": {
       "type": "string"
@@ -33,7 +35,8 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "absences"
+      "inversedBy": "absences",
+      "required": true
     }
   }
 }

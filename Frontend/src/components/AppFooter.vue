@@ -1,0 +1,51 @@
+<script setup lang="ts">
+import { RouteNames } from '@/router/routeNames'
+import Logo from '@/assets/Logo.png'
+</script>
+
+<template>
+  <footer class="w-full bg-[var(--scf-ink)] px-6 py-12 text-white md:px-10">
+    <div class="page-shell flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div class="max-w-sm space-y-3">
+        <div class="flex items-center gap-3">
+          <img :src="Logo" width="40" :alt="$t('nav.brand')" class="shrink-0" />
+          <span class="display-font text-xl font-semibold !text-white">{{ $t('nav.brand') }}</span>
+        </div>
+        <p class="text-sm leading-6 text-white/70">{{ $t('footer.tagline') }}</p>
+      </div>
+
+      <div class="flex flex-wrap gap-12">
+        <div class="flex flex-col gap-3 text-sm font-semibold">
+          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
+            $t('footer.navigation')
+          }}</span>
+          <router-link :to="{ name: RouteNames.HOME }" class="text-white/85 hover:text-white">
+            {{ $t('footer.links.home') }}
+          </router-link>
+          <router-link :to="{ name: RouteNames.ADOPT }" class="text-white/85 hover:text-white">
+            {{ $t('footer.links.adopt') }}
+          </router-link>
+          <router-link :to="{ name: RouteNames.ABOUT_US }" class="text-white/85 hover:text-white">
+            {{ $t('footer.links.about') }}
+          </router-link>
+        </div>
+
+        <div class="flex flex-col gap-3 text-sm font-semibold">
+          <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
+            $t('footer.follow')
+          }}</span>
+          <span class="inline-flex items-center gap-2 text-white/85">
+            <i class="pi pi-facebook"></i>
+            Facebook
+          </span>
+          <span class="inline-flex items-center gap-2 text-white/85">
+            <i class="pi pi-instagram"></i>
+            Instagram
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <p class="page-shell mt-10 text-xs text-white/50">{{ $t('footer.legal') }}</p>
+  </footer>
+</template>

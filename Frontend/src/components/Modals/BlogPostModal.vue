@@ -57,7 +57,9 @@ const syncForm = () => {
     category: props.blogPost?.category?.documentId ?? null,
   }
   selectedFile.value = null
-  coverPreviewUrl.value = props.blogPost?.cover?.url ? getBlogMediaUrl(props.blogPost.cover.url) : null
+  coverPreviewUrl.value = props.blogPost?.cover?.url
+    ? getBlogMediaUrl(props.blogPost.cover.url)
+    : null
   errors.value = []
 
   if (fileInput.value) {
@@ -87,9 +89,21 @@ const closeModal = () => {
   emit('update:visible', false)
 }
 
+const isWebpFile = (file: File) =>
+  file.type === 'image/webp' || file.name.toLowerCase().endsWith('.webp')
+
 const onFileChange = (event: Event) => {
   const input = event.target as HTMLInputElement
   const file = input.files?.[0] ?? null
+
+  if (file && isWebpFile(file)) {
+    notificationService.showError(
+      'Erreur',
+      'Le format WebP n’est pas accepté pour l’image de couverture.',
+    )
+    input.value = ''
+    return
+  }
 
   selectedFile.value = file
   coverPreviewUrl.value = file ? URL.createObjectURL(file) : null
@@ -119,7 +133,11 @@ const validate = () => {
     StringUtils.checkInputTextValidity('title', form.value.title.trim(), 'Le titre est requis.'),
   )
   errors.value.push(
-    StringUtils.checkInputTextValidity('content', form.value.content.trim(), 'Le contenu est requis.'),
+    StringUtils.checkInputTextValidity(
+      'content',
+      form.value.content.trim(),
+      'Le contenu est requis.',
+    ),
   )
 
   return errors.value.every((error) => error.valid)
@@ -145,7 +163,8 @@ const submit = async () => {
     const excerpt = form.value.excerpt?.trim() || null
     const content = form.value.content.trim()
     const fallbackExcerpt = excerpt || content.slice(0, 180) || null
-    const seoDescription = form.value.seoDescription?.trim() || excerpt || content.slice(0, 160) || null
+    const seoDescription =
+      form.value.seoDescription?.trim() || excerpt || content.slice(0, 160) || null
     const status = form.value.isPublished ? 'published' : 'draft'
     const slug = slugify(form.value.title) || 'article'
 
@@ -195,7 +214,7 @@ const submit = async () => {
       id="blog-cover"
       ref="fileInput"
       type="file"
-      accept="image/*"
+      accept="image/png, image/jpeg, image/gif, image/svg+xml, image/bmp, image/tiff"
       class="hidden"
       @change="onFileChange"
     />

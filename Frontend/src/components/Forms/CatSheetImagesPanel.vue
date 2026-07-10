@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { StrapiMedia } from '@/models/Cat'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 import { ref, computed } from 'vue'
 
 const props = defineProps<{
@@ -13,10 +14,7 @@ const existingImages = computed(() =>
   props.initialImages.filter((img) => keptExistingImageIds.value.includes(img.id)),
 )
 
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
+const getImageUrl = getCatImageUrl
 
 const removeExistingImage = (imageId: number) => {
   keptExistingImageIds.value = keptExistingImageIds.value.filter((id) => id !== imageId)

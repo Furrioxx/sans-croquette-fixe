@@ -15,10 +15,12 @@
       "type": "boolean"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "birthDate": {
-      "type": "date"
+      "type": "date",
+      "required": true
     },
     "gender": {
       "type": "enumeration",
@@ -26,7 +28,8 @@
         "male",
         "female",
         "not_determined"
-      ]
+      ],
+      "required": true
     },
     "vaccinated": {
       "type": "boolean"
@@ -64,7 +67,8 @@
     "cat_moods": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::cat-mood.cat-mood"
+      "target": "api::cat-mood.cat-mood",
+      "required": true
     },
     "catStatus": {
       "type": "enumeration",
@@ -75,7 +79,8 @@
         "en_soins",
         "decede",
         "perdu"
-      ]
+      ],
+      "required": true
     },
     "trappingDate": {
       "type": "date"

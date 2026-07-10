@@ -1,147 +1,131 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
 import type { Cat } from '@/models/Cat'
-import { CatStatus } from '@/models/Enums/CatStatusEnum'
+import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
-import CatSheetDetails from '@/components/CatSheetDetails.vue'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { isKitten, kittenLabelClass } from '@/utils/catUtils'
+import { formatAge, getCatStatusLabel, isKitten } from '@/utils/catUtils'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 
 const { t } = useI18n()
 
 const props = defineProps<{ catSheet: CatSheet }>()
 
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
-
 const images = computed(() => props.catSheet.images ?? [])
 const cats = computed(() => props.catSheet.cats ?? [])
+const primaryCat = computed(() => cats.value[0])
 
 const coverImage = computed(() => {
   const first = images.value[0]
-  return first ? getImageUrl(first.url) : null
+  return first ? getCatImageUrl(first.url) : null
 })
 
 const catNames = computed(() => cats.value.map((c) => c.name).join(' & '))
 
-const primaryCat = computed(() => cats.value[0])
-
-const statusLabel = computed(() => {
-  const s = primaryCat.value?.catStatus
-  if (s === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
-  if (s === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
-  return null
-})
-
-const statusClass = computed(() => {
-  const s = primaryCat.value?.catStatus
-  if (s === CatStatus.EN_REFUGE) return 'bg-blue-100 text-blue-700'
-  if (s === CatStatus.EN_FAMILLE_ACCUEIL) return 'bg-amber-100 text-amber-700'
-  return ''
-})
+const statusLabel = computed(() => getCatStatusLabel(primaryCat.value?.catStatus, t))
 
 const genderLabel = (cat: Cat) =>
   cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')
 
-const genderIcon = (cat: Cat) => (cat.gender === Genders.MALE ? 'pi pi-mars' : 'pi pi-venus')
-
-const age = (cat: Cat) => {
-  const bd = cat.birthDate
-  if (!bd) return t('adopt.age-unknown')
-  const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
-  if (months < 12) return t('adopt.age-months', { n: months })
-  return t('adopt.age-years', { n: Math.floor(months / 12) })
-}
+const age = (cat: Cat) => formatAge(cat.birthDate, t)
 
 const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
+
+const subtitleLine = computed(() => {
+  if (!primaryCat.value) return ''
+  return `${genderLabel(primaryCat.value)} · ${kittenLabel(primaryCat.value)}`
+})
+
+const infoLines = computed(() => {
+  const cat = primaryCat.value
+  if (!cat) return []
+  const lines: { icon: string; label: string }[] = []
+
+  const healthParts = [
+    cat.vaccinated ? t('adopt.vaccinated') : null,
+    cat.sterilized ? t('adopt.sterilized') : null,
+    cat.identified ? t('adopt.identified') : null,
+    cat.decontaminate ? t('adopt.decontaminated') : null,
+  ].filter(Boolean)
+  if (healthParts.length) lines.push({ icon: 'pi pi-shield', label: healthParts.join(', ') })
+
+  if (cat.catFriendly === CatFriendly.YES)
+    lines.push({ icon: 'pi pi-heart', label: t('adopt.cat-friendly') })
+  if (cat.dogFriendly === CatFriendly.YES)
+    lines.push({ icon: 'pi pi-heart', label: t('adopt.dog-friendly') })
+  if (cat.childFriendly === CatFriendly.YES)
+    lines.push({ icon: 'pi pi-star', label: t('adopt.child-friendly') })
+
+  lines.push({ icon: 'pi pi-calendar', label: age(cat) })
+
+  return lines
+})
 </script>
 
 <template>
   <article
-    class="group bg-white dark:bg-surface-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col border border-surface-100 dark:border-surface-700"
+    class="group flex h-full flex-col overflow-hidden rounded-[22px] bg-white transition-transform duration-300 hover:-translate-y-1"
   >
-    <!-- Image -->
-    <div class="relative aspect-[4/3] overflow-hidden bg-surface-100 dark:bg-surface-700">
+    <div class="relative aspect-[4/3] overflow-hidden bg-[var(--scf-bg)]">
       <img
         v-if="coverImage"
         :src="coverImage"
         :alt="catNames"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div
         v-else
-        class="w-full h-full flex flex-col items-center justify-center gap-2 text-surface-300 dark:text-surface-500"
+        class="flex h-full w-full flex-col items-center justify-center gap-2 text-[var(--scf-muted)]"
       >
-        <i class="pi pi-camera text-5xl"></i>
+        <i class="pi pi-camera text-4xl"></i>
         <span class="text-sm">{{ $t('no-photo') }}</span>
       </div>
 
-      <!-- Badges overlay -->
-      <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+      <div class="absolute left-3 top-3 flex flex-wrap gap-1.5">
         <span
           v-if="statusLabel"
-          :class="['text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm', statusClass]"
-          >{{ statusLabel }}</span
+          class="rounded-full bg-[var(--scf-accent)] px-3 py-1 text-xs font-bold text-white"
         >
+          {{ statusLabel }}
+        </span>
         <span
           v-if="catSheet.isDuo"
-          class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100 text-purple-700"
-          >{{ $t('adopt.duo') }}</span
+          class="rounded-full bg-[var(--scf-ink)] px-3 py-1 text-xs font-bold text-white"
         >
+          {{ $t('adopt.duo') }}
+        </span>
       </div>
     </div>
 
-    <!-- Content -->
-    <div class="flex flex-col flex-1 p-5 gap-4">
-      <!-- Name + gender/age -->
+    <div class="flex flex-1 flex-col gap-3 p-6">
       <div>
-        <h3 class="text-xl font-bold text-surface-800 dark:text-surface-100 leading-tight">
-          {{ catNames }}
-        </h3>
-        <div
-          class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-surface-500 dark:text-surface-400 text-sm"
-        >
-          <template v-for="cat in cats" :key="cat.documentId">
-            <span class="inline-flex items-center gap-1.5">
-              <i
-                :class="[
-                  genderIcon(cat),
-                  cat.gender === Genders.MALE
-                    ? 'text-blue-400 dark:text-blue-300'
-                    : 'text-pink-400 dark:text-pink-300',
-                ]"
-              ></i>
-              <span
-                v-if="catSheet.isDuo"
-                class="font-medium text-surface-700 dark:text-surface-200"
-                >{{ cat.name }}</span
-              >
-              <span>{{ genderLabel(cat) }}</span>
-              <span class="text-surface-300 dark:text-surface-600">·</span>
-              <span>{{ age(cat) }}</span>
-            </span>
-          </template>
-        </div>
-        <div class="mt-2">
-          <span
-            v-for="cat in cats"
-            :key="cat.documentId"
-            :class="[
-              'text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm mr-1',
-              kittenLabelClass(kittenLabel(cat), $t),
-            ]"
-            >{{ catSheet.isDuo ? `${cat.name} · ` : '' }}{{ kittenLabel(cat) }}</span
-          >
-        </div>
+        <span class="text-xs font-bold uppercase tracking-[0.06em] text-[var(--scf-accent-dark)]">
+          {{ subtitleLine }}
+        </span>
+        <h3 class="display-font mt-1 text-xl font-bold text-[var(--scf-ink)]">{{ catNames }}</h3>
       </div>
 
-      <CatSheetDetails :catSheet="catSheet" />
+      <p v-if="catSheet.description" class="text-sm leading-6 text-[var(--scf-text)]">
+        {{ catSheet.description }}
+      </p>
 
-      <!-- CTA -->
+      <div
+        v-if="catSheet.tarification"
+        class="inline-flex w-fit items-center gap-2 rounded-full bg-[var(--scf-bg)] px-3 py-1 text-xs font-semibold text-[var(--scf-ink)]"
+      >
+        <i class="pi pi-tag text-[var(--scf-accent-dark)]"></i>
+        {{ catSheet.tarification.label }} — {{ catSheet.tarification.price }} €
+      </div>
+
+      <div class="flex flex-col gap-1.5 text-xs font-semibold text-[var(--scf-text)]">
+        <span v-for="line in infoLines" :key="line.label" class="inline-flex items-center gap-2">
+          <i :class="line.icon" class="text-[var(--scf-accent-dark)]"></i>
+          {{ line.label }}
+        </span>
+      </div>
+
       <div class="mt-auto pt-2">
         <Button
           as="router-link"
@@ -149,9 +133,8 @@ const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.
           :label="$t('adopt.see-sheet')"
           icon="pi pi-arrow-right"
           iconPos="right"
-          class="w-full"
-          severity="secondary"
-          outlined
+          rounded
+          class="w-full !bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
         />
       </div>
     </div>

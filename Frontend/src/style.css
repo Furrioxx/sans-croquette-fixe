@@ -3,19 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --scf-bg: #f6f1eb;
-  --scf-bg-soft: #fff8f8;
-  --scf-surface: rgba(255, 251, 250, 0.9);
-  --scf-surface-strong: #fffdfd;
-  --scf-accent: #fc7676;
-  --scf-accent-dark: #e56666;
-  --scf-accent-soft: #ffd7d7;
+  --scf-bg: oklch(97% 0.015 80);
+  --scf-bg-soft: oklch(93% 0.04 40);
+  --scf-surface: rgba(255, 253, 253, 0.9);
+  --scf-surface-strong: oklch(99% 0.005 80);
+  --scf-accent: oklch(70% 0.16 35);
+  --scf-accent-dark: oklch(55% 0.16 35);
+  --scf-accent-soft: oklch(90% 0.05 50);
   --scf-secondary: #9b8bc9;
   --scf-secondary-soft: #e5def7;
-  --scf-ink: #3e4560;
-  --scf-text: #4f556a;
-  --scf-muted: #7d8090;
-  --scf-line: rgba(62, 69, 96, 0.12);
+  --scf-ink: oklch(25% 0.02 60);
+  --scf-text: oklch(38% 0.02 60);
+  --scf-muted: oklch(50% 0.02 60);
+  --scf-line: oklch(90% 0.03 50);
   --scf-shadow: 0 18px 60px rgba(62, 69, 96, 0.12);
 }
 
@@ -34,10 +34,9 @@ body {
   background:
     radial-gradient(circle at top left, rgba(252, 118, 118, 0.16) 0, transparent 32%),
     radial-gradient(circle at 85% 0%, rgba(155, 139, 201, 0.16) 0, transparent 28%),
-    radial-gradient(circle at 20% 80%, rgba(62, 69, 96, 0.1) 0, transparent 24%),
-    var(--scf-bg);
+    radial-gradient(circle at 20% 80%, rgba(62, 69, 96, 0.1) 0, transparent 24%), var(--scf-bg);
   color: var(--scf-text);
-  font-family: 'Aptos', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Quicksand', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -61,7 +60,7 @@ h1,
 h2,
 h3,
 .display-font {
-  font-family: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+  font-family: 'Baloo 2', 'Quicksand', 'Segoe UI', sans-serif;
   color: var(--scf-ink);
   line-height: 1.05;
   text-wrap: balance;
@@ -128,27 +127,57 @@ h3,
 }
 
 .hero-home-gradient {
-  background: linear-gradient(135deg, rgba(252, 118, 118, 0.16), rgba(255, 255, 255, 0.92) 46%, rgba(155, 139, 201, 0.16));
+  background: linear-gradient(
+    135deg,
+    rgba(252, 118, 118, 0.16),
+    rgba(255, 255, 255, 0.92) 46%,
+    rgba(155, 139, 201, 0.16)
+  );
 }
 
 .hero-about-gradient {
-  background: linear-gradient(135deg, rgba(155, 139, 201, 0.18), rgba(255, 255, 255, 0.92) 42%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(155, 139, 201, 0.18),
+    rgba(255, 255, 255, 0.92) 42%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .hero-donate-gradient {
-  background: linear-gradient(135deg, rgba(62, 69, 96, 0.12), rgba(255, 255, 255, 0.94) 40%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 69, 96, 0.12),
+    rgba(255, 255, 255, 0.94) 40%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .cat-accent-primary {
-  background: linear-gradient(135deg, rgba(252, 118, 118, 0.2), rgba(255, 255, 255, 0.8) 58%, rgba(155, 139, 201, 0.18));
+  background: linear-gradient(
+    135deg,
+    rgba(252, 118, 118, 0.2),
+    rgba(255, 255, 255, 0.8) 58%,
+    rgba(155, 139, 201, 0.18)
+  );
 }
 
 .cat-accent-secondary {
-  background: linear-gradient(135deg, rgba(155, 139, 201, 0.22), rgba(255, 255, 255, 0.8) 58%, rgba(252, 118, 118, 0.14));
+  background: linear-gradient(
+    135deg,
+    rgba(155, 139, 201, 0.22),
+    rgba(255, 255, 255, 0.8) 58%,
+    rgba(252, 118, 118, 0.14)
+  );
 }
 
 .cat-accent-tertiary {
-  background: linear-gradient(135deg, rgba(62, 69, 96, 0.16), rgba(255, 255, 255, 0.82) 58%, rgba(155, 139, 201, 0.16));
+  background: linear-gradient(
+    135deg,
+    rgba(62, 69, 96, 0.16),
+    rgba(255, 255, 255, 0.82) 58%,
+    rgba(155, 139, 201, 0.16)
+  );
 }
 
 .cat-photo {
@@ -236,172 +265,3 @@ h3,
   }
 }
 
-@layer base {
-  body {
-    @apply bg-[#fcfaf6] text-slate-900;
-    font-family:
-      'Avenir Next',
-      'Segoe UI',
-      system-ui,
-      sans-serif;
-  }
-}
-
-@layer components {
-  .blog-shell {
-    background:
-      radial-gradient(circle at top left, rgba(224, 231, 255, 0.55), transparent 30%),
-      radial-gradient(circle at top right, rgba(254, 240, 138, 0.28), transparent 22%),
-      linear-gradient(180deg, #fffdf9 0%, #fcfaf6 48%, #f6f1e8 100%);
-  }
-
-  .blog-shell::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.18;
-    background-image:
-      linear-gradient(rgba(15, 23, 42, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
-    background-size: 24px 24px;
-    mask-image: radial-gradient(circle at center, black 42%, transparent 94%);
-  }
-
-  .blog-hero__inner {
-    @apply rounded-[2rem] border border-white/80 bg-white/75 px-6 py-10 shadow-[0_24px_80px_-28px_rgba(94,76,43,0.28)] backdrop-blur;
-  }
-
-  .blog-hero__copy {
-    @apply max-w-2xl text-lg leading-8 text-slate-600;
-    text-wrap: pretty;
-  }
-
-  .blog-hero__aside-card,
-  .blog-aside-card {
-    @apply rounded-[1.75rem] border border-white/80 bg-white/80 p-6 shadow-[0_18px_50px_-30px_rgba(94,76,43,0.32)] backdrop-blur;
-  }
-
-  .blog-hero__aside-text {
-    @apply text-sm leading-7 text-slate-600;
-  }
-
-  .blog-display {
-    font-family: Georgia, 'Times New Roman', serif;
-    @apply font-semibold tracking-[-0.04em] text-slate-900;
-    line-height: 0.95;
-  }
-
-  .blog-kicker,
-  .blog-eyebrow {
-    @apply text-sm font-medium tracking-[0.16em] text-amber-700;
-    text-transform: lowercase;
-  }
-
-  .blog-eyebrow {
-    @apply text-xs;
-  }
-
-  .blog-toolbar {
-    @apply flex flex-col gap-4 rounded-[1.75rem] border border-white/80 bg-white/80 p-4 shadow-[0_16px_40px_-32px_rgba(94,76,43,0.28)] backdrop-blur md:flex-row md:items-center md:justify-between;
-  }
-
-  .blog-result-count {
-    @apply text-sm font-medium text-slate-600;
-  }
-
-  .blog-filter-pill,
-  .blog-chip {
-    @apply inline-flex w-fit items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800;
-  }
-
-  .blog-grid-card,
-  .blog-list-card,
-  .blog-side-card,
-  .blog-detail-cover,
-  .blog-detail-body,
-  .blog-empty-state {
-    @apply overflow-hidden rounded-[2rem] border border-white/80 bg-white/85 shadow-[0_24px_80px_-35px_rgba(94,76,43,0.35)] backdrop-blur;
-  }
-
-  .blog-list-card {
-    @apply flex h-full flex-col overflow-hidden transition-transform duration-200 hover:-translate-y-1;
-  }
-
-  .blog-list-card__body,
-  .blog-grid-card__body,
-  .blog-side-card {
-    @apply flex flex-1 flex-col gap-4 p-4;
-  }
-
-  .blog-list-card__title,
-  .blog-side-card__title,
-  .blog-grid-card__title,
-  .blog-section-title {
-    font-family: Georgia, 'Times New Roman', serif;
-    @apply text-xl font-semibold tracking-[-0.03em] text-slate-900;
-    line-height: 1.05;
-  }
-
-  .blog-list-card__excerpt,
-  .blog-side-card__excerpt,
-  .blog-grid-card__excerpt,
-  .blog-detail-lead {
-    @apply max-w-[58ch] text-sm leading-6 text-slate-600;
-    text-wrap: pretty;
-  }
-
-  .blog-grid-card {
-    @apply flex h-full flex-col;
-  }
-
-  .blog-grid-card__body {
-    @apply flex-1;
-  }
-
-  .blog-meta-row {
-    @apply flex flex-wrap items-center gap-3 text-xs font-medium uppercase tracking-[0.12em] text-slate-400;
-  }
-
-  .blog-author-name {
-    @apply font-medium text-slate-700;
-  }
-
-  .blog-reading-note {
-    @apply text-sm text-slate-400;
-  }
-
-  .blog-placeholder {
-    @apply flex items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(224,231,255,0.9),_transparent_30%),linear-gradient(135deg,_#fbf6eb_0%,_#f5ecdd_100%)];
-  }
-
-  .blog-placeholder__badge {
-    @apply flex h-24 w-24 items-center justify-center rounded-full bg-white text-4xl font-semibold shadow-[0_18px_35px_-20px_rgba(94,76,43,0.28)];
-    font-family: Georgia, 'Times New Roman', serif;
-  }
-
-  .blog-empty-state {
-    @apply flex flex-col items-center gap-5 px-6 py-14 text-center;
-  }
-
-  .blog-empty-state__icon {
-    @apply flex h-20 w-20 items-center justify-center rounded-full bg-amber-100 text-3xl text-amber-700;
-  }
-
-  .blog-detail-lead {
-    @apply text-xl leading-9;
-  }
-
-  .blog-detail-cover {
-    @apply min-h-[24rem];
-  }
-
-  .blog-detail-body {
-    @apply p-8 sm:p-10;
-  }
-
-  .blog-detail-prose {
-    @apply max-w-[70ch] text-[1.04rem] leading-8 text-slate-700;
-    text-wrap: pretty;
-  }
-}

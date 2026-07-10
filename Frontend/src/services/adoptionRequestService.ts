@@ -1,11 +1,19 @@
 import { axiosInstance } from './axiosInsance'
 import type { AdoptionRequest, AdoptionRequestFormValues } from '@/models/AdoptionRequest'
+import { toStrapiQueryString } from '@/utils/strapiQuery'
 
 const API_URL = '/adoption-requests'
 
 export const AdoptionRequestService = {
   async getAdoptionRequests() {
     return axiosInstance.get<{ data: AdoptionRequest[] }>(API_URL)
+  },
+
+  async getAdoptionRequestsForCatSheet(catSheetDocumentId: string) {
+    const query = toStrapiQueryString({
+      filters: { catSheet: { documentId: { $eq: catSheetDocumentId } } },
+    })
+    return axiosInstance.get<{ data: AdoptionRequest[] }>(`${API_URL}?${query}`)
   },
 
   async getAdoptionRequest(documentId: string) {

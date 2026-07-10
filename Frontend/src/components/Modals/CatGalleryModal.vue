@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
 import type { StrapiMedia } from '@/models/Cat'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 import { computed, ref, watch } from 'vue'
 
 const props = defineProps<{
@@ -21,10 +22,7 @@ const catNames = computed(() => {
 
 const images = computed<StrapiMedia[]>(() => props.catSheet?.images ?? [])
 
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
+const getImageUrl = getCatImageUrl
 
 const close = () => emit('update:visible', false)
 </script>

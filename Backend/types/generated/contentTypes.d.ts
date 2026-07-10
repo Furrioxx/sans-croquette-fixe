@@ -107,6 +107,43 @@ export interface AdminApiTokenPermission extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface AdminAuditLog extends Struct.CollectionTypeSchema {
+  collectionName: 'strapi_audit_logs';
+  info: {
+    displayName: 'Audit Log';
+    pluralName: 'audit-logs';
+    singularName: 'audit-log';
+  };
+  options: {
+    draftAndPublish: false;
+    timestamps: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    action: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'admin::audit-log'> &
+      Schema.Attribute.Private;
+    payload: Schema.Attribute.JSON;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+  };
+}
+
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -489,7 +526,7 @@ export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    endDate: Schema.Attribute.DateTime;
+    endDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -498,14 +535,123 @@ export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     reason: Schema.Attribute.String;
-    startDate: Schema.Attribute.DateTime;
+    startDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+  };
+}
+
+export interface ApiAdoptionRequestAdoptionRequest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'adoption_requests';
+  info: {
+    displayName: 'Adoption Request';
+    pluralName: 'adoption-requests';
+    singularName: 'adoption-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    additionalNotes: Schema.Attribute.Text;
+    agreementAccepted: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    aloneTimePerDay: Schema.Attribute.String & Schema.Attribute.Required;
+    animalLivingSpace: Schema.Attribute.Enumeration<
+      ['interieur', 'exterieur', 'les_deux', 'autre']
+    > &
+      Schema.Attribute.Required;
+    animalLivingSpaceOther: Schema.Attribute.String;
+    animalName: Schema.Attribute.String & Schema.Attribute.Required;
+    apartmentFloor: Schema.Attribute.String;
+    balconyOrTerraceArea: Schema.Attribute.String;
+    balconySecurityDetails: Schema.Attribute.Text;
+    birthDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    canGoOutside: Schema.Attribute.Enumeration<['oui', 'non', 'autre']> &
+      Schema.Attribute.Required;
+    canGoOutsideOther: Schema.Attribute.String;
+    catSheet: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::cat-sheet.cat-sheet'
     >;
+    childrenAges: Schema.Attribute.String;
+    childrenCount: Schema.Attribute.Integer;
+    city: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    environmentType: Schema.Attribute.Enumeration<
+      ['ville', 'campagne', 'lotissement', 'autre']
+    > &
+      Schema.Attribute.Required;
+    environmentTypeOther: Schema.Attribute.String;
+    firstName: Schema.Attribute.String & Schema.Attribute.Required;
+    gardenArea: Schema.Attribute.String;
+    gardenFencedDetails: Schema.Attribute.String;
+    hasBalconyOrTerrace: Schema.Attribute.Enumeration<['oui', 'non', 'autre']>;
+    hasChildren: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    hasGarden: Schema.Attribute.Enumeration<['oui', 'non', 'autre']>;
+    hasGardenOther: Schema.Attribute.String;
+    hasOtherAnimals: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    householdAgreement: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    householdComposition: Schema.Attribute.Enumeration<
+      ['seul', 'couple', 'colocation', 'autre']
+    > &
+      Schema.Attribute.Required;
+    householdCompositionOther: Schema.Attribute.String;
+    householdDisagreementReason: Schema.Attribute.Text;
+    housingArea: Schema.Attribute.String & Schema.Attribute.Required;
+    housingType: Schema.Attribute.Enumeration<
+      ['appartement', 'maison', 'autre']
+    > &
+      Schema.Attribute.Required;
+    housingTypeOther: Schema.Attribute.String;
+    isEmployed: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    lastName: Schema.Attribute.String & Schema.Attribute.Required;
+    livingPlaceDetails: Schema.Attribute.Text;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::adoption-request.adoption-request'
+    > &
+      Schema.Attribute.Private;
+    nearBusyRoad: Schema.Attribute.Enumeration<['oui', 'non', 'autre']> &
+      Schema.Attribute.Required;
+    nearBusyRoadOther: Schema.Attribute.String;
+    otherAnimalsDetails: Schema.Attribute.Text;
+    otherAnimalsOwnedDuration: Schema.Attribute.String;
+    otherAnimalsSterilized: Schema.Attribute.Enumeration<
+      ['oui', 'non', 'partiellement', 'non_applicable']
+    >;
+    phone: Schema.Attribute.String & Schema.Attribute.Required;
+    plansToSecureWindows: Schema.Attribute.Boolean;
+    postalCode: Schema.Attribute.String & Schema.Attribute.Required;
+    processingStatus: Schema.Attribute.Enumeration<
+      ['pending', 'in_review', 'approved', 'rejected']
+    > &
+      Schema.Attribute.DefaultTo<'pending'>;
+    profession: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    responsibilityCommitmentAccepted: Schema.Attribute.Boolean &
+      Schema.Attribute.Required;
+    roommateCount: Schema.Attribute.Integer;
+    streetAddress: Schema.Attribute.Text & Schema.Attribute.Required;
+    submittedBy: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    windowsSecured: Schema.Attribute.Enumeration<['oui', 'non', 'autre']>;
+    windowsSecuredOther: Schema.Attribute.String;
+    workSchedule: Schema.Attribute.Text;
   };
 }
 
@@ -638,7 +784,8 @@ export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
     linkedVolunteer: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
-    >;
+    > &
+      Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -668,8 +815,12 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    birthDate: Schema.Attribute.Date;
-    cat_moods: Schema.Attribute.Relation<'oneToMany', 'api::cat-mood.cat-mood'>;
+    birthDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    cat_moods: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::cat-mood.cat-mood'
+    > &
+      Schema.Attribute.Required;
     catFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     catStatus: Schema.Attribute.Enumeration<
       [
@@ -680,20 +831,22 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
         'decede',
         'perdu',
       ]
-    >;
+    > &
+      Schema.Attribute.Required;
     childFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     decontaminate: Schema.Attribute.Boolean;
     dogFriendly: Schema.Attribute.Enumeration<['yes', 'no', 'unknown']>;
-    gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']>;
+    gender: Schema.Attribute.Enumeration<['male', 'female', 'not_determined']> &
+      Schema.Attribute.Required;
     identified: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'> &
       Schema.Attribute.Private;
     medicalHistory: Schema.Attribute.Text;
-    name: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     sterilized: Schema.Attribute.Boolean;
     trappingDate: Schema.Attribute.Date;
@@ -1242,6 +1395,7 @@ declare module '@strapi/strapi' {
     export interface ContentTypeSchemas {
       'admin::api-token': AdminApiToken;
       'admin::api-token-permission': AdminApiTokenPermission;
+      'admin::audit-log': AdminAuditLog;
       'admin::permission': AdminPermission;
       'admin::role': AdminRole;
       'admin::session': AdminSession;
@@ -1250,6 +1404,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::absence-delegation.absence-delegation': ApiAbsenceDelegationAbsenceDelegation;
       'api::absence.absence': ApiAbsenceAbsence;
+      'api::adoption-request.adoption-request': ApiAdoptionRequestAdoptionRequest;
       'api::blog-category.blog-category': ApiBlogCategoryBlogCategory;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
       'api::cat-mood.cat-mood': ApiCatMoodCatMood;

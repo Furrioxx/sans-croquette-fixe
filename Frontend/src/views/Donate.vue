@@ -1,134 +1,157 @@
 <script setup lang="ts">
-import { getFeaturedCats } from '@/content/catGallery'
 import { useManager } from '@/router/manager'
 import { useI18n } from 'vue-i18n'
+import { DONATION_URL } from '@/config/donation'
+import { CONTACT_EMAIL, buildMailtoLink } from '@/config/contact'
 
 const title = useManager().getCurrentRouteTitle()
 const { t } = useI18n()
-const featuredCats = getFeaturedCats()
+const donationUrl = DONATION_URL
 
-const donations = [
+const usesOfFunds = [
   {
-    amount: t('donate.tiers.small.amount'),
-    title: t('donate.tiers.small.title'),
-    text: t('donate.tiers.small.text'),
+    icon: 'pi pi-heart-fill',
+    title: t('donate.usesOfFunds.vet.title'),
+    text: t('donate.usesOfFunds.vet.text'),
   },
   {
-    amount: t('donate.tiers.medium.amount'),
-    title: t('donate.tiers.medium.title'),
-    text: t('donate.tiers.medium.text'),
+    icon: 'pi pi-shopping-bag',
+    title: t('donate.usesOfFunds.food.title'),
+    text: t('donate.usesOfFunds.food.text'),
   },
   {
-    amount: t('donate.tiers.large.amount'),
-    title: t('donate.tiers.large.title'),
-    text: t('donate.tiers.large.text'),
+    icon: 'pi pi-shield',
+    title: t('donate.usesOfFunds.sterilization.title'),
+    text: t('donate.usesOfFunds.sterilization.text'),
+  },
+  {
+    icon: 'pi pi-moon',
+    title: t('donate.usesOfFunds.sanctuary.title'),
+    text: t('donate.usesOfFunds.sanctuary.text'),
   },
 ]
 </script>
 
 <template>
-  <div class="page-shell space-y-8 pb-16">
+  <div class="flex w-full flex-col">
+    <!-- HERO -->
     <section
-      class="hero-panel hero-donate-gradient section-card rounded-[2.5rem] px-6 py-8 md:px-10 md:py-12"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-16 text-center md:px-[60px]"
     >
-      <div class="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
-        <div class="space-y-5">
-          <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
-          <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
-          <p class="max-w-2xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
-            {{ $t('donate.heroText') }}
-          </p>
-          <a
-            href="https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 rounded-2xl bg-[var(--scf-ink)] px-5 py-3 font-medium text-white shadow-sm transition-transform hover:-translate-y-0.5"
-          >
-            <i class="pi pi-heart-fill"></i>
-            {{ $t('donate.donateOnHelloAsso') }}
-          </a>
-        </div>
-
-        <article class="section-card overflow-hidden rounded-[2rem] bg-white/80 p-4">
-          <div class="grid gap-4 md:grid-cols-[0.9fr_1.1fr] md:items-center">
-            <div class="overflow-hidden rounded-[1.5rem]">
-              <img :src="featuredCats[2].imageUrl" :alt="featuredCats[2].name" class="cat-photo aspect-[4/5]" />
-            </div>
-            <div class="space-y-3">
-              <span class="eyebrow">{{ $t('donate.eyebrowImpact') }}</span>
-              <h2 class="display-font text-3xl font-semibold">{{ featuredCats[2].name }}</h2>
-              <p class="text-sm leading-6 text-[var(--scf-text)]">
-                {{ $t('donate.impactText') }}
-              </p>
-              <a
-                :href="featuredCats[2].creditUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-2 text-xs text-[var(--scf-muted)] underline-offset-4 hover:underline"
-              >
-                <i class="pi pi-external-link text-[0.7rem]"></i>
-                {{ featuredCats[2].creditLabel }} ({{ featuredCats[2].licenseLabel }})
-              </a>
-            </div>
-          </div>
-        </article>
+      <div
+        class="pointer-events-none absolute left-1/2 -top-40 h-[340px] w-[340px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
+      ></div>
+      <div class="page-shell relative mx-auto max-w-2xl space-y-5">
+        <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
+        <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
+        <p class="mx-auto max-w-xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
+          {{ $t('donate.heroText') }}
+        </p>
       </div>
     </section>
 
-    <section class="grid gap-4 md:grid-cols-3">
-      <article
-        v-for="donation in donations"
-        :key="donation.amount"
-        class="section-card rounded-[2rem] p-5"
-      >
-        <p class="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--scf-accent-dark)]">
-          {{ donation.amount }}
+    <!-- DONATE -->
+    <section class="flex w-full justify-center bg-[var(--scf-bg)] px-6 pb-14 md:px-[60px]">
+      <div class="w-full max-w-xl space-y-6 rounded-[28px] bg-white p-9 text-center">
+        <p class="display-font text-base font-semibold text-[var(--scf-ink)]">
+          {{ $t('donate.amounts.title') }}
         </p>
-        <h2 class="display-font mt-2 text-2xl font-semibold">{{ donation.title }}</h2>
-        <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ donation.text }}</p>
-      </article>
+        <Button
+          as="a"
+          :href="donationUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          :label="$t('donate.donateOnHelloAsso')"
+          icon="pi pi-arrow-right"
+          iconPos="right"
+          severity="contrast"
+          rounded
+        />
+      </div>
     </section>
 
-    <section class="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-      <article class="section-card rounded-[2rem] p-6 md:p-8">
-        <span class="eyebrow">{{ $t('donate.eyebrowHelp') }}</span>
-        <div class="mt-4 grid gap-4 md:grid-cols-3">
-          <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.vet.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              {{ $t('donate.help.vet.text') }}
-            </p>
-          </article>
-          <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.supplies.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              {{ $t('donate.help.supplies.text') }}
-            </p>
-          </article>
-          <article class="rounded-[1.5rem] border border-[var(--scf-line)] bg-white/80 p-4">
-            <h3 class="display-font text-xl font-semibold">{{ $t('donate.help.emergency.title') }}</h3>
-            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
-              {{ $t('donate.help.emergency.text') }}
-            </p>
+    <!-- USES OF FUNDS -->
+    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+      <div class="page-shell space-y-8">
+        <h2 class="display-font text-center text-3xl font-semibold md:text-4xl">
+          {{ $t('donate.usesOfFunds.title') }}
+        </h2>
+        <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <article
+            v-for="use in usesOfFunds"
+            :key="use.title"
+            class="rounded-[20px] bg-[var(--scf-bg)] p-6 text-center"
+          >
+            <div
+              class="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-lg text-[var(--scf-accent-dark)]"
+            >
+              <i :class="use.icon"></i>
+            </div>
+            <h3 class="display-font mt-4 text-base font-semibold">{{ use.title }}</h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">{{ use.text }}</p>
           </article>
         </div>
-      </article>
+      </div>
+    </section>
 
-      <article
-        class="section-card rounded-[2rem] bg-[linear-gradient(135deg,rgba(201,109,68,0.95),rgba(147,80,54,0.95))] p-6 text-white md:p-8"
-      >
-        <span class="eyebrow !bg-white/12 !text-[var(--scf-accent-soft)]">{{ $t('donate.eyebrowMaterial') }}</span>
-        <h2 class="display-font mt-4 text-3xl font-semibold !text-white">{{ $t('donate.materialTitle') }}</h2>
-        <p class="mt-3 text-sm leading-7 text-white/85 md:text-base">
+    <!-- OTHER WAYS -->
+    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+      <div class="page-shell space-y-8">
+        <h2 class="display-font text-center text-3xl font-semibold md:text-4xl">
+          {{ $t('donate.otherWays.title') }}
+        </h2>
+        <div class="mx-auto grid max-w-3xl gap-5 md:grid-cols-2">
+          <div class="rounded-[20px] bg-white p-8 text-center">
+            <div
+              class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white"
+            >
+              <i class="pi pi-home"></i>
+            </div>
+            <h3 class="display-font mt-4 text-lg font-semibold">
+              {{ $t('home.waysToHelp.foster.title') }}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('home.waysToHelp.foster.text') }}
+            </p>
+          </div>
+          <div class="rounded-[20px] bg-white p-8 text-center">
+            <div
+              class="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-[var(--scf-accent)] text-white"
+            >
+              <i class="pi pi-users"></i>
+            </div>
+            <h3 class="display-font mt-4 text-lg font-semibold">
+              {{ $t('home.waysToHelp.volunteer.title') }}
+            </h3>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('home.waysToHelp.volunteer.text') }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIAL DONATIONS -->
+    <section
+      class="w-full bg-[var(--scf-ink)] px-6 py-16 text-white md:px-[60px] border-b border-[var(--scf-line)]"
+    >
+      <div class="page-shell max-w-2xl space-y-4">
+        <span class="eyebrow !bg-white/10 !text-[var(--scf-accent-soft)]">{{
+          $t('donate.eyebrowMaterial')
+        }}</span>
+        <h2 class="display-font text-3xl font-semibold !text-white">
+          {{ $t('donate.materialTitle') }}
+        </h2>
+        <p class="text-sm leading-7 text-white/80 md:text-base">
           {{ $t('donate.materialText') }}
         </p>
-        <p class="mt-4 text-sm font-medium text-white">
+        <p class="text-sm font-medium text-white">
           {{ $t('donate.contact') }}
-          <a class="underline decoration-white/40 underline-offset-4" href="mailto:dons@sanscroquettesfixes.fr">
-            dons@sanscroquettesfixes.fr
+          <a class="underline decoration-white/40 underline-offset-4" :href="buildMailtoLink()">
+            {{ CONTACT_EMAIL }}
           </a>
         </p>
-      </article>
+      </div>
     </section>
   </div>
 </template>

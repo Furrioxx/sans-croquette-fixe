@@ -1,31 +1,31 @@
 <template>
   <article
-    class="absolute inset-0 bg-white dark:bg-surface-800 rounded-2xl shadow-lg overflow-hidden border border-surface-100 dark:border-surface-700 select-none touch-none"
+    class="absolute inset-0 select-none touch-none overflow-hidden rounded-[26px] bg-white"
     :style="cardStyle"
     @pointerdown="onPointerDown"
     @pointermove="onPointerMove"
     @pointerup="endDrag"
     @pointercancel="endDrag"
   >
-    <div class="relative h-full flex flex-col">
-      <div class="relative flex-1 overflow-hidden bg-surface-100 dark:bg-surface-700">
+    <div class="relative flex h-full flex-col">
+      <div class="relative flex-1 overflow-hidden bg-[var(--scf-bg)]">
         <img
           v-if="coverImage"
           :src="coverImage"
           :alt="catNames"
-          class="w-full h-full object-cover pointer-events-none"
+          class="h-full w-full object-cover pointer-events-none"
           draggable="false"
         />
         <div
           v-else
-          class="w-full h-full flex flex-col items-center justify-center gap-2 text-surface-300 dark:text-surface-500"
+          class="flex h-full w-full flex-col items-center justify-center gap-2 text-[var(--scf-muted)]"
         >
           <i class="pi pi-camera text-5xl"></i>
           <span class="text-sm">{{ $t('no-photo') }}</span>
         </div>
 
         <div
-          class="absolute inset-0 flex items-center justify-center border-8 border-green-400 rounded-2xl"
+          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-green-400"
           :style="{ opacity: likeOverlayOpacity }"
         >
           <span class="text-4xl font-extrabold text-green-500 rotate-[-15deg] tracking-wider">{{
@@ -33,7 +33,7 @@
           }}</span>
         </div>
         <div
-          class="absolute inset-0 flex items-center justify-center border-8 border-red-400 rounded-2xl"
+          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-red-400"
           :style="{ opacity: passOverlayOpacity }"
         >
           <span class="text-4xl font-extrabold text-red-500 rotate-[15deg] tracking-wider">{{
@@ -41,24 +41,24 @@
           }}</span>
         </div>
 
-        <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+        <div class="absolute left-3 top-3 flex flex-wrap gap-1.5">
           <span
             v-if="statusLabel"
-            class="text-xs font-semibold px-2.5 py-1 rounded-full bg-white/80 dark:bg-surface-900/80 backdrop-blur-sm text-surface-700 dark:text-surface-200"
+            class="rounded-full bg-[var(--scf-accent)] px-2.5 py-1 text-xs font-bold text-white"
             >{{ statusLabel }}</span
           >
           <span
             v-if="catSheet.isDuo"
-            class="text-xs font-semibold px-2.5 py-1 rounded-full bg-purple-100/90 text-purple-700"
+            class="rounded-full bg-[var(--scf-ink)] px-2.5 py-1 text-xs font-bold text-white"
             >{{ $t('adopt.duo') }}</span
           >
         </div>
 
         <div
-          class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-5 pt-10"
+          class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-5 pt-10"
         >
-          <h3 class="text-2xl font-bold text-white leading-tight">{{ catNames }}</h3>
-          <div class="flex items-center gap-1.5 mt-1 text-white/80 text-sm">
+          <h3 class="display-font text-2xl font-bold !text-white leading-tight">{{ catNames }}</h3>
+          <div class="mt-1 flex items-center gap-1.5 text-sm text-white/80">
             <i :class="genderIcon" class="text-xs"></i>
             <span>{{ age }}</span>
           </div>
@@ -70,10 +70,11 @@
 
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
-import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { formatAge, getCatStatusLabel } from '@/utils/catUtils'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 
 const { t } = useI18n()
 
@@ -85,28 +86,18 @@ const emit = defineEmits<{ like: []; pass: [] }>()
 
 const SWIPE_THRESHOLD = 120
 
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
-
 const images = computed(() => props.catSheet.images ?? [])
 const cats = computed(() => props.catSheet.cats ?? [])
 const primaryCat = computed(() => cats.value[0])
 
 const coverImage = computed(() => {
   const first = images.value[0]
-  return first ? getImageUrl(first.url) : null
+  return first ? getCatImageUrl(first.url) : null
 })
 
 const catNames = computed(() => cats.value.map((c) => c.name).join(' & '))
 
-const statusLabel = computed(() => {
-  const s = primaryCat.value?.catStatus
-  if (s === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
-  if (s === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
-  return null
-})
+const statusLabel = computed(() => getCatStatusLabel(primaryCat.value?.catStatus, t))
 
 const genderIcon = computed(() => {
   const g = primaryCat.value?.gender
@@ -115,13 +106,7 @@ const genderIcon = computed(() => {
   return 'pi pi-question'
 })
 
-const age = computed(() => {
-  const bd = primaryCat.value?.birthDate
-  if (!bd) return t('adopt.age-unknown')
-  const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
-  if (months < 12) return t('adopt.age-months', { n: months })
-  return t('adopt.age-years', { n: Math.floor(months / 12) })
-})
+const age = computed(() => formatAge(primaryCat.value?.birthDate, t))
 
 const dragging = ref(false)
 const dragX = ref(0)
