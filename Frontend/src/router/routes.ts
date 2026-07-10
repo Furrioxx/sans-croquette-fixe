@@ -23,6 +23,11 @@ const routes = [
         component: () => import('../views/AboutUs.vue'),
       },
       {
+        path: 'distribution-de-croquettes',
+        name: RouteNames.FOOD_DISTRIBUTION,
+        component: () => import('../views/FoodDistribution.vue'),
+      },
+      {
         path: 'login',
         name: RouteNames.LOGIN,
         component: () => import('../views/Auth/Login.vue'),
