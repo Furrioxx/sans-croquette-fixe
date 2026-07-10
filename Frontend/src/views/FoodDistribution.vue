@@ -146,5 +146,43 @@ const practicalItems = [
     </div>
   </div>
 </section>
+
+<section class="w-full bg-white px-6 py-16 md:px-[60px]">
+  <div class="page-shell grid gap-5 lg:grid-cols-2">
+    <article class="rounded-[24px] bg-[var(--scf-bg)] p-8 md:p-10">
+      <span class="eyebrow">
+        {{ $t('distribution.audienceEyebrow') }}
+      </span>
+
+      <h2 class="display-font mt-5 text-3xl font-semibold">
+        {{ $t('distribution.audienceTitle') }}
+      </h2>
+
+      <p class="mt-4 text-sm leading-7 text-[var(--scf-text)] md:text-base">
+        {{ $t('distribution.audienceText') }}
+      </p>
+    </article>
+
+    <article class="rounded-[24px] bg-[var(--scf-ink)] p-8 text-white md:p-10">
+      <i class="pi pi-comments text-2xl text-[var(--scf-accent-soft)]"></i>
+
+      <h2 class="display-font mt-5 text-3xl font-semibold !text-white">
+        {{ $t('distribution.howTitle') }}
+      </h2>
+
+      <p class="mt-4 text-sm leading-7 text-white/80 md:text-base">
+        {{ $t('distribution.howText') }}
+      </p>
+
+      <a
+        :href="distributionMailto"
+        class="mt-6 inline-flex items-center gap-2 text-sm font-bold text-white underline decoration-[var(--scf-accent-soft)] underline-offset-4"
+      >
+        <i class="pi pi-envelope"></i>
+        {{ distributionEmail }}
+      </a>
+    </article>
+  </div>
+</section>
   </div>
 </template>
