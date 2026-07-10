@@ -52,6 +52,7 @@ const navLinks = computed(() => [
   { to: { name: RouteNames.ADOPT }, label: t('adopt.nav-link') },
   { to: { name: RouteNames.DISCOVER }, label: t('discover.nav-link') },
   { to: { name: RouteNames.BLOG }, label: t('blog.nav-link') },
+  { to: { name: RouteNames.FOOD_DISTRIBUTION }, label: t('distribution.navLink') },
   { to: { name: RouteNames.ABOUT_US }, label: t('nav.association') },
 ])
 
