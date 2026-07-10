@@ -108,15 +108,6 @@ const logoutFromMobile = () => {
           outlined
         />
         <template v-else>
-          <Button
-            v-if="canAccessAdmin"
-            as="router-link"
-            :to="{ name: RouteNames.DASHBOARD }"
-            :label="$t('admin.nav.access')"
-            icon="pi pi-briefcase"
-            rounded
-            class="admin-access-btn whitespace-nowrap"
-          />
           <button
             type="button"
             class="flex shrink-0 items-center gap-1.5 rounded-full bg-[var(--scf-bg-soft)] px-3 py-1.5 text-sm text-[var(--scf-text)]"
@@ -207,25 +198,6 @@ const logoutFromMobile = () => {
 </template>
 
 <style scoped>
-.admin-access-btn {
-  border: 1px solid color-mix(in oklab, var(--scf-accent) 28%, white);
-  background:
-    radial-gradient(circle at top left, color-mix(in oklab, var(--scf-accent-soft) 88%, white), transparent 58%),
-    linear-gradient(135deg, white 0%, color-mix(in oklab, var(--scf-accent-soft) 62%, white) 100%);
-  color: var(--scf-accent-dark);
-  box-shadow: 0 12px 26px rgba(230, 120, 84, 0.12);
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    border-color 0.18s ease;
-}
-
-.admin-access-btn:hover {
-  transform: translateY(-1px);
-  border-color: color-mix(in oklab, var(--scf-accent) 50%, white);
-  box-shadow: 0 16px 28px rgba(230, 120, 84, 0.18);
-}
-
 .mobile-menu-enter-active,
 .mobile-menu-leave-active {
   transition: max-height 0.25s ease, opacity 0.2s ease;
