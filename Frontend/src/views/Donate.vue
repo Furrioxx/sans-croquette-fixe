@@ -6,8 +6,6 @@ const title = useManager().getCurrentRouteTitle()
 const { t } = useI18n()
 const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
 
-const amounts = ['5€', '10€', '25€', '50€']
-
 const usesOfFunds = [
   {
     icon: 'pi pi-heart-fill',
@@ -56,25 +54,6 @@ const usesOfFunds = [
         <p class="display-font text-base font-semibold text-[var(--scf-ink)]">
           {{ $t('donate.amounts.title') }}
         </p>
-        <div class="flex flex-wrap justify-center gap-3">
-          <span
-            v-for="(amount, index) in amounts"
-            :key="amount"
-            class="rounded-full px-6 py-3 text-sm font-bold"
-            :class="
-              index === 1
-                ? 'bg-[var(--scf-accent)] text-white'
-                : 'border-2 border-[var(--scf-line)] bg-[var(--scf-bg)] text-[var(--scf-ink)]'
-            "
-          >
-            {{ amount }}
-          </span>
-          <span
-            class="rounded-full border-2 border-[var(--scf-line)] bg-[var(--scf-bg)] px-6 py-3 text-sm font-bold text-[var(--scf-ink)]"
-          >
-            {{ $t('donate.amounts.other') }}
-          </span>
-        </div>
         <Button
           as="a"
           :href="donationUrl"
