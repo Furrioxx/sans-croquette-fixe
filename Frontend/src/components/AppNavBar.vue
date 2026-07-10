@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="sticky top-0 z-10 w-full border-b border-[var(--scf-line)] bg-[var(--scf-bg)]">
+  <div class="sticky top-0 z-30 w-full border-b border-[var(--scf-line)] bg-[var(--scf-bg)]">
     <div
       class="page-shell flex w-full flex-col gap-3 py-4 md:flex-row md:items-center md:justify-between"
     >

@@ -49,7 +49,7 @@ const compatRow = computed(() => {
 const friendlyLabel = (value: CatFriendly) => {
   if (value === CatFriendly.YES) return { text: t('adopt.friendly-yes'), cls: 'text-green-600' }
   if (value === CatFriendly.NO) return { text: t('adopt.friendly-no'), cls: 'text-red-500' }
-  return { text: t('adopt.friendly-unknown'), cls: 'text-surface-400' }
+  return { text: t('adopt.friendly-unknown'), cls: 'text-[var(--scf-muted)]' }
 }
 </script>
 
@@ -57,17 +57,17 @@ const friendlyLabel = (value: CatFriendly) => {
   <div class="flex flex-col gap-4">
     <div
       v-if="catSheet.tarification"
-      class="flex items-center justify-between rounded-xl bg-primary-50 dark:bg-primary-900/20 border border-primary-100 dark:border-primary-800 px-3 py-2"
+      class="flex items-center justify-between rounded-xl bg-[var(--scf-bg)] px-3 py-2"
     >
-      <span class="text-sm font-medium text-primary-700 dark:text-primary-300">{{
+      <span class="text-sm font-medium text-[var(--scf-text)]">{{
         catSheet.tarification.label
       }}</span>
-      <span class="text-sm font-bold text-primary-700 dark:text-primary-300"
+      <span class="text-sm font-bold text-[var(--scf-accent-dark)]"
         >{{ catSheet.tarification.price }} €</span
       >
     </div>
 
-    <p v-if="description" class="text-sm text-surface-500 dark:text-surface-400 leading-relaxed">
+    <p v-if="description" class="text-sm leading-relaxed text-[var(--scf-text)]">
       {{ description }}
     </p>
 
@@ -75,14 +75,18 @@ const friendlyLabel = (value: CatFriendly) => {
       <span
         v-for="chip in healthChips"
         :key="chip.key"
-        class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border border-green-200 dark:border-green-800"
+        class="rounded-full bg-[var(--scf-accent-soft)] px-2 py-0.5 text-xs font-medium text-[var(--scf-accent-dark)]"
         >{{ chip.label }}</span
       >
     </div>
 
-    <div class="grid grid-cols-3 gap-2 pt-1 border-t border-surface-100 dark:border-surface-700">
-      <div v-for="compat in compatRow" :key="compat.label" class="flex flex-col items-center gap-0.5">
-        <span class="text-xs text-surface-400 dark:text-surface-500">{{ compat.label }}</span>
+    <div class="grid grid-cols-3 gap-2 border-t border-[var(--scf-line)] pt-3">
+      <div
+        v-for="compat in compatRow"
+        :key="compat.label"
+        class="flex flex-col items-center gap-0.5"
+      >
+        <span class="text-xs text-[var(--scf-muted)]">{{ compat.label }}</span>
         <span :class="['text-xs font-semibold', friendlyLabel(compat.value).cls]">
           {{ friendlyLabel(compat.value).text }}
         </span>
