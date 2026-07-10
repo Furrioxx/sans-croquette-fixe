@@ -130,7 +130,9 @@ const usesOfFunds = [
     </section>
 
     <!-- MATERIAL DONATIONS -->
-    <section class="w-full bg-[var(--scf-ink)] px-6 py-16 text-white md:px-[60px]">
+    <section
+      class="w-full bg-[var(--scf-ink)] px-6 py-16 text-white md:px-[60px] border-b border-[var(--scf-line)]"
+    >
       <div class="page-shell max-w-2xl space-y-4">
         <span class="eyebrow !bg-white/10 !text-[var(--scf-accent-soft)]">{{
           $t('donate.eyebrowMaterial')

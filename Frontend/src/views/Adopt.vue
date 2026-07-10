@@ -411,7 +411,7 @@ const onPageChange = (event: { page: number }) => {
 
     <!-- CTA BAND -->
     <section
-      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-ink)] px-6 py-10 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left"
+      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-ink)] px-6 py-10 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left border-b border-[var(--scf-line)]"
     >
       <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
         {{ $t('adopt.ctaBand.text') }}
