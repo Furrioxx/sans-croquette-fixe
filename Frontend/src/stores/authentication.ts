@@ -9,12 +9,10 @@ import { Roles } from '@/router/Roles'
 
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
-  const storedToken =
-    localStorageHelper.getData('token') ?? localStorageHelper.getSessionData('token')
 
   // State
   const user = ref<User | null>(null)
-  const token = ref<string | null>(storedToken)
+  const token = ref<string | null>(localStorageHelper.getData('token'))
 
   // Computed
   const isConnected = computed<boolean>(() => {
@@ -52,14 +50,14 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const login = async (user: UserLogin, rememberMe = false) => {
+  const login = async (user: UserLogin) => {
     try {
       const res = await axiosInstance.post('/auth/local', {
         identifier: user.identifier,
         password: user.password,
       })
       const resData: UserWithToken = res.data
-      handleAuthSuccess(resData, rememberMe)
+      handleAuthSuccess(resData)
     } catch (error: Error | any) {
       throw error
     }
@@ -75,15 +73,9 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  const handleAuthSuccess = async (resData: UserWithToken, rememberMe = true) => {
+  const handleAuthSuccess = async (resData: UserWithToken) => {
     token.value = resData.jwt
-    if (rememberMe) {
-      localStorageHelper.storeData('token', resData.jwt)
-      localStorageHelper.removeSessionData('token')
-    } else {
-      localStorageHelper.storeSessionData('token', resData.jwt)
-      localStorageHelper.removeData('token')
-    }
+    localStorageHelper.storeData('token', resData.jwt)
 
     // we need to set the user data to get the role for routing
     try {
@@ -120,7 +112,6 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     token.value = null
     localStorageHelper.removeData('token')
-    localStorageHelper.removeSessionData('token')
   }
 
   return {

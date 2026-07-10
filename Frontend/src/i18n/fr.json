@@ -69,17 +69,10 @@
   },
   "auth": {
     "email": "Adresse e-mail",
-    "email-placeholder": "exemple@mail.com",
     "password": "Mot de passe",
-    "password-placeholder": "Votre mot de passe",
-    "password-confirm": "Retapez le mot de passe",
-    "password-confirm-placeholder": "Retapez votre mot de passe",
-    "show-password": "Afficher le mot de passe",
-    "hide-password": "Masquer le mot de passe",
     "prenom": "Prénom",
     "nom": "Nom",
     "username": "Nom d'utilisateur",
-    "username-placeholder": "Choisissez un nom d'utilisateur",
     "role": "Rôle",
     "confirmed": "Confirmé",
     "blocked": "Bloqué",
@@ -89,40 +82,7 @@
     "register": "Créer un compte",
     "registerFail": "L'inscription a échoué. Veuillez réessayer.",
     "loginFail": "La connexion a échoué. Veuillez vérifier vos identifiants.",
-    "rememberMe": "Se souvenir de moi",
-    "password-rules-error": "Le mot de passe ne respecte pas encore tous les critères demandés.",
-    "password-rules": {
-      "uppercase": "Au moins une majuscule",
-      "number": "Au moins un numéro",
-      "special": "Au moins un caractère spécial",
-      "match": "Les deux mots de passe sont identiques"
-    },
-    "login-eyebrow": "Revenir vers son futur chat",
-    "login-hero-text": "Connectez-vous pour reprendre vos demandes d'adoption, retrouver vos coups de coeur et suivre votre parcours sereinement.",
-    "login-highlights": {
-      "safe": "Retrouvez un espace simple pour suivre vos demarches d'adoption sans repartir de zero.",
-      "follow": "Consultez vos demandes et leur avancement en quelques clics.",
-      "match": "Gardez le lien avec les chats qui vous correspondent vraiment."
-    },
-    "login-photo-alt": "Chat paisible dans son panier",
-    "login-photo-title": "Un retour tout en douceur",
-    "login-photo-text": "Votre espace vous aide a reprendre la conversation avec l'association et avancer vers une adoption responsable.",
-    "login-card-kicker": "Espace adoptant",
-    "login-card-title": "Heureux de vous revoir",
-    "login-card-text": "Entrez vos identifiants pour continuer votre parcours d'adoption et retrouver vos informations.",
-    "register-eyebrow": "Commencer une belle rencontre",
-    "register-hero-text": "Créez votre espace pour découvrir les chats a l'adoption, envoyer une demande et construire un projet d'accueil serieux et rassurant.",
-    "register-highlights": {
-      "profile": "Créez votre profil adoptant pour gagner du temps lors de vos futures demandes.",
-      "requests": "Envoyez une demande pour un chat et suivez l'etat de votre dossier.",
-      "follow": "Gardez un historique clair de vos coups de coeur et de vos échanges."
-    },
-    "register-photo-alt": "Chat curieux allongé",
-    "register-photo-title": "Tout commence ici",
-    "register-photo-text": "En quelques champs, vous ouvrez un espace personnel pour adopter avec plus de clarté et de confiance.",
-    "register-card-kicker": "Nouveau compte",
-    "register-card-title": "Créer son espace adoptant",
-    "register-card-text": "Renseignez vos informations pour commencer à découvrir les chats et préparer une demande d'adoption."
+    "rememberMe": "Se souvenir de moi"
   },
   "nav": {
     "brand": "Sans Croquettes Fixes",
