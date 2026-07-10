@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
 import type { Cat } from '@/models/Cat'
-import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { isKitten } from '@/utils/catUtils'
+import { formatAge, getCatStatusLabel, isKitten } from '@/utils/catUtils'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 
 const { t } = useI18n()
 
 const props = defineProps<{ catSheet: CatSheet }>()
-
-const getImageUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
 
 const images = computed(() => props.catSheet.images ?? [])
 const cats = computed(() => props.catSheet.cats ?? [])
@@ -24,28 +19,17 @@ const primaryCat = computed(() => cats.value[0])
 
 const coverImage = computed(() => {
   const first = images.value[0]
-  return first ? getImageUrl(first.url) : null
+  return first ? getCatImageUrl(first.url) : null
 })
 
 const catNames = computed(() => cats.value.map((c) => c.name).join(' & '))
 
-const statusLabel = computed(() => {
-  const s = primaryCat.value?.catStatus
-  if (s === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
-  if (s === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
-  return null
-})
+const statusLabel = computed(() => getCatStatusLabel(primaryCat.value?.catStatus, t))
 
 const genderLabel = (cat: Cat) =>
   cat.gender === Genders.MALE ? t('adopt.male') : t('adopt.female')
 
-const age = (cat: Cat) => {
-  const bd = cat.birthDate
-  if (!bd) return t('adopt.age-unknown')
-  const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
-  if (months < 12) return t('adopt.age-months', { n: months })
-  return t('adopt.age-years', { n: Math.floor(months / 12) })
-}
+const age = (cat: Cat) => formatAge(cat.birthDate, t)
 
 const kittenLabel = (cat: Cat) => (isKitten(cat) ? t('adopt.kitten') : t('adopt.not-kitten'))
 

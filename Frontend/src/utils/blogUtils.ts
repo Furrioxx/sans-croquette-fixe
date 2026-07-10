@@ -1,9 +1,7 @@
 import type { BlogPost } from '@/models/BlogPost'
+import { getCatImageUrl } from '@/utils/catImageUrl'
 
-export const getBlogMediaUrl = (url: string) => {
-  const baseUrl = (import.meta.env.VITE_APP_API_BASE_URL as string)?.replace(/\/api\/?$/, '') || ''
-  return url.startsWith('http') ? url : `${baseUrl}${url}`
-}
+export const getBlogMediaUrl = getCatImageUrl
 
 export const formatBlogDate = (value: string, locale = 'fr-FR') => {
   return new Intl.DateTimeFormat(locale, {

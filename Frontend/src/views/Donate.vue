@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { useManager } from '@/router/manager'
 import { useI18n } from 'vue-i18n'
+import { DONATION_URL } from '@/config/donation'
+import { CONTACT_EMAIL, buildMailtoLink } from '@/config/contact'
 
 const title = useManager().getCurrentRouteTitle()
 const { t } = useI18n()
-const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
+const donationUrl = DONATION_URL
 
 const usesOfFunds = [
   {
@@ -48,7 +50,7 @@ const usesOfFunds = [
       </div>
     </section>
 
-    <!-- AMOUNTS -->
+    <!-- DONATE -->
     <section class="flex w-full justify-center bg-[var(--scf-bg)] px-6 pb-14 md:px-[60px]">
       <div class="w-full max-w-xl space-y-6 rounded-[28px] bg-white p-9 text-center">
         <p class="display-font text-base font-semibold text-[var(--scf-ink)]">
@@ -145,11 +147,8 @@ const usesOfFunds = [
         </p>
         <p class="text-sm font-medium text-white">
           {{ $t('donate.contact') }}
-          <a
-            class="underline decoration-white/40 underline-offset-4"
-            href="mailto:dons@sanscroquettesfixes.fr"
-          >
-            dons@sanscroquettesfixes.fr
+          <a class="underline decoration-white/40 underline-offset-4" :href="buildMailtoLink()">
+            {{ CONTACT_EMAIL }}
           </a>
         </p>
       </div>

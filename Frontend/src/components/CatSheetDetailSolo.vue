@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { CatSheet } from '@/models/CatSheet'
 import type { Cat } from '@/models/Cat'
-import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
-import { isKitten } from '@/utils/catUtils'
+import { formatAge as formatAgeUtil, getCatStatusLabel, isKitten } from '@/utils/catUtils'
 import { getCatImageUrl } from '@/utils/catImageUrl'
+import { buildMailtoLink } from '@/config/contact'
 import { useRelatedCatSheets } from '@/composables/useRelatedCatSheets'
 import CatSheetCard from '@/components/CatSheetCard.vue'
 import { AdoptionRequestService } from '@/services/adoptionRequestService'
@@ -49,12 +49,7 @@ const mainImage = computed(() => {
   return img ? getImageUrl(img.url) : null
 })
 
-const statusLabel = computed(() => {
-  const s = cat.value.catStatus
-  if (s === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
-  if (s === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
-  return null
-})
+const statusLabel = computed(() => getCatStatusLabel(cat.value.catStatus, t))
 
 const genderLabel = computed(() =>
   cat.value.gender === Genders.MALE ? t('adopt.male') : t('adopt.female'),
@@ -72,12 +67,7 @@ const formatBirthDate = (bd: string | null) => {
   })
 }
 
-const formatAge = (bd: string | null) => {
-  if (!bd) return t('adopt.age-unknown')
-  const months = Math.floor((Date.now() - new Date(bd).getTime()) / (1000 * 60 * 60 * 24 * 30.44))
-  if (months < 12) return t('adopt.age-months', { n: months })
-  return t('adopt.age-years', { n: Math.floor(months / 12) })
-}
+const formatAge = (bd: string | null) => formatAgeUtil(bd, t)
 
 const healthSummary = computed(() => {
   const parts = [
@@ -300,7 +290,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
           />
           <Button
             as="a"
-            :href="`mailto:dons@sanscroquettesfixes.fr?subject=${encodeURIComponent('Question à propos de ' + cat.name)}`"
+            :href="buildMailtoLink('Question à propos de ' + cat.name)"
             :label="$t('adoptDetail.askQuestion')"
             rounded
             outlined

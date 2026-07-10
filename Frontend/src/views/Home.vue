@@ -7,11 +7,12 @@ import { useRouter } from 'vue-router'
 import { CatSheetService } from '@/services/catSheetService'
 import type { CatSheet } from '@/models/CatSheet'
 import CatSheetCard from '@/components/CatSheetCard.vue'
+import { DONATION_URL } from '@/config/donation'
 
 const title = useManager().getCurrentRouteTitle()
 const router = useRouter()
 const { t } = useI18n()
-const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
+const donationUrl = DONATION_URL
 
 const highlights = [
   {
@@ -55,21 +56,6 @@ const stats = [
   { value: t('home.stats.years.value'), label: t('home.stats.years.label') },
   { value: t('home.stats.animals.value'), label: t('home.stats.animals.label') },
   { value: t('home.stats.food.value'), label: t('home.stats.food.label') },
-]
-
-const steps = [
-  {
-    title: t('home.steps.observe.title'),
-    text: t('home.steps.observe.text'),
-  },
-  {
-    title: t('home.steps.file.title'),
-    text: t('home.steps.file.text'),
-  },
-  {
-    title: t('home.steps.exchange.title'),
-    text: t('home.steps.exchange.text'),
-  },
 ]
 
 const catSheets = ref<CatSheet[]>([])

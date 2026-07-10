@@ -3,13 +3,14 @@ import { RouteNames } from '@/router/routeNames'
 import { useI18n } from 'vue-i18n'
 import { CatSheetService } from '@/services/catSheetService'
 import type { CatSheet } from '@/models/CatSheet'
-import { CatStatus } from '@/models/Enums/CatStatusEnum'
+import { getCatStatusLabel } from '@/utils/catUtils'
 import { getCatImageUrl } from '@/utils/catImageUrl'
 import { onMounted, ref } from 'vue'
 import AnaisPhoto from '@/assets/about/anais-hillion-1.png'
+import { DONATION_URL } from '@/config/donation'
 
 const { t } = useI18n()
-const donationUrl = 'https://www.helloasso.com/associations/sans-croquettes-fixes/formulaires/1'
+const donationUrl = DONATION_URL
 
 const actions = [
   {
@@ -74,12 +75,7 @@ onMounted(async () => {
 
 const catName = (sheet: CatSheet) => sheet.cats.map((c) => c.name).join(' & ')
 
-const catStatusLabel = (sheet: CatSheet) => {
-  const status = sheet.cats[0]?.catStatus
-  if (status === CatStatus.EN_REFUGE) return t('adopt.status-refuge')
-  if (status === CatStatus.EN_FAMILLE_ACCUEIL) return t('adopt.status-accueil')
-  return null
-}
+const catStatusLabel = (sheet: CatSheet) => getCatStatusLabel(sheet.cats[0]?.catStatus, t)
 
 const catCoverImage = (sheet: CatSheet) => {
   const image = sheet.images?.[0]

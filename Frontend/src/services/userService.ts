@@ -1,5 +1,6 @@
 import type { UserPostPutAdmin } from '@/models/User'
 import { axiosInstance } from './axiosInsance'
+import { toStrapiQueryString } from '@/utils/strapiQuery'
 
 const API_URL = '/users'
 
@@ -11,21 +12,16 @@ export const UserService = {
     return await axiosInstance.get('/user-roles/available')
   },
   GetUsers: async (page: number, limit: number | null) => {
-    return await axiosInstance.get(`${API_URL}`, {
-      params: {
-        'pagination[page]': page,
-        'pagination[pageSize]': limit,
-        populate: 'role',
-        'sort[0]': 'role.type:asc',
-      },
+    const query = toStrapiQueryString({
+      pagination: { page, pageSize: limit },
+      populate: 'role',
+      sort: ['role.type:asc'],
     })
+    return await axiosInstance.get(`${API_URL}?${query}`)
   },
   GetUserById: async (id: number) => {
-    return await axiosInstance.get(`${API_URL}/${id}`, {
-      params: {
-        populate: 'role',
-      },
-    })
+    const query = toStrapiQueryString({ populate: 'role' })
+    return await axiosInstance.get(`${API_URL}/${id}?${query}`)
   },
   BlockUser: async (id: number) => {
     return await axiosInstance.put(`${API_URL}/${id}`, {

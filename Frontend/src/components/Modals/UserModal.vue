@@ -155,7 +155,6 @@ const save = async () => {
       :label="$t('auth.role')"
     />
     <div v-if="!isEditMode">
-      <!-- TODO Remove this field -->
       <InputTextWithLabel name="password" :label="$t('auth.password')" v-model="form.password!" />
 
       <ToggleSwitchWithLabel

@@ -1,5 +1,6 @@
 import type { CatSheetPostPut } from '@/models/CatSheet'
 import { axiosInstance } from './axiosInsance'
+import { toStrapiQueryString, type StrapiQueryValue } from '@/utils/strapiQuery'
 
 const API_URL = '/cat-sheets'
 
@@ -21,65 +22,65 @@ export interface PublicCatSheetParams {
 
 export const ADOPTABLE_STATUSES = ['en_refuge', 'en_famille_accueil']
 
+const CAT_SHEET_POPULATE = {
+  cats: { populate: { cat_moods: '*' } },
+  images: true,
+  tarification: true,
+}
+
 export const CatSheetService = {
   GetAllCatSheets: async () => {
-    return await axiosInstance.get(`${API_URL}`, {
-      params: {
-        'populate[cats][populate][cat_moods]': '*',
-        'populate[linkedVolunteer]': true,
-        'populate[backupVolunteer]': true,
-        'populate[images]': true,
-        'populate[tarification]': true,
+    const query = toStrapiQueryString({
+      populate: {
+        ...CAT_SHEET_POPULATE,
+        linkedVolunteer: true,
+        backupVolunteer: true,
       },
     })
+    return await axiosInstance.get(`${API_URL}?${query}`)
   },
 
   GetPublicCatSheets: async (params: PublicCatSheetParams) => {
-    const p: Record<string, unknown> = {
-      'populate[cats][populate][cat_moods]': '*',
-      'populate[images]': true,
-      'populate[tarification]': true,
-      'pagination[page]': params.page,
-      'pagination[pageSize]': params.pageSize,
-    }
-
     const statuses = params.statuses?.length ? params.statuses : ADOPTABLE_STATUSES
-    statuses.forEach((s, i) => { p[`filters[cats][catStatus][$in][${i}]`] = s })
-    params.genders?.forEach((g, i) => { p[`filters[cats][gender][$in][${i}]`] = g })
 
-    if (params.isDuo !== undefined) p['filters[isDuo][$eq]'] = params.isDuo
-    if (params.catFriendly) p['filters[cats][catFriendly][$eq]'] = 'yes'
-    if (params.dogFriendly) p['filters[cats][dogFriendly][$eq]'] = 'yes'
-    if (params.childFriendly) p['filters[cats][childFriendly][$eq]'] = 'yes'
-    if (params.vaccinated) p['filters[cats][vaccinated][$eq]'] = true
-    if (params.sterilized) p['filters[cats][sterilized][$eq]'] = true
-    if (params.identified) p['filters[cats][identified][$eq]'] = true
-    if (params.decontaminate) p['filters[cats][decontaminate][$eq]'] = true
-    params.excludeIds?.forEach((id, i) => { p[`filters[documentId][$notIn][${i}]`] = id })
+    const catsFilters: Record<string, StrapiQueryValue> = {
+      catStatus: { $in: statuses },
+    }
+    if (params.genders?.length) catsFilters.gender = { $in: params.genders }
+    if (params.catFriendly) catsFilters.catFriendly = { $eq: 'yes' }
+    if (params.dogFriendly) catsFilters.dogFriendly = { $eq: 'yes' }
+    if (params.childFriendly) catsFilters.childFriendly = { $eq: 'yes' }
+    if (params.vaccinated) catsFilters.vaccinated = { $eq: true }
+    if (params.sterilized) catsFilters.sterilized = { $eq: true }
+    if (params.identified) catsFilters.identified = { $eq: true }
+    if (params.decontaminate) catsFilters.decontaminate = { $eq: true }
 
-    return await axiosInstance.get(API_URL, { params: p })
+    const filters: Record<string, StrapiQueryValue> = { cats: catsFilters }
+    if (params.isDuo !== undefined) filters.isDuo = { $eq: params.isDuo }
+    if (params.excludeIds?.length) filters.documentId = { $notIn: params.excludeIds }
+
+    const query = toStrapiQueryString({
+      populate: CAT_SHEET_POPULATE,
+      pagination: { page: params.page, pageSize: params.pageSize },
+      filters,
+    })
+
+    return await axiosInstance.get(`${API_URL}?${query}`)
   },
 
   GetPublicCatSheet: async (documentId: string) => {
-    return await axiosInstance.get(`${API_URL}/${documentId}`, {
-      params: {
-        'populate[cats][populate][cat_moods]': '*',
-        'populate[images]': true,
-        'populate[tarification]': true,
-      },
-    })
+    const query = toStrapiQueryString({ populate: CAT_SHEET_POPULATE })
+    return await axiosInstance.get(`${API_URL}/${documentId}?${query}`)
   },
 
   GetCatSheetsByIds: async (documentIds: string[]) => {
     if (!documentIds.length) return { data: { data: [] } }
-    const p: Record<string, unknown> = {
-      'populate[cats][populate][cat_moods]': '*',
-      'populate[images]': true,
-      'populate[tarification]': true,
-      'pagination[pageSize]': documentIds.length,
-    }
-    documentIds.forEach((id, i) => { p[`filters[documentId][$in][${i}]`] = id })
-    return await axiosInstance.get(API_URL, { params: p })
+    const query = toStrapiQueryString({
+      populate: CAT_SHEET_POPULATE,
+      pagination: { pageSize: documentIds.length },
+      filters: { documentId: { $in: documentIds } },
+    })
+    return await axiosInstance.get(`${API_URL}?${query}`)
   },
 
   AddCatSheet: async (catSheet: CatSheetPostPut) => {
