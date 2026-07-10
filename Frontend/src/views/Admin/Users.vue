@@ -63,47 +63,49 @@ const closeModal = (visible: boolean) => {
     @click="editModalVisible = true"
   />
 
-  <DataTable :value="users" :loading="loading" tableStyle="min-width: 50rem">
-    <template #header>
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <span class="text-xl font-bold">{{ $t('admin.users') }}</span>
-        <Button
-          icon="pi pi-refresh"
-          v-tooltip.top="$t('refresh')"
-          rounded
-          raised
-          @click="loadData"
-        />
-      </div>
-    </template>
-    <Column field="username" header="Name"></Column>
-    <Column field="email" header="Email"></Column>
-    <Column header="Blocked">
-      <template #body="slotProps">
-        <i class="pi pi-check-circle text-green-500" v-if="slotProps.data.blocked"></i>
-        <i class="pi pi-times-circle text-red-500" v-else></i>
+  <div class="admin-table-shell">
+    <DataTable :value="users" :loading="loading" tableStyle="min-width: 50rem">
+      <template #header>
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xl font-bold">{{ $t('admin.users') }}</span>
+          <Button
+            icon="pi pi-refresh"
+            v-tooltip.top="$t('refresh')"
+            rounded
+            raised
+            @click="loadData"
+          />
+        </div>
       </template>
-    </Column>
-    <Column header="Role">
-      <template #body="slotProps">
-        <Tag
-          :value="slotProps.data.role.name"
-          :severity="userStore.getRoleSeverity(slotProps.data.role.type)"
-        />
-      </template>
-    </Column>
-    <Column header="Actions">
-      <template #body="slotProps">
-        <Button
-          icon="pi pi-ellipsis-v"
-          rounded
-          text
-          v-tooltip.top="$t('settings')"
-          @click="togglePopover($event, slotProps.data.id)"
-        />
-      </template>
-    </Column>
-  </DataTable>
+      <Column field="username" header="Name"></Column>
+      <Column field="email" header="Email"></Column>
+      <Column header="Blocked">
+        <template #body="slotProps">
+          <i class="pi pi-check-circle text-green-500" v-if="slotProps.data.blocked"></i>
+          <i class="pi pi-times-circle text-red-500" v-else></i>
+        </template>
+      </Column>
+      <Column header="Role">
+        <template #body="slotProps">
+          <Tag
+            :value="slotProps.data.role.name"
+            :severity="userStore.getRoleSeverity(slotProps.data.role.type)"
+          />
+        </template>
+      </Column>
+      <Column header="Actions">
+        <template #body="slotProps">
+          <Button
+            icon="pi pi-ellipsis-v"
+            rounded
+            text
+            v-tooltip.top="$t('settings')"
+            @click="togglePopover($event, slotProps.data.id)"
+          />
+        </template>
+      </Column>
+    </DataTable>
+  </div>
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">

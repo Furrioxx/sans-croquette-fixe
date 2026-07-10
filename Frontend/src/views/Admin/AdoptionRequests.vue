@@ -235,14 +235,15 @@ onMounted(loadRequests)
       </template>
 
       <template #content>
-        <DataTable
-          :value="filteredRequests"
-          :loading="loading"
-          paginator
-          :rows="8"
-          responsiveLayout="scroll"
-          tableStyle="min-width: 72rem"
-        >
+        <div class="admin-table-shell">
+          <DataTable
+            :value="filteredRequests"
+            :loading="loading"
+            paginator
+            :rows="8"
+            responsiveLayout="scroll"
+            tableStyle="min-width: 72rem"
+          >
           <template #empty>
             <div class="py-6 text-center text-gray-500">
               {{ $t('admin.adoptionRequests.empty') }}
@@ -309,7 +310,8 @@ onMounted(loadRequests)
               </div>
             </template>
           </Column>
-        </DataTable>
+          </DataTable>
+        </div>
       </template>
     </Card>
 
@@ -317,7 +319,7 @@ onMounted(loadRequests)
       v-model:visible="dialogVisible"
       modal
       :header="$t('admin.adoptionRequests.dialog.title')"
-      :style="{ width: '70rem' }"
+      class="admin-dialog"
     >
       <template #header>
         <div class="flex w-full items-center justify-between gap-4 pr-4">

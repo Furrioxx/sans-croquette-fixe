@@ -80,25 +80,26 @@ const closeGallery = (visible: boolean) => {
     @click="editModalVisible = true"
   />
 
-  <DataTable
-    :value="catSheets"
-    :loading="loading"
-    tableStyle="min-width: 50rem"
-    stripedRows
-    :rowHover="true"
-  >
-    <template #header>
-      <div class="flex flex-wrap items-center justify-between gap-2">
-        <span class="text-xl font-bold">{{ $t('admin.cat.cats') }}</span>
-        <Button
-          icon="pi pi-refresh"
-          v-tooltip.top="$t('refresh')"
-          rounded
-          raised
-          @click="loadData"
-        />
-      </div>
-    </template>
+  <div class="admin-table-shell">
+    <DataTable
+      :value="catSheets"
+      :loading="loading"
+      tableStyle="min-width: 50rem"
+      stripedRows
+      :rowHover="true"
+    >
+      <template #header>
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xl font-bold">{{ $t('admin.cat.cats') }}</span>
+          <Button
+            icon="pi pi-refresh"
+            v-tooltip.top="$t('refresh')"
+            rounded
+            raised
+            @click="loadData"
+          />
+        </div>
+      </template>
 
     <Column :header="$t('admin.cat.name')">
       <template #body="slotProps">
@@ -155,18 +156,19 @@ const closeGallery = (visible: boolean) => {
       </template>
     </Column>
 
-    <Column :header="$t('actions')">
-      <template #body="slotProps">
-        <Button
-          icon="pi pi-ellipsis-v"
-          rounded
-          text
-          v-tooltip.top="$t('settings')"
-          @click="togglePopover($event, slotProps.data.id)"
-        />
-      </template>
-    </Column>
-  </DataTable>
+      <Column :header="$t('actions')">
+        <template #body="slotProps">
+          <Button
+            icon="pi pi-ellipsis-v"
+            rounded
+            text
+            v-tooltip.top="$t('settings')"
+            @click="togglePopover($event, slotProps.data.id)"
+          />
+        </template>
+      </Column>
+    </DataTable>
+  </div>
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">

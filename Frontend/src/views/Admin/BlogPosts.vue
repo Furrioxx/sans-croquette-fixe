@@ -266,13 +266,14 @@ const formatDate = (value: string) => {
       </Tag>
     </div>
 
-    <DataTable
-      :value="blogPosts"
-      :loading="loading"
-      tableStyle="min-width: 50rem"
-      stripedRows
-      :rowHover="true"
-    >
+    <div class="admin-table-shell">
+      <DataTable
+        :value="blogPosts"
+        :loading="loading"
+        tableStyle="min-width: 50rem"
+        stripedRows
+        :rowHover="true"
+      >
       <Column :header="$t('blog.fields.title')">
         <template #body="slotProps">
           <div class="flex flex-col gap-1">
@@ -334,7 +335,8 @@ const formatDate = (value: string) => {
           </div>
         </template>
       </Column>
-    </DataTable>
+      </DataTable>
+    </div>
 
     <Paginator
       v-if="totalRecords > PAGE_SIZE"

@@ -411,14 +411,15 @@ const deleteAdminAbsence = (absence: Absence) => {
       </template>
 
       <template #content>
-        <DataTable
-          :value="absences"
-          :loading="loading"
-          paginator
-          :rows="8"
-          responsiveLayout="scroll"
-          tableStyle="min-width: 60rem"
-        >
+        <div class="admin-table-shell">
+          <DataTable
+            :value="absences"
+            :loading="loading"
+            paginator
+            :rows="8"
+            responsiveLayout="scroll"
+            tableStyle="min-width: 60rem"
+          >
           <template #empty>
             <div class="py-6 text-center text-gray-500">
               {{ $t('admin.absence-empty') }}
@@ -529,7 +530,8 @@ const deleteAdminAbsence = (absence: Absence) => {
               </span>
             </template>
           </Column>
-        </DataTable>
+          </DataTable>
+        </div>
       </template>
     </Card>
 
@@ -550,7 +552,7 @@ const deleteAdminAbsence = (absence: Absence) => {
       v-model:visible="dialogVisible"
       modal
       :header="$t(editingAbsence ? 'update' : 'admin.absence-create')"
-      :style="{ width: '32rem' }"
+      class="admin-dialog-sm"
     >
       <div class="flex flex-col gap-4">
         <div class="rounded-xl bg-gray-50 p-4 text-sm text-gray-600">
