@@ -80,7 +80,7 @@ const friendlyLabel = (value: CatFriendly) => {
       >
     </div>
 
-    <div class="grid grid-cols-3 gap-2 border-t border-[var(--scf-line)] pt-3">
+    <div class="compat-grid border-t border-[var(--scf-line)] pt-3">
       <div
         v-for="compat in compatRow"
         :key="compat.label"

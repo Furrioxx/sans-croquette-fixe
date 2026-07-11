@@ -311,7 +311,7 @@
     "contact": {
       "help": {
         "title": "Vous avez besoin de notre aide ?",
-        "text": "Une situation compliquée avec vos animaux ? Un animal en danger ? Écrivez-nous à sanscroquettesfixes@gmail.com"
+        "text": "Une situation compliquée avec vos animaux ? Un animal en danger ? Écrivez-nous à sanscroquettesfixes{'@'}gmail.com"
       },
       "mailOnly": {
         "title": "Contact uniquement par mail",

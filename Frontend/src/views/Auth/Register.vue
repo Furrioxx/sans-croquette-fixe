@@ -22,7 +22,7 @@ const router = useRouter()
             {{ $t('auth.register-hero-text') }}
           </p>
 
-          <div class="flex flex-wrap gap-3">
+          <div class="responsive-actions">
             <Button
               :label="$t('discover.nav-link')"
               icon="pi pi-heart"

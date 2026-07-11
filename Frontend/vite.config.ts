@@ -21,6 +21,6 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['@primevue/themes', '@primevue/config', 'primevue'],
+    include: ['@primevue/themes', 'primevue/config', 'primevue'],
   },
 })

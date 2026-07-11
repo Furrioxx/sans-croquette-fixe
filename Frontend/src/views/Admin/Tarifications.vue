@@ -129,7 +129,8 @@ const editSelectedTarification = () => {
       </template>
 
       <template #content>
-        <DataTable :value="tarifications" :loading="loading" tableStyle="min-width: 40rem" stripedRows>
+        <div class="admin-table-shell">
+          <DataTable :value="tarifications" :loading="loading" tableStyle="min-width: 40rem" stripedRows>
           <template #empty>
             <div class="py-6 text-center text-gray-500">
               {{ $t('admin.tarification.empty') }}
@@ -155,7 +156,8 @@ const editSelectedTarification = () => {
               />
             </template>
           </Column>
-        </DataTable>
+          </DataTable>
+        </div>
       </template>
     </Card>
 
@@ -172,7 +174,7 @@ const editSelectedTarification = () => {
       v-model:visible="dialogVisible"
       modal
       :header="$t(isEditMode ? 'admin.tarification.edit' : 'admin.tarification.create')"
-      :style="{ width: '28rem' }"
+      class="admin-dialog-xs"
     >
       <div class="flex flex-col gap-4">
         <InputTextWithLabel

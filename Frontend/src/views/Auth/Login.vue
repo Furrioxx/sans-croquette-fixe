@@ -22,7 +22,7 @@ const router = useRouter()
             {{ $t('auth.login-hero-text') }}
           </p>
 
-          <div class="flex flex-wrap gap-3">
+          <div class="responsive-actions">
             <Button
               :label="$t('home.adoptCat')"
               icon="pi pi-heart-fill"
