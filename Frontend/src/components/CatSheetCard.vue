@@ -11,7 +11,15 @@ import { getCatImageUrl } from '@/utils/catImageUrl'
 
 const { t } = useI18n()
 
-const props = defineProps<{ catSheet: CatSheet }>()
+type MismatchDetail = {
+  expected: string
+  actual: string
+}
+
+const props = defineProps<{
+  catSheet: CatSheet
+  mismatchDetails?: MismatchDetail[]
+}>()
 
 const images = computed(() => props.catSheet.images ?? [])
 const cats = computed(() => props.catSheet.cats ?? [])
@@ -124,6 +132,28 @@ const infoLines = computed(() => {
           <i :class="line.icon" class="text-[var(--scf-accent-dark)]"></i>
           {{ line.label }}
         </span>
+      </div>
+
+      <div
+        v-if="props.mismatchDetails?.length"
+        class="rounded-[18px] border border-[var(--scf-line)] bg-[var(--scf-bg)] px-3 py-3"
+      >
+        <p class="mb-2 text-[11px] font-bold uppercase tracking-[0.12em] text-[var(--scf-muted)]">
+          {{ $t('adoptGuide.closeMismatchTitleLong') }}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <span
+            v-for="detail in props.mismatchDetails"
+            :key="`${detail.expected}-${detail.actual}`"
+            class="inline-flex flex-wrap items-center gap-1 rounded-full border border-[var(--scf-line)] bg-white px-3 py-1 text-[11px] font-semibold text-[var(--scf-muted)]"
+          >
+            <span class="line-through decoration-[1.5px] decoration-[var(--scf-muted)]">
+              {{ detail.expected }}
+            </span>
+            <span aria-hidden="true">→</span>
+            <span class="text-[var(--scf-ink)]">{{ detail.actual }}</span>
+          </span>
+        </div>
       </div>
 
       <div class="mt-auto pt-2">
