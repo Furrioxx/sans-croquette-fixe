@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chat_conversations",
+  "info": {
+    "singularName": "chat-conversation",
+    "pluralName": "chat-conversations",
+    "displayName": "Chat Conversation",
+    "description": "Private conversation about a cat sheet"
+  },
+  "options": { "draftAndPublish": false },
+  "pluginOptions": {},
+  "attributes": {
+    "catSheet": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cat-sheet.cat-sheet",
+      "inversedBy": "chatConversations",
+      "required": true
+    },
+    "requester": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "chatConversations",
+      "required": true
+    },
+    "messages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat-message.chat-message",
+      "mappedBy": "conversation"
+    }
+  }
+}

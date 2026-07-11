@@ -77,6 +77,18 @@
       "relation": "oneToMany",
       "target": "api::absence.absence",
       "mappedBy": "user"
+    },
+    "chatConversations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat-conversation.chat-conversation",
+      "mappedBy": "requester"
+    },
+    "chatMessages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat-message.chat-message",
+      "mappedBy": "author"
     }
   }
 }
