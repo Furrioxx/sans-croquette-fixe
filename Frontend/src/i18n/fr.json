@@ -51,8 +51,9 @@
     "login": "Connexion",
     "register": "Inscription",
     "adopt": "À l'adoption",
+    "adopt-guide": "Quel chat pour mon foyer ?",
     "adopt-detail": "Détail d'une fiche chat",
-    "discover": "Trouver votre chat",
+    "discover": "CatMatch",
     "blog": "Blog",
     "blog-detail": "Article",
     "dashboard": "Administration",
@@ -177,6 +178,32 @@
     "adoptTitle": "Trouvez votre compagnon",
     "seeAllCats": "Voir tous les chats",
     "noCatsAvailable": "Aucun chat à l'adoption pour le moment.",
+    "questionnaireCta": {
+      "eyebrow": "Futurs adoptants",
+      "title": "Besoin d'être guidé pour trouver le bon chat ?",
+      "text": "Répondez à quelques questions sur votre foyer, votre rythme de vie et vos préférences. Le questionnaire fait ressortir les profils les plus cohérents avec votre situation, puis vous laisse reprendre la main sur la liste complète si besoin.",
+      "primaryCta": "Faire le questionnaire",
+      "secondaryCta": "Voir tous les chats",
+      "tags": [
+        "Enfants, chiens, chats",
+        "Âge, duo, tempérament",
+        "Santé et lieu d'accueil"
+      ],
+      "benefits": {
+        "household": {
+          "title": "Votre foyer avant tout",
+          "text": "On tient compte de la présence d'enfants et d'autres animaux pour éviter les profils inadaptés."
+        },
+        "preferences": {
+          "title": "Des critères utiles",
+          "text": "Vous pouvez affiner selon l'âge, le sexe, le tempérament ou encore certains critères de santé."
+        },
+        "selection": {
+          "title": "Une sélection claire",
+          "text": "Vous obtenez rapidement une liste plus pertinente, puis vous pouvez élargir aux autres chats si besoin."
+        }
+      }
+    },
     "sanctuary": {
       "eyebrow": "10 ans de Sans Croquettes",
       "title": "Les félins de l'ombre",
@@ -461,6 +488,10 @@
   "back": "Retour",
   "adopt": {
     "nav-link": "À l'adoption",
+    "menu": {
+      "list": "Liste des chats à l'adoption",
+      "guide": "Quel chat pour mon foyer ?"
+    },
     "title": "Nos chats à l'adoption",
     "subtitle": "Trouvez votre futur compagnon",
     "filter-btn": "Filtrer",
@@ -521,6 +552,149 @@
     "ctaBand": {
       "text": "Aucun de nos chats ne vous correspond ? Suivez notre page Facebook, de nouvelles fiches arrivent chaque semaine.",
       "cta": "Voir Facebook"
+    }
+  },
+  "adoptGuide": {
+    "eyebrow": "Parcours guidé",
+    "subtitle": "Répondez à quelques questions simples pour faire ressortir les chats qui correspondent le mieux à votre foyer, à votre rythme de vie et à vos préférences d'adoption.",
+    "cardEyebrow": "Questionnaire adoption",
+    "progress": "Étape {current} sur {total}",
+    "next": "Question suivante",
+    "previous": "Question précédente",
+    "seeResults": "Voir mes résultats",
+    "resetCta": "Recommencer",
+    "fullListCta": "Voir tous les chats",
+    "resultsEyebrow": "Sélection personnalisée",
+    "resultsTitle": "Des profils qui vous correspondent",
+    "resultsText": "Les résultats sont séparés entre les profils qui correspondent vraiment à vos réponses et, plus bas, quelques profils proches avec au maximum deux différences visibles.",
+    "emptyTitle": "Aucun profil ne correspond exactement pour l'instant",
+    "emptyText": "Ajustez une ou deux réponses, ou ouvrez la liste complète pour explorer tous les chats disponibles à l'adoption.",
+    "perfectMatchesTitle": "Résultats correspondants",
+    "perfectMatchesText": "Ces chats correspondent pleinement aux préférences que vous avez indiquées.",
+    "noPerfectMatchesText": "Aucun profil ne correspond exactement à toutes vos réponses pour le moment.",
+    "noPerfectMatchesBox": "Aucun résultat correspondant pour l'instant.",
+    "closeMatchesTitle": "Résultats proches",
+    "closeMatchesText": "Ces chats peuvent quand même vous convenir. Ils présentent au maximum deux différences par rapport à vos souhaits, affichées ci-dessous, avec une limite de 10 profils.",
+    "closeMismatchTitle": "Critères différents",
+    "closeMismatchTitleLong": "Critères différents de votre recherche",
+    "highlights": {
+      "fast": {
+        "title": "Rapide",
+        "text": "Quelques étapes suffisent pour orienter votre recherche."
+      },
+      "personal": {
+        "title": "Personnalisé",
+        "text": "Les questions tiennent compte de votre foyer et de vos habitudes."
+      },
+      "clear": {
+        "title": "Concret",
+        "text": "Vous arrivez directement sur des profils compatibles avec vos critères."
+      }
+    },
+    "steps": {
+      "household": {
+        "eyebrow": "Votre foyer",
+        "title": "Y a-t-il des enfants à la maison ?",
+        "text": "On vous proposera en priorité les chats déjà à l'aise avec une vie de famille."
+      },
+      "animals": {
+        "eyebrow": "Vos animaux",
+        "dogTitle": "Vivez-vous avec un chien ?",
+        "dogText": "Si oui, on ne garde que les profils habitués ou compatibles avec les chiens.",
+        "catTitle": "Vivez-vous déjà avec un chat ?",
+        "catText": "Cela nous aide à mettre en avant les chats qui cohabitent plus facilement."
+      },
+      "availability": {
+        "eyebrow": "Le lieu d'accueil",
+        "title": "Où préférez-vous rencontrer votre futur chat ?",
+        "text": "Vous pouvez privilégier les chats au refuge, en famille d'accueil, ou laisser la recherche ouverte."
+      },
+      "profile": {
+        "eyebrow": "Le profil recherché",
+        "title": "Vous cherchez plutôt un chaton ou un adulte ?",
+        "text": "Choisissez un rythme de vie qui vous ressemble, sans vous fermer toute possibilité.",
+        "duoTitle": "Vous êtes ouvert à une adoption en duo ?",
+        "duoText": "Certains chats s'épanouissent mieux à deux. On peut vous les proposer si cela vous convient.",
+        "genderTitle": "Avez-vous une préférence sur le sexe ?",
+        "genderText": "Si vous n'avez pas de préférence, on garde toutes les possibilités."
+      },
+      "lifestyle": {
+        "eyebrow": "Votre quotidien",
+        "title": "Vous imaginez plutôt un chat calme ou joueur ?",
+        "text": "On s'appuie sur les traits de caractère renseignés dans les fiches pour affiner la sélection."
+      },
+      "health": {
+        "eyebrow": "Les critères en plus",
+        "vaccinatedTitle": "Préférez-vous un chat déjà vacciné ?",
+        "vaccinatedText": "Si c'est important pour vous, on peut privilégier ce type de profil dès cette étape.",
+        "sterilizedTitle": "Préférez-vous un chat déjà stérilisé ?",
+        "sterilizedText": "Vous pouvez indiquer cette préférence, ou rester ouvert selon les profils proposés.",
+        "identifiedTitle": "Préférez-vous un chat déjà identifié ?",
+        "identifiedText": "Cela permet de tenir compte de votre préférence sur cet aspect administratif.",
+        "decontaminateTitle": "Préférez-vous un chat déjà déparasité ?",
+        "decontaminateText": "Si vous le souhaitez, on peut aussi prendre ce point en compte dans les profils proposés."
+      }
+    },
+    "answers": {
+      "any": "Peu importe",
+      "filterYes": "Oui, de préférence",
+      "filterNo": "Non, pas spécialement",
+      "filterAny": "Peu importe",
+      "childrenYes": "Oui, il y a des enfants",
+      "childrenNo": "Non, pas d'enfants",
+      "dogYes": "Oui, j'ai un chien",
+      "dogNo": "Non, pas de chien",
+      "catYes": "Oui, j'ai déjà un chat",
+      "catNo": "Non, pas de chat",
+      "refuge": "Plutôt au refuge",
+      "foster": "Plutôt en famille d'accueil",
+      "anyPlace": "Les deux me conviennent",
+      "kitten": "Plutôt un chaton",
+      "adult": "Plutôt un adulte",
+      "anyAge": "Aucun âge en particulier",
+      "duoYes": "Oui, un duo peut me convenir",
+      "duoNo": "Non, je préfère un seul chat",
+      "female": "Femelle",
+      "male": "Male",
+      "anyGender": "Aucune préférence",
+      "calm": "Un profil calme",
+      "playful": "Un profil joueur",
+      "anyEnergy": "Je suis ouvert aux deux",
+      "notVaccinated": "Non vacciné",
+      "notSterilized": "Non stérilisé",
+      "notIdentified": "Non identifié",
+      "notDecontaminated": "Non déparasité"
+    },
+    "expected": {
+      "children": "Compatible enfants",
+      "dog": "Compatible chiens",
+      "cat": "Compatible chats"
+    },
+    "actual": {
+      "children": {
+        "yes": "Compatible enfants",
+        "no": "Pas compatible enfants",
+        "unknown": "Compatibilité enfants inconnue"
+      },
+      "dog": {
+        "yes": "Compatible chiens",
+        "no": "Pas compatible chiens",
+        "unknown": "Compatibilité chiens inconnue"
+      },
+      "cat": {
+        "yes": "Compatible chats",
+        "no": "Pas compatible chats",
+        "unknown": "Compatibilité chats inconnue"
+      },
+      "status": {
+        "unknown": "Lieu d'accueil non précisé"
+      },
+      "gender": {
+        "unknown": "Sexe non précisé"
+      },
+      "energy": {
+        "unknown": "Tempérament non précisé"
+      }
     }
   },
   "adoptDetail": {
@@ -670,9 +844,9 @@
     }
   },
   "discover": {
-    "nav-link": "Trouver votre chat",
-    "title": "Découvrez votre futur chat",
-    "subtitle": "Glissez à droite pour aimer, à gauche pour passer",
+    "nav-link": "CatMatch",
+    "title": "CatMatch",
+    "subtitle": "Parcourez les profils pour repérer vos coups de cœur en quelques gestes",
     "like-stamp": "J'adore",
     "pass-stamp": "Passer",
     "like": "J'aime",

@@ -38,6 +38,11 @@ const routes = [
         component: () => import('../views/Adopt.vue'),
       },
       {
+        path: 'trouver-mon-chat-ideal',
+        name: RouteNames.ADOPT_GUIDE,
+        component: () => import('../views/AdoptGuide.vue'),
+      },
+      {
         path: 'adopt/:documentId',
         name: RouteNames.ADOPT_DETAIL,
         component: () => import('../views/AdoptDetail.vue'),

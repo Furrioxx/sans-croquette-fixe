@@ -5,6 +5,7 @@ export const enum RouteNames {
   LOGIN = 'login',
   REGISTER = 'register',
   ADOPT = 'adopt',
+  ADOPT_GUIDE = 'adopt-guide',
   ADOPT_DETAIL = 'adopt-detail',
   ADOPTION_FORM = 'adoption-form',
   USER_ADOPTION_REQUESTS = 'user-adoption-requests',
