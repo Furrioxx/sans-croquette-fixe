@@ -84,6 +84,7 @@
     "registerFail": "L'inscription a échoué. Veuillez réessayer.",
     "loginFail": "La connexion a échoué. Veuillez vérifier vos identifiants.",
     "rememberMe": "Se souvenir de moi",
+    "newsletterOptIn": "Je souhaite recevoir la newsletter (nouveaux chats à l'adoption)",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
     "confirmPassword": "Retaper le mot de passe",

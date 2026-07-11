@@ -19,6 +19,8 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
       return ctx.notFound('User not found')
     }
 
+    delete fullUser.newsletterUnsubscribeToken
+
     ctx.body = fullUser
   },
 })

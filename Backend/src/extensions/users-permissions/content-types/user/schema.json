@@ -77,6 +77,15 @@
       "relation": "oneToMany",
       "target": "api::absence.absence",
       "mappedBy": "user"
+    },
+    "newsletterOptIn": {
+      "type": "boolean",
+      "default": false
+    },
+    "newsletterUnsubscribeToken": {
+      "type": "string",
+      "private": true,
+      "unique": true
     }
   }
 }

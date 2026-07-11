@@ -41,10 +41,10 @@ const volunteers = ref<User[]>([])
 
 const generalForm = ref({
   isDuo: props.catSheet?.isDuo || false,
-  linkedVolunteer: props.catSheet?.linkedVolunteer?.id || null as number | null,
-  backupVolunteer: props.catSheet?.backupVolunteer?.id || null as number | null,
-  tarification: props.catSheet?.tarification?.id || null as number | null,
-  description: props.catSheet?.description || null as string | null,
+  linkedVolunteer: props.catSheet?.linkedVolunteer?.id || (null as number | null),
+  backupVolunteer: props.catSheet?.backupVolunteer?.id || (null as number | null),
+  tarification: props.catSheet?.tarification?.id || (null as number | null),
+  description: props.catSheet?.description || (null as string | null),
 })
 
 const makeCatForm = (index: number): CatPostPut => {
@@ -113,10 +113,14 @@ const logicalSteps = computed(() => {
 
 const validateStep = (step: string): boolean => {
   switch (step) {
-    case '1': return generalPanel.value?.validate() ?? true
-    case '2': return cat1Panel.value?.validate() ?? true
-    case '3': return cat2Panel.value?.validate() ?? true
-    default:  return true
+    case '1':
+      return generalPanel.value?.validate() ?? true
+    case '2':
+      return cat1Panel.value?.validate() ?? true
+    case '3':
+      return cat2Panel.value?.validate() ?? true
+    default:
+      return true
   }
 }
 
@@ -153,55 +157,62 @@ const goBack = () => {
 
 const isLastStep = computed(() => activeStep.value === '5')
 
+const saving = ref(false)
+
 const save = async () => {
-  const { keptIds, pendingFiles } = imagesPanel.value!.getState()
+  saving.value = true
+  try {
+    const { keptIds, pendingFiles } = imagesPanel.value!.getState()
 
-  let uploadedIds: number[] = []
-  if (pendingFiles.length > 0) {
-    const formData = new FormData()
-    pendingFiles.forEach((file) => formData.append('files', file))
-    uploadedIds = await catSheetStore.uploadImages(formData)
-  }
-
-  let cat1DocumentId: string
-  let cat2DocumentId: string | undefined
-
-  if (isEditMode.value && props.catSheet!.cats?.[0]) {
-    await catStore.updateCat(props.catSheet!.cats[0].documentId, cat1Form.value)
-    cat1DocumentId = props.catSheet!.cats[0].documentId
-  } else {
-    const response = await catStore.addCatAndReturn(cat1Form.value)
-    cat1DocumentId = response.documentId
-  }
-
-  if (generalForm.value.isDuo) {
-    if (isEditMode.value && props.catSheet!.cats?.[1]) {
-      await catStore.updateCat(props.catSheet!.cats[1].documentId, cat2Form.value)
-      cat2DocumentId = props.catSheet!.cats[1].documentId
-    } else {
-      const response = await catStore.addCatAndReturn(cat2Form.value)
-      cat2DocumentId = response.documentId
+    let uploadedIds: number[] = []
+    if (pendingFiles.length > 0) {
+      const formData = new FormData()
+      pendingFiles.forEach((file) => formData.append('files', file))
+      uploadedIds = await catSheetStore.uploadImages(formData)
     }
-  }
 
-  const payload = {
-    isDuo: generalForm.value.isDuo,
-    cats: cat2DocumentId ? [cat1DocumentId, cat2DocumentId] : [cat1DocumentId],
-    linkedVolunteer: generalForm.value.linkedVolunteer,
-    backupVolunteer: generalForm.value.backupVolunteer,
-    tarification: generalForm.value.tarification,
-    images: [...keptIds, ...uploadedIds],
-    description: generalForm.value.description,
-  }
+    let cat1DocumentId: string
+    let cat2DocumentId: string | undefined
 
-  if (isEditMode.value) {
-    await catSheetStore.updateCatSheet(props.catSheet!.documentId, payload)
-  } else {
-    await catSheetStore.addCatSheet(payload)
-  }
+    if (isEditMode.value && props.catSheet!.cats?.[0]) {
+      await catStore.updateCat(props.catSheet!.cats[0].documentId, cat1Form.value)
+      cat1DocumentId = props.catSheet!.cats[0].documentId
+    } else {
+      const response = await catStore.addCatAndReturn(cat1Form.value)
+      cat1DocumentId = response.documentId
+    }
 
-  emit('update:visible', false)
-  emit('update:datas')
+    if (generalForm.value.isDuo) {
+      if (isEditMode.value && props.catSheet!.cats?.[1]) {
+        await catStore.updateCat(props.catSheet!.cats[1].documentId, cat2Form.value)
+        cat2DocumentId = props.catSheet!.cats[1].documentId
+      } else {
+        const response = await catStore.addCatAndReturn(cat2Form.value)
+        cat2DocumentId = response.documentId
+      }
+    }
+
+    const payload = {
+      isDuo: generalForm.value.isDuo,
+      cats: cat2DocumentId ? [cat1DocumentId, cat2DocumentId] : [cat1DocumentId],
+      linkedVolunteer: generalForm.value.linkedVolunteer,
+      backupVolunteer: generalForm.value.backupVolunteer,
+      tarification: generalForm.value.tarification,
+      images: [...keptIds, ...uploadedIds],
+      description: generalForm.value.description,
+    }
+
+    if (isEditMode.value) {
+      await catSheetStore.updateCatSheet(props.catSheet!.documentId, payload)
+    } else {
+      await catSheetStore.addCatSheet(payload)
+    }
+
+    emit('update:visible', false)
+    emit('update:datas')
+  } finally {
+    saving.value = false
+  }
 }
 </script>
 
@@ -265,10 +276,7 @@ const save = async () => {
         </StepPanel>
 
         <StepPanel value="5">
-          <CatSheetImagesPanel
-            ref="imagesPanel"
-            :initialImages="props.catSheet?.images || []"
-          />
+          <CatSheetImagesPanel ref="imagesPanel" :initialImages="props.catSheet?.images || []" />
         </StepPanel>
       </StepPanels>
     </Stepper>
@@ -302,6 +310,8 @@ const save = async () => {
         severity="success"
         icon="pi pi-check"
         iconPos="right"
+        :loading="saving"
+        :disabled="saving"
         @click="save"
       />
     </template>

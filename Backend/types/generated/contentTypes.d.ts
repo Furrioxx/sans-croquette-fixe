@@ -505,8 +505,7 @@ export interface ApiAbsenceAbsence extends Struct.CollectionTypeSchema {
     user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
-    > &
-      Schema.Attribute.Required;
+    >;
   };
 }
 
@@ -1329,6 +1328,11 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    newsletterOptIn: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    newsletterUnsubscribeToken: Schema.Attribute.String &
+      Schema.Attribute.Private &
+      Schema.Attribute.Unique;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &
       Schema.Attribute.SetMinMaxLength<{

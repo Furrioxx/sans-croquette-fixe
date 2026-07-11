@@ -13,6 +13,7 @@ const userPost = reactive<UserPost>({
   username: '',
   email: '',
   password: '',
+  newsletterOptIn: false,
 })
 const confirmPassword = ref('')
 const showPassword = ref(false)
@@ -151,6 +152,11 @@ const onSubmit = async () => {
           {{ $t('auth.passwordRules.match') }}
         </p>
       </div>
+
+      <label class="auth-remember-row">
+        <Checkbox v-model="userPost.newsletterOptIn" binary inputId="newsletter-optin" />
+        <span>{{ $t('auth.newsletterOptIn') }}</span>
+      </label>
 
       <Message v-if="error" severity="error" class="rounded-2xl">{{ errorMessage }}</Message>
 
