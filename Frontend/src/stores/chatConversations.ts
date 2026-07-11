@@ -9,6 +9,7 @@ type PollingTarget =
   | { type: 'list' }
   | { type: 'conversation'; documentId: string }
   | { type: 'catSheet'; documentId: string }
+  | { type: 'workspace'; conversationDocumentId: string | null }
 
 const getErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : 'An unexpected error occurred'
@@ -140,6 +141,14 @@ export const useChatConversationsStore = defineStore('chatConversations', () => 
   }
 
   const refreshPollingTarget = async (target: PollingTarget) => {
+    if (target.type === 'workspace') {
+      await fetchConversations(true)
+      if (target.conversationDocumentId) {
+        await fetchConversation(target.conversationDocumentId, true)
+      }
+      return
+    }
+
     if (target.type === 'list') {
       await fetchConversations(true)
       return

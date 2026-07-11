@@ -21,4 +21,5 @@ export const enum RouteNames {
   DASHBOARD_BLOG = 'dashboard-blog',
   DASHBOARD_TARIFICATIONS = 'dashboard-tarifications',
   DASHBOARD_ADOPTION_REQUESTS = 'dashboard-adoption-requests',
+  DASHBOARD_CONVERSATIONS = 'dashboard-conversations',
 }
