@@ -20,19 +20,26 @@ const activeConversation = computed(() => {
   return chatStore.currentConversation
 })
 
-const getCatNames = (conversation: ChatConversation) =>
-  conversation.catSheet.cats.map((cat) => cat.name).join(' & ')
+const getCatNames = (conversation: ChatConversation) => {
+  const names = conversation.catSheet?.cats?.map((cat) => cat.name).filter(Boolean) ?? []
+  return names.length ? names.join(' & ') : t('admin.chatDashboard.unavailableCatSheet')
+}
 
 const getLastMessage = (conversation: ChatConversation) =>
   conversation.messages[conversation.messages.length - 1] ?? null
 
-const formatDate = (date: string) =>
-  new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: 'short',
-    hour: '2-digit',
-    minute: '2-digit',
-  }).format(new Date(date))
+const getRequesterName = (conversation: ChatConversation) =>
+  conversation.requester?.username ?? t('chat.unknownUser')
+
+const formatDate = (date: string | null) =>
+  date
+    ? new Intl.DateTimeFormat('fr-FR', {
+        day: '2-digit',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(new Date(date))
+    : '-'
 
 const startWorkspacePolling = () => {
   chatStore.startPolling({
@@ -151,7 +158,7 @@ onBeforeUnmount(() => {
               </span>
             </div>
             <p class="mt-1 text-xs font-medium text-primary-700">
-              {{ conversation.requester.username }}
+              {{ getRequesterName(conversation) }}
             </p>
             <p class="mt-2 truncate text-sm text-gray-500">
               {{ getLastMessage(conversation)?.content ?? $t('admin.chatDashboard.noMessage') }}
@@ -163,7 +170,7 @@ onBeforeUnmount(() => {
       <section v-if="activeConversation" class="flex min-h-[32rem] flex-col">
         <header class="border-b border-gray-200 px-5 py-4 sm:px-7">
           <h2 class="text-lg font-bold text-gray-900">
-            {{ $t('admin.chatDashboard.with', { username: activeConversation.requester.username }) }}
+            {{ $t('admin.chatDashboard.with', { username: getRequesterName(activeConversation) }) }}
           </h2>
           <p class="mt-1 text-sm text-gray-500">
             {{ $t('admin.chatDashboard.about', { names: getCatNames(activeConversation) }) }}

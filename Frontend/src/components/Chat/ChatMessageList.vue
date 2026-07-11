@@ -43,12 +43,12 @@ watch(
       v-for="message in messages"
       :key="message.documentId"
       class="flex max-w-[88%] flex-col gap-1 sm:max-w-[72%]"
-      :class="message.author.id === currentUserId ? 'self-end items-end' : 'self-start items-start'"
+      :class="message.author?.id === currentUserId ? 'self-end items-end' : 'self-start items-start'"
     >
       <div
         class="rounded-2xl px-4 py-3 text-sm leading-relaxed"
         :class="
-          message.author.id === currentUserId
+          message.author?.id === currentUserId
             ? 'rounded-br-md bg-[var(--scf-accent)] text-white'
             : 'rounded-bl-md bg-[var(--scf-bg)] text-[var(--scf-ink)]'
         "
@@ -56,7 +56,7 @@ watch(
         <p class="whitespace-pre-wrap break-words">{{ message.content }}</p>
       </div>
       <span class="px-1 text-[0.7rem] font-medium text-[var(--scf-muted)]">
-        {{ message.author.username }} · {{ formatMessageDate(message.createdAt) }}
+        {{ message.author?.username ?? $t('chat.unknownUser') }} · {{ formatMessageDate(message.createdAt) }}
       </span>
     </article>
   </div>

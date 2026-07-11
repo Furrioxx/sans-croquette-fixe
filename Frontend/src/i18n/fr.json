@@ -63,6 +63,7 @@
     "dashboard-absences": "Absences",
     "dashboard-blog": "Blog",
     "dashboard-tarifications": "Tarifications",
+    "dashboard-conversations": "Conversations",
     "adoption-form": "Formulaire d'adoption",
     "user-adoption-requests": "Mes demandes d'adoption",
     "dashboard-adoption-requests": "Demandes d'adoption"
@@ -438,6 +439,7 @@
       "empty": "Aucune conversation accessible pour le moment.",
       "select": "Sélectionnez une conversation pour afficher les messages.",
       "noMessage": "Aucun message dans cette conversation.",
+      "unavailableCatSheet": "Fiche chat indisponible",
       "with": "Discussion avec {username}",
       "about": "À propos de {names}",
       "loadError": "Impossible de charger les conversations.",
@@ -569,6 +571,7 @@
     "messageLabel": "Votre message",
     "placeholder": "Écrivez votre question…",
     "send": "Envoyer",
+    "unknownUser": "Utilisateur indisponible",
     "error": "Une erreur est survenue. Vérifiez votre connexion puis réessayez."
   },
   "adoptionRequest": {

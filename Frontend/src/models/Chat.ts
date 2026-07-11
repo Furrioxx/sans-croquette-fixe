@@ -11,7 +11,7 @@ export interface ChatMessage {
   documentId: string
   content: string
   createdAt: string
-  author: ChatParticipant
+  author: ChatParticipant | null
 }
 
 export interface ChatCat {
@@ -33,9 +33,9 @@ export interface ChatConversation {
   documentId: string
   createdAt: string
   updatedAt: string
-  lastMessageAt: string
-  requester: ChatParticipant
-  catSheet: ChatCatSheet
+  lastMessageAt: string | null
+  requester: ChatParticipant | null
+  catSheet: ChatCatSheet | null
   messages: ChatMessage[]
 }
 

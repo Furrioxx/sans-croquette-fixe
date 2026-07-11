@@ -35,7 +35,8 @@ export const useChatConversationsStore = defineStore('chatConversations', () => 
 
     conversations.value.sort(
       (first, second) =>
-        new Date(second.lastMessageAt).getTime() - new Date(first.lastMessageAt).getTime(),
+        (second.lastMessageAt ? new Date(second.lastMessageAt).getTime() : 0) -
+        (first.lastMessageAt ? new Date(first.lastMessageAt).getTime() : 0),
     )
   }
 
