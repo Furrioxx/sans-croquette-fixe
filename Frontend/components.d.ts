@@ -57,7 +57,6 @@ declare module 'vue' {
     SearchInputTextComponent: typeof import('./src/components/Inputs/SearchInputTextComponent.vue')['default']
     Select: typeof import('primevue/select')['default']
     SelectWithLabel: typeof import('./src/components/Forms/elements/SelectWithLabel.vue')['default']
-    Skeleton: typeof import('primevue/skeleton')['default']
     Step: typeof import('primevue/step')['default']
     StepList: typeof import('primevue/steplist')['default']
     StepPanel: typeof import('primevue/steppanel')['default']
