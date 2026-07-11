@@ -43,6 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
         username: userPost.username,
         email: userPost.email,
         password: userPost.password,
+        newsletterOptIn: userPost.newsletterOptIn,
       })
 
       // handle success, here we directly log the user in after registration

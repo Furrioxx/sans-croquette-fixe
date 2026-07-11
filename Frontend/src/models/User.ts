@@ -7,6 +7,7 @@ export interface User {
   blocked: boolean
   confirmed: boolean
   role: Role
+  newsletterOptIn: boolean
 }
 
 export interface Role {
@@ -29,6 +30,7 @@ export interface UserPost {
   username: string
   email: string
   password: string | null
+  newsletterOptIn: boolean
 }
 
 export interface UserPostPutAdmin extends UserPost {

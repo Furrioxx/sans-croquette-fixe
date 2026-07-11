@@ -41,6 +41,7 @@ const form = ref<UserPostPutAdmin>({
   confirmed: props.user?.confirmed || false,
   blocked: props.user?.blocked || false,
   role: props.user?.role.id || 4,
+  newsletterOptIn: props.user?.newsletterOptIn || false,
 })
 
 const resetForm = () => {
@@ -52,6 +53,7 @@ const resetForm = () => {
     confirmed: props.user?.confirmed || false,
     blocked: props.user?.blocked || false,
     role: props.user?.role.id || 4,
+    newsletterOptIn: props.user?.newsletterOptIn || false,
   }
   errors.value = []
 }

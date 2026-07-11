@@ -11,6 +11,12 @@ export default factories.createCoreController('api::cat-sheet.cat-sheet', ({ str
 
     if (documentId) {
       await strapi.documents('api::cat-sheet.cat-sheet').publish({ documentId });
+
+      try {
+        await strapi.service('api::cat-sheet.newsletter').sendNewCatSheetNotification(documentId);
+      } catch (err) {
+        strapi.log.error('Failed to send newsletter emails for cat sheet', err);
+      }
     }
 
     return response;
