@@ -547,6 +547,16 @@
     "medicalHistoryLabel": "Antécédents médicaux",
     "trappingDateLabel": "Prise en charge le"
   },
+  "chat": {
+    "eyebrow": "Échange privé",
+    "title": "Une question sur {names} ?",
+    "helper": "Un bénévole qui connaît sa situation vous répondra ici.",
+    "firstMessage": "Présentez votre question avec les détails utiles. La conversation restera accessible uniquement à vous et à l'équipe concernée.",
+    "messageLabel": "Votre message",
+    "placeholder": "Écrivez votre question…",
+    "send": "Envoyer",
+    "error": "Une erreur est survenue. Vérifiez votre connexion puis réessayez."
+  },
   "adoptionRequest": {
     "title": "Formulaire d'adoption",
     "subtitle": "Complétez ce formulaire pour soumettre votre demande d'adoption.",

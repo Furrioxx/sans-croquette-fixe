@@ -4,7 +4,8 @@ import { RouteNames } from '@/router/routeNames'
 import { CatSheetService } from '@/services/catSheetService'
 import CatSheetDetailSolo from '@/components/CatSheetDetailSolo.vue'
 import CatSheetDetailDuo from '@/components/CatSheetDetailDuo.vue'
-import { ref, watch } from 'vue'
+import CatChatPanel from '@/components/Chat/CatChatPanel.vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -13,6 +14,12 @@ const router = useRouter()
 const catSheet = ref<CatSheet | null>(null)
 const loading = ref(true)
 const notFound = ref(false)
+const chatPanel = ref<{ openChat: () => Promise<void> } | null>(null)
+const catNames = computed(() => catSheet.value?.cats.map((cat) => cat.name).join(' & ') ?? '')
+
+const askQuestion = () => {
+  void chatPanel.value?.openChat()
+}
 
 watch(
   () => route.params.documentId as string,
@@ -68,8 +75,17 @@ watch(
     </template>
 
     <template v-else>
-      <CatSheetDetailDuo v-if="catSheet.isDuo" :catSheet="catSheet" />
-      <CatSheetDetailSolo v-else :catSheet="catSheet" />
+      <CatSheetDetailDuo
+        v-if="catSheet.isDuo"
+        :catSheet="catSheet"
+        @ask-question="askQuestion"
+      />
+      <CatSheetDetailSolo v-else :catSheet="catSheet" @ask-question="askQuestion" />
+      <CatChatPanel
+        ref="chatPanel"
+        :cat-sheet-document-id="catSheet.documentId"
+        :cat-names="catNames"
+      />
     </template>
   </div>
 </template>
