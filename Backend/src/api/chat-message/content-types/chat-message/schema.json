@@ -10,7 +10,11 @@
   "options": { "draftAndPublish": false },
   "pluginOptions": {},
   "attributes": {
-    "content": { "type": "text", "required": true },
+    "content": {
+      "type": "text",
+      "required": true,
+      "maxLength": 2000
+    },
     "conversation": {
       "type": "relation",
       "relation": "manyToOne",

@@ -17,6 +17,10 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::adoption-request.adoption-request.findOne",
     "plugin::users-permissions.user.me",
     "api::user-profile.user-profile.me",
+    "api::chat-conversation.chat-conversation.find",
+    "api::chat-conversation.chat-conversation.findOne",
+    "api::chat-conversation.chat-conversation.create",
+    "api::chat-conversation.chat-conversation.sendMessage",
   ],
   Volunteer: [
     "plugin::users-permissions.user.me",
@@ -41,6 +45,9 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::blog-category.blog-category.update",
     "plugin::users-permissions.user.find",
     "plugin::users-permissions.user.findOne",
+    "api::chat-conversation.chat-conversation.find",
+    "api::chat-conversation.chat-conversation.findOne",
+    "api::chat-conversation.chat-conversation.sendMessage",
   ],
   Admin: [
     "plugin::users-permissions.user.me",
@@ -76,6 +83,9 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::tarification.tarification.findOne",
     "api::tarification.tarification.create",
     "api::tarification.tarification.update",
+    "api::chat-conversation.chat-conversation.find",
+    "api::chat-conversation.chat-conversation.findOne",
+    "api::chat-conversation.chat-conversation.sendMessage",
   ],
 };
 

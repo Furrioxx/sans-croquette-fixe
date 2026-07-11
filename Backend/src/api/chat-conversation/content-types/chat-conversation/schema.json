@@ -29,6 +29,10 @@
       "relation": "oneToMany",
       "target": "api::chat-message.chat-message",
       "mappedBy": "conversation"
+    },
+    "lastMessageAt": {
+      "type": "datetime",
+      "required": true
     }
   }
 }
