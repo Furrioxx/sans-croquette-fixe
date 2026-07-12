@@ -1,3 +1,5 @@
+import type { Absence } from './Absence'
+
 export interface User {
   id: number
   username: string
@@ -7,6 +9,7 @@ export interface User {
   blocked: boolean
   confirmed: boolean
   role: Role
+  absences?: Absence[]
 }
 
 export interface Role {
