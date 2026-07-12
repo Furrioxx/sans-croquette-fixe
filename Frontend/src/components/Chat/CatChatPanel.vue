@@ -30,29 +30,13 @@ const scrollToPanel = async () => {
   panelElement.value?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 
-const startRelevantPolling = () => {
-  if (chatStore.currentConversation) {
-    chatStore.startPolling({
-      type: 'conversation',
-      documentId: chatStore.currentConversation.documentId,
-    })
-    return
-  }
-
-  if (isComposerOpen.value) {
-    chatStore.startPolling({ type: 'catSheet', documentId: props.catSheetDocumentId })
-  }
-}
-
 const loadConversation = async () => {
-  chatStore.stopPolling()
   chatStore.clearCurrentConversation()
 
   if (authStore.getUserRole !== Roles.USER) return
 
   try {
     await chatStore.fetchConversationForCatSheet(props.catSheetDocumentId)
-    startRelevantPolling()
   } catch {
     // The store exposes the load error if the panel is open.
   }
@@ -78,7 +62,6 @@ const openChat = async () => {
     await loadConversation()
   }
 
-  startRelevantPolling()
   await scrollToPanel()
 }
 
@@ -91,7 +74,6 @@ const send = async (content: string) => {
     }
 
     composer.value?.clear()
-    startRelevantPolling()
   } catch {
     // The store exposes a generic send error below the composer.
   }
@@ -101,7 +83,6 @@ watch(
   () => [props.catSheetDocumentId, authStore.isConnected, authStore.getUserRole] as const,
   async ([, isConnected, role]) => {
     if (!isConnected || role !== Roles.USER) {
-      chatStore.stopPolling()
       chatStore.clearCurrentConversation()
       return
     }
@@ -120,7 +101,6 @@ watch(
 )
 
 onBeforeUnmount(() => {
-  chatStore.stopPolling()
   chatStore.clearCurrentConversation()
 })
 

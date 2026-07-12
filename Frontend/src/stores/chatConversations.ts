@@ -3,14 +3,6 @@ import { defineStore } from 'pinia'
 import type { ChatConversation } from '@/models/Chat'
 import { ChatConversationService } from '@/services/chatConversationService'
 
-const POLLING_INTERVAL_MS = 8000
-
-type PollingTarget =
-  | { type: 'list' }
-  | { type: 'conversation'; documentId: string }
-  | { type: 'catSheet'; documentId: string }
-  | { type: 'workspace'; conversationDocumentId: string | null }
-
 const getErrorMessage = (error: unknown) =>
   error instanceof Error ? error.message : 'An unexpected error occurred'
 
@@ -20,7 +12,6 @@ export const useChatConversationsStore = defineStore('chatConversations', () => 
   const loading = ref(false)
   const sending = ref(false)
   const error = ref<string | null>(null)
-  let pollingTimer: ReturnType<typeof setInterval> | null = null
 
   const replaceConversationInList = (conversation: ChatConversation) => {
     const index = conversations.value.findIndex(
@@ -134,42 +125,6 @@ export const useChatConversationsStore = defineStore('chatConversations', () => 
     }
   }
 
-  const stopPolling = () => {
-    if (pollingTimer) {
-      clearInterval(pollingTimer)
-      pollingTimer = null
-    }
-  }
-
-  const refreshPollingTarget = async (target: PollingTarget) => {
-    if (target.type === 'workspace') {
-      await fetchConversations(true)
-      if (target.conversationDocumentId) {
-        await fetchConversation(target.conversationDocumentId, true)
-      }
-      return
-    }
-
-    if (target.type === 'list') {
-      await fetchConversations(true)
-      return
-    }
-
-    if (target.type === 'conversation') {
-      await fetchConversation(target.documentId, true)
-      return
-    }
-
-    await fetchConversationForCatSheet(target.documentId, true)
-  }
-
-  const startPolling = (target: PollingTarget) => {
-    stopPolling()
-    pollingTimer = setInterval(() => {
-      void refreshPollingTarget(target).catch(() => undefined)
-    }, POLLING_INTERVAL_MS)
-  }
-
   const clearCurrentConversation = () => {
     currentConversation.value = null
     error.value = null
@@ -186,8 +141,6 @@ export const useChatConversationsStore = defineStore('chatConversations', () => 
     fetchConversationForCatSheet,
     startConversation,
     sendMessage,
-    startPolling,
-    stopPolling,
     clearCurrentConversation,
   }
 })

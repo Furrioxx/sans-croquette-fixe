@@ -41,19 +41,11 @@ const formatDate = (date: string | null) =>
       }).format(new Date(date))
     : '-'
 
-const startWorkspacePolling = () => {
-  chatStore.startPolling({
-    type: 'workspace',
-    conversationDocumentId: selectedDocumentId.value,
-  })
-}
-
 const selectConversation = async (documentId: string) => {
   selectedDocumentId.value = documentId
 
   try {
     await chatStore.fetchConversation(documentId)
-    startWorkspacePolling()
   } catch {
     notificationService.showError(t('error'), t('admin.chatDashboard.loadError'))
   }
@@ -82,7 +74,6 @@ const loadConversations = async () => {
       await chatStore.fetchConversation(selectedDocumentId.value)
     }
 
-    startWorkspacePolling()
   } catch {
     notificationService.showError(t('error'), t('admin.chatDashboard.loadError'))
   }
@@ -92,7 +83,6 @@ const send = async (content: string) => {
   try {
     await chatStore.sendMessage(content)
     composer.value?.clear()
-    startWorkspacePolling()
   } catch {
     notificationService.showError(t('error'), t('admin.chatDashboard.sendError'))
   }
@@ -101,7 +91,6 @@ const send = async (content: string) => {
 onMounted(loadConversations)
 
 onBeforeUnmount(() => {
-  chatStore.stopPolling()
   chatStore.clearCurrentConversation()
 })
 </script>
