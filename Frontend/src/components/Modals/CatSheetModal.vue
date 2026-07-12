@@ -161,6 +161,12 @@ const saving = ref(false)
 
 const save = async () => {
   saving.value = true
+
+  if (firstInvalidStep) {
+    activeStep.value = firstInvalidStep
+    return
+  }
+
   try {
     const { keptIds, pendingFiles } = imagesPanel.value!.getState()
 
