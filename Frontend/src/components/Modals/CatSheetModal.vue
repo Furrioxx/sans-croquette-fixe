@@ -154,6 +154,13 @@ const goBack = () => {
 const isLastStep = computed(() => activeStep.value === '5')
 
 const save = async () => {
+  const firstInvalidStep = logicalSteps.value.find((step) => !validateStep(step))
+
+  if (firstInvalidStep) {
+    activeStep.value = firstInvalidStep
+    return
+  }
+
   const { keptIds, pendingFiles } = imagesPanel.value!.getState()
 
   let uploadedIds: number[] = []
