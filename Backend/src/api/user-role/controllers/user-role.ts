@@ -22,7 +22,17 @@ const controller = ({ strapi }: { strapi: Core.Strapi }) => ({
     const users = await strapi.db
       .query("plugin::users-permissions.user")
       .findMany({
-        populate: { role: true },
+        populate: {
+          role: true,
+          absences: {
+            where: {
+              absence_status: {
+                $eq: "approved",
+              },
+            },
+            orderBy: { startDate: "asc" },
+          },
+        },
         orderBy: { username: "asc" },
       });
 
