@@ -48,6 +48,7 @@
     "home": "Accueil",
     "donate": "Faire un don",
     "about-us": "A propos de nous",
+    "food-distribution": "Distribution de croquettes",
     "login": "Connexion",
     "register": "Inscription",
     "adopt": "À l'adoption",
@@ -147,8 +148,36 @@
     "links": {
       "home": "Accueil",
       "adopt": "Adoption",
-      "about": "À propos"
+      "about": "À propos",
+      "distribution": "Distribution de croquettes"
     }
+  },
+  "distribution": {
+    "navLink": "Distribution",
+    "breadcrumb": "Distribution de croquettes",
+    "eyebrow": "Sur le terrain, chaque vendredi",
+    "title": "Nourrir les animaux, soutenir leurs humains",
+    "heroText": "Chaque vendredi, nos bénévoles distribuent gratuitement de la nourriture aux animaux des personnes qui en ont besoin, à Lyon.",
+    "contactCta": "Contacter l'équipe",
+    "practicalEyebrow": "Informations pratiques",
+    "practicalTitle": "Retrouvez-nous à la distribution",
+    "scheduleTitle": "Chaque vendredi",
+    "scheduleText": "De 17h30 à 19h",
+    "locationTitle": "À Lyon 3e",
+    "locationText": "Rue Desaix, au niveau de l'emplacement Vélo'v, à côté du Shawerman.",
+    "firstVisitTitle": "Première venue ?",
+    "firstVisitText": "Écrivez-nous avant de venir pour que nous puissions préparer au mieux votre accueil.",
+    "storyEyebrow": "Une aide qui a grandi avec nous",
+    "storyTitle": "La solidarité, au cœur de notre histoire",
+    "storyText1": "L'association est née pour aider les personnes sans abri à prendre soin de leurs animaux. À nos débuts, nous accompagnions les maraudes dans les rues de Lyon avec des repas chauds et de la nourriture pour les chiens et les chats.",
+    "storyText2": "Nos actions se sont élargies au fil du temps, mais cette présence hebdomadaire reste essentielle : personne ne devrait avoir à choisir entre se nourrir et nourrir son animal.",
+    "audienceEyebrow": "Pour qui ?",
+    "audienceTitle": "Une distribution ouverte aux personnes en situation de précarité",
+    "audienceText": "La distribution ne s'adresse pas seulement aux personnes sans domicile. Elle est destinée à toute personne qui traverse une période difficile et a besoin d'aide pour nourrir son chien ou son chat.",
+    "howTitle": "Comment se passe un premier passage ?",
+    "howText": "Nos bénévoles prennent le temps de faire le point sur vos animaux et vos besoins. Pour le moment, nous distribuons de l'alimentation pour chiens et chats, selon les disponibilités : il n'est pas possible de choisir une marque précise.",
+    "supportText": "Cette distribution existe grâce aux dons et à l'engagement de nos bénévoles.",
+    "supportCta": "Soutenir l'association"
   },
   "home": {
     "eyebrowHero": "Adoption responsable",

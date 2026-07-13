@@ -25,6 +25,12 @@ import Logo from '@/assets/Logo.png'
           <router-link :to="{ name: RouteNames.ADOPT }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.adopt') }}
           </router-link>
+          <router-link
+            :to="{ name: RouteNames.FOOD_DISTRIBUTION }"
+            class="text-white/85 hover:text-white"
+          >
+            {{ $t('footer.links.distribution') }}
+          </router-link>
           <router-link :to="{ name: RouteNames.ABOUT_US }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.about') }}
           </router-link>
