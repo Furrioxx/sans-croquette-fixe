@@ -23,6 +23,11 @@ const routes = [
         component: () => import('../views/AboutUs.vue'),
       },
       {
+        path: 'distribution-de-croquettes',
+        name: RouteNames.FOOD_DISTRIBUTION,
+        component: () => import('../views/FoodDistribution.vue'),
+      },
+      {
         path: 'login',
         name: RouteNames.LOGIN,
         component: () => import('../views/Auth/Login.vue'),
@@ -36,6 +41,11 @@ const routes = [
         path: 'adopt',
         name: RouteNames.ADOPT,
         component: () => import('../views/Adopt.vue'),
+      },
+      {
+        path: 'trouver-mon-chat-ideal',
+        name: RouteNames.ADOPT_GUIDE,
+        component: () => import('../views/AdoptGuide.vue'),
       },
       {
         path: 'adopt/:documentId',

@@ -60,6 +60,24 @@ const stats = [
   { value: t('home.stats.food.value'), label: t('home.stats.food.label') },
 ]
 
+const guideBenefits = [
+  {
+    value: '01',
+    title: t('home.questionnaireCta.benefits.household.title'),
+    text: t('home.questionnaireCta.benefits.household.text'),
+  },
+  {
+    value: '02',
+    title: t('home.questionnaireCta.benefits.preferences.title'),
+    text: t('home.questionnaireCta.benefits.preferences.text'),
+  },
+  {
+    value: '03',
+    title: t('home.questionnaireCta.benefits.selection.title'),
+    text: t('home.questionnaireCta.benefits.selection.text'),
+  },
+]
+
 const catSheets = ref<CatSheet[]>([])
 const loadingCats = ref(false)
 
@@ -227,6 +245,76 @@ onMounted(async () => {
         >
           <i class="pi pi-heart text-4xl text-[var(--scf-muted)]"></i>
           <p class="text-sm text-[var(--scf-muted)]">{{ $t('home.noCatsAvailable') }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUESTIONNAIRE CTA -->
+    <section class="w-full bg-white px-4 py-14 sm:px-6 md:px-[60px] md:py-16">
+      <div
+        class="page-shell grid gap-6 overflow-hidden rounded-[28px] bg-[var(--scf-bg)] p-5 sm:p-6 md:gap-8 md:p-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:rounded-[32px] lg:p-10"
+      >
+        <div class="space-y-5">
+          <span class="eyebrow">{{ $t('home.questionnaireCta.eyebrow') }}</span>
+          <div class="space-y-4">
+            <h2 class="display-font text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl">
+              {{ $t('home.questionnaireCta.title') }}
+            </h2>
+            <p class="max-w-2xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
+              {{ $t('home.questionnaireCta.text') }}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="tag in $tm('home.questionnaireCta.tags')"
+              :key="String(tag)"
+              class="rounded-full border border-[var(--scf-line)] bg-white px-3 py-1.5 text-sm font-semibold text-[var(--scf-text)]"
+            >
+              {{ tag }}
+            </span>
+          </div>
+
+          <div class="responsive-actions">
+            <Button
+              :label="$t('home.questionnaireCta.primaryCta')"
+              icon="pi pi-compass"
+              rounded
+              @click="router.push({ name: RouteNames.ADOPT_GUIDE })"
+            />
+            <Button
+              :label="$t('home.questionnaireCta.secondaryCta')"
+              icon="pi pi-list"
+              severity="secondary"
+              outlined
+              rounded
+              @click="router.push({ name: RouteNames.ADOPT })"
+            />
+          </div>
+        </div>
+
+        <div class="grid gap-4">
+          <article
+            v-for="benefit in guideBenefits"
+            :key="benefit.value"
+            class="rounded-[22px] border border-[var(--scf-line)] bg-white p-4 sm:p-5"
+          >
+            <div class="flex items-start gap-4">
+              <span
+                class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[var(--scf-accent-soft)] text-sm font-semibold text-[var(--scf-accent-dark)]"
+              >
+                {{ benefit.value }}
+              </span>
+              <div class="min-w-0 space-y-2">
+                <h3 class="display-font text-lg font-semibold text-[var(--scf-ink)]">
+                  {{ benefit.title }}
+                </h3>
+                <p class="text-sm leading-6 text-[var(--scf-text)]">
+                  {{ benefit.text }}
+                </p>
+              </div>
+            </div>
+          </article>
         </div>
       </div>
     </section>

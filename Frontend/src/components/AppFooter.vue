@@ -25,6 +25,12 @@ import Logo from '@/assets/Logo.png'
           <router-link :to="{ name: RouteNames.ADOPT }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.adopt') }}
           </router-link>
+          <router-link
+            :to="{ name: RouteNames.FOOD_DISTRIBUTION }"
+            class="text-white/85 hover:text-white"
+          >
+            {{ $t('footer.links.distribution') }}
+          </router-link>
           <router-link :to="{ name: RouteNames.ABOUT_US }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.about') }}
           </router-link>
@@ -34,14 +40,18 @@ import Logo from '@/assets/Logo.png'
           <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
             $t('footer.follow')
           }}</span>
-          <span class="inline-flex items-center gap-2 text-white/85">
-            <i class="pi pi-facebook"></i>
-            Facebook
-          </span>
-          <span class="inline-flex items-center gap-2 text-white/85">
-            <i class="pi pi-instagram"></i>
-            Instagram
-          </span>
+          <a href="https://www.facebook.com/sanscroquettesfixes" target="_blank">
+            <span class="inline-flex items-center gap-2 text-white/85">
+              <i class="pi pi-facebook"></i>
+              Facebook
+            </span>
+          </a>
+          <a href="https://www.instagram.com/sanscroquettesfixes/" target="_blank">
+            <span class="inline-flex items-center gap-2 text-white/85">
+              <i class="pi pi-instagram"></i>
+              Instagram
+            </span>
+          </a>
         </div>
       </div>
     </div>

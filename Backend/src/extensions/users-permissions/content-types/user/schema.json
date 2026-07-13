@@ -89,6 +89,14 @@
       "relation": "oneToMany",
       "target": "api::chat-message.chat-message",
       "mappedBy": "author"
+    "newsletterOptIn": {
+      "type": "boolean",
+      "default": false
+    },
+    "newsletterUnsubscribeToken": {
+      "type": "string",
+      "private": true,
+      "unique": true
     }
   }
 }

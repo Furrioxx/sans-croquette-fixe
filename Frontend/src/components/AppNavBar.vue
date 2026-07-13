@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouteNames } from '@/router/routeNames'
 import { Roles } from '@/router/Roles'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useDarkModeStore } from '@/stores/darkmode'
 import { computed, onMounted, ref } from 'vue'
 import { useAuthStore } from '@/stores/authentication'
@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n'
 import Logo from '@/assets/Logo.png'
 
 const router = useRouter()
+const route = useRoute()
 const darkModeStore = useDarkModeStore()
 const authStore = useAuthStore()
 const { t } = useI18n()
@@ -48,16 +49,42 @@ const toggleUserMenu = (event: Event) => {
   userMenu.value?.toggle(event)
 }
 
+const adoptMenu = ref()
+const toggleAdoptMenu = (event: Event) => {
+  adoptMenu.value?.toggle(event)
+}
+
+const adoptMenuItems = computed(() => [
+  {
+    label: t('adopt.menu.list'),
+    icon: 'pi pi-list',
+    command: () => router.push({ name: RouteNames.ADOPT }),
+  },
+  {
+    label: t('adopt.menu.guide'),
+    icon: 'pi pi-compass',
+    command: () => router.push({ name: RouteNames.ADOPT_GUIDE }),
+  },
+])
+
+const isAdoptSectionActive = computed(() =>
+  [RouteNames.ADOPT, RouteNames.ADOPT_GUIDE, RouteNames.ADOPT_DETAIL, RouteNames.ADOPTION_FORM].includes(
+    route.name as RouteNames,
+  ),
+)
+
 const navLinks = computed(() => [
-  { to: { name: RouteNames.ADOPT }, label: t('adopt.nav-link') },
   { to: { name: RouteNames.DISCOVER }, label: t('discover.nav-link') },
   { to: { name: RouteNames.BLOG }, label: t('blog.nav-link') },
+  { to: { name: RouteNames.FOOD_DISTRIBUTION }, label: t('distribution.navLink') },
   { to: { name: RouteNames.ABOUT_US }, label: t('nav.association') },
 ])
 
 const mobileMenuOpen = ref(false)
+const mobileAdoptMenuOpen = ref(false)
 const closeMobileMenu = () => {
   mobileMenuOpen.value = false
+  mobileAdoptMenuOpen.value = false
 }
 const logoutFromMobile = () => {
   authStore.logout()
@@ -83,6 +110,30 @@ const logoutFromMobile = () => {
 
       <!-- DESKTOP NAV -->
       <div class="hidden items-center gap-2 lg:flex lg:flex-wrap lg:justify-end xl:flex-nowrap">
+        <button
+          type="button"
+          class="inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-sm font-semibold transition-all duration-200"
+          :class="
+            isAdoptSectionActive
+              ? 'border-[var(--scf-accent)] bg-[var(--scf-accent-soft)] text-[var(--scf-accent-dark)] shadow-[0_10px_24px_rgba(230,120,84,0.12)]'
+              : 'border-transparent bg-white/70 text-[var(--scf-text)] hover:border-[var(--scf-line)] hover:bg-white hover:text-[var(--scf-ink)]'
+          "
+          @click="toggleAdoptMenu"
+        >
+          <span
+            class="flex h-7 w-7 items-center justify-center rounded-full"
+            :class="
+              isAdoptSectionActive
+                ? 'bg-white text-[var(--scf-accent-dark)]'
+                : 'bg-[var(--scf-accent-soft)] text-[var(--scf-accent-dark)]'
+            "
+          >
+            <i class="pi pi-heart-fill text-xs"></i>
+          </span>
+          {{ $t('adopt.nav-link') }}
+          <i class="pi pi-chevron-down text-[10px] opacity-70"></i>
+        </button>
+        <Menu ref="adoptMenu" :model="adoptMenuItems" :popup="true" />
         <Button
           v-for="link in navLinks"
           :key="link.label"
@@ -136,11 +187,55 @@ const logoutFromMobile = () => {
     <Transition name="mobile-menu">
       <div v-if="mobileMenuOpen" class="border-t border-[var(--scf-line)] px-6 pb-6 pt-4 lg:hidden">
         <div class="flex flex-col gap-1">
+          <div class="rounded-[20px] border border-[var(--scf-line)] bg-white p-2">
+            <button
+              type="button"
+              class="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors"
+              :class="
+                mobileAdoptMenuOpen || isAdoptSectionActive
+                  ? 'bg-[var(--scf-accent-soft)] text-[var(--scf-accent-dark)]'
+                  : 'text-[var(--scf-ink)]'
+              "
+              @click="mobileAdoptMenuOpen = !mobileAdoptMenuOpen"
+            >
+              <span class="flex items-center gap-2">
+                <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white text-[var(--scf-accent-dark)]">
+                  <i class="pi pi-heart-fill text-xs"></i>
+                </span>
+                {{ $t('adopt.nav-link') }}
+              </span>
+              <i
+                :class="mobileAdoptMenuOpen ? 'pi pi-chevron-up' : 'pi pi-chevron-down'"
+                class="text-xs"
+              ></i>
+            </button>
+
+            <div
+              v-if="mobileAdoptMenuOpen"
+              class="mt-1 flex flex-col gap-1 border-t border-[var(--scf-line)] pt-2"
+            >
+              <router-link
+                :to="{ name: RouteNames.ADOPT }"
+                class="rounded-xl px-3 py-2.5 text-sm font-semibold leading-5 text-[var(--scf-text)] hover:bg-[var(--scf-bg-soft)]"
+                @click="closeMobileMenu"
+              >
+                {{ $t('adopt.menu.list') }}
+              </router-link>
+              <router-link
+                :to="{ name: RouteNames.ADOPT_GUIDE }"
+                class="rounded-xl px-3 py-2.5 text-sm font-semibold leading-5 text-[var(--scf-text)] hover:bg-[var(--scf-bg-soft)]"
+                @click="closeMobileMenu"
+              >
+                {{ $t('adopt.menu.guide') }}
+              </router-link>
+            </div>
+          </div>
+
           <router-link
             v-for="link in navLinks"
             :key="link.label"
             :to="link.to"
-            class="rounded-xl px-3 py-2.5 text-sm font-semibold text-[var(--scf-text)] hover:bg-[var(--scf-bg-soft)]"
+            class="rounded-xl px-3 py-2.5 text-sm font-semibold leading-5 text-[var(--scf-text)] hover:bg-[var(--scf-bg-soft)]"
             @click="closeMobileMenu"
           >
             {{ link.label }}
