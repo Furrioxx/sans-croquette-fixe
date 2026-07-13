@@ -304,7 +304,7 @@ const save = async () => {
         @click="goNext"
       />
       <Button
-        v-if="isLastStep"
+        v-if="isLastStep || isEditMode"
         :label="$t('save')"
         variant="outlined"
         severity="success"
