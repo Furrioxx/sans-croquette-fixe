@@ -40,14 +40,18 @@ import Logo from '@/assets/Logo.png'
           <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
             $t('footer.follow')
           }}</span>
-          <span class="inline-flex items-center gap-2 text-white/85">
-            <i class="pi pi-facebook"></i>
-            Facebook
-          </span>
-          <span class="inline-flex items-center gap-2 text-white/85">
-            <i class="pi pi-instagram"></i>
-            Instagram
-          </span>
+          <a href="https://www.facebook.com/sanscroquettesfixes" target="_blank">
+            <span class="inline-flex items-center gap-2 text-white/85">
+              <i class="pi pi-facebook"></i>
+              Facebook
+            </span>
+          </a>
+          <a href="https://www.instagram.com/sanscroquettesfixes/" target="_blank">
+            <span class="inline-flex items-center gap-2 text-white/85">
+              <i class="pi pi-instagram"></i>
+              Instagram
+            </span>
+          </a>
         </div>
       </div>
     </div>
