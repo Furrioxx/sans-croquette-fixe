@@ -44,6 +44,12 @@
     "description": {
       "type": "text"
     },
+    "chatConversations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat-conversation.chat-conversation",
+      "mappedBy": "catSheet"
+    },
     "tarification": {
       "type": "relation",
       "relation": "oneToOne",

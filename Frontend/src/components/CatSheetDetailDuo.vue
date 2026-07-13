@@ -6,7 +6,6 @@ import { Genders } from '@/models/Enums/Genders'
 import { RouteNames } from '@/router/routeNames'
 import { formatAge as formatAgeUtil, getCatStatusLabel, isKitten } from '@/utils/catUtils'
 import { getCatImageUrl } from '@/utils/catImageUrl'
-import { buildMailtoLink } from '@/config/contact'
 import { useRelatedCatSheets } from '@/composables/useRelatedCatSheets'
 import CatSheetCard from '@/components/CatSheetCard.vue'
 import { AdoptionRequestService } from '@/services/adoptionRequestService'
@@ -14,16 +13,21 @@ import { useAuthStore } from '@/stores/authentication'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { Roles } from '@/router/Roles'
 
 const { t } = useI18n()
 const router = useRouter()
 const authStore = useAuthStore()
 
 const props = defineProps<{ catSheet: CatSheet }>()
+const emit = defineEmits<{ askQuestion: [] }>()
 
 const cats = computed<Cat[]>(() => props.catSheet.cats ?? [])
 
 const hasExistingRequest = ref(false)
+const canAskQuestion = computed(
+  () => !authStore.isConnected || authStore.getUserRole === Roles.USER,
+)
 
 watch(
   () => props.catSheet.documentId,
@@ -294,13 +298,13 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
             "
           />
           <Button
-            as="a"
-            :href="buildMailtoLink('Question à propos de ' + catNames)"
+            v-if="canAskQuestion"
             :label="$t('adoptDetail.askQuestion')"
             rounded
             outlined
             severity="secondary"
             class="w-full !border-[var(--scf-line)] !text-[var(--scf-ink)]"
+            @click="emit('askQuestion')"
           />
         </div>
       </div>

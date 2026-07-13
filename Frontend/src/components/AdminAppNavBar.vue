@@ -32,6 +32,11 @@ const items = computed(() => [
     icon: 'pi pi-inbox',
     routeName: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
   },
+  {
+    label: t('admin.nav.conversations'),
+    icon: 'pi pi-comments',
+    routeName: RouteNames.DASHBOARD_CONVERSATIONS,
+  },
   ...(isAdmin.value
     ? [
         { label: t('admin.nav.cats'), icon: 'pi pi-list', routeName: RouteNames.DASHBOARD_CATS },

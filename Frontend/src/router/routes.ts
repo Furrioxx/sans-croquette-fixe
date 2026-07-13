@@ -149,6 +149,11 @@ const routes = [
         name: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
       },
       {
+        path: 'conversations',
+        component: () => import('../views/Admin/Conversations.vue'),
+        name: RouteNames.DASHBOARD_CONVERSATIONS,
+      },
+      {
         path: 'settings',
         meta: {
           requiredRoles: [Roles.ADMIN],
