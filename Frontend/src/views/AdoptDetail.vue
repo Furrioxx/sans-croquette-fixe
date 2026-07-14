@@ -44,10 +44,10 @@ watch(
 <template>
   <div class="flex w-full flex-col">
     <template v-if="loading">
-      <div class="w-full animate-pulse bg-[var(--scf-bg)] px-6 py-10 md:px-[60px]">
+      <div class="w-full animate-pulse bg-[var(--scf-bg)] px-4 py-10 sm:px-6 md:px-[60px]">
         <div class="page-shell grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div class="aspect-[4/3] rounded-[26px] bg-[var(--scf-accent-soft)]"></div>
-          <div class="space-y-4 rounded-[26px] bg-white p-9">
+          <div class="space-y-4 rounded-[26px] bg-white p-6 sm:p-9">
             <div class="h-6 w-2/3 rounded bg-[var(--scf-bg)]"></div>
             <div class="h-4 rounded bg-[var(--scf-bg)]"></div>
             <div class="h-4 w-5/6 rounded bg-[var(--scf-bg)]"></div>

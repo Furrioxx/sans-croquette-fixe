@@ -36,7 +36,7 @@ const usesOfFunds = [
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-16 text-center md:px-[60px]"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-16 pt-16 text-center sm:px-6 md:px-[60px]"
     >
       <div
         class="pointer-events-none absolute left-1/2 -top-40 h-[340px] w-[340px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
@@ -51,8 +51,8 @@ const usesOfFunds = [
     </section>
 
     <!-- DONATE -->
-    <section class="flex w-full justify-center bg-[var(--scf-bg)] px-6 pb-14 md:px-[60px]">
-      <div class="w-full max-w-xl space-y-6 rounded-[28px] bg-white p-9 text-center">
+    <section class="flex w-full justify-center bg-[var(--scf-bg)] px-4 pb-14 sm:px-6 md:px-[60px]">
+      <div class="w-full max-w-xl space-y-6 rounded-[28px] bg-white p-6 text-center sm:p-9">
         <p class="display-font text-base font-semibold text-[var(--scf-ink)]">
           {{ $t('donate.amounts.title') }}
         </p>
@@ -71,7 +71,7 @@ const usesOfFunds = [
     </section>
 
     <!-- USES OF FUNDS -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <h2 class="display-font text-center text-3xl font-semibold md:text-4xl">
           {{ $t('donate.usesOfFunds.title') }}
@@ -95,7 +95,7 @@ const usesOfFunds = [
     </section>
 
     <!-- OTHER WAYS -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <h2 class="display-font text-center text-3xl font-semibold md:text-4xl">
           {{ $t('donate.otherWays.title') }}
@@ -133,7 +133,7 @@ const usesOfFunds = [
 
     <!-- MATERIAL DONATIONS -->
     <section
-      class="w-full bg-[var(--scf-ink)] px-6 py-16 text-white md:px-[60px] border-b border-[var(--scf-line)]"
+      class="w-full border-b border-[var(--scf-line)] bg-[var(--scf-ink)] px-4 py-16 text-white sm:px-6 md:px-[60px]"
     >
       <div class="page-shell max-w-2xl space-y-4">
         <span class="eyebrow !bg-white/10 !text-[var(--scf-accent-soft)]">{{

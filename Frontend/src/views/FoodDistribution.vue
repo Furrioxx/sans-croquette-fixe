@@ -25,7 +25,7 @@ const practicalItems = [
 
 <template>
   <div class="flex w-full flex-col">
-    <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+    <div class="w-full bg-[var(--scf-bg)] px-4 pt-6 sm:px-6 md:px-[60px]">
       <nav class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]">
         <router-link
           :to="{ name: RouteNames.HOME }"
@@ -42,9 +42,9 @@ const practicalItems = [
       </nav>
     </div>
 
-    <section class="relative overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-8 md:px-[60px] md:pb-20">
-      <div class="pointer-events-none absolute -right-20 -top-28 h-80 w-80 rounded-full bg-[var(--scf-accent-soft)]"></div>
-      <div class="pointer-events-none absolute bottom-[-7rem] left-[42%] h-56 w-56 rounded-full bg-[var(--scf-secondary-soft)]"></div>
+    <section class="relative overflow-hidden bg-[var(--scf-bg)] px-4 pb-16 pt-8 sm:px-6 md:px-[60px] md:pb-20">
+      <div class="pointer-events-none absolute -right-20 -top-28 h-64 w-64 rounded-full bg-[var(--scf-accent-soft)] sm:h-80 sm:w-80"></div>
+      <div class="pointer-events-none absolute bottom-[-7rem] left-[42%] hidden h-56 w-56 rounded-full bg-[var(--scf-secondary-soft)] lg:block"></div>
 
       <div class="page-shell relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
         <div class="max-w-2xl space-y-5">
@@ -83,7 +83,7 @@ const practicalItems = [
       </div>
     </section>
 
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
   <div class="page-shell space-y-8">
     <div class="space-y-2">
       <span class="eyebrow">
@@ -119,10 +119,10 @@ const practicalItems = [
   </div>
 </section>
 
-<section class="w-full bg-[var(--scf-accent-soft)] px-6 py-16 md:px-[60px]">
+<section class="w-full bg-[var(--scf-accent-soft)] px-4 py-16 sm:px-6 md:px-[60px]">
   <div class="page-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
     <div
-      class="flex aspect-square max-w-sm items-center justify-center rounded-full bg-[var(--scf-accent)] text-white shadow-[var(--scf-shadow)]"
+      class="mx-auto flex aspect-square w-full max-w-[14rem] items-center justify-center rounded-full bg-[var(--scf-accent)] text-white shadow-[var(--scf-shadow)] lg:mx-0 lg:max-w-sm"
     >
       <i class="pi pi-shopping-bag text-6xl"></i>
     </div>
@@ -147,7 +147,7 @@ const practicalItems = [
   </div>
 </section>
 
-<section class="w-full bg-white px-6 py-16 md:px-[60px]">
+<section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
   <div class="page-shell grid gap-5 lg:grid-cols-2">
     <article class="rounded-[24px] bg-[var(--scf-bg)] p-8 md:p-10">
       <span class="eyebrow">
@@ -185,7 +185,7 @@ const practicalItems = [
   </div>
 </section>
 
-<section class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left">
+<section class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-4 py-8 text-center text-white sm:px-6 md:flex-row md:justify-between md:px-[60px] md:text-left">
   <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
     {{ $t('distribution.supportText') }}
   </p>

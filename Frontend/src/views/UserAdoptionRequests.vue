@@ -88,7 +88,7 @@ onMounted(loadRequests)
 <template>
   <div class="flex w-full flex-col">
     <!-- HERO -->
-    <section class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 md:px-[60px] md:pb-14">
+    <section class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-10 pt-14 sm:px-6 md:px-[60px] md:pb-14">
       <div
         class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
@@ -104,7 +104,7 @@ onMounted(loadRequests)
     </section>
 
     <!-- LIST -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 pb-16 sm:px-6 md:px-[60px]">
       <div class="page-shell">
         <div class="py-6">
           <Button
@@ -182,7 +182,7 @@ onMounted(loadRequests)
                   rounded
                   outlined
                   size="small"
-                  class="!border-[var(--scf-line)] !text-[var(--scf-ink)]"
+                  class="w-full !border-[var(--scf-line)] !text-[var(--scf-ink)] sm:w-auto"
                   @click="openRequestDialog(request.documentId)"
                 />
               </div>

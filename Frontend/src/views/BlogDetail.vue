@@ -128,9 +128,9 @@ watch(articleIdentifier, loadArticle, { immediate: true })
 
     <template v-else>
       <!-- BREADCRUMB -->
-      <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+      <div class="w-full bg-[var(--scf-bg)] px-4 pt-6 sm:px-6 md:px-[60px]">
         <nav
-          class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
+          class="page-shell flex flex-wrap items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
         >
           <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
             $t('footer.links.home')
@@ -145,7 +145,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
       </div>
 
       <!-- MAIN -->
-      <section class="w-full bg-[var(--scf-bg)] px-6 py-8 md:px-[60px]">
+      <section class="w-full bg-[var(--scf-bg)] px-4 py-8 sm:px-6 md:px-[60px]">
         <div class="page-shell grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div class="space-y-6">
             <div
@@ -196,7 +196,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
 
           <!-- SIDEBAR -->
           <aside class="space-y-4 lg:sticky lg:top-24">
-            <div class="rounded-[22px] bg-white p-7">
+            <div class="rounded-[22px] bg-white p-5 sm:p-7">
               <span class="eyebrow">{{ $t('blog.detail.authorEyebrow') }}</span>
               <h2 class="display-font mt-3 text-lg font-semibold text-[var(--scf-ink)]">
                 {{ getBlogAuthorLabel(blogPost) }}
@@ -206,7 +206,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
               </p>
             </div>
 
-            <div class="rounded-[22px] bg-white p-7">
+            <div class="rounded-[22px] bg-white p-5 sm:p-7">
               <span class="eyebrow">{{ $t('blog.detail.shareEyebrow') }}</span>
               <div class="mt-3">
                 <Button
@@ -215,6 +215,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
                   severity="secondary"
                   outlined
                   rounded
+                  class="w-full sm:w-auto"
                   @click="shareArticle"
                 />
               </div>
@@ -224,7 +225,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
       </section>
 
       <!-- RELATED -->
-      <section v-if="recentPosts.length" class="w-full bg-white px-6 py-16 md:px-[60px]">
+      <section v-if="recentPosts.length" class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
         <div class="page-shell space-y-8">
           <div class="space-y-2">
             <span class="eyebrow">{{ $t('blog.detail.continueReading') }}</span>
