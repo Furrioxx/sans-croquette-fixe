@@ -47,8 +47,8 @@ const compatRow = computed(() => {
 })
 
 const friendlyLabel = (value: CatFriendly) => {
-  if (value === CatFriendly.YES) return { text: t('adopt.friendly-yes'), cls: 'text-green-600' }
-  if (value === CatFriendly.NO) return { text: t('adopt.friendly-no'), cls: 'text-red-500' }
+  if (value === CatFriendly.YES) return { text: t('adopt.friendly-yes'), cls: 'text-[var(--scf-success)]' }
+  if (value === CatFriendly.NO) return { text: t('adopt.friendly-no'), cls: 'text-[var(--scf-danger)]' }
   return { text: t('adopt.friendly-unknown'), cls: 'text-[var(--scf-muted)]' }
 }
 </script>
