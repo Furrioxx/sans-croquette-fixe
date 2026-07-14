@@ -278,7 +278,7 @@ const logoutFromMobile = () => {
               </router-link>
               <button
                 type="button"
-                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-red-500 hover:bg-[var(--scf-bg-soft)]"
+                class="flex items-center gap-2 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-[var(--scf-danger)] hover:bg-[var(--scf-bg-soft)]"
                 @click="logoutFromMobile"
               >
                 <i class="pi pi-sign-out"></i>

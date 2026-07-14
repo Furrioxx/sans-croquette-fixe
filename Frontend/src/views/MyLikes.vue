@@ -98,7 +98,7 @@ onMounted(async () => {
             <CatSheetCard :catSheet="catSheet" />
             <button
               :aria-label="$t('discover.unlike')"
-              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-red-500 transition-transform hover:scale-105"
+              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[var(--scf-danger)] transition-transform hover:scale-105"
               @click="tinderStore.unlikeCatSheet(catSheet.documentId)"
             >
               <i class="pi pi-trash text-sm"></i>

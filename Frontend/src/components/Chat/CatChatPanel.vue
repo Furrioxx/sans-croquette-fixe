@@ -151,7 +151,7 @@ defineExpose({ openChat })
               @send="send"
             />
 
-            <p v-if="chatStore.error" class="mt-3 text-sm font-medium text-red-600" role="alert">
+            <p v-if="chatStore.error" class="mt-3 text-sm font-medium text-[var(--scf-danger)]" role="alert">
               {{ $t('chat.error') }}
             </p>
           </div>

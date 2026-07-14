@@ -13,9 +13,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="flex items-center gap-4 mb-2">
-    <label :for="props.name" class="font-semibold w-32">
-      {{ props.label }}<span v-if="props.required" class="text-red-500 ml-1">*</span>
+  <div class="form-field-row">
+    <label :for="props.name" class="form-field-label">
+      {{ props.label }}<span v-if="props.required" class="form-field-required">*</span>
     </label>
     <DatePicker
       :inputId="props.name"

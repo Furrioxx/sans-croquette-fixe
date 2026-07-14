@@ -25,18 +25,18 @@
         </div>
 
         <div
-          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-green-400"
+          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-[var(--scf-success)]"
           :style="{ opacity: likeOverlayOpacity }"
         >
-          <span class="text-4xl font-extrabold text-green-500 rotate-[-15deg] tracking-wider">{{
+          <span class="text-4xl font-extrabold text-[var(--scf-success)] rotate-[-15deg] tracking-wider">{{
             $t('discover.like-stamp')
           }}</span>
         </div>
         <div
-          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-red-400"
+          class="absolute inset-0 flex items-center justify-center rounded-[26px] border-8 border-[var(--scf-danger)]"
           :style="{ opacity: passOverlayOpacity }"
         >
-          <span class="text-4xl font-extrabold text-red-500 rotate-[15deg] tracking-wider">{{
+          <span class="text-4xl font-extrabold text-[var(--scf-danger)] rotate-[15deg] tracking-wider">{{
             $t('discover.pass-stamp')
           }}</span>
         </div>
