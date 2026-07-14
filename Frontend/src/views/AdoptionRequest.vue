@@ -239,8 +239,8 @@ onMounted(async () => {
 <template>
   <div class="flex w-full flex-col">
     <template v-if="loading">
-      <div class="w-full animate-pulse bg-[var(--scf-bg)] px-6 py-10 md:px-[60px]">
-        <div class="page-shell space-y-4 rounded-[26px] bg-white p-9">
+      <div class="w-full animate-pulse bg-[var(--scf-bg)] px-4 py-10 sm:px-6 md:px-[60px]">
+        <div class="page-shell space-y-4 rounded-[26px] bg-white p-6 sm:p-9">
           <div class="h-6 w-1/3 rounded bg-[var(--scf-bg)]"></div>
           <div class="h-4 rounded bg-[var(--scf-bg)]"></div>
           <div class="h-4 w-5/6 rounded bg-[var(--scf-bg)]"></div>
@@ -250,7 +250,7 @@ onMounted(async () => {
 
     <template v-else>
       <!-- BREADCRUMB -->
-      <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+      <div class="w-full bg-[var(--scf-bg)] px-4 pt-6 sm:px-6 md:px-[60px]">
         <nav class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]">
           <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
             $t('footer.links.home')
@@ -271,7 +271,7 @@ onMounted(async () => {
       </div>
 
       <!-- HEADER -->
-      <section class="w-full bg-[var(--scf-bg)] px-6 pb-8 pt-4 md:px-[60px]">
+      <section class="w-full bg-[var(--scf-bg)] px-4 pb-8 pt-4 sm:px-6 md:px-[60px]">
         <div class="page-shell responsive-split-header">
           <div class="space-y-3">
             <span class="eyebrow">{{ $t('adoptionRequest.title') }}</span>
@@ -295,7 +295,7 @@ onMounted(async () => {
       </section>
 
       <!-- FORM -->
-      <section class="w-full bg-white px-6 py-12 md:px-[60px]">
+      <section class="w-full bg-white px-4 py-12 sm:px-6 md:px-[60px]">
         <div class="page-shell">
           <AdoptionRequestForm v-model="form" :errors="errors" />
 

@@ -125,9 +125,9 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
 <template>
   <div class="flex w-full flex-col">
     <!-- BREADCRUMB -->
-    <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+    <div class="w-full bg-[var(--scf-bg)] px-4 pt-6 sm:px-6 md:px-[60px]">
       <nav
-        class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
+        class="page-shell flex flex-wrap items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
       >
         <router-link :to="{ name: RouteNames.HOME }" class="hover:text-[var(--scf-ink)]">{{
           $t('footer.links.home')
@@ -142,7 +142,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
     </div>
 
     <!-- MAIN -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-8 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-8 sm:px-6 md:px-[60px]">
       <div class="page-shell grid items-start gap-10 lg:grid-cols-[1.1fr_0.9fr]">
         <!-- GALLERY -->
         <div>
@@ -207,7 +207,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
           >
             {{ $t('adoptDetail.groupAdoptionOnly') }}
           </span>
-          <h1 class="display-font mb-6 text-3xl font-extrabold text-[var(--scf-ink)] md:text-4xl">
+          <h1 class="display-font mb-6 text-3xl font-extrabold text-[var(--scf-ink)] sm:text-4xl">
             {{ catNames }}
           </h1>
 
@@ -311,7 +311,7 @@ const { relatedCats } = useRelatedCatSheets(props.catSheet.documentId)
     </section>
 
     <!-- RELATED -->
-    <section v-if="relatedCats.length" class="w-full bg-white px-6 py-14 md:px-[60px]">
+    <section v-if="relatedCats.length" class="w-full bg-white px-4 py-14 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-6">
         <h2 class="display-font text-2xl font-semibold text-[var(--scf-ink)] md:text-3xl">
           {{ $t('adoptDetail.otherCats') }}

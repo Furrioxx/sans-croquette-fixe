@@ -17,7 +17,7 @@ onMounted(async () => {
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 text-center md:px-[60px] md:pb-14"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-10 pt-14 text-center sm:px-6 md:px-[60px] md:pb-14"
     >
       <div
         class="pointer-events-none absolute left-1/2 -top-32 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
@@ -34,7 +34,7 @@ onMounted(async () => {
     </section>
 
     <!-- GRID -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 pb-16 sm:px-6 md:px-[60px]">
       <div class="page-shell">
         <div class="py-6">
           <Button
@@ -98,7 +98,7 @@ onMounted(async () => {
             <CatSheetCard :catSheet="catSheet" />
             <button
               :aria-label="$t('discover.unlike')"
-              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-red-500 transition-transform hover:scale-105"
+              class="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-[var(--scf-danger)] transition-transform hover:scale-105"
               @click="tinderStore.unlikeCatSheet(catSheet.documentId)"
             >
               <i class="pi pi-trash text-sm"></i>

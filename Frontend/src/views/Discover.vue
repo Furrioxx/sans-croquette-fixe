@@ -80,7 +80,7 @@ onUnmounted(() => {
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 text-center md:px-[60px] md:pb-14"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-10 pt-14 text-center sm:px-6 md:px-[60px] md:pb-14"
     >
       <div
         class="pointer-events-none absolute left-1/2 -top-32 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
@@ -97,9 +97,9 @@ onUnmounted(() => {
     </section>
 
     <!-- DECK -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
-      <div class="mx-auto max-w-md">
-        <div class="flex items-center justify-between gap-4 py-6">
+    <section class="w-full bg-[var(--scf-bg)] px-4 pb-16 sm:px-6 md:px-[60px]">
+      <div class="mx-auto w-full max-w-md">
+        <div class="flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <Button
             as="router-link"
             :to="{ name: RouteNames.DISCOVER_LIKES }"
@@ -107,13 +107,14 @@ onUnmounted(() => {
             icon="pi pi-heart-fill"
             rounded
             size="small"
-            class="!bg-white !border-[var(--scf-line)] !text-[var(--scf-ink)]"
+            class="w-full !bg-white !border-[var(--scf-line)] !text-[var(--scf-ink)] sm:w-auto"
           />
 
           <Button
             :label="$t('adopt.filter-btn')"
             rounded
             size="small"
+            class="w-full sm:w-auto"
             :class="
               activeFilterCount > 0
                 ? '!bg-[var(--scf-ink)] !border-[var(--scf-ink)]'
@@ -137,7 +138,7 @@ onUnmounted(() => {
 
         <Transition name="filter-panel">
           <div v-if="filterPanelOpen" class="mb-6 overflow-hidden rounded-[20px] bg-white">
-            <div class="flex flex-col gap-6 p-6">
+            <div class="flex flex-col gap-6 p-4 sm:p-6">
               <div>
                 <p
                   class="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--scf-muted)]"
@@ -229,7 +230,7 @@ onUnmounted(() => {
               </div>
             </div>
 
-            <div v-if="activeFilterCount > 0" class="px-6 pb-5">
+            <div v-if="activeFilterCount > 0" class="px-4 pb-5 sm:px-6">
               <button
                 class="text-sm font-semibold text-[var(--scf-accent-dark)] underline underline-offset-2"
                 @click="resetFilters"
@@ -299,7 +300,7 @@ onUnmounted(() => {
         </div>
 
         <!-- Details of the currently shown card -->
-        <div v-if="currentCard" class="mt-4 rounded-[26px] bg-white p-6">
+        <div v-if="currentCard" class="mt-4 rounded-[26px] bg-white p-4 sm:p-6">
           <CatSheetDetails :catSheet="currentCard" :truncateDescription="false" />
         </div>
 
@@ -307,7 +308,7 @@ onUnmounted(() => {
         <div v-if="currentCard" class="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <button
             :aria-label="$t('discover.pass')"
-            class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl text-red-500 transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
+            class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg text-[var(--scf-danger)] transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
             @click="topCardRef?.triggerPass()"
           >
             <i class="pi pi-times"></i>

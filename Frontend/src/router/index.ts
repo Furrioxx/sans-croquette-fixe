@@ -10,7 +10,7 @@ const FALLBACK_APP_NAME = "Sans Croquettes Fixes - Association d'adoption de cha
 const router = createRouter({
   history: createWebHistory(),
   routes: routes,
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     }

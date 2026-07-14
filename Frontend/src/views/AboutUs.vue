@@ -86,7 +86,7 @@ const catCoverImage = (sheet: CatSheet) => {
 <template>
   <div class="flex w-full flex-col">
     <!-- BREADCRUMB -->
-    <div class="w-full bg-[var(--scf-bg)] px-6 pt-6 md:px-[60px]">
+    <div class="w-full bg-[var(--scf-bg)] px-4 pt-6 sm:px-6 md:px-[60px]">
       <nav
         class="page-shell flex items-center gap-1.5 text-xs font-semibold text-[var(--scf-muted)]"
       >
@@ -100,7 +100,7 @@ const catCoverImage = (sheet: CatSheet) => {
 
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-14 pt-8 md:px-[60px] md:pb-16"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-14 pt-8 sm:px-6 md:px-[60px] md:pb-16"
     >
       <div
         class="pointer-events-none absolute -right-24 -top-28 h-[320px] w-[320px] rounded-full bg-[var(--scf-accent-soft)]"
@@ -117,7 +117,7 @@ const catCoverImage = (sheet: CatSheet) => {
     </section>
 
     <!-- MISSION PILLARS -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <h2 class="display-font text-3xl font-semibold md:text-4xl">Nos actions au quotidien</h2>
         <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
@@ -139,7 +139,7 @@ const catCoverImage = (sheet: CatSheet) => {
     </section>
 
     <!-- MISSIONS EN BREF -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell grid gap-10 lg:grid-cols-2 lg:items-center">
         <div class="space-y-4">
           <span class="eyebrow">{{ $t('about.missionsBrief.eyebrow') }}</span>
@@ -172,7 +172,7 @@ const catCoverImage = (sheet: CatSheet) => {
     </section>
 
     <!-- SUCCESS STORIES -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
           <span class="eyebrow">{{ $t('about.eyebrowCats') }}</span>
@@ -238,7 +238,7 @@ const catCoverImage = (sheet: CatSheet) => {
     </section>
 
     <!-- STORY -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
         <img
           :src="AnaisPhoto"
@@ -262,7 +262,7 @@ const catCoverImage = (sheet: CatSheet) => {
 
     <!-- DONATION CTA -->
     <section
-      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left"
+      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-4 py-8 text-center text-white sm:px-6 md:flex-row md:justify-between md:px-[60px] md:text-left"
     >
       <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
         {{ $t('about.donationCta.text') }}
@@ -280,7 +280,7 @@ const catCoverImage = (sheet: CatSheet) => {
     </section>
 
     <!-- CONTACT -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell grid gap-5 md:grid-cols-2">
         <article class="rounded-[20px] bg-[var(--scf-bg)] p-8">
           <h3 class="display-font text-lg font-semibold">{{ $t('about.contact.help.title') }}</h3>

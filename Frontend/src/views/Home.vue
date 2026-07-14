@@ -98,7 +98,7 @@ onMounted(async () => {
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-16 pt-14 md:px-[60px] md:pb-24 md:pt-16"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-16 pt-14 sm:px-6 md:px-[60px] md:pb-24 md:pt-16"
     >
       <div
         class="pointer-events-none absolute -right-24 -top-36 h-[380px] w-[380px] rounded-full bg-[var(--scf-accent-soft)]"
@@ -152,7 +152,7 @@ onMounted(async () => {
 
     <!-- DONATION STRIP -->
     <section
-      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-6 py-8 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left"
+      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-accent)] px-4 py-8 text-center text-white sm:px-6 md:flex-row md:justify-between md:px-[60px] md:text-left"
     >
       <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
         {{ $t('home.donationStrip.text') }}
@@ -170,7 +170,7 @@ onMounted(async () => {
     </section>
 
     <!-- MISSION PILLARS -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
           <span class="eyebrow">{{ $t('home.eyebrowMission') }}</span>
@@ -197,7 +197,7 @@ onMounted(async () => {
     </section>
 
     <!-- ADOPTABLE CATS -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="responsive-split-header">
           <div class="space-y-2">
@@ -320,7 +320,7 @@ onMounted(async () => {
     </section>
 
     <!-- SANCTUARY -->
-    <section class="w-full bg-[var(--scf-accent-soft)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-accent-soft)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
         <div class="flex-1 space-y-4">
           <span class="eyebrow">{{ $t('home.sanctuary.eyebrow') }}</span>
@@ -345,7 +345,7 @@ onMounted(async () => {
 
     <!-- STATS -->
     <section
-      class="grid w-full grid-cols-1 gap-8 bg-[var(--scf-ink)] px-6 py-14 text-center text-white sm:grid-cols-3 md:px-[60px]"
+      class="grid w-full grid-cols-1 gap-8 bg-[var(--scf-ink)] px-4 py-14 text-center text-white sm:grid-cols-3 sm:px-6 md:px-[60px]"
     >
       <div v-for="stat in stats" :key="stat.label">
         <p class="display-font text-4xl font-semibold !text-white">{{ stat.value }}</p>
@@ -354,7 +354,7 @@ onMounted(async () => {
     </section>
 
     <!-- STORY -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
         <div
           class="flex aspect-square w-full shrink-0 bg-cover bg-center rounded-full md:w-64"
@@ -385,7 +385,7 @@ onMounted(async () => {
     </section>
 
     <!-- WAYS TO HELP -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <h2 class="display-font text-3xl font-semibold md:text-4xl">
           {{ $t('home.waysToHelp.title') }}

@@ -145,7 +145,7 @@ const onPageChange = (event: { page: number }) => {
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 md:px-[60px] md:pb-14"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-10 pt-14 sm:px-6 md:px-[60px] md:pb-14"
     >
       <div
         class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
@@ -162,9 +162,9 @@ const onPageChange = (event: { page: number }) => {
     </section>
 
     <!-- TOOLBAR + FILTERS + GRID -->
-    <section class="w-full bg-[var(--scf-bg)] px-6 pb-16 md:px-[60px]">
+    <section class="w-full bg-[var(--scf-bg)] px-4 pb-16 sm:px-6 md:px-[60px]">
       <div class="page-shell">
-        <div class="flex flex-wrap items-center justify-between gap-4 pb-6">
+        <div class="flex flex-col gap-4 pb-6 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
           <span class="text-sm text-[var(--scf-muted)]">
             <template v-if="!loading">{{ $t('adopt.results', { n: totalRecords }) }}</template>
             <template v-else
@@ -176,6 +176,7 @@ const onPageChange = (event: { page: number }) => {
             :label="$t('adopt.filter-btn')"
             rounded
             size="small"
+            class="w-full sm:w-auto"
             :class="
               activeFilterCount > 0
                 ? '!bg-[var(--scf-ink)] !border-[var(--scf-ink)]'
@@ -200,7 +201,7 @@ const onPageChange = (event: { page: number }) => {
         <!-- Collapsible filter panel -->
         <Transition name="filter-panel">
           <div v-if="filterPanelOpen" class="mb-6 overflow-hidden rounded-[20px] bg-white">
-            <div class="grid grid-cols-1 gap-6 p-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div class="grid grid-cols-1 gap-6 p-4 sm:grid-cols-2 sm:p-6 lg:grid-cols-4">
               <div>
                 <p
                   class="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--scf-muted)]"
@@ -314,7 +315,7 @@ const onPageChange = (event: { page: number }) => {
               </div>
             </div>
 
-            <div v-if="activeFilterCount > 0" class="px-6 pb-5">
+            <div v-if="activeFilterCount > 0" class="px-4 pb-5 sm:px-6">
               <button
                 class="text-sm font-semibold text-[var(--scf-accent-dark)] underline underline-offset-2"
                 @click="resetFilters"
@@ -411,7 +412,7 @@ const onPageChange = (event: { page: number }) => {
 
     <!-- CTA BAND -->
     <section
-      class="flex w-full flex-col items-center gap-4 bg-[var(--scf-ink)] px-6 py-10 text-center text-white md:flex-row md:justify-between md:px-[60px] md:text-left border-b border-[var(--scf-line)]"
+      class="flex w-full flex-col items-center gap-4 border-b border-[var(--scf-line)] bg-[var(--scf-ink)] px-4 py-10 text-center text-white sm:px-6 md:flex-row md:justify-between md:px-[60px] md:text-left"
     >
       <p class="flex-1 text-sm font-semibold leading-6 md:text-base">
         {{ $t('adopt.ctaBand.text') }}

@@ -91,7 +91,7 @@ const onPageChange = (event: { page: number }) => {
   <div class="flex w-full flex-col">
     <!-- HERO -->
     <section
-      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-6 pb-10 pt-14 md:px-[60px] md:pb-14"
+      class="relative w-full overflow-hidden bg-[var(--scf-bg)] px-4 pb-10 pt-14 sm:px-6 md:px-[60px] md:pb-14"
     >
       <div
         class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
@@ -111,7 +111,7 @@ const onPageChange = (event: { page: number }) => {
     </section>
 
     <!-- FEATURED -->
-    <section v-if="featuredPost" class="w-full bg-[var(--scf-bg)] px-6 pb-14 md:px-[60px]">
+    <section v-if="featuredPost" class="w-full bg-[var(--scf-bg)] px-4 pb-14 sm:px-6 md:px-[60px]">
       <div class="page-shell">
         <router-link
           :to="{ name: RouteNames.BLOG_DETAIL, params: { identifier: featuredPost.slug } }"
@@ -163,7 +163,7 @@ const onPageChange = (event: { page: number }) => {
     </section>
 
     <!-- TOOLBAR + GRID -->
-    <section class="w-full bg-white px-6 py-16 md:px-[60px]">
+    <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
           <span class="eyebrow">{{ $t('blog.list.latestEyebrow') }}</span>
