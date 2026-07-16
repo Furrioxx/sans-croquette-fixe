@@ -79,9 +79,17 @@ const onSubmit = async () => {
         <span>{{ $t('auth.rememberMe') }}</span>
       </label>
 
-      <Message v-if="error" severity="error" class="rounded-2xl">{{ errorMessage }}</Message>
+      <Message v-if="error" severity="error" class="rounded-2xl" data-cy="login-error">{{
+        errorMessage
+      }}</Message>
 
-      <Button :label="$t('login')" :loading="loading" type="submit" class="auth-submit-btn" />
+      <Button
+        :label="$t('login')"
+        :loading="loading"
+        type="submit"
+        class="auth-submit-btn"
+        data-cy="login-submit"
+      />
     </form>
 
     <div class="auth-form-footer">

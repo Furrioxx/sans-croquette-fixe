@@ -12,7 +12,12 @@ const router = useRouter()
     <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--scf-accent-soft)]">
       <i class="pi pi-lock text-3xl text-[var(--scf-accent-dark)]" aria-hidden="true"></i>
     </div>
-    <h1 class="display-font text-2xl font-bold text-[var(--scf-ink)]">{{ $t('errorPages.unauthorized.title') }}</h1>
+    <h1
+      data-cy="unauthorized-title"
+      class="display-font text-2xl font-bold text-[var(--scf-ink)]"
+    >
+      {{ $t('errorPages.unauthorized.title') }}
+    </h1>
     <p class="text-[var(--scf-muted)]">{{ $t('errorPages.unauthorized.subtitle') }}</p>
     <Button
       :label="$t('errorPages.backHome')"

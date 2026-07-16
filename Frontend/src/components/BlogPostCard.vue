@@ -13,6 +13,7 @@ const props = defineProps<{ post: BlogPost }>()
 
 <template>
   <article
+    data-cy="blog-post-card"
     class="flex h-full flex-col overflow-hidden rounded-[20px] bg-white transition-transform hover:-translate-y-1"
   >
     <div class="aspect-[16/10] overflow-hidden bg-[var(--scf-bg)]">
@@ -57,6 +58,7 @@ const props = defineProps<{ post: BlogPost }>()
         }}</span>
         <router-link
           :to="{ name: RouteNames.BLOG_DETAIL, params: { identifier: props.post.slug } }"
+          data-cy="blog-post-read-more"
           class="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[var(--scf-accent-dark)] hover:underline"
         >
           {{ $t('blog.read-more') }}

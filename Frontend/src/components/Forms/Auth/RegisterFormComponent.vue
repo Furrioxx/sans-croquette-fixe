@@ -158,9 +158,17 @@ const onSubmit = async () => {
         <span>{{ $t('auth.newsletterOptIn') }}</span>
       </label>
 
-      <Message v-if="error" severity="error" class="rounded-2xl">{{ errorMessage }}</Message>
+      <Message v-if="error" severity="error" class="rounded-2xl" data-cy="register-error">{{
+        errorMessage
+      }}</Message>
 
-      <Button :label="$t('register')" :loading="loading" type="submit" class="auth-submit-btn" />
+      <Button
+        :label="$t('register')"
+        :loading="loading"
+        type="submit"
+        class="auth-submit-btn"
+        data-cy="register-submit"
+      />
     </form>
 
     <div class="auth-form-footer">

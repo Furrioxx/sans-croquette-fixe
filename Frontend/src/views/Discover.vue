@@ -308,6 +308,7 @@ onUnmounted(() => {
         <div v-if="currentCard" class="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
           <button
             :aria-label="$t('discover.pass')"
+            data-cy="discover-pass"
             class="flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg text-[var(--scf-danger)] transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
             @click="topCardRef?.triggerPass()"
           >
@@ -315,6 +316,7 @@ onUnmounted(() => {
           </button>
           <button
             :aria-label="$t('discover.like')"
+            data-cy="discover-like"
             class="flex h-14 w-14 items-center justify-center rounded-full bg-white text-xl text-[var(--scf-accent)] transition-transform hover:scale-105 sm:h-16 sm:w-16 sm:text-2xl"
             @click="topCardRef?.triggerLike()"
           >

@@ -74,6 +74,7 @@ const infoLines = computed(() => {
 
 <template>
   <article
+    data-cy="cat-sheet-card"
     class="group flex h-full flex-col overflow-hidden rounded-[22px] bg-white transition-transform duration-300 hover:-translate-y-1"
   >
     <div class="relative aspect-[4/3] overflow-hidden bg-[var(--scf-bg)]">
@@ -164,6 +165,7 @@ const infoLines = computed(() => {
           icon="pi pi-arrow-right"
           iconPos="right"
           rounded
+          data-cy="cat-sheet-see-more"
           class="w-full !bg-[var(--scf-accent)] !border-[var(--scf-accent)] hover:!bg-[var(--scf-accent-dark)] hover:!border-[var(--scf-accent-dark)]"
         />
       </div>
