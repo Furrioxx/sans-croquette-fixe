@@ -109,15 +109,15 @@ const closeModal = (visible: boolean) => {
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">
-      <li class="btn-bis text-gray-600 hover:text-gray-900" @click="editUser">
+      <button type="button" class="btn-bis text-gray-600 hover:text-gray-900" @click="editUser">
         <i class="pi pi-pencil"></i>
         <span>{{ $t('update') }}</span>
-      </li>
+      </button>
 
-      <li class="btn-bis text-red-600 hover:text-red-800" @click="">
+      <button type="button" class="btn-bis text-red-600 hover:text-red-800" @click="">
         <i class="pi pi-lock"></i>
         <span>{{ $t('admin.block-user') }}</span>
-      </li>
+      </button>
     </div>
   </Popover>
 </template>
