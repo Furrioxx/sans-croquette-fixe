@@ -21,7 +21,7 @@ function handleResize() {
 </script>
 
 <template>
-  <div class="flex min-h-screen w-full">
+  <div class="flex min-h-screen w-full" data-cy="admin-dashboard">
     <Toast position="bottom-right" :style="{ width: toastWidth }" />
     <ConfirmDialog></ConfirmDialog>
     <div class="flex-1">
