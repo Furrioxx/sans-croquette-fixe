@@ -50,6 +50,12 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
       } as any,
     })
 
+    try {
+      await strapi.service('api::adoption-request.notifications').sendNewAdoptionRequestNotification(createdRequest)
+    } catch (err) {
+      strapi.log.error('Failed to send new adoption request notification email', err)
+    }
+
     return { data: createdRequest }
   },
 
@@ -156,6 +162,8 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
       return ctx.notFound('Adoption request not found')
     }
 
+    const previousStatus = entity.processingStatus
+
     const roleName = await getRoleName(strapi, user)
 
     if (roleName === 'User') {
@@ -183,7 +191,22 @@ export default factories.createCoreController(ADOPTION_REQUEST_UID, ({ strapi })
       } as any,
     })
 
-    return { data: await getAdoptionRequestWithRelations(strapi, ctx.params.id) }
+    const updatedEntity = await getAdoptionRequestWithRelations(strapi, ctx.params.id)
+    const newStatus = updatedEntity?.processingStatus
+
+    if (previousStatus !== newStatus) {
+      try {
+        if (newStatus === 'approved') {
+          await strapi.service('api::adoption-request.notifications').sendAdoptionRequestApprovedNotification(updatedEntity)
+        } else if (newStatus === 'rejected') {
+          await strapi.service('api::adoption-request.notifications').sendAdoptionRequestRejectedNotification(updatedEntity)
+        }
+      } catch (err) {
+        strapi.log.error('Failed to send adoption request status change notification email', err)
+      }
+    }
+
+    return { data: updatedEntity }
   },
 
   async delete(ctx) {
