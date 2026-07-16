@@ -163,6 +163,28 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/unauthorized',
+    component: () => import('../layout/AppLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: RouteNames.UNAUTHORIZED,
+        component: () => import('../views/Unauthorized.vue'),
+      },
+    ],
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('../layout/AppLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: RouteNames.NOT_FOUND,
+        component: () => import('../views/NotFound.vue'),
+      },
+    ],
+  },
 ]
 
 export default routes

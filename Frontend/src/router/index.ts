@@ -32,12 +32,12 @@ router.beforeEach(async (to, _from, next) => {
     if (authStore.user == null) {
       // here we do have a token but we don't have the user data, so we need to fetch it to get the role for routing
       await retrieveUserData(() => {
-        return next('/unauthorized')
+        return next({ name: RouteNames.UNAUTHORIZED })
       })
     }
 
     if (!authStore.getUserRole || !requiredRoles.includes(authStore.getUserRole)) {
-      return next('/unauthorized')
+      return next({ name: RouteNames.UNAUTHORIZED })
     }
   }
 

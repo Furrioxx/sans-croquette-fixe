@@ -172,10 +172,10 @@ const closeGallery = (visible: boolean) => {
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">
-      <li class="btn-bis text-gray-600 hover:text-gray-900" @click="editCatSheet">
+      <button type="button" class="btn-bis text-gray-600 hover:text-gray-900" @click="editCatSheet">
         <i class="pi pi-pencil"></i>
         <span>{{ $t('update') }}</span>
-      </li>
+      </button>
     </div>
   </Popover>
 </template>

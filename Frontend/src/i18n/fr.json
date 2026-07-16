@@ -68,7 +68,20 @@
     "dashboard-conversations": "Conversations",
     "adoption-form": "Formulaire d'adoption",
     "user-adoption-requests": "Mes demandes d'adoption",
-    "dashboard-adoption-requests": "Demandes d'adoption"
+    "dashboard-adoption-requests": "Demandes d'adoption",
+    "not-found": "Page introuvable",
+    "unauthorized": "Accès refusé"
+  },
+  "errorPages": {
+    "backHome": "Retour à l'accueil",
+    "notFound": {
+      "title": "Page introuvable",
+      "subtitle": "La page que vous cherchez n'existe pas ou a été déplacée."
+    },
+    "unauthorized": {
+      "title": "Accès refusé",
+      "subtitle": "Vous n'avez pas les droits nécessaires pour accéder à cette page."
+    }
   },
   "auth": {
     "email": "Adresse e-mail",
