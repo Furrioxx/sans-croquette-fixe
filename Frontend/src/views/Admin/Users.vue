@@ -99,6 +99,7 @@ const closeModal = (visible: boolean) => {
             icon="pi pi-ellipsis-v"
             rounded
             text
+            data-cy="user-row-actions"
             v-tooltip.top="$t('settings')"
             @click="togglePopover($event, slotProps.data.id)"
           />
@@ -109,7 +110,12 @@ const closeModal = (visible: boolean) => {
 
   <Popover ref="op">
     <div class="flex flex-col gap-4">
-      <button type="button" class="btn-bis text-gray-600 hover:text-gray-900" @click="editUser">
+      <button
+        type="button"
+        class="btn-bis text-gray-600 hover:text-gray-900"
+        data-cy="user-edit-action"
+        @click="editUser"
+      >
         <i class="pi pi-pencil"></i>
         <span>{{ $t('update') }}</span>
       </button>

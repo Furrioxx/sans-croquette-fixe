@@ -112,6 +112,7 @@ watch(
           v-for="item in items"
           :key="item.label"
           :to="{ name: item.routeName }"
+          :data-cy="`admin-nav-${item.routeName}`"
           class="btn-bis"
           :class="
             isActive(item.routeName)
@@ -137,6 +138,7 @@ watch(
           :label="$t('logout')"
           icon="pi pi-sign-out"
           class="w-full p-button-text p-button-danger"
+          data-cy="admin-logout"
           @click="logout"
         />
       </div>
