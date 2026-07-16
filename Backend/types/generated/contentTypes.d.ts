@@ -771,6 +771,10 @@ export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
       'plugin::users-permissions.user'
     >;
     cats: Schema.Attribute.Relation<'oneToMany', 'api::cat.cat'>;
+    chatConversations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-conversation.chat-conversation'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -853,6 +857,93 @@ export interface ApiCatCat extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     vaccinated: Schema.Attribute.Boolean;
+  };
+}
+
+export interface ApiChatConversationChatConversation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'chat_conversations';
+  info: {
+    description: 'Private conversation about a cat sheet';
+    displayName: 'Chat Conversation';
+    pluralName: 'chat-conversations';
+    singularName: 'chat-conversation';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    catSheet: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::cat-sheet.cat-sheet'
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    lastMessageAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-conversation.chat-conversation'
+    > &
+      Schema.Attribute.Private;
+    messages: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-message.chat-message'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    requester: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiChatMessageChatMessage extends Struct.CollectionTypeSchema {
+  collectionName: 'chat_messages';
+  info: {
+    description: 'Message sent in a private chat conversation';
+    displayName: 'Chat Message';
+    pluralName: 'chat-messages';
+    singularName: 'chat-message';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    author: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    > &
+      Schema.Attribute.Required;
+    content: Schema.Attribute.Text &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 2000;
+      }>;
+    conversation: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::chat-conversation.chat-conversation'
+    > &
+      Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-message.chat-message'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -1349,6 +1440,14 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::cat-sheet.cat-sheet'
     >;
+    chatConversations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-conversation.chat-conversation'
+    >;
+    chatMessages: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::chat-message.chat-message'
+    >;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
@@ -1414,6 +1513,8 @@ declare module '@strapi/strapi' {
       'api::cat-mood.cat-mood': ApiCatMoodCatMood;
       'api::cat-sheet.cat-sheet': ApiCatSheetCatSheet;
       'api::cat.cat': ApiCatCat;
+      'api::chat-conversation.chat-conversation': ApiChatConversationChatConversation;
+      'api::chat-message.chat-message': ApiChatMessageChatMessage;
       'api::tarification.tarification': ApiTarificationTarification;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

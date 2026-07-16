@@ -159,7 +159,7 @@ export const sanitizeAdoptionRequestPayload = (payload: Record<string, unknown>)
   return data
 }
 
-const hasActiveApprovedAbsence = async (strapi: any, userId: number, referenceDate: string) => {
+export const hasActiveApprovedAbsence = async (strapi: any, userId: number, referenceDate: string) => {
   const absences = await strapi.documents('api::absence.absence').findMany({
     status: 'draft',
     filters: {
