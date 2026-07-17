@@ -48,6 +48,7 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::chat-conversation.chat-conversation.find",
     "api::chat-conversation.chat-conversation.findOne",
     "api::chat-conversation.chat-conversation.sendMessage",
+    "api::dashboard.dashboard.getSummary",
   ],
   Admin: [
     "plugin::users-permissions.user.me",
@@ -86,6 +87,7 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::chat-conversation.chat-conversation.find",
     "api::chat-conversation.chat-conversation.findOne",
     "api::chat-conversation.chat-conversation.sendMessage",
+    "api::dashboard.dashboard.getSummary",
   ],
 };
 

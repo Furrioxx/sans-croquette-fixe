@@ -39,6 +39,7 @@
   "install": "Installer l'application",
   "share": "Partager",
   "refresh": "Rafraîchir",
+  "retry": "Réessayer",
   "settings": "Paramètres",
   "actions": "Actions",
   "requiredInputError": "Ce champs est obligatoire",
@@ -228,11 +229,7 @@
       "text": "Répondez à quelques questions sur votre foyer, votre rythme de vie et vos préférences. Le questionnaire fait ressortir les profils les plus cohérents avec votre situation, puis vous laisse reprendre la main sur la liste complète si besoin.",
       "primaryCta": "Faire le questionnaire",
       "secondaryCta": "Voir tous les chats",
-      "tags": [
-        "Enfants, chiens, chats",
-        "Âge, duo, tempérament",
-        "Santé et lieu d'accueil"
-      ],
+      "tags": ["Enfants, chiens, chats", "Âge, duo, tempérament", "Santé et lieu d'accueil"],
       "benefits": {
         "household": {
           "title": "Votre foyer avant tout",
@@ -405,6 +402,77 @@
       "cats": "Fiches chat",
       "tarifications": "Tarifications",
       "blog": "Blog"
+    },
+    "dashboard": {
+      "eyebrow": "Pilotage quotidien",
+      "greeting": "Bonjour {name}, voici l'essentiel.",
+      "team": "l'équipe",
+      "subtitle": "Les informations prioritaires du refuge, réunies dans une vue claire et directement exploitable.",
+      "globalScope": "Vue globale de l'association",
+      "assignedScope": "Mon périmètre de suivi",
+      "updatedAt": "Mis à jour le {date}",
+      "refreshError": "Les données n'ont pas pu être actualisées.",
+      "loadErrorTitle": "Le tableau de bord est indisponible",
+      "loadErrorText": "Impossible de récupérer les indicateurs pour le moment. Vérifiez votre connexion puis réessayez.",
+      "kpis": {
+        "adoptableCats": "Chats adoptables",
+        "followedCats": "Chats adoptables suivis",
+        "catsTotal": "{count} chats enregistrés au total",
+        "requestsToProcess": "Demandes à traiter",
+        "overdueRequests": "{count} en attente depuis plus de 7 jours",
+        "noOverdueRequest": "Aucune demande en retard",
+        "activeConversations": "Conversations actives",
+        "conversationsTotal": "{count} conversations accessibles au total",
+        "absencesToReview": "Absences à valider",
+        "upcomingAbsences": "Mes absences à venir",
+        "activeAbsences": "{count} absence active aujourd'hui"
+      },
+      "trend": {
+        "eyebrow": "30 derniers jours",
+        "title": "Demandes reçues",
+        "total": "demandes sur la période",
+        "ariaLabel": "Graphique des demandes reçues sur 30 jours, {count} demandes au total",
+        "point": "{date} : {count} demande(s)"
+      },
+      "cats": {
+        "eyebrow": "Refuge virtuel",
+        "title": "Répartition des chats",
+        "refuge": "Au refuge",
+        "foster": "En famille d'accueil",
+        "inCare": "En soins",
+        "adopted": "Adoptés"
+      },
+      "priorities": {
+        "eyebrow": "À traiter",
+        "title": "Priorités du moment",
+        "subtitle": "Les demandes les plus anciennes et les absences proches apparaissent en premier.",
+        "absenceTitle": "Absence de {name}",
+        "unknownVolunteer": "un bénévole",
+        "absenceDate": "Débute le {date}",
+        "overdueSince": "En retard, reçue le {date}",
+        "requestSince": "Demande reçue le {date}",
+        "emptyTitle": "Tout est à jour",
+        "emptyText": "Aucune action prioritaire ne nécessite votre attention."
+      },
+      "insights": {
+        "eyebrow": "Association et contenu",
+        "title": "Points de contrôle",
+        "activeVolunteers": "Bénévoles actifs",
+        "adopters": "Comptes adoptants",
+        "blockedUsers": "Comptes bloqués",
+        "draftPosts": "Articles en brouillon",
+        "withoutMedia": "Fiches sans média",
+        "withoutBackup": "Fiches sans suppléant"
+      },
+      "requests": {
+        "eyebrow": "Activité récente",
+        "title": "Dernières demandes",
+        "subtitle": "Les cinq demandes les plus récentes accessibles selon vos droits.",
+        "viewAll": "Voir toutes les demandes",
+        "responsible": "Responsable : {name}",
+        "unassigned": "Non attribué",
+        "empty": "Aucune demande d'adoption visible pour le moment."
+      }
     },
     "absences": "Absences",
     "absence-create": "Déclarer une absence",
