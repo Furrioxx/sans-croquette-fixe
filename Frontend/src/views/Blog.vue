@@ -97,7 +97,6 @@ const onPageChange = (event: { page: number }) => {
         class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
       <div class="page-shell relative max-w-2xl space-y-5">
-        <span class="eyebrow">{{ $t('blog.kicker') }}</span>
         <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
           {{ $t('blog.title') }}
         </h1>
@@ -134,7 +133,6 @@ const onPageChange = (event: { page: number }) => {
             </div>
           </div>
           <div class="flex flex-col justify-center gap-4 p-8 md:p-10">
-            <span class="eyebrow w-fit">{{ $t('blog.eyebrowFeatured') }}</span>
             <div
               class="flex flex-wrap items-center gap-2.5 text-xs font-semibold text-[var(--scf-muted)]"
             >
@@ -166,7 +164,6 @@ const onPageChange = (event: { page: number }) => {
     <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
-          <span class="eyebrow">{{ $t('blog.list.latestEyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
             {{ $t('blog.list.latestTitle') }}
           </h2>
@@ -231,7 +228,6 @@ const onPageChange = (event: { page: number }) => {
           >
             <i class="pi pi-heart-fill text-2xl text-[var(--scf-accent-dark)]"></i>
           </div>
-          <span class="eyebrow">{{ $t('blog.list.emptyEyebrow') }}</span>
           <h3 class="display-font text-xl font-semibold text-[var(--scf-ink)]">
             {{ $t('blog.empty') }}
           </h3>

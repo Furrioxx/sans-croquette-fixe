@@ -274,7 +274,6 @@ onMounted(async () => {
       <section class="w-full bg-[var(--scf-bg)] px-4 pb-8 pt-4 sm:px-6 md:px-[60px]">
         <div class="page-shell responsive-split-header">
           <div class="space-y-3">
-            <span class="eyebrow">{{ $t('adoptionRequest.title') }}</span>
             <h1 class="display-font text-3xl font-semibold leading-tight md:text-5xl">
               {{ catNames }}
             </h1>

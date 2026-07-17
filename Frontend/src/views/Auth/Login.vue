@@ -14,7 +14,6 @@ const router = useRouter()
     <section class="bg-[var(--scf-bg)] px-6 py-14 md:px-[60px] md:py-16">
       <div class="page-shell auth-main-grid">
         <aside class="auth-aside">
-          <span class="eyebrow">{{ $t('auth.login-eyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
             {{ title }}
           </h2>
@@ -47,7 +46,6 @@ const router = useRouter()
 
         <div class="auth-form-panel section-card auth-form-panel-home">
           <div class="space-y-3">
-            <span class="eyebrow">{{ $t('auth.login-card-kicker') }}</span>
             <h2 class="display-font text-3xl font-semibold md:text-4xl">
               {{ $t('auth.login-card-title') }}
             </h2>

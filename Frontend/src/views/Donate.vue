@@ -42,7 +42,6 @@ const usesOfFunds = [
         class="pointer-events-none absolute left-1/2 -top-40 h-[340px] w-[340px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
       <div class="page-shell relative mx-auto max-w-2xl space-y-5">
-        <span class="eyebrow">{{ $t('donate.eyebrowHero') }}</span>
         <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">{{ title }}</h1>
         <p class="mx-auto max-w-xl text-base leading-7 text-[var(--scf-text)] md:text-lg">
           {{ $t('donate.heroText') }}
@@ -136,9 +135,6 @@ const usesOfFunds = [
       class="w-full border-b border-[var(--scf-line)] bg-[var(--scf-ink)] px-4 py-16 text-white sm:px-6 md:px-[60px]"
     >
       <div class="page-shell max-w-2xl space-y-4">
-        <span class="eyebrow !bg-white/10 !text-[var(--scf-accent-soft)]">{{
-          $t('donate.eyebrowMaterial')
-        }}</span>
         <h2 class="display-font text-3xl font-semibold !text-white">
           {{ $t('donate.materialTitle') }}
         </h2>

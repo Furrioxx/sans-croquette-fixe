@@ -92,29 +92,6 @@ h3,
   box-shadow: 0 18px 60px rgba(62, 69, 96, 0.28);
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid rgba(252, 118, 118, 0.18);
-  background: rgba(255, 255, 255, 0.72);
-  color: var(--scf-accent-dark);
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.eyebrow::before {
-  content: '';
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, var(--scf-accent), var(--scf-secondary));
-}
-
 .hero-panel {
   position: relative;
   overflow: hidden;
