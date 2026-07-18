@@ -35,6 +35,9 @@ const validate = (): boolean => {
   errors.value.push(
     StringUtils.checkArrayValidity('cat_moods', form.value!.cat_moods, t('requiredInputError')),
   )
+  errors.value.push(
+    StringUtils.checkRequiredValidity('catStatus', form.value!.catStatus, t('requiredInputError')),
+  )
   return errors.value.filter((x) => x.valid === false).length === 0
 }
 
@@ -77,6 +80,8 @@ defineExpose({ validate })
     v-model="form!.catStatus"
     :label="$t('admin.cat.status')"
     required
+    :valid="StringUtils.getFieldError(errors, 'catStatus')?.valid"
+    :errorMessage="StringUtils.getFieldError(errors, 'catStatus')?.message"
   />
   <MultiSelectWithLabel
     name="cat_moods"

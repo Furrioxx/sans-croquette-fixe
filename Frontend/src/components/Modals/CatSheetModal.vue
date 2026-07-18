@@ -161,6 +161,7 @@ const saving = ref(false)
 
 const save = async () => {
   saving.value = true
+
   try {
     const { keptIds, pendingFiles } = imagesPanel.value!.getState()
 

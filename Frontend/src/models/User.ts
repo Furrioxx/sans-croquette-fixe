@@ -1,3 +1,5 @@
+import type { Absence } from './Absence'
+
 export interface User {
   id: number
   username: string
@@ -8,6 +10,7 @@ export interface User {
   confirmed: boolean
   role: Role
   newsletterOptIn: boolean
+  absences?: Absence[]
 }
 
 export interface Role {
