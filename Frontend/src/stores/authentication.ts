@@ -21,12 +21,16 @@ export const useAuthStore = defineStore('auth', () => {
   const getUsername = computed<string | null>(() => user.value?.username ?? null)
   const getUserRole = computed<Roles | null>(() => {
     const roleName = user.value?.role?.name ?? ''
-    switch (roleName) {
+    const roleType = user.value?.role?.type ?? ''
+    switch (roleName || roleType) {
       case 'Admin':
+      case 'admin':
         return Roles.ADMIN
       case 'Volunteer':
+      case 'volunteer':
         return Roles.VOLUNTEER
       case 'User':
+      case 'user':
         return Roles.USER
       default:
         return null
@@ -44,7 +48,7 @@ export const useAuthStore = defineStore('auth', () => {
 
       // handle success, here we directly log the user in after registration
       const resData: UserWithToken = response.data
-      handleAuthSuccess(resData)
+      await handleAuthSuccess(resData)
     } catch (error) {
       throw error
     }
@@ -57,7 +61,7 @@ export const useAuthStore = defineStore('auth', () => {
         password: user.password,
       })
       const resData: UserWithToken = res.data
-      handleAuthSuccess(resData)
+      await handleAuthSuccess(resData)
     } catch (error: Error | any) {
       throw error
     }
@@ -68,8 +72,21 @@ export const useAuthStore = defineStore('auth', () => {
       const res = await axiosInstance.get('/user-profiles/me')
       const userData: User = res.data
       setUser(userData)
+      return userData
     } catch (error: Error | any) {
       throw error
+    }
+  }
+
+  const initialize = async () => {
+    if (!isConnected.value || user.value) {
+      return
+    }
+
+    try {
+      await me()
+    } catch {
+      logout()
     }
   }
 
@@ -127,5 +144,6 @@ export const useAuthStore = defineStore('auth', () => {
     login,
     logout,
     me,
+    initialize,
   }
 })
