@@ -106,7 +106,6 @@ const catCoverImage = (sheet: CatSheet) => {
         class="pointer-events-none absolute -right-24 -top-28 h-[320px] w-[320px] rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
       <div class="page-shell relative max-w-2xl space-y-5">
-        <span class="eyebrow">{{ $t('about.eyebrowHero') }}</span>
         <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
           Sans Croquettes Fixes
         </h1>
@@ -142,7 +141,6 @@ const catCoverImage = (sheet: CatSheet) => {
     <section class="w-full bg-[var(--scf-bg)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell grid gap-10 lg:grid-cols-2 lg:items-center">
         <div class="space-y-4">
-          <span class="eyebrow">{{ $t('about.missionsBrief.eyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold">{{ $t('about.missionsBrief.title') }}</h2>
           <p class="text-sm leading-7 text-[var(--scf-text)] md:text-base">
             {{ $t('about.missionsBrief.text1') }}
@@ -175,7 +173,6 @@ const catCoverImage = (sheet: CatSheet) => {
     <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
-          <span class="eyebrow">{{ $t('about.eyebrowCats') }}</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
             {{ $t('about.catsTitle') }}
           </h2>
@@ -246,7 +243,6 @@ const catCoverImage = (sheet: CatSheet) => {
           class="aspect-square w-full shrink-0 rounded-[24px] object-cover md:w-72"
         />
         <div class="space-y-3">
-          <span class="eyebrow">{{ $t('about.story.eyebrow') }}</span>
           <h2 class="display-font text-2xl font-semibold md:text-3xl">
             {{ $t('about.story.title') }}
           </h2>

@@ -48,10 +48,6 @@ const practicalItems = [
 
       <div class="page-shell relative grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
         <div class="max-w-2xl space-y-5">
-          <span class="eyebrow">
-            {{ $t('distribution.eyebrow') }}
-          </span>
-
           <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
             {{ $t('distribution.title') }}
           </h1>
@@ -86,10 +82,6 @@ const practicalItems = [
     <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
   <div class="page-shell space-y-8">
     <div class="space-y-2">
-      <span class="eyebrow">
-        {{ $t('distribution.practicalEyebrow') }}
-      </span>
-
       <h2 class="display-font text-3xl font-semibold md:text-4xl">
         {{ $t('distribution.practicalTitle') }}
       </h2>
@@ -128,10 +120,6 @@ const practicalItems = [
     </div>
 
     <div class="space-y-4">
-      <span class="eyebrow">
-        {{ $t('distribution.storyEyebrow') }}
-      </span>
-
       <h2 class="display-font text-3xl font-semibold md:text-4xl">
         {{ $t('distribution.storyTitle') }}
       </h2>
@@ -150,11 +138,7 @@ const practicalItems = [
 <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
   <div class="page-shell grid gap-5 lg:grid-cols-2">
     <article class="rounded-[24px] bg-[var(--scf-bg)] p-8 md:p-10">
-      <span class="eyebrow">
-        {{ $t('distribution.audienceEyebrow') }}
-      </span>
-
-      <h2 class="display-font mt-5 text-3xl font-semibold">
+      <h2 class="display-font text-3xl font-semibold">
         {{ $t('distribution.audienceTitle') }}
       </h2>
 

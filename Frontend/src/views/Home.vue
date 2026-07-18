@@ -108,7 +108,6 @@ onMounted(async () => {
       ></div>
 
       <div class="page-shell relative max-w-2xl space-y-6">
-        <span class="eyebrow">{{ $t('home.eyebrowHero') }}</span>
         <div class="space-y-4">
           <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
             {{ title }}
@@ -173,7 +172,6 @@ onMounted(async () => {
     <section class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell space-y-8">
         <div class="space-y-2">
-          <span class="eyebrow">{{ $t('home.eyebrowMission') }}</span>
           <h2 class="display-font text-3xl font-semibold md:text-4xl">
             {{ $t('home.missionTitle') }}
           </h2>
@@ -201,7 +199,6 @@ onMounted(async () => {
       <div class="page-shell space-y-8">
         <div class="responsive-split-header">
           <div class="space-y-2">
-            <span class="eyebrow">{{ $t('home.eyebrowAdopt') }}</span>
             <h2 class="display-font text-3xl font-semibold md:text-4xl">
               {{ $t('home.adoptTitle') }}
             </h2>
@@ -255,7 +252,6 @@ onMounted(async () => {
         class="page-shell grid gap-6 overflow-hidden rounded-[28px] bg-[var(--scf-bg)] p-5 sm:p-6 md:gap-8 md:p-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:rounded-[32px] lg:p-10"
       >
         <div class="space-y-5">
-          <span class="eyebrow">{{ $t('home.questionnaireCta.eyebrow') }}</span>
           <div class="space-y-4">
             <h2 class="display-font text-2xl font-semibold leading-tight sm:text-3xl md:text-4xl">
               {{ $t('home.questionnaireCta.title') }}
@@ -323,7 +319,6 @@ onMounted(async () => {
     <section class="w-full bg-[var(--scf-accent-soft)] px-4 py-16 sm:px-6 md:px-[60px]">
       <div class="page-shell flex flex-col gap-10 md:flex-row md:items-center">
         <div class="flex-1 space-y-4">
-          <span class="eyebrow">{{ $t('home.sanctuary.eyebrow') }}</span>
           <h2 class="display-font text-3xl font-semibold">{{ $t('home.sanctuary.title') }}</h2>
           <p class="max-w-xl text-sm leading-7 text-[var(--scf-text)]">
             {{ $t('home.sanctuary.text') }}
@@ -361,7 +356,6 @@ onMounted(async () => {
           :style="{ backgroundImage: `url(${FelinAbandon})` }"
         ></div>
         <div class="space-y-3">
-          <span class="eyebrow">{{ $t('home.story.eyebrow') }}</span>
           <h2 class="display-font text-2xl font-semibold md:text-3xl">
             {{ $t('home.story.title') }}
           </h2>

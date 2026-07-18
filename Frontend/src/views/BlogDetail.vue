@@ -197,8 +197,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
           <!-- SIDEBAR -->
           <aside class="space-y-4 lg:sticky lg:top-24">
             <div class="rounded-[22px] bg-white p-5 sm:p-7">
-              <span class="eyebrow">{{ $t('blog.detail.authorEyebrow') }}</span>
-              <h2 class="display-font mt-3 text-lg font-semibold text-[var(--scf-ink)]">
+              <h2 class="display-font text-lg font-semibold text-[var(--scf-ink)]">
                 {{ getBlogAuthorLabel(blogPost) }}
               </h2>
               <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
@@ -207,8 +206,7 @@ watch(articleIdentifier, loadArticle, { immediate: true })
             </div>
 
             <div class="rounded-[22px] bg-white p-5 sm:p-7">
-              <span class="eyebrow">{{ $t('blog.detail.shareEyebrow') }}</span>
-              <div class="mt-3">
+              <div>
                 <Button
                   :label="$t('share')"
                   icon="pi pi-share-alt"
@@ -228,7 +226,6 @@ watch(articleIdentifier, loadArticle, { immediate: true })
       <section v-if="recentPosts.length" class="w-full bg-white px-4 py-16 sm:px-6 md:px-[60px]">
         <div class="page-shell space-y-8">
           <div class="space-y-2">
-            <span class="eyebrow">{{ $t('blog.detail.continueReading') }}</span>
             <h2 class="display-font text-2xl font-semibold text-[var(--scf-ink)] md:text-3xl">
               {{ $t('blog.detail.moreNews') }}
             </h2>

@@ -530,7 +530,6 @@ onMounted(async () => {
       ></div>
       <div class="page-shell relative grid gap-6 md:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div class="space-y-5">
-          <span class="eyebrow">{{ $t('adoptGuide.eyebrow') }}</span>
           <div class="space-y-4">
             <h1 class="display-font text-3xl font-semibold leading-tight sm:text-4xl md:text-6xl">
               {{ title }}
@@ -572,8 +571,7 @@ onMounted(async () => {
         <div class="section-card rounded-[26px] p-4 sm:p-6 md:rounded-[30px] md:p-7">
           <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <span class="eyebrow">{{ $t('adoptGuide.cardEyebrow') }}</span>
-              <p class="mt-3 text-sm font-semibold text-[var(--scf-muted)]">
+              <p class="text-sm font-semibold text-[var(--scf-muted)]">
                 {{ $t('adoptGuide.progress', { current: currentStep + 1, total: questionCards.length }) }}
               </p>
             </div>
@@ -591,7 +589,6 @@ onMounted(async () => {
 
           <div v-if="currentQuestion" class="mt-6 space-y-6">
             <div class="space-y-3">
-              <span class="eyebrow">{{ currentQuestion.eyebrow }}</span>
               <h2 class="display-font text-2xl font-semibold leading-tight sm:text-3xl">
                 {{ currentQuestion.title }}
               </h2>
@@ -644,7 +641,6 @@ onMounted(async () => {
       <div class="page-shell space-y-8">
         <div class="responsive-split-header gap-6">
           <div class="space-y-3">
-            <span class="eyebrow">{{ $t('adoptGuide.resultsEyebrow') }}</span>
             <h2 class="display-font text-3xl font-semibold md:text-4xl">
               {{ $t('adoptGuide.resultsTitle') }}
             </h2>

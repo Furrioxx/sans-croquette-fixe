@@ -93,7 +93,6 @@ onMounted(loadRequests)
         class="pointer-events-none absolute -right-20 -top-32 h-[300px] w-[300px] rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
       <div class="page-shell relative max-w-2xl space-y-5">
-        <span class="eyebrow">{{ $t('adoptionRequest.user.navLink') }}</span>
         <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
           {{ $t('adoptionRequest.user.title') }}
         </h1>

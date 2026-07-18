@@ -23,7 +23,6 @@ onMounted(async () => {
         class="pointer-events-none absolute left-1/2 -top-32 h-[300px] w-[300px] -translate-x-1/2 rounded-full bg-[var(--scf-accent-soft)]"
       ></div>
       <div class="relative mx-auto max-w-2xl space-y-5">
-        <span class="eyebrow">{{ $t('discover.nav-link') }}</span>
         <h1 class="display-font text-4xl font-semibold leading-tight md:text-6xl">
           {{ $t('discover.my-likes-title') }}
         </h1>
