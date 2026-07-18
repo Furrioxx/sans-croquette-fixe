@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "donations",
+  "info": {
+    "singularName": "donation",
+    "pluralName": "donations",
+    "displayName": "Donation"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "amount": {
+      "type": "decimal",
+      "required": true,
+      "min": 0
+    },
+    "donorName": {
+      "type": "string"
+    },
+    "donatedAt": {
+      "type": "datetime",
+      "required": true
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": [
+        "helloasso",
+        "cash",
+        "bank_transfer",
+        "other"
+      ],
+      "default": "other",
+      "required": true
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "completed",
+        "pending",
+        "cancelled"
+      ],
+      "default": "completed",
+      "required": true
+    }
+  }
+}
