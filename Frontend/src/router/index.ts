@@ -22,32 +22,34 @@ router.beforeEach(async (to, _from, next) => {
     const requiredRoles: string[] = to.meta.requiredRoles
     if (authStore.user == null) {
       // here we do have a token but we don't have the user data, so we need to fetch it to get the role for routing
-      await retrieveUserData(() => {
-        return next('/unauthorized')
-      })
+      const hasUser = await retrieveUserData()
+      if (!hasUser) {
+        return next({ name: RouteNames.LOGIN, query: { redirect: to.fullPath } })
+      }
     }
 
     if (!authStore.getUserRole || !requiredRoles.includes(authStore.getUserRole)) {
-      return next('/unauthorized')
+      return next({ name: RouteNames.HOME })
     }
   }
 
   if (authStore.isConnected && !authStore.user) {
     // here we do have a token but we don't have the user data, so we need to fetch it to get the role for routing
     // there is no need to put an error callback here because this route isn't protected by a role or authentication
-    retrieveUserData(() => {
-      return
-    })
+    retrieveUserData()
   }
   return next()
 })
 
-const retrieveUserData = async (errorCallback: Function) => {
+const retrieveUserData = async () => {
   const authStore = useAuthStore()
-  await authStore.me().catch(() => {
+  try {
+    await authStore.me()
+    return true
+  } catch {
     authStore.logout()
-    errorCallback()
-  })
+    return false
+  }
 }
 
 // dynamic meta title name
