@@ -49,11 +49,6 @@ const items = computed(() => [
           routeName: RouteNames.DASHBOARD_ANALYTICS,
         },
         { label: t('admin.nav.users'), icon: 'pi pi-users', routeName: RouteNames.DASHBOARD_USERS },
-        {
-          label: t('admin.nav.settings'),
-          icon: 'pi pi-cog',
-          routeName: RouteNames.DASHBOARD_SETTINGS,
-        },
       ]
     : []),
 ])
