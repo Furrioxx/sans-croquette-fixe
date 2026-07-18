@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/authentication'
 import router from '@/router'
 import { i18n } from '@/i18n'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Roles } from '@/router/Roles'
 
 const { t } = i18n.global
@@ -14,6 +14,9 @@ const isActive = (name: string) => route.name === name
 const authStore = useAuthStore()
 const route = useRoute()
 const isAdmin = computed(() => authStore.getUserRole === Roles.ADMIN)
+onMounted(() => {
+  authStore.initialize()
+})
 const logout = () => {
   authStore.logout()
   router.push({ name: RouteNames.HOME })
