@@ -143,14 +143,6 @@ const routes = [
         component: () => import('../views/Admin/AdoptionRequests.vue'),
         name: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
       },
-      {
-        path: 'settings',
-        meta: {
-          requiredRoles: [Roles.ADMIN],
-        },
-        component: () => import('../views/Admin/Settings.vue'),
-        name: RouteNames.DASHBOARD_SETTINGS,
-      },
     ],
   },
 ]
