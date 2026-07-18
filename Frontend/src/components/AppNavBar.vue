@@ -18,6 +18,7 @@ const canAccessAdmin = computed(() =>
 
 onMounted(() => {
   darkModeStore.initDarkMode()
+  authStore.initialize()
 })
 
 const userMenu = ref()
