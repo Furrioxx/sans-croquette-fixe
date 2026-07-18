@@ -1,43 +1,82 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { RouteNames } from '@/router/routeNames'
+import { Roles } from '@/router/Roles'
+import { useAuthStore } from '@/stores/authentication'
+
+const authStore = useAuthStore()
+
+const shortcuts = computed(() =>
+  [
+    {
+      label: 'Demandes adoption',
+      description: 'Suivre les dossiers entrants et leur statut.',
+      icon: 'pi pi-inbox',
+      routeName: RouteNames.DASHBOARD_ADOPTION_REQUESTS,
+      roles: [Roles.ADMIN, Roles.VOLUNTEER],
+    },
+    {
+      label: 'Absences',
+      description: 'Consulter les disponibilites des benevoles.',
+      icon: 'pi pi-calendar-times',
+      routeName: RouteNames.DASHBOARD_ABSENCES,
+      roles: [Roles.ADMIN, Roles.VOLUNTEER],
+    },
+    {
+      label: 'Blog',
+      description: 'Gerer les actualites publiees sur le site.',
+      icon: 'pi pi-pen-to-square',
+      routeName: RouteNames.DASHBOARD_BLOG,
+      roles: [Roles.ADMIN, Roles.VOLUNTEER],
+    },
+    {
+      label: 'Fiches chats',
+      description: 'Creer et modifier les fiches adoption.',
+      icon: 'pi pi-list',
+      routeName: RouteNames.DASHBOARD_CATS,
+      roles: [Roles.ADMIN],
+    },
+    {
+      label: 'Statistiques',
+      description: 'Voir les indicateurs principaux de l association.',
+      icon: 'pi pi-chart-line',
+      routeName: RouteNames.DASHBOARD_ANALYTICS,
+      roles: [Roles.ADMIN],
+    },
+  ].filter((item) => authStore.getUserRole && item.roles.includes(authStore.getUserRole)),
+)
+</script>
 
 <template>
-  <div class="flex flex-col gap-[300px]">
-    <p>
-      Lorem ipsum dolor sit amet. Sit consequuntur dicta ut nesciunt fuga id voluptatum voluptas est
-      quae dolorem. Et quas voluptatem eos similique officia At pariatur suscipit et veniam
-      voluptates eum voluptatem ratione. Eos assumenda quis et asperiores explicabo id omnis nihil.
-      Id odio laboriosam qui temporibus temporibus non autem libero non iusto obcaecati vel delectus
-      quam in exercitationem dicta est accusantium illum. Est quod consequatur id corporis beatae et
-      veritatis unde hic nemo velit et velit odit quo officiis distinctio est voluptate soluta. Eum
-      porro nihil non rerum voluptates ab galisum optio non iure rerum 33 exercitationem possimus
-      non internos voluptas aut ipsum fugit. Et tempore nostrum eos quis temporibus ea galisum
-      consequatur et voluptas asperiores ex culpa beatae quo nulla voluptatem. Qui quae ipsum ut
-      doloribus suscipit eum optio blanditiis sit praesentium aperiam sed quaerat dolorem est enim
-      nemo aut velit enim.
-    </p>
-    <p>
-      Vel fugit ducimus ea soluta unde sit galisum perspiciatis. Et ratione blanditiis 33 minus
-      dolores qui corporis error ea magni nostrum sed quia quis et explicabo nihil qui dolores
-      magni. Non delectus eveniet est natus explicabo qui dolor assumenda sed esse modi est fuga
-      voluptatem eos dolorem esse ex quis ducimus. Ea necessitatibus dignissimos est impedit quis ut
-      numquam voluptatem et nulla repudiandae cum consequuntur consequuntur ab nihil inventore ut
-      voluptatum earum. Qui corporis rerum et illo placeat est illo modi et ipsa autem et molestiae
-      impedit. Ut minus ipsa et quisquam optio ab dolor autem non natus corrupti et magni cumque.
-      Est corrupti rerum nam magni necessitatibus et voluptas minima. Et alias voluptatum qui
-      consequatur enim aut molestiae accusantium sed nisi fugit qui dolorem dolor.
-    </p>
-    <p>
-      Qui voluptas atque et earum quis qui sunt rerum qui voluptatum consectetur. Rem ipsa dolor qui
-      rerum explicabo aut voluptas voluptas aut incidunt optio nam minus ipsam aut sapiente corrupti
-      ab consequatur blanditiis. Non numquam quos non eligendi internos sed molestiae placeat. Et
-      eligendi omnis sed asperiores enim ex porro atque non excepturi minima ut consequatur vitae et
-      cupiditate dolorum id deserunt eius. Non galisum sint qui architecto error eum galisum cumque
-      sit mollitia deleniti et mollitia expedita! Et deleniti sint quo voluptas sint sit optio quos.
-      Et vero voluptas ea alias possimus vel nostrum porro. Sed nesciunt illo ab recusandae dolorem
-      est repellat voluptas eos eius dolores aut sunt consectetur. Est omnis commodi aut neque
-      nostrum ex eveniet voluptatem. In autem consequatur At provident consequuntur ut atque
-      inventore ut ducimus repellendus non saepe porro sit nemo autem ea quidem saepe. Sit incidunt
-      dolor est doloribus vitae qui neque reiciendis ut fuga iusto rem quos recusandae.
-    </p>
-  </div>
+  <section class="flex flex-col gap-6">
+    <div>
+      <p class="text-sm font-semibold uppercase tracking-wide text-surface-500">Vue d'ensemble</p>
+      <h1 class="text-2xl font-bold text-surface-900">Raccourcis administration</h1>
+    </div>
+
+    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <router-link
+        v-for="shortcut in shortcuts"
+        :key="shortcut.routeName"
+        :to="{ name: shortcut.routeName }"
+        class="group rounded-lg border border-surface-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-primary-200 hover:shadow-md"
+      >
+        <div class="flex items-start gap-4">
+          <span
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-600"
+          >
+            <i :class="shortcut.icon"></i>
+          </span>
+          <div>
+            <h2 class="font-semibold text-surface-900 group-hover:text-primary-600">
+              {{ shortcut.label }}
+            </h2>
+            <p class="mt-1 text-sm leading-6 text-surface-500">
+              {{ shortcut.description }}
+            </p>
+          </div>
+        </div>
+      </router-link>
+    </div>
+  </section>
 </template>
