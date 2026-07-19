@@ -23,6 +23,11 @@ const routes = [
         component: () => import('../views/AboutUs.vue'),
       },
       {
+        path: 'mentions-legales',
+        name: RouteNames.LEGAL_NOTICES,
+        component: () => import('../views/LegalNotices.vue'),
+      },
+      {
         path: 'distribution-de-croquettes',
         name: RouteNames.FOOD_DISTRIBUTION,
         component: () => import('../views/FoodDistribution.vue'),
