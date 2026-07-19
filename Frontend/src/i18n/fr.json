@@ -46,9 +46,10 @@
   "next": "Suivant",
   "no-photo": "Pas de photo",
   "title": {
-    "home": "Accueil",
+    "home": "Adopter un chat à Lyon avec confiance",
     "donate": "Faire un don",
     "about-us": "A propos de nous",
+    "legal-notices": "Mentions légales",
     "food-distribution": "Distribution de croquettes",
     "login": "Connexion",
     "register": "Inscription",
@@ -156,15 +157,16 @@
     "support": "Faire un don"
   },
   "footer": {
-    "tagline": "Association loi 1901 — protection animale à Lyon et alentours.",
+    "tagline": "Association loi 1901 - protection animale à Lyon et alentours.",
     "navigation": "Navigation",
     "follow": "Suivez-nous",
-    "legal": "Sans Croquettes Fixes — Association loi 1901.",
+    "legal": "Sans Croquettes Fixes - Association loi 1901.",
     "links": {
       "home": "Accueil",
       "adopt": "Adoption",
       "about": "À propos",
-      "distribution": "Distribution de croquettes"
+      "distribution": "Distribution de croquettes",
+      "legalNotices": "Mentions légales"
     }
   },
   "distribution": {
@@ -196,25 +198,25 @@
   },
   "home": {
     "eyebrowHero": "Adoption responsable",
-    "heroText": "Sans Croquettes Fixes est une association de protection animale qui facilite l'adoption de chat a Lyon, dans la metropole lyonnaise et dans les alentours. Le site aide a adopter un chat en comprenant son caractere, ses besoins et les conditions d'accueil qui lui correspondent vraiment.",
+    "heroText": "Sans Croquettes Fixes est une association de protection animale qui facilite l’adoption de chats à Lyon, dans la métropole lyonnaise et aux alentours. Le site vous aide à comprendre le caractère, les besoins et le cadre de vie qui conviennent vraiment à chaque chat.",
     "adoptCat": "Adopter un chat",
-    "knowAssociation": "Connaitre l'association",
+    "knowAssociation": "Connaître l'association",
     "highlights": {
       "delay": {
         "value": "48h",
-        "label": "pour analyser un premier dossier d'adoption de chat a Lyon"
+        "label": "pour analyser un premier dossier d’adoption à Lyon"
       },
       "local": {
         "value": "Local",
-        "label": "association chat Lyon ancree sur la metropole et les alentours"
+        "label": "association ancrée dans la métropole lyonnaise"
       },
       "human": {
         "value": "Humain",
-        "label": "adoption de chat accompagnee avant et apres l'accueil"
+        "label": "adoption accompagnée avant et après l’accueil"
       }
     },
     "donationStrip": {
-      "text": "Chaque don compte : 1€, 5€ ou 10€ peuvent changer le quotidien de nos pensionnaires.",
+      "text": "Chaque don compte : 1 €, 5 € ou 10 € peuvent changer le quotidien de nos pensionnaires.",
       "cta": "Faire un don"
     },
     "eyebrowMission": "Qui sommes-nous ?",
@@ -253,8 +255,8 @@
     },
     "stats": {
       "years": { "value": "10", "label": "années d'action" },
-      "animals": { "value": "2,4k", "label": "animaux sauvés" },
-      "food": { "value": "18k", "label": "kg de croquettes distribuées" }
+      "animals": { "value": "5,6k", "label": "animaux sauvés" },
+      "food": { "value": "18k", "label": "tonnes de croquettes distribuées" }
     },
     "story": {
       "eyebrow": "Notre histoire",
@@ -280,8 +282,8 @@
     },
     "cta": {
       "eyebrow": "Soutenir l'association",
-      "title": "Une association chat a Lyon qui prepare des adoptions durables",
-      "text": "L'objectif est simple : rendre visible une association chat Lyon serieuse, rassurer les adoptants et mieux faire remonter le site sur les recherches autour de l'adoption de chat a Lyon et ses alentours.",
+      "title": "Une association féline à Lyon qui prépare des adoptions durables",
+      "text": "L’objectif est simple : rendre visible une association sérieuse, rassurer les adoptants et mieux faire remonter le site sur les recherches autour de l’adoption de chats à Lyon et dans les alentours.",
       "donate": "Faire un don"
     }
   },
@@ -379,7 +381,7 @@
     "contact": {
       "help": {
         "title": "Vous avez besoin de notre aide ?",
-        "text": "Une situation compliquée avec vos animaux ? Un animal en danger ? Écrivez-nous à sanscroquettesfixes{'@'}gmail.com"
+        "text": "Une situation compliquée avec vos animaux ? Un animal en danger ? Écrivez-nous et expliquez-nous votre situation."
       },
       "mailOnly": {
         "title": "Contact uniquement par mail",
@@ -674,7 +676,7 @@
     "detail-cat-section": "Chat",
     "health-yes": "Oui",
     "health-no": "Non",
-    "kitten": "Châton",
+    "kitten": "Chaton",
     "not-kitten": "Adulte",
     "ctaBand": {
       "text": "Aucun de nos chats ne vous correspond ? Suivez notre page Facebook, de nouvelles fiches arrivent chaque semaine.",
@@ -782,7 +784,7 @@
       "duoYes": "Oui, un duo peut me convenir",
       "duoNo": "Non, je préfère un seul chat",
       "female": "Femelle",
-      "male": "Male",
+      "male": "Mâle",
       "anyGender": "Aucune préférence",
       "calm": "Un profil calme",
       "playful": "Un profil joueur",

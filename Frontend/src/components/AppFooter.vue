@@ -1,6 +1,29 @@
 <script setup lang="ts">
 import { RouteNames } from '@/router/routeNames'
 import Logo from '@/assets/Logo.png'
+
+const socialLinks = [
+  {
+    label: 'Facebook',
+    href: 'https://www.facebook.com/sanscroquettesfixes',
+    icon: 'pi pi-facebook',
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/sanscroquettesfixes/',
+    icon: 'pi pi-instagram',
+  },
+  {
+    label: 'X',
+    href: 'https://x.com/CroquettesFixes',
+    icon: 'pi pi-twitter',
+  },
+  {
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/@sanscroquettesfixes',
+    icon: 'pi pi-video',
+  },
+]
 </script>
 
 <template>
@@ -34,22 +57,28 @@ import Logo from '@/assets/Logo.png'
           <router-link :to="{ name: RouteNames.ABOUT_US }" class="text-white/85 hover:text-white">
             {{ $t('footer.links.about') }}
           </router-link>
+          <router-link
+            :to="{ name: RouteNames.LEGAL_NOTICES }"
+            class="text-white/85 hover:text-white"
+          >
+            {{ $t('footer.links.legalNotices') }}
+          </router-link>
         </div>
 
         <div class="flex flex-col gap-3 text-sm font-semibold">
           <span class="text-xs uppercase tracking-[0.18em] text-white/50">{{
             $t('footer.follow')
           }}</span>
-          <a href="https://www.facebook.com/sanscroquettesfixes" target="_blank">
+          <a
+            v-for="link in socialLinks"
+            :key="link.label"
+            :href="link.href"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span class="inline-flex items-center justify-center gap-2 text-white/85 md:justify-start">
-              <i class="pi pi-facebook"></i>
-              Facebook
-            </span>
-          </a>
-          <a href="https://www.instagram.com/sanscroquettesfixes/" target="_blank">
-            <span class="inline-flex items-center justify-center gap-2 text-white/85 md:justify-start">
-              <i class="pi pi-instagram"></i>
-              Instagram
+              <i :class="link.icon"></i>
+              {{ link.label }}
             </span>
           </a>
         </div>

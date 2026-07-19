@@ -8,6 +8,7 @@ import { getCatImageUrl } from '@/utils/catImageUrl'
 import { onMounted, ref } from 'vue'
 import AnaisPhoto from '@/assets/about/anais-hillion-1.png'
 import { DONATION_URL } from '@/config/donation'
+import { CONTACT_EMAIL, buildMailtoLink } from '@/config/contact'
 
 const { t } = useI18n()
 const donationUrl = DONATION_URL
@@ -283,6 +284,12 @@ const catCoverImage = (sheet: CatSheet) => {
           <p class="mt-2 text-sm leading-7 text-[var(--scf-text)]">
             {{ $t('about.contact.help.text') }}
           </p>
+          <a
+            :href="buildMailtoLink('Demande d’aide')"
+            class="mt-4 inline-flex text-sm font-semibold text-[var(--scf-accent-dark)] underline decoration-[var(--scf-accent)] underline-offset-4"
+          >
+            {{ CONTACT_EMAIL }}
+          </a>
         </article>
         <article class="rounded-[20px] bg-[var(--scf-bg)] p-8">
           <h3 class="display-font text-lg font-semibold">

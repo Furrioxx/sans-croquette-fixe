@@ -52,6 +52,11 @@ const pillars = [
     title: t('about.actions.support.title'),
     text: t('about.actions.support.text'),
   },
+  {
+    icon: 'pi pi-megaphone',
+    title: t('about.actions.awareness.title'),
+    text: t('about.actions.awareness.text'),
+  },
 ]
 
 const stats = [
@@ -345,6 +350,38 @@ onMounted(async () => {
       <div v-for="stat in stats" :key="stat.label">
         <p class="display-font text-4xl font-semibold !text-white">{{ stat.value }}</p>
         <p class="mt-1 text-sm font-semibold text-white/80">{{ stat.label }}</p>
+      </div>
+    </section>
+
+    <!-- COHERENCE / SEO -->
+    <section class="w-full bg-[var(--scf-bg)] px-4 py-14 sm:px-6 md:px-[60px] md:py-16">
+      <div
+        class="page-shell grid gap-6 rounded-[28px] border border-[var(--scf-line)] bg-white p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+      >
+        <div class="space-y-4">
+          <span
+            class="inline-flex rounded-full border border-[var(--scf-line)] bg-[var(--scf-bg)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]"
+          >
+            {{ $t('home.cta.eyebrow') }}
+          </span>
+          <h2 class="display-font text-3xl font-semibold leading-tight text-[var(--scf-ink)] md:text-4xl">
+            {{ $t('home.cta.title') }}
+          </h2>
+          <p class="max-w-2xl text-sm leading-7 text-[var(--scf-text)] md:text-base">
+            {{ $t('home.cta.text') }}
+          </p>
+        </div>
+
+        <div class="grid gap-4 rounded-[24px] bg-[var(--scf-bg)] p-5 sm:p-6">
+          <div
+            v-for="stat in stats"
+            :key="`${stat.label}-highlight`"
+            class="rounded-[18px] border border-[var(--scf-line)] bg-white px-4 py-4"
+          >
+            <p class="display-font text-2xl font-semibold text-[var(--scf-ink)]">{{ stat.value }}</p>
+            <p class="mt-1 text-sm leading-6 text-[var(--scf-text)]">{{ stat.label }}</p>
+          </div>
+        </div>
       </div>
     </section>
 
