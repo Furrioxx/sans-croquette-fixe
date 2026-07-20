@@ -976,6 +976,7 @@
       "emptySubtitle": "Vos futures demandes d’adoption apparaîtront ici dès qu’elles seront soumises.",
       "submittedAt": "Demande envoyée le {date}",
       "requester": "Demande au nom de {name}",
+      "openCatSheet": "Voir la fiche du chat",
       "openDetail": "Voir le détail",
       "detailTitle": "Détail de la demande",
       "detailError": "Impossible de charger le détail de cette demande.",

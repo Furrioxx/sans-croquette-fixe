@@ -10,6 +10,8 @@ import type { FormError } from '@/models/FormError'
 import { StringUtils } from '@/utils/stringUtils'
 import { getBlogMediaUrl } from '@/utils/blogUtils'
 import { slugify } from '@/utils/slugify'
+import DemoBlogImage from '@/assets/home/image-abandon.jpg'
+import { assetUrlToFile } from '@/utils/demoFiles'
 
 const props = defineProps<{
   visible: boolean
@@ -42,6 +44,7 @@ const coverPreviewUrl = ref<string | null>(null)
 const saving = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
 const errors = ref<FormError[]>([])
+const fillingDemo = ref(false)
 
 const syncForm = () => {
   form.value = {
@@ -125,6 +128,42 @@ const removeCover = () => {
 
 const openFileDialog = () => {
   fileInput.value?.click()
+}
+
+const fillDemo = async () => {
+  try {
+    fillingDemo.value = true
+    form.value = {
+      title: 'Adopter un chat : les premiers jours à la maison',
+      slug: 'adopter-un-chat-les-premiers-jours-a-la-maison',
+      excerpt:
+        'Quelques repères simples pour offrir à votre nouveau compagnon une arrivée sereine et sécurisante.',
+      content: `L’arrivée dans un nouveau foyer est une étape importante pour un chat. Même lorsqu’il se montre curieux, il a besoin de temps pour comprendre son environnement et créer ses nouveaux repères.
+
+Préparez-lui d’abord une pièce calme avec une litière, de l’eau, de la nourriture et plusieurs cachettes accessibles. Laissez-le explorer à son rythme, sans le solliciter constamment. Une voix douce et des routines régulières l’aideront à se sentir en sécurité.
+
+Durant les premiers jours, surveillez son appétit, son hydratation et l’utilisation de la litière. Présentez progressivement les autres animaux du foyer et sécurisez les fenêtres, balcons et accès extérieurs.
+
+Chaque chat avance différemment. Avec de la patience, de la douceur et un cadre stable, la confiance s’installe naturellement.`,
+      seoTitle: 'Adopter un chat : réussir ses premiers jours',
+      seoDescription:
+        'Nos conseils pour préparer l’arrivée d’un chat adopté et l’aider à prendre ses repères sereinement.',
+      isPublished: true,
+      isFeatured: true,
+      cover: null,
+      category: blogCategoryStore.categories[0]?.documentId ?? null,
+    }
+
+    const file = await assetUrlToFile(DemoBlogImage, 'premiers-jours-chat.jpg')
+    selectedFile.value = file
+    coverPreviewUrl.value = URL.createObjectURL(file)
+    errors.value = []
+  } catch (error) {
+    console.error('Error while filling blog demo data', error)
+    notificationService.showError('Erreur', 'Impossible de charger les données de démonstration.')
+  } finally {
+    fillingDemo.value = false
+  }
 }
 
 const validate = () => {
@@ -218,6 +257,17 @@ const submit = async () => {
       class="hidden"
       @change="onFileChange"
     />
+
+    <div v-if="!blogPost" class="mb-4 flex justify-end">
+      <Button
+        label="Créer l’article de démo"
+        icon="pi pi-bolt"
+        severity="secondary"
+        outlined
+        :loading="fillingDemo"
+        @click="fillDemo"
+      />
+    </div>
 
     <BlogPostForm
       v-model="form"

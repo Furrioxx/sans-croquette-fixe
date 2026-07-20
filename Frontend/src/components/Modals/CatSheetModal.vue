@@ -2,6 +2,7 @@
 import type { CatPostPut } from '@/models/Cat'
 import type { CatSheet } from '@/models/CatSheet'
 import { CatFriendly } from '@/models/Enums/CatFriendlyEnum'
+import { CatStatus } from '@/models/Enums/CatStatusEnum'
 import { Genders } from '@/models/Enums/Genders'
 import { useCatStore } from '@/stores/cats'
 import { useCatSheetStore } from '@/stores/catSheets'
@@ -9,12 +10,15 @@ import { useCatMoodStore } from '@/stores/catMoods'
 import { useTarificationStore } from '@/stores/tarifications'
 import { UserService } from '@/services/userService'
 import type { User } from '@/models/User'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import CatFormPanel from '../Forms/CatFormPanel.vue'
 import CatSheetGeneralPanel from '../Forms/CatSheetGeneralPanel.vue'
 import CatSheetImagesPanel from '../Forms/CatSheetImagesPanel.vue'
 import CatSheetSuiviPanel from '../Forms/CatSheetSuiviPanel.vue'
+import DemoCatImage from '@/assets/home/les-felins-de-lombre-scaled.jpg'
+import { assetUrlToFile } from '@/utils/demoFiles'
+import notificationService from '@/services/notificationService'
 
 const { t } = useI18n()
 const catStore = useCatStore()
@@ -158,6 +162,50 @@ const goBack = () => {
 const isLastStep = computed(() => activeStep.value === '5')
 
 const saving = ref(false)
+const fillingDemo = ref(false)
+
+const fillDemo = async () => {
+  try {
+    fillingDemo.value = true
+    const moods = catMoodStore.catMoods.slice(0, 2).map((mood) => mood.documentId)
+
+    generalForm.value = {
+      isDuo: false,
+      linkedVolunteer: volunteers.value[0]?.id ?? null,
+      backupVolunteer: volunteers.value[1]?.id ?? null,
+      tarification: tarificationStore.tarifications[0]?.id ?? null,
+      description:
+        'Moka est un jeune chat calme et curieux. Il apprécie les moments de jeu, les siestes au soleil et recherche une famille présente qui respectera son temps d’adaptation.',
+    }
+    cat1Form.value = {
+      name: 'Moka',
+      birthDate: '2023-04-15',
+      gender: Genders.MALE,
+      vaccinated: true,
+      identified: true,
+      sterilized: true,
+      decontaminate: true,
+      dogFriendly: CatFriendly.UNKNOWN,
+      catFriendly: CatFriendly.YES,
+      childFriendly: CatFriendly.YES,
+      cat_moods: moods,
+      catStatus: CatStatus.EN_FAMILLE_ACCUEIL,
+      trappingDate: '2025-11-08',
+      medicalHistory:
+        'Bilan vétérinaire à jour. Vaccins et antiparasitaires effectués. Aucun traitement en cours.',
+    }
+
+    const image = await assetUrlToFile(DemoCatImage, 'moka-demo.jpg')
+    await nextTick()
+    imagesPanel.value?.addDemoImage(image)
+    activeStep.value = '1'
+  } catch (error) {
+    console.error('Error while filling cat demo data', error)
+    notificationService.showError('Erreur', 'Impossible de charger les données de démonstration.')
+  } finally {
+    fillingDemo.value = false
+  }
+}
 
 const save = async () => {
   saving.value = true
@@ -225,8 +273,18 @@ const save = async () => {
     :style="{ width: '48rem' }"
   >
     <template #header>
-      <div class="inline-flex items-center justify-center gap-2">
+      <div class="flex w-full flex-wrap items-center justify-between gap-3 pr-3">
         <span class="font-bold whitespace-nowrap">{{ header }}</span>
+        <Button
+          v-if="!isEditMode"
+          label="Remplir la démo"
+          icon="pi pi-bolt"
+          severity="secondary"
+          outlined
+          size="small"
+          :loading="fillingDemo"
+          @click="fillDemo"
+        />
       </div>
     </template>
 

@@ -28,6 +28,65 @@ const errors = ref<Record<string, string>>({})
 
 const catNames = computed(() => catSheet.value?.cats?.map((cat) => cat.name).join(' & ') ?? '')
 
+const fillDemo = () => {
+  Object.assign(form, {
+    agreementAccepted: true,
+    firstName: 'Camille',
+    lastName: 'Martin',
+    birthDate: '1992-06-18',
+    streetAddress: '24 rue des Tilleuls',
+    postalCode: '69003',
+    city: 'Lyon',
+    phone: '06 42 58 17 93',
+    email: 'camille.martin@example.com',
+    householdComposition: 'couple',
+    householdCompositionOther: null,
+    roommateCount: null,
+    hasChildren: false,
+    childrenCount: null,
+    childrenAges: null,
+    householdAgreement: true,
+    householdDisagreementReason: null,
+    isEmployed: true,
+    profession: 'Graphiste',
+    workSchedule: 'Du lundi au vendredi, de 9 h à 17 h, avec deux jours de télétravail.',
+    aloneTimePerDay: 'Environ 6 heures les jours sans télétravail.',
+    housingType: 'appartement',
+    housingTypeOther: null,
+    housingArea: '72 m²',
+    animalLivingSpace: 'interieur',
+    animalLivingSpaceOther: null,
+    environmentType: 'ville',
+    environmentTypeOther: null,
+    nearBusyRoad: 'non',
+    nearBusyRoadOther: null,
+    canGoOutside: 'non',
+    canGoOutsideOther: null,
+    apartmentFloor: '3e étage avec ascenseur',
+    windowsSecured: 'oui',
+    windowsSecuredOther: null,
+    plansToSecureWindows: true,
+    hasGarden: 'non',
+    hasGardenOther: null,
+    livingPlaceDetails:
+      'Appartement calme et lumineux. Un espace dédié avec couchage, arbre à chat et gamelles est prévu dans le séjour.',
+    gardenArea: null,
+    gardenFencedDetails: null,
+    hasBalconyOrTerrace: 'oui',
+    balconyOrTerraceArea: '8 m²',
+    balconySecurityDetails: 'Balcon entièrement équipé d’un filet de protection renforcé.',
+    hasOtherAnimals: false,
+    otherAnimalsDetails: null,
+    otherAnimalsSterilized: null,
+    otherAnimalsOwnedDuration: null,
+    additionalNotes:
+      'Nous avons déjà vécu avec un chat pendant douze ans et disposons d’un vétérinaire à proximité.',
+    responsibilityCommitmentAccepted: true,
+    processingStatus: 'pending',
+  } satisfies Partial<AdoptionRequestFormValues>)
+  errors.value = {}
+}
+
 const resetConditionalFields = () => {
   if (form.householdComposition !== 'colocation') form.roommateCount = null
   if (form.householdComposition !== 'autre') form.householdCompositionOther = null
@@ -296,6 +355,16 @@ onMounted(async () => {
       <!-- FORM -->
       <section class="w-full bg-white px-4 py-12 sm:px-6 md:px-[60px]">
         <div class="page-shell">
+          <div class="mb-6 flex justify-end">
+            <Button
+              label="Remplir avec des informations de démo"
+              icon="pi pi-bolt"
+              severity="secondary"
+              outlined
+              rounded
+              @click="fillDemo"
+            />
+          </div>
           <AdoptionRequestForm v-model="form" :errors="errors" />
 
           <div class="responsive-actions mt-8 md:justify-end">
