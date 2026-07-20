@@ -175,15 +175,30 @@ onMounted(loadRequests)
                   :value="statusLabel(request.processingStatus)"
                   :severity="statusSeverity(request.processingStatus)"
                 />
-                <Button
-                  :label="$t('adoptionRequest.user.openDetail')"
-                  icon="pi pi-eye"
-                  rounded
-                  outlined
-                  size="small"
-                  class="w-full !border-[var(--scf-line)] !text-[var(--scf-ink)] sm:w-auto"
-                  @click="openRequestDialog(request.documentId)"
-                />
+                <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row md:justify-end">
+                  <Button
+                    v-if="request.catSheet?.documentId"
+                    as="router-link"
+                    :to="{
+                      name: RouteNames.ADOPT_DETAIL,
+                      params: { documentId: request.catSheet.documentId },
+                    }"
+                    :label="$t('adoptionRequest.user.openCatSheet')"
+                    icon="pi pi-external-link"
+                    rounded
+                    size="small"
+                    class="w-full sm:w-auto"
+                  />
+                  <Button
+                    :label="$t('adoptionRequest.user.openDetail')"
+                    icon="pi pi-eye"
+                    rounded
+                    outlined
+                    size="small"
+                    class="w-full !border-[var(--scf-line)] !text-[var(--scf-ink)] sm:w-auto"
+                    @click="openRequestDialog(request.documentId)"
+                  />
+                </div>
               </div>
             </div>
           </article>

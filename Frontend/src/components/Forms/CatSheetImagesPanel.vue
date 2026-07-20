@@ -9,6 +9,7 @@ const props = defineProps<{
 
 const keptExistingImageIds = ref<number[]>(props.initialImages.map((i) => i.id))
 const pendingImages = ref<File[]>([])
+const demoPreviewUrl = ref<string | null>(null)
 
 const existingImages = computed(() =>
   props.initialImages.filter((img) => keptExistingImageIds.value.includes(img.id)),
@@ -22,6 +23,7 @@ const removeExistingImage = (imageId: number) => {
 
 const onImagesSelect = (event: any) => {
   pendingImages.value = event.files
+  demoPreviewUrl.value = null
 }
 
 const onImagesRemove = (event: any) => {
@@ -30,11 +32,18 @@ const onImagesRemove = (event: any) => {
 
 const onImagesClear = () => {
   pendingImages.value = []
+  demoPreviewUrl.value = null
 }
 
 const reset = (images: StrapiMedia[]) => {
   keptExistingImageIds.value = images.map((i) => i.id)
   pendingImages.value = []
+  demoPreviewUrl.value = null
+}
+
+const addDemoImage = (file: File) => {
+  pendingImages.value = [file]
+  demoPreviewUrl.value = URL.createObjectURL(file)
 }
 
 const getState = () => ({
@@ -42,7 +51,7 @@ const getState = () => ({
   pendingFiles: pendingImages.value,
 })
 
-defineExpose({ getState, reset })
+defineExpose({ getState, reset, addDemoImage })
 </script>
 
 <template>
@@ -70,6 +79,15 @@ defineExpose({ getState, reset })
         />
       </div>
     </div>
+  </div>
+
+  <div v-if="demoPreviewUrl" class="mb-4">
+    <p class="font-semibold mb-2">Image de démonstration prête à être ajoutée</p>
+    <img
+      :src="demoPreviewUrl"
+      alt="Aperçu de l’image de démonstration"
+      class="h-40 w-full rounded-xl border border-surface-200 object-cover"
+    />
   </div>
 
   <FileUpload
