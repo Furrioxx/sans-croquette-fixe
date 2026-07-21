@@ -177,7 +177,7 @@ onMounted(loadRequests)
                 />
                 <div class="flex w-full flex-col gap-2 sm:w-auto sm:flex-row md:justify-end">
                   <Button
-                    v-if="request.catSheet?.documentId"
+                    v-if="request.catSheet?.documentId && !request.catSheet.isArchived"
                     as="router-link"
                     :to="{
                       name: RouteNames.ADOPT_DETAIL,

@@ -36,6 +36,7 @@ export const CatSheetService = {
         linkedVolunteer: true,
         backupVolunteer: true,
       },
+      pagination: { page: 1, pageSize: 1000 },
     })
     return await axiosInstance.get(`${API_URL}?${query}`)
   },
@@ -56,6 +57,7 @@ export const CatSheetService = {
     if (params.decontaminate) catsFilters.decontaminate = { $eq: true }
 
     const filters: Record<string, StrapiQueryValue> = { cats: catsFilters }
+    filters.isArchived = { $eq: false }
     if (params.isDuo !== undefined) filters.isDuo = { $eq: params.isDuo }
     if (params.excludeIds?.length) filters.documentId = { $notIn: params.excludeIds }
 
@@ -69,8 +71,22 @@ export const CatSheetService = {
   },
 
   GetPublicCatSheet: async (documentId: string) => {
-    const query = toStrapiQueryString({ populate: CAT_SHEET_POPULATE })
-    return await axiosInstance.get(`${API_URL}/${documentId}?${query}`)
+    const query = toStrapiQueryString({
+      populate: CAT_SHEET_POPULATE,
+      filters: {
+        documentId: { $eq: documentId },
+        isArchived: { $eq: false },
+      },
+      pagination: { page: 1, pageSize: 1 },
+    })
+    const response = await axiosInstance.get(`${API_URL}?${query}`)
+    return {
+      ...response,
+      data: {
+        ...response.data,
+        data: response.data.data[0] ?? null,
+      },
+    }
   },
 
   GetCatSheetsByIds: async (documentIds: string[]) => {
@@ -78,7 +94,10 @@ export const CatSheetService = {
     const query = toStrapiQueryString({
       populate: CAT_SHEET_POPULATE,
       pagination: { pageSize: documentIds.length },
-      filters: { documentId: { $in: documentIds } },
+      filters: {
+        documentId: { $in: documentIds },
+        isArchived: { $eq: false },
+      },
     })
     return await axiosInstance.get(`${API_URL}?${query}`)
   },
@@ -88,5 +107,10 @@ export const CatSheetService = {
   },
   UpdateCatSheet: async (id: string, catSheet: CatSheetPostPut) => {
     return await axiosInstance.put(`${API_URL}/${id}`, { data: catSheet })
+  },
+  SetCatSheetArchived: async (documentId: string, isArchived: boolean) => {
+    return await axiosInstance.put(`${API_URL}/${documentId}`, {
+      data: { isArchived },
+    })
   },
 }

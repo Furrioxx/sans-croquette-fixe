@@ -33,6 +33,15 @@ export const useCatSheetStore = defineStore('catSheet', () => {
     }
   }
 
+  const setCatSheetArchived = async (documentId: string, isArchived: boolean) => {
+    await CatSheetService.SetCatSheetArchived(documentId, isArchived)
+    const catSheet = catSheets.value.find((item) => item.documentId === documentId)
+    if (catSheet) catSheet.isArchived = isArchived
+    if (selectedCatSheet.value?.documentId === documentId) {
+      selectedCatSheet.value.isArchived = isArchived
+    }
+  }
+
   const uploadImages = async (formData: FormData): Promise<number[]> => {
     try {
       const response = await CatService.UploadImages(formData)
@@ -48,6 +57,7 @@ export const useCatSheetStore = defineStore('catSheet', () => {
     fetchCatSheets,
     addCatSheet,
     updateCatSheet,
+    setCatSheetArchived,
     uploadImages,
   }
 })

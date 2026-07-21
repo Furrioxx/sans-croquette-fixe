@@ -6,6 +6,7 @@ export interface CatSheet {
   id: number
   documentId: string
   isDuo: boolean
+  isArchived: boolean
   cats: Cat[]
   linkedVolunteer: User | null
   backupVolunteer: User | null
@@ -16,6 +17,7 @@ export interface CatSheet {
 
 export interface CatSheetPostPut {
   isDuo: boolean
+  isArchived?: boolean
   cats: string[]
   linkedVolunteer: number | null
   backupVolunteer: number | null
