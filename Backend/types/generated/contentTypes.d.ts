@@ -746,6 +746,7 @@ export interface ApiCatSheetCatSheet extends Struct.CollectionTypeSchema {
       'images' | 'files' | 'videos' | 'audios',
       true
     >;
+    isArchived: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     isDuo: Schema.Attribute.Boolean;
     linkedVolunteer: Schema.Attribute.Relation<
       'oneToOne',

@@ -84,6 +84,7 @@ const PERMISSIONS_BY_ROLE: Record<string, string[]> = {
     "api::tarification.tarification.findOne",
     "api::tarification.tarification.create",
     "api::tarification.tarification.update",
+    "api::cat-sheet.cat-sheet.update",
     "api::chat-conversation.chat-conversation.find",
     "api::chat-conversation.chat-conversation.findOne",
     "api::chat-conversation.chat-conversation.sendMessage",
@@ -108,6 +109,17 @@ export default {
    * run jobs, or perform some special logic.
    */
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
+    await strapi.db.query("api::cat-sheet.cat-sheet").updateMany({
+      where: {
+        isArchived: {
+          $null: true,
+        },
+      },
+      data: {
+        isArchived: false,
+      },
+    });
+
     const roles = await strapi.db
       .query("plugin::users-permissions.role")
       .findMany({
@@ -159,6 +171,15 @@ export default {
                 "api::adoption-request.adoption-request.delete",
               ],
             },
+          },
+        });
+      }
+
+      if (role.name === "Admin") {
+        await strapi.db.query("plugin::users-permissions.permission").deleteMany({
+          where: {
+            role: role.id,
+            action: "api::cat-sheet.cat-sheet.delete",
           },
         });
       }
