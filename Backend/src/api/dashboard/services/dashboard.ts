@@ -367,11 +367,13 @@ const getContentHealth = async (strapi: Core.Strapi) => {
   const [
     blogPostDrafts,
     publishedBlogPosts,
+    totalBlogPosts,
     catSheetsWithoutMedia,
     catSheetsWithoutBackup,
   ] = await Promise.all([
     strapi.documents(BLOG_POST_UID).count({ status: "draft" }),
     strapi.documents(BLOG_POST_UID).count({ status: "published" }),
+    strapi.documents(BLOG_POST_UID).count({}),
     strapi
       .documents(CAT_SHEET_UID)
       .count({ filters: { images: { $null: true } } as any }),
@@ -382,6 +384,8 @@ const getContentHealth = async (strapi: Core.Strapi) => {
 
   return {
     draftBlogPosts: Math.max(0, blogPostDrafts - publishedBlogPosts),
+    publishedBlogPosts,
+    totalBlogPosts,
     catSheetsWithoutMedia,
     catSheetsWithoutBackup,
   };

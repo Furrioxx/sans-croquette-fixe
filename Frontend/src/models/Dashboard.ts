@@ -71,6 +71,8 @@ export interface DashboardSummary {
   } | null
   contentHealth: {
     draftBlogPosts: number
+    publishedBlogPosts: number
+    totalBlogPosts: number
     catSheetsWithoutMedia: number
     catSheetsWithoutBackup: number
   } | null
