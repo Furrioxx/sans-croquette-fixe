@@ -112,12 +112,66 @@ const practicalItems = [
 </section>
 
 <section class="w-full bg-[var(--scf-accent-soft)] px-4 py-16 sm:px-6 md:px-[60px]">
-  <div class="page-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-    <div
-      class="mx-auto flex aspect-square w-full max-w-[14rem] items-center justify-center rounded-full bg-[var(--scf-accent)] text-white shadow-[var(--scf-shadow)] lg:mx-0 lg:max-w-sm"
+  <div class="page-shell grid gap-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+    <article
+      class="mx-auto w-full max-w-xl overflow-hidden rounded-[30px] bg-white shadow-[var(--scf-shadow)] lg:mx-0"
     >
-      <i class="pi pi-shopping-bag text-6xl"></i>
-    </div>
+      <div class="relative overflow-hidden bg-[var(--scf-accent)] px-6 py-8 text-white sm:px-8 sm:py-10">
+        <div
+          class="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-white/12"
+        ></div>
+        <div
+          class="pointer-events-none absolute bottom-[-2.5rem] right-10 h-20 w-20 rounded-full bg-white/10"
+        ></div>
+
+        <div class="relative flex items-start justify-between gap-4">
+          <div class="space-y-3">
+            <span
+              class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-white/16 backdrop-blur-sm"
+            >
+              <i class="pi pi-shopping-bag text-2xl"></i>
+            </span>
+            <p class="display-font max-w-sm text-2xl font-semibold leading-tight !text-white sm:text-3xl">
+              Une présence de terrain fidèle, chaque semaine à Lyon.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid gap-3 p-5 sm:p-6">
+        <div class="rounded-[22px] bg-[var(--scf-bg)] p-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
+            Rythme
+          </p>
+          <p class="mt-2 display-font text-lg font-semibold text-[var(--scf-ink)]">
+            {{ $t('distribution.scheduleText') }}
+          </p>
+        </div>
+
+        <div class="grid gap-3 sm:grid-cols-2">
+          <div class="rounded-[22px] bg-[var(--scf-bg)] p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
+              Lieu
+            </p>
+            <p class="mt-2 text-sm leading-6 text-[var(--scf-text)]">
+              {{ $t('distribution.locationText') }}
+            </p>
+          </div>
+
+          <div class="rounded-[22px] bg-[var(--scf-bg)] p-4">
+            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--scf-accent-dark)]">
+              Contact
+            </p>
+            <a
+              :href="distributionMailto"
+              class="mt-2 inline-flex text-sm font-semibold text-[var(--scf-accent-dark)] underline decoration-[var(--scf-accent)] underline-offset-4"
+            >
+              {{ distributionEmail }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
 
     <div class="space-y-4">
       <h2 class="display-font text-3xl font-semibold md:text-4xl">
